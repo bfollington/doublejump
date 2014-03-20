@@ -6,6 +6,9 @@ class Step
   field :title, :type => String
   field :body, :type => String
 
+  validates_presence_of :title, :message => "Steps need titles too..."
+  validates_presence_of :body, :message => "You can't have an empty step, that makes no sense."
+
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>
 

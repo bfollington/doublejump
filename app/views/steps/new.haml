@@ -1,0 +1,16 @@
+.create-step-form
+    = form_for :step, "/steps/new", { :remote => true, :id => 'addStepForm' } do |f|
+        %p
+            = f.label :title, :caption => "Step Title"
+            = f.text_field :title
+            - (errors_for @step, :title).each do |error|
+                = error
+
+        %p
+            = f.label :body, :caption => "Step Content"
+            = f.text_area :body
+            - (errors_for @step, :body).each do |error|
+                = error
+
+        %p
+            = f.submit "Create", :class => 'button'
