@@ -1,5 +1,7 @@
 LearnToGameDev::App.controllers :courses do
   
+  layout :app
+
   # get :index, :map => '/foo/bar' do
   #   session[:foo] = 'bar'
   #   render 'index'
@@ -21,6 +23,23 @@ LearnToGameDev::App.controllers :courses do
   
   get :index do
     render 'index'
+  end
+
+  get :new do
+    render 'courses/new'
+  end
+
+  post :new do
+
+    @course = Course.create( :title => params[:course][:title], :description => params[:course][:description] )
+
+    if @course.valid?
+      @course.save
+      render 'courses/new_success'
+    else
+      render 'courses/new'
+    end
+
   end
 
   get :view do

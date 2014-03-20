@@ -1,13 +1,10 @@
-class Course
+class Step
   include Mongoid::Document
   include Mongoid::Timestamps # adds created_at and updated_at fields
 
   # field <name>, :type => <type>, :default => <value>
   field :title, :type => String
-  field :description, :type => String
-
-  validates_presence_of :title, :message => "You need a title"
-  validates_presence_of :description, :message => "You need a description"
+  field :body, :type => String
 
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>

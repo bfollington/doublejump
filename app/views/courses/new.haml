@@ -1,0 +1,16 @@
+.create-course-form
+    = form_for :course, "/courses/new", { :remote => true, :id => 'addCourseForm' } do |f|
+        %p
+            = f.label :title, :caption => "Course Title"
+            = f.text_field :title
+            - (errors_for @course, :title).each do |error|
+                = error
+
+        %p
+            = f.label :description, :caption => "Course Description"
+            = f.text_area :description
+            - (errors_for @course, :description).each do |error|
+                = error
+
+        %p
+            = f.submit "Create", :class => 'button'
