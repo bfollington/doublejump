@@ -8,6 +8,7 @@ class Lesson
   field :description, :type => String
 
   validates_presence_of :title, :message => "PUT IN A TITLE!"
+  validates_presence_of :slug, :message => "The slug gets filled in for you, just leave it there!"
   validates_presence_of :description, :message => "You need a freakin' description dude"
 
   has_and_belongs_to_many :courses

@@ -8,6 +8,7 @@ class Step
   field :body, :type => String
 
   validates_presence_of :title, :message => "Steps need titles too..."
+  validates_presence_of :slug, :message => "The slug gets filled in for you, just leave it there!"
   validates_presence_of :body, :message => "You can't have an empty step, that makes no sense."
 
   has_and_belongs_to_many :lessons

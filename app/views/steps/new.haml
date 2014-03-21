@@ -4,20 +4,17 @@
         %p
             = f.label :title, :caption => "Step Title"
             = f.text_field :title, :class => "js-slug", :'data-object' => :step, :'data-target' => :slug
-            - (errors_for @step, :title).each do |error|
-                = error
+            = partial 'form_error', :collection => (errors_for @step, :title)
 
         %p
             = f.label :slug, :caption => "Step Slug (For URL)"
             = f.text_field :slug
-            - (errors_for @step, :slug).each do |error|
-                = error
+            = partial 'form_error', :collection => (errors_for @step, :slug)
 
         %p
             = f.label :body, :caption => "Step Content"
             = f.text_area :body
-            - (errors_for @step, :body).each do |error|
-                = error
+            = partial 'form_error', :collection => (errors_for @step, :body)
 
         %p
             = f.submit "Create", :class => 'button'
