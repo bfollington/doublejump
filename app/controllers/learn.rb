@@ -5,15 +5,27 @@ LearnToGameDev::App.controllers :learn do
   end
 
   get :view_course, :map => '/learn/:course/' do
-    return params[:course]
+    
+    @course = Course.where(:slug => params[:course]).first
+
+    render 'learn/course'
   end
 
   get :view_lesson, :map => '/learn/:course/:lesson/' do
-    return params[:course] + " " + params[:lesson]
+
+    @course = Course.where(:slug => params[:course]).first
+    @lesson = Lesson.where(:slug => params[:lesson]).first
+
+    render 'learn/lesson'
   end
 
   get :view_step, :map => '/learn/:course/:lesson/:step' do
-    return params[:course] + " " + params[:lesson] + " " + params[:step]
+    
+    @course = Course.where(:slug => params[:course]).first
+    @lesson = Lesson.where(:slug => params[:lesson]).first
+    @step = Step.where(:slug => params[:step]).first
+
+    render 'learn/step'
   end
 
 end

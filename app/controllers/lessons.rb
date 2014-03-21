@@ -28,7 +28,7 @@ LearnToGameDev::App.controllers :lessons do
 
   post :new do
 
-    @lesson = Lesson.create( :title => params[:lesson][:title], :description => params[:lesson][:description] )
+    @lesson = Lesson.create( :title => params[:lesson][:title], :description => params[:lesson][:description], :slug => params[:lesson][:slug] )
 
     if @lesson.valid?
       @lesson.save

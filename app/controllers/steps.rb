@@ -27,7 +27,7 @@ LearnToGameDev::App.controllers :steps do
 
   post :new do
 
-    @step = Step.create( :title => params[:step][:title], :body => params[:step][:body] )
+    @step = Step.create( :title => params[:step][:title], :body => params[:step][:body], :slug => params[:step][:slug] )
 
     if @step.valid?
       @step.save

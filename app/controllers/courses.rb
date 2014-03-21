@@ -31,7 +31,7 @@ LearnToGameDev::App.controllers :courses do
 
   post :new do
 
-    @course = Course.create( :title => params[:course][:title], :description => params[:course][:description] )
+    @course = Course.create( :title => params[:course][:title], :description => params[:course][:description], :slug => params[:course][:slug] )
 
     if @course.valid?
       @course.save
