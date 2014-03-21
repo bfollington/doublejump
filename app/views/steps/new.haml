@@ -1,9 +1,16 @@
 .create-step-form
     = form_for :step, "/steps/new", { :remote => true, :id => 'addStepForm' } do |f|
+    
         %p
             = f.label :title, :caption => "Step Title"
-            = f.text_field :title
+            = f.text_field :title, :class => "js-slug", :'data-object' => :step, :'data-target' => :slug
             - (errors_for @step, :title).each do |error|
+                = error
+
+        %p
+            = f.label :slug, :caption => "Step Slug (For URL)"
+            = f.text_field :slug
+            - (errors_for @step, :slug).each do |error|
                 = error
 
         %p

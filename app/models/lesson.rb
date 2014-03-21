@@ -4,10 +4,13 @@ class Lesson
 
   # field <name>, :type => <type>, :default => <value>
   field :title, :type => String
+  field :slug, :type => String
   field :description, :type => String
 
   validates_presence_of :title, :message => "PUT IN A TITLE!"
   validates_presence_of :description, :message => "You need a freakin' description dude"
+
+  has_and_belongs_to_many :courses
 
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>

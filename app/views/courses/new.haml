@@ -1,9 +1,15 @@
 .create-course-form
     = form_for :course, "/courses/new", { :remote => true, :id => 'addCourseForm' } do |f|
         %p
-            = f.label :title, :caption => "Course Title"
-            = f.text_field :title
+            = f.label :title, :caption => "Step Title"
+            = f.text_field :title, :class => "js-slug", :'data-object' => :course, :'data-target' => :slug
             - (errors_for @course, :title).each do |error|
+                = error
+
+        %p
+            = f.label :slug, :caption => "Step Slug (For URL)"
+            = f.text_field :slug
+            - (errors_for @course, :slug).each do |error|
                 = error
 
         %p

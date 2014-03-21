@@ -20,10 +20,10 @@ LearnToGameDev::App.controllers :lessons do
   # get '/example' do
   #   'Hello world!'
   # end
-  
+  # 
 
   get :new do
-    render 'lessons/new'
+    new_lesson
   end
 
   post :new do
@@ -34,7 +34,7 @@ LearnToGameDev::App.controllers :lessons do
       @lesson.save
       render 'lessons/new_success'
     else
-      render 'lessons/new'
+      new_lesson
     end
 
   end

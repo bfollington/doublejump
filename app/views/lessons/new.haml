@@ -1,9 +1,18 @@
+- @steps.each do |test|
+    = test.inspect
+
 .create-lesson-form
     = form_for :lesson, "/lessons/new", { :remote => true, :id => 'addLessonForm' } do |f|
         %p
             = f.label :title, :caption => "Lesson Title"
-            = f.text_field :title
+            = f.text_field :title, :class => "js-slug", :'data-object' => :lesson, :'data-target' => :slug
             - (errors_for @course, :title).each do |error|
+                = error
+
+        %p
+            = f.label :slug, :caption => "Lesson Slug (For URL)"
+            = f.text_field :slug
+            - (errors_for @course, :slug).each do |error|
                 = error
 
         %p
@@ -11,6 +20,9 @@
             = f.text_area :description
             - (errors_for @course, :description).each do |error|
                 = error
+
+        %p
+            = f.select(:steps, :collection => @steps, :fields => [:title, :id])
 
         %p
             = f.submit "Create", :class => 'button'

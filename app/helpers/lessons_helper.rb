@@ -1,7 +1,9 @@
 # Helper methods defined here can be accessed in any controller or view in the application
 
 LearnToGameDev::App.helpers do
-  # def simple_helper_method
-  #  ...
-  # end
+  def new_lesson
+    @steps = Step.all
+
+    render 'lessons/new'
+  end
 end

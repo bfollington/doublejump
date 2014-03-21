@@ -4,6 +4,7 @@ class Course
 
   # field <name>, :type => <type>, :default => <value>
   field :title, :type => String
+  field :slug, :type => String
   field :description, :type => String
 
   validates_presence_of :title, :message => "Supply a title for the course you ding-dong"
