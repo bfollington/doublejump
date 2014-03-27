@@ -5,4 +5,6 @@
 = @lesson.description
 
 = @step.title
-= @step.body
+.step-body
+    :markdown
+        #{@step.body}
