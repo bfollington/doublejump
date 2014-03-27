@@ -1,3 +1,6 @@
+- content_for :include do
+    = javascript_include_tag 'jquery.sortable.min'
+
 .create-course-form
     = form_for :course, "/courses/new", { :remote => true, :id => 'addCourseForm' } do |f|
         %p
@@ -14,6 +17,13 @@
             = f.label :description, :caption => "Course Description"
             = f.text_area :description
             = partial 'form_error', :collection => (errors_for @course, :description)
+
+        %p
+            = f.select(:lesson, :collection => @lessons, :fields => [:title, :id])
+            %a.js-sortable-add-new{:'data-read-selection-from' => '#course_lesson', :'data-target-list' => '#lessons', :'data-hidden-field-name' => 'course[lessons][]', :href => "#"} Add New
+
+        %p
+            %ul#lessons.js-sortable
 
         %p
             = f.submit "Create", :class => 'button'

@@ -11,6 +11,8 @@ class Course
   validates_presence_of :slug, :message => "The slug gets filled in for you, just leave it there!"
   validates_presence_of :description, :message => "Put a description in doofus"
 
+  has_and_belongs_to_many :lessons
+
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>
 
