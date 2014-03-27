@@ -1,3 +1,6 @@
+- content_for :include do
+    = javascript_include_tag 'jquery.sortable.min'
+
 .create-lesson-form
     = form_for :lesson, "/lessons/new", { :remote => true, :id => 'addLessonForm' } do |f|
         %p

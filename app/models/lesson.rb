@@ -12,6 +12,7 @@ class Lesson
   validates_presence_of :description, :message => "You need a freakin' description dude"
 
   has_and_belongs_to_many :courses
+  has_and_belongs_to_many :steps
 
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>
