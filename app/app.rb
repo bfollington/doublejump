@@ -29,6 +29,13 @@ module LearnToGameDev
     enable :sessions
 
 
+
+
+
+    #
+    # USER AUTHENTICATION
+    #
+
     get :login do
       if current_account
         redirect url(:profile)
@@ -54,7 +61,9 @@ module LearnToGameDev
 
 
 
-
+    #
+    # USER REGISTRATION
+    #
 
     get :register do
       render 'register'
@@ -77,7 +86,9 @@ module LearnToGameDev
 
 
 
-
+    #
+    # S3 UPLOADS
+    #
 
     get :upload do
       render 'upload'
@@ -114,6 +125,11 @@ module LearnToGameDev
 
 
 
+
+
+    #
+    # USER PROFILES
+    #
 
     get :profile do
       content_type :text
@@ -173,9 +189,10 @@ module LearnToGameDev
     ##
     # You can manage errors like:
     #
-    #   error 404 do
-    #     render 'errors/404'
-    #   end
+
+    error 404 do
+      render 'errors/404'
+    end
     #
     #   error 505 do
     #     render 'errors/505'
