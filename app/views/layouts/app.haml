@@ -8,7 +8,11 @@
         = yield_content :include
     %body
         %header
-            %h1 Test Title
+            %h1 
+
+        - if session[:flash]
+            = session[:flash]
+            - session[:flash] = nil
 
         = yield
 

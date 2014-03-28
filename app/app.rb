@@ -4,6 +4,8 @@ module LearnToGameDev
     register Padrino::Rendering
     register Padrino::Mailer
     register Padrino::Helpers
+    register Padrino::Admin::AccessControl
+
     require 'rubygems'
     require 'aws-sdk'
 
@@ -12,7 +14,70 @@ module LearnToGameDev
       :secret_access_key => 'gVEIU7WKIpmTNE+o04C1KoZwgWxy3TcL3mkzSYIC'
     )
 
+    set :login_page, "/login" # determines the url login occurs
+
+    access_control.roles_for :any do |role|
+      role.protect "/profile"
+      role.protect "/admin" # here a demo path
+    end
+
+    # now we add a role for users
+    access_control.roles_for :users do |role|
+      role.allow "/profile"
+    end
+
     enable :sessions
+
+
+    get :login do
+      if current_account
+        redirect url(:profile)
+      else
+        render 'login', :layout => :app
+      end
+    end
+
+    post :login do
+
+      account = Account.authenticate(params[:email], params[:password])
+
+      if account
+        set_current_account(account)
+        redirect url(:profile)
+      else
+        session[:flash] = "Invalid email/password combination."
+        redirect url(:login)
+      end
+    end
+
+
+
+
+
+
+
+    get :register do
+      render 'register'
+    end
+
+    post :register do
+      @account = Account.create(params[:account])
+      @account.role = "users"
+
+      puts @account.to_yaml
+
+      if (@account.valid?)
+        @account.save
+        set_current_account(@account)
+        redirect url(:profile)
+      else
+        render 'register'
+      end
+    end
+
+
+
+
 
     get :upload do
       render 'upload'
@@ -45,6 +110,21 @@ module LearnToGameDev
       @file = params[:file]
       render 'display_upload'
     end
+
+
+
+
+
+    get :profile do
+      content_type :text
+      current_account.to_yaml
+    end
+
+    get :destroy do
+      set_current_account(nil)
+      redirect url(:login)
+    end
+
     ##
     # Caching support.
     #
