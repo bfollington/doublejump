@@ -1,26 +1,6 @@
 LearnToGameDev::App.controllers :lessons do
     
   layout :app
-  
-  # get :index, :map => '/foo/bar' do
-  #   session[:foo] = 'bar'
-  #   render 'index'
-  # end
-
-  # get :sample, :map => '/sample/url', :provides => [:any, :js] do
-  #   case content_type
-  #     when :js then ...
-  #     else ...
-  # end
-
-  # get :foo, :with => :id do
-  #   'Maps to url '/foo/#{params[:id]}''
-  # end
-
-  # get '/example' do
-  #   'Hello world!'
-  # end
-  # 
 
   get :new do
     new_lesson
@@ -29,6 +9,10 @@ LearnToGameDev::App.controllers :lessons do
   post :new do
 
     @lesson = Lesson.create( :title => params[:lesson][:title], :description => params[:lesson][:description], :slug => params[:lesson][:slug] )
+
+    params[:lesson][:steps].each do |step_id|
+      @lesson.steps.push( Step.find(step_id) )
+    end
 
     if @lesson.valid?
       @lesson.save

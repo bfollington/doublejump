@@ -19,7 +19,11 @@
             = partial 'form_error', :collection => (errors_for @lesson, :description)
 
         %p
-            = f.select(:steps, :collection => @steps, :fields => [:title, :id])
+            = f.select(:step, :collection => @steps, :fields => [:title, :id])
+            %a.js-sortable-add-new{:'data-read-selection-from' => '#lesson_step', :'data-target-list' => '#steps', :'data-hidden-field-name' => 'lesson[steps][]', :href => "#"} Add New
+
+        %p
+            %ul#steps.js-sortable
 
         %p
             = f.submit "Create", :class => 'button'
