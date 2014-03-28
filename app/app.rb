@@ -4,9 +4,47 @@ module LearnToGameDev
     register Padrino::Rendering
     register Padrino::Mailer
     register Padrino::Helpers
+    require 'rubygems'
+    require 'aws-sdk'
+
+    AWS.config(
+      :access_key_id => 'AKIAIAR5NTF4NPMT7ANQ', 
+      :secret_access_key => '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'
+    )
 
     enable :sessions
 
+    get :upload do
+      render 'upload'
+    end
+
+    post :upload do
+      puts params.inspect
+
+      tempfile = params[:shared_image][:tempfile]
+      filename = params[:shared_image][:filename]
+
+      bucket_name = 'voltic-test-bucket'
+
+      # Get an instance of the S3 interface.
+      s3 = AWS::S3.new
+
+      # Upload a file.
+      key = File.basename(filename)
+      puts s3.buckets[bucket_name].objects[key].write(:file => tempfile, :acl => :public_read).inspect
+      puts "Uploading file #{filename} to bucket #{bucket_name}."
+
+      @file = filename
+      render 'display_upload'
+
+      #File.copy(tempfile.path, "./files/#{filename}")
+      #redirect '/'
+    end
+
+    get :display_upload, :with => :file do
+      @file = params[:file]
+      render 'display_upload'
+    end
     ##
     # Caching support.
     #

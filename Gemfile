@@ -36,3 +36,6 @@ gem 'padrino', '0.12.0'
 
 # Markdown
 gem 'rdiscount'
+
+# AWS
+gem 'aws-sdk'

@@ -9,5 +9,9 @@ LearnToGameDev::App.helpers do
         return {}
     end
   end
+
+  def aws_url()
+    return 'https://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/'
+  end
   
 end

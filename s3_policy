@@ -1,0 +1,20 @@
+{
+    "Version": "2008-10-17",
+    "Id": "Policy1395980111289",
+    "Statement": [
+        {
+            "Sid": "Stmt1395980109613",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::voltic-test-bucket/*",
+            "Condition": {
+                "StringLike": {
+                    "aws:Referer": "local.voltic.com.au"
+                }
+            }
+        }
+    ]
+}
