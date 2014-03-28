@@ -1,5 +1,12 @@
-= @course.title
-= @course.description
+%p
+    = @course.title
+    = @course.description
 
-= @lesson.title
-= @lesson.description
+%p
+    = @lesson.title
+    = @lesson.description
+
+%ul
+    - @lesson.steps.each do |step|
+        %li 
+            = step.title

@@ -1,2 +1,10 @@
-= @course.title
-= @course.description
+%p
+    = @course.title
+    = @course.description
+
+%ul
+    - @course.lessons.each do |lesson|
+        %li
+            = lesson.title
+            = '-'
+            = lesson.description
