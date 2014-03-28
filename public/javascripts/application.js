@@ -108,9 +108,9 @@ function bindSortableLists()
         e.preventDefault();
 
         $targetList.append( format(
-                                    lessonListEntryTemplate, 
+                                    getTemplate("lesson_list_entry"), 
                                     {
-                                        "item-text": $readSelectionFrom.text(),
+                                        "item-text": $readSelectionFrom.find('option:selected').text(),
                                         "field-name": hiddenField,
                                         "field-value": $readSelectionFrom.val(),
                                     }
@@ -127,16 +127,11 @@ function bindSortableLists()
  *  %TEMPLATES
  */
 
-var lessonListEntryTemplate = [
-"<li>",
-    "{{#item-text}}",
-    "<input name='{{#field-name}}' value='{{#field-value}}' type='hidden'>",
-    "<a class='js-sortable-delete-link' href='#'>Delete</a>",
-"</li>",
-].join("\n");
 
-
-
+function getTemplate(name)
+{
+    return $("#" + name + "_template").html();
+}
 
 /**
  * %UTILITY FUNCTIONS

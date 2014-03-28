@@ -13,5 +13,10 @@ LearnToGameDev::App.helpers do
   def aws_url()
     return 'https://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/'
   end
+
+  def render_js_template(name)
+    @template = name
+    render 'js-templates/template', :layout => false
+  end
   
 end
