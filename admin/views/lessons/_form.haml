@@ -1,0 +1,37 @@
+- error = @lesson.errors.include?(:title)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :title, :class => 'control-label'
+  .controls
+    =f.text_field :title, :class => 'form-control input-large input-with-feedback', :autofocus => true
+    %span.help-inline=error ? f.error_message_on(:title, :class => 'text-error') : pat(:example)
+- error = @lesson.errors.include?(:slug)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :slug, :class => 'control-label'
+  .controls
+    =f.text_field :slug, :class => 'form-control input-large input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:slug, :class => 'text-error') : pat(:example)
+- error = @lesson.errors.include?(:description)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :description, :class => 'control-label'
+  .controls
+    =f.text_field :description, :class => 'form-control input-large input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:description, :class => 'text-error') : pat(:example)
+- error = @lesson.errors.include?(:course_ids)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :course_ids, :class => 'control-label'
+  .controls
+    =f.text_field :course_ids, :class => 'form-control input-large input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:course_ids, :class => 'text-error') : pat(:example)
+- error = @lesson.errors.include?(:step_ids)
+%fieldset.control-group{:class => error ? 'has-error' : ''}
+  =f.label :step_ids, :class => 'control-label'
+  .controls
+    =f.text_field :step_ids, :class => 'form-control input-large input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:step_ids, :class => 'text-error') : pat(:example)
+
+.form-actions
+  =f.submit pat(:save), :class => 'btn btn-primary'
+  &nbsp;
+  =f.submit pat(:save_and_continue), :class => 'btn btn-info', :name => 'save_and_continue'
+  &nbsp;
+  =link_to pat(:cancel), url(:lessons, :index), :class => 'btn btn-default'

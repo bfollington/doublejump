@@ -16,18 +16,12 @@
   .controls
     =f.text_field :email, :class => 'form-control input-large input-with-feedback'
     %span.help-inline=error ? f.error_message_on(:email, :class => 'text-error') : pat(:example)
-- error = @account.errors.include?(:password)
+- error = @account.errors.include?(:crypted_password)
 %fieldset.control-group{:class => error ? 'has-error' : ''}
-  =f.label :password, :class => 'control-label'
+  =f.label :crypted_password, :class => 'control-label'
   .controls
-    =f.password_field :password, :class => 'form-control input-large input-with-feedback'
-    %span.help-inline=error ? f.error_message_on(:password, :class => 'text-error') : pat(:example)
-- error = @account.errors.include?(:password_confirmation)
-%fieldset.control-group{:class => error ? 'has-error' : ''}
-  =f.label :password_confirmation, :class => 'control-label'
-  .controls
-    =f.password_field :password_confirmation, :class => 'form-control input-large input-with-feedback'
-    %span.help-inline=error ? f.error_message_on(:password_confirmation, :class => 'text-error') : pat(:example)
+    =f.text_field :crypted_password, :class => 'form-control input-large input-with-feedback'
+    %span.help-inline=error ? f.error_message_on(:crypted_password, :class => 'text-error') : pat(:example)
 - error = @account.errors.include?(:role)
 %fieldset.control-group{:class => error ? 'has-error' : ''}
   =f.label :role, :class => 'control-label'

@@ -18,12 +18,21 @@ module LearnToGameDev
 
     access_control.roles_for :any do |role|
       role.protect "/profile"
-      role.protect "/admin" # here a demo path
+      role.protect "/courses/*"
+      role.protect "/lessons/*"
+      role.protect "/steps/*"
     end
 
     # now we add a role for users
     access_control.roles_for :users do |role|
       role.allow "/profile"
+    end
+
+    access_control.roles_for :admin do |role|
+      role.allow "/profile"
+      role.allow "/courses/*"
+      role.allow "/lessons/*"
+      role.allow "/steps/*"
     end
 
     enable :sessions

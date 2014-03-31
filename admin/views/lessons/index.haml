@@ -1,6 +1,6 @@
 %ul.nav.nav-tabs
-  %li.active=link_to tag_icon(:list, pat(:list)), url(:accounts, :index)
-  %li=link_to tag_icon(:plus, pat(:new)), url(:accounts, :new)
+  %li.active=link_to tag_icon(:list, pat(:list)), url(:lessons, :index)
+  %li=link_to tag_icon(:plus, pat(:new)), url(:lessons, :new)
 
 .tabs-content
   %table#list.table.table-striped.table-hover.table-condensed
@@ -22,35 +22,39 @@
                   .arrow
                   %h3.popover-title=pat(:delete_selected_title)
                   .popover-content
-                    = form_tag url(:accounts, :destroy_many), :method => :delete do
-                      =hidden_field_tag :account_ids, :'data-delete-many-ids' => true
+                    = form_tag url(:lessons, :destroy_many), :method => :delete do
+                      =hidden_field_tag :lesson_ids, :'data-delete-many-ids' => true
                       =submit_tag pat(:delete), :class =>'list-menu-popover-delete-selected-btn btn btn-danger btn-small'
                       .btn.btn-default.btn-small.cancel=pat(:cancel)
-        %th.header= mat(:account, :name)
-        %th.header= mat(:account, :surname)
-        %th.header= mat(:account, :email)
-        %th.header= mat(:account, :crypted_password)
-        %th.header= mat(:account, :role)
+        %th.header= mat(:lesson, :created_at)
+        %th.header= mat(:lesson, :updated_at)
+        %th.header= mat(:lesson, :title)
+        %th.header= mat(:lesson, :slug)
+        %th.header= mat(:lesson, :description)
+        %th.header= mat(:lesson, :course_ids)
+        %th.header= mat(:lesson, :step_ids)
         %th.header.list-row-action-header
 
     %tbody
-      -@accounts.each do |account|
+      -@lessons.each do |lesson|
         %tr.list-row
           %td.list-column.list-selectable
-            =check_box_tag 'account_ids[]', :value => account.id, :class => 'list-selectable-checkbox'
-          %td.list-column=account.name
-          %td.list-column=account.surname
-          %td.list-column=account.email
-          %td.list-column=account.crypted_password
-          %td.list-column=account.role
+            =check_box_tag 'lesson_ids[]', :value => lesson.id, :class => 'list-selectable-checkbox'
+          %td.list-column=time_ago_in_words lesson.created_at
+          %td.list-column=time_ago_in_words lesson.updated_at
+          %td.list-column=lesson.title
+          %td.list-column=lesson.slug
+          %td.list-column=lesson.description
+          %td.list-column=lesson.course_ids
+          %td.list-column=lesson.step_ids
           %td.list-column.list-row-action
             .list-row-action-wrapper
-              =link_to tag_icon(:edit), :href => url(:accounts, :edit, :id => account.id), :rel => :tooltip, :title => "#{pat(:edit)} account", :class => 'list-row-action-wrapper-link'
-              =link_to tag_icon(:trash), :rel => :tooltip, :title => "#{pat(:delete)} account", :class => 'list-row-action-delete-one list-row-action-wrapper-link'
+              =link_to tag_icon(:edit), :href => url(:lessons, :edit, :id => lesson.id), :rel => :tooltip, :title => "#{pat(:edit)} lesson", :class => 'list-row-action-wrapper-link'
+              =link_to tag_icon(:trash), :rel => :tooltip, :title => "#{pat(:delete)} lesson", :class => 'list-row-action-delete-one list-row-action-wrapper-link'
               .popover.list-row-action-popover-delete-one.left
                 .arrow
-                %h3.popover-title=pat(:delete, :model => "account")
+                %h3.popover-title=pat(:delete, :model => "lesson")
                 .popover-content
-                  = form_tag url(:accounts, :destroy, :id => account.id), :method => :delete do
+                  = form_tag url(:lessons, :destroy, :id => lesson.id), :method => :delete do
                     =submit_tag pat(:delete), :class =>'list-row-action-popover-delete-one-btn btn btn-danger btn-small'
                     .btn.btn-default.btn-small.cancel=pat(:cancel)

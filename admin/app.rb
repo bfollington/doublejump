@@ -33,6 +33,8 @@ module LearnToGameDev
     end
 
     access_control.roles_for :admin do |role|
+      role.project_module :steps, '/steps'
+      role.project_module :lessons, '/lessons'
       role.project_module :courses, '/courses'
       role.project_module :accounts, '/accounts'
     end
