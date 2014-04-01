@@ -17,6 +17,7 @@ gem 'rake'
 gem 'bcrypt-ruby', :require => 'bcrypt'
 gem 'sass'
 gem 'haml'
+gem 'slim'
 gem 'mongoid', '~>3.0.0'
 
 # Test requirements

@@ -5,27 +5,27 @@
 
 .create-course-form
     = form_for :course, "/courses/new", { :remote => true, :id => 'addCourseForm' } do |f|
-        %p
+        p
             = f.label :title, :caption => "Course Title"
             = f.text_field :title, :class => "js-slug", :'data-object' => :course, :'data-target' => :slug
             = partial 'form_error', :collection => (errors_for @course, :title)
 
-        %p
+        p
             = f.label :slug, :caption => "Course Slug (For URL)"
             = f.text_field :slug
             = partial 'form_error', :collection => (errors_for @course, :slug)
 
-        %p
+        p
             = f.label :description, :caption => "Course Description"
             = f.text_area :description
             = partial 'form_error', :collection => (errors_for @course, :description)
 
-        %p
+        p
             = f.select(:lesson, :collection => @lessons, :fields => [:title, :id])
-            %a.js-sortable-add-new{:'data-read-selection-from' => '#course_lesson', :'data-target-list' => '#lessons', :'data-hidden-field-name' => 'course[lessons][]', :href => "#"} Add New
+            a.js-sortable-add-new data-read-selection-from='#course_lesson' data-target-list='#lessons' data-hidden-field-name='course[lessons][]' href="#" Add New
 
-        %p
-            %ul#lessons.js-sortable
+        p
+            ul#lessons.js-sortable
 
-        %p
+        p
             = f.submit "Create", :class => 'button'

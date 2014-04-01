@@ -3,7 +3,7 @@
 :test: shoulda
 :mock: none
 :script: jquery
-:renderer: haml
+:renderer: slim
 :stylesheet: scss
 :namespace: LearnToGameDev
 :migration_format: number
