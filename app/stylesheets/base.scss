@@ -1,0 +1,17 @@
+.header a {
+    color: $header-link-color;
+    transition: .3s;
+}
+
+.header a:hover {
+    color: $header-link-hover-color;
+}
+
+a {
+    color: $header-link-color;
+    transition: .3s;
+}
+
+a:hover {
+    color: $header-link-hover-color;
+}

@@ -39,7 +39,13 @@ module LearnToGameDev
 
 
 
+    #
+    # LANDING PAGE
+    # 
 
+    get :index do
+      render 'index', :layout => :landing
+    end
 
     #
     # USER AUTHENTICATION

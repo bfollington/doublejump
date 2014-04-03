@@ -1,0 +1,23 @@
+ul.inline {
+  list-style: none; }
+
+ul.inline li {
+  display: inline; }
+
+.center-text {
+  text-align: center; }
+
+.nudge-down {
+  margin-top: 5px; }
+
+.margin-top {
+  margin-top: 30px; }
+
+.nudge-right {
+  margin-left: 5px; }
+
+.margin-left {
+  margin-top: 15px; }
+
+.small-margin-bottom {
+  margin-bottom: 15px; }

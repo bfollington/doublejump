@@ -1,4 +1,40 @@
-.js-template
-{
-    display: none;
+$header-link-color: #F6FF56;
+$header-link-hover-color: #C0E7FF;
+$nunito-stack: 'Nunito', sans-serif;
+$montserrat-stack: 'Montserrat', sans-serif;
+
+@mixin background-image-retina($file, $type, $width, $height) {
+  background-image: url($file + '.' + $type);
+ 
+  @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
+    & {
+      background-image: url($file + '@2x.' + $type);
+      -webkit-background-size: $width $height;
+    }
+  }
 }
+
+@import 'normalize';
+@import 'base';
+@import 'util';
+@import 'landing-page';
+
+
+.js-template {
+  display: none;
+}
+
+html, body {
+    background-color: #2F3348;
+    font-family: $nunito-stack;
+}
+
+.container
+{
+    width: 1024px;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+
+
