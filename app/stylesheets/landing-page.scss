@@ -17,10 +17,17 @@
 
 .controller-image {
     @include background-image-retina('/images/controller', 'png', 334px, 291px);
-    max-width: 334px;
-    width: 100%;
+    width: 334px;
     height: 291px;
     margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    @media only screen and (max-width: $mobile) { 
+        background-size: 167px 146px;
+        width: 167px;
+        height: 146px;
+    }
 }
 
 .doublejump {
@@ -30,6 +37,23 @@
     margin: 0 auto;
     background-repeat: no-repeat;
     background-position: center;
+
+    @media only screen and (max-width: $mobile) { 
+        background-size: 125px 37px;
+    }
+}
+
+.doublejump-dark {
+    @include background-image-retina('/images/doublejump-dark', 'png', 187px, 55px);
+    width: 187px;
+    height: 55px;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    @media only screen and (max-width: $mobile) { 
+        background-size: 125px 37px;
+    }
 }
 
 h3.welcome-message {
@@ -76,4 +100,28 @@ nav.navigation {
 
 p.intro-small {
     color: white;
+}
+
+.main-content {
+    background: #F6F6F6;
+    padding: 2em 0;
+}
+
+.feature-description {
+    background: white;
+    padding: 1em;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 2em;
+
+    h4 {
+        color: $landing-page-heading-color;
+    }
+}
+
+.feature-description p {
+    color: $landing-page-font-color;
+}
+
+footer.footer {
+    background-color: #444;
 }

@@ -54,19 +54,17 @@ html.no-js lang="en"
                         a href="/login" Sign in.
 
             .main-content
-                .row
-                    .large-4.columns 1
-                    .large-4.columns 2 
-                    .large-4.columns 3
+                - if session[:flash]
+                    = session[:flash]
+                    - session[:flash] = nil
 
-        - if session[:flash]
-            = session[:flash]
-            - session[:flash] = nil
+                = yield
 
-        = yield
 
-        footer
-            h1 Test Footer
+            footer.footer
+                .doublejump-dark
+                hr
+                h1 Test Footer
 
     script src="js/foundation.min.js"
     script

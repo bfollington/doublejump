@@ -8,10 +8,14 @@
 }
 
 a {
-    color: $header-link-color;
+    color: $link-color;
     transition: .3s;
 }
 
 a:hover {
-    color: $header-link-hover-color;
+    color: $link-hover-color;
+}
+
+p {
+    font-weight: lighter;
 }

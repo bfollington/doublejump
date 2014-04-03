@@ -362,11 +362,14 @@ th {
   color: #c0e7ff; }
 
 a {
-  color: #f6ff56;
+  color: #4faee8;
   transition: .3s; }
 
 a:hover {
-  color: #c0e7ff; }
+  color: #f6ff56; }
+
+p {
+  font-weight: lighter; }
 
 ul.inline {
   list-style: none; }
@@ -408,14 +411,20 @@ ul.inline li {
 
 .controller-image {
   background-image: url("/images/controller.png");
-  max-width: 334px;
-  width: 100%;
+  width: 334px;
   height: 291px;
-  margin: 0 auto; }
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-position: center; }
   @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
     .controller-image {
       background-image: url("/images/controller@2x.png");
       -webkit-background-size: 334px 291px; } }
+  @media only screen and (max-width: 40em) {
+    .controller-image {
+      background-size: 167px 146px;
+      width: 167px;
+      height: 146px; } }
 
 .doublejump {
   background-image: url("/images/doublejump.png");
@@ -428,6 +437,24 @@ ul.inline li {
     .doublejump {
       background-image: url("/images/doublejump@2x.png");
       -webkit-background-size: 187px 55px; } }
+  @media only screen and (max-width: 40em) {
+    .doublejump {
+      background-size: 125px 37px; } }
+
+.doublejump-dark {
+  background-image: url("/images/doublejump-dark.png");
+  width: 187px;
+  height: 55px;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-position: center; }
+  @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
+    .doublejump-dark {
+      background-image: url("/images/doublejump-dark@2x.png");
+      -webkit-background-size: 187px 55px; } }
+  @media only screen and (max-width: 40em) {
+    .doublejump-dark {
+      background-size: 125px 37px; } }
 
 h3.welcome-message {
   text-align: center;
@@ -468,8 +495,27 @@ nav.navigation {
 p.intro-small {
   color: white; }
 
+.main-content {
+  background: #F6F6F6;
+  padding: 2em 0; }
+
+.feature-description {
+  background: white;
+  padding: 1em;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 2em; }
+  .feature-description h4 {
+    color: #697a7d; }
+
+.feature-description p {
+  color: #a0a0a0; }
+
+footer.footer {
+  background-color: #444; }
+
 html {
   font-size: 16px;
+  font-family: "Nunito", sans-serif;
   background-color: #2F3348; }
   @media only screen and (max-width: 64em) {
     html {
@@ -484,7 +530,8 @@ p {
 h1, h2, h3, h4 {
   margin: 1.414em 0 0.5em;
   font-weight: inherit;
-  line-height: 1.2; }
+  line-height: 1.2;
+  font-family: "Montserrat", sans-serif; }
 
 h1 {
   margin-top: 0;

@@ -1,6 +1,11 @@
 $header-link-color: #F6FF56;
 $header-link-hover-color: #C0E7FF;
+$landing-page-heading-color: #697A7D;
+$landing-page-font-color: #A0A0A0;
+$link-color: #4FAEE8;
+$link-hover-color: #F6FF56;
 $nunito-stack: 'Nunito', sans-serif;
+$nunito-light-stack: 'Nunito-Light', sans-serif;
 $montserrat-stack: 'Montserrat', sans-serif;
 $mobile: 40em;
 $tablet: 64em;
@@ -24,6 +29,7 @@ $screen: 90em;
 
 html {
     font-size: 16px;
+    font-family: $nunito-stack;
     background-color: #2F3348;
 
     @media only screen and (max-width: $tablet) { 
@@ -41,6 +47,7 @@ h1, h2, h3, h4 {
   margin: 1.414em 0 0.5em;
   font-weight: inherit;
   line-height: 1.2;
+  font-family: $montserrat-stack;
 }
 
 h1 {
@@ -75,6 +82,3 @@ body {
     margin: 0 5%;
     padding-top: 50px;
 }
-
-
-
