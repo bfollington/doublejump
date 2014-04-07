@@ -16,17 +16,17 @@
 }
 
 .controller-image {
-    @include background-image-retina('/images/controller', 'png', 334px, 291px);
+    @include background-image-retina('/images/controller', 'png', 334px, 384px);
     width: 334px;
-    height: 291px;
+    height: 384px;
     margin: 0 auto;
     background-repeat: no-repeat;
     background-position: center;
 
     @media only screen and (max-width: $mobile) { 
-        background-size: 167px 146px;
+        background-size: 167px 192px;
         width: 167px;
-        height: 146px;
+        height: 192px;
     }
 }
 
@@ -84,7 +84,7 @@ nav.navigation {
     border-bottom: 1px solid #66BBCC;
 }
 
-.call-to-action {
+a.call-to-action {
     border: 2px solid $header-link-color;  
     padding: 10px 40px;
     border-radius: 999px;
@@ -92,10 +92,15 @@ nav.navigation {
     font-size: 1.5em;
     text-transform: uppercase;
     color: $header-link-color;
+
+    display: inline-block;
+    position: relative;
+    top: 0px;
 }
 
 .call-to-action:hover {
     border-color: $header-link-hover-color;
+    top: -3px;
 }
 
 p.intro-small {

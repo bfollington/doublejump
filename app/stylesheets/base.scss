@@ -1,6 +1,7 @@
 .header a {
     color: $header-link-color;
     transition: .3s;
+    font-weight: normal;
 }
 
 .header a:hover {
@@ -10,6 +11,8 @@
 a {
     color: $link-color;
     transition: .3s;
+
+    font-weight: bold;
 }
 
 a:hover {

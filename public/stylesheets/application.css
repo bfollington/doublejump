@@ -356,17 +356,19 @@ th {
 
 .header a {
   color: #f6ff56;
-  transition: .3s; }
+  transition: .3s;
+  font-weight: normal; }
 
 .header a:hover {
   color: #c0e7ff; }
 
 a {
   color: #4faee8;
-  transition: .3s; }
+  transition: .3s;
+  font-weight: bold; }
 
 a:hover {
-  color: #f6ff56; }
+  color: #0084d5; }
 
 p {
   font-weight: lighter; }
@@ -412,19 +414,19 @@ ul.inline li {
 .controller-image {
   background-image: url("/images/controller.png");
   width: 334px;
-  height: 291px;
+  height: 384px;
   margin: 0 auto;
   background-repeat: no-repeat;
   background-position: center; }
   @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
     .controller-image {
       background-image: url("/images/controller@2x.png");
-      -webkit-background-size: 334px 291px; } }
+      -webkit-background-size: 334px 384px; } }
   @media only screen and (max-width: 40em) {
     .controller-image {
-      background-size: 167px 146px;
+      background-size: 167px 192px;
       width: 167px;
-      height: 146px; } }
+      height: 192px; } }
 
 .doublejump {
   background-image: url("/images/doublejump.png");
@@ -480,17 +482,21 @@ nav.navigation {
   margin-bottom: 20px;
   border-bottom: 1px solid #66BBCC; }
 
-.call-to-action {
+a.call-to-action {
   border: 2px solid #f6ff56;
   padding: 10px 40px;
   border-radius: 999px;
   font-family: "Nunito", sans-serif;
   font-size: 1.5em;
   text-transform: uppercase;
-  color: #f6ff56; }
+  color: #f6ff56;
+  display: inline-block;
+  position: relative;
+  top: 0px; }
 
 .call-to-action:hover {
-  border-color: #c0e7ff; }
+  border-color: #c0e7ff;
+  top: -3px; }
 
 p.intro-small {
   color: white; }
