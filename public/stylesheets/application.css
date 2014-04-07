@@ -397,6 +397,12 @@ ul.inline li {
 .small-margin-bottom {
   margin-bottom: 15px; }
 
+/**
+ * FOUNDATION OVERRIDES
+ */
+.row {
+  max-width: none; }
+
 .header-bar {
   height: 76px;
   background-color: white; }

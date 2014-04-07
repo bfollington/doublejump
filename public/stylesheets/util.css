@@ -21,3 +21,9 @@ ul.inline li {
 
 .small-margin-bottom {
   margin-bottom: 15px; }
+
+/**
+ * FOUNDATION OVERRIDES
+ */
+.row {
+  max-width: none; }
