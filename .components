@@ -1,6 +1,6 @@
 ---
 :orm: mongoid
-:test: shoulda
+:test: rspec
 :mock: none
 :script: jquery
 :renderer: slim
