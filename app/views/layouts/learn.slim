@@ -1,7 +1,7 @@
 doctype 5
 
 /[if IE 9]
-    html.lt-ie10 lang="en"
+    html .lt-ie10 lang="en"
 
 html.no-js lang="en"
 
@@ -24,15 +24,20 @@ html.no-js lang="en"
         = yield_content :include
     body
         .container
+            = partial 'elements/doublejump_header_bar'
+            .banner-image
+                nav.banner-navigation test
+                h1 hello
+                h2 world
 
-        - if session[:flash]
-            = session[:flash]
-            - session[:flash] = nil
+            - if session[:flash]
+                = session[:flash]
+                - session[:flash] = nil
 
-        = yield
+            = yield
 
-        footer
-            h1 Test Footer
+            footer
+                h1 Test Footer
 
     script src="/foundation/js/foundation.min.js"
     javascript:

@@ -1,6 +1,6 @@
 LearnToGameDev::App.controllers :learn do
   
-  layout :app
+  layout :learn
   
   get :index do
     return "Yo"

@@ -14,19 +14,21 @@ html.no-js lang="en"
 
         link href='http://fonts.googleapis.com/css?family=Montserrat:400,700|Nunito:400,300,700' rel='stylesheet' type='text/css'
         link rel="stylesheet" href="/foundation/css/foundation.min.css"
+
+        script src="/javascripts/jquery.js"
+        script src="/javascripts/wow.min.js"
+        script src="/foundation/js/vendor/modernizr.js"
         
         = stylesheet_link_tag 'application'
         = javascript_include_tag 'application'
-        
-        script src="/javascripts/jquery.js"
-        script src="/foundation/js/vendor/modernizr.js"
+
 
         = yield_content :include
     body
         .container
             .header
                 .header-bar
-                    .doublejump
+                    .doublejump.wow.bounceIn
                 .gradient-block
 
                     nav.navigation
@@ -49,7 +51,7 @@ html.no-js lang="en"
                         | Learn at your own pace, and develop the skills and knowledge to become a game developer.
 
                     p.center-text.margin-top.small-margin-bottom
-                        a.call-to-action href="/letsgo" Get Started
+                        a.call-to-action.wow.pulse href="/letsgo" Get Started
 
                     p.intro-small.center-text.font-small    
                         | Already a member? 
@@ -69,6 +71,6 @@ html.no-js lang="en"
                 h1 Test Footer
 
     script src="/foundation/js/foundation.min.js"
-    script
-        javascript:
-            $(document).foundation();
+    javascript:
+        $(document).foundation();
+        new WOW().init();

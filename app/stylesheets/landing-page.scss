@@ -1,3 +1,5 @@
+@import 'animate';
+
 .header-bar {
     height: 76px;
     background-color: white;
@@ -117,6 +119,8 @@ p.intro-small {
     padding: 1em;
     border-bottom: 2px solid #ccc;
     margin-bottom: 2em;
+
+    border-radius: 2px;
 
     h4 {
         color: $landing-page-heading-color;
