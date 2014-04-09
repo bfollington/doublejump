@@ -1,8 +1,11 @@
 .header
     - if current_account
         .header-bar.logged-in
-            .doublejump-gap.center-text
-                img.avatar.small src="#{current_account.avatar}"
+            - if current_account.avatar
+                .doublejump-gap.center-text
+                    img.avatar.small src="#{current_account.avatar}"
+            - else
+                .doublejump
             div.center-text.padding
                 a
                     = " " + current_account.name + " " + current_account.surname + " "
