@@ -29,6 +29,11 @@ ul.inline li {
 .padding {
   padding: 0.5em; }
 
+.vertical-center {
+  display: table-cell;
+  vertical-align: middle;
+  height: 100%; }
+
 /**
  * FOUNDATION OVERRIDES
  */

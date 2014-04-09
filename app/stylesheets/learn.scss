@@ -47,3 +47,79 @@ nav.banner-navigation
 
     margin-bottom: 3em;
 }
+
+.progress-list-wrapper
+{
+    width: 100%;
+}
+
+ul.progress-list{
+    display: inline-table;
+    width: 99%;
+    list-style: none;
+
+    margin-bottom: 0.5em;
+    margin-top: -0.2em;
+    margin-left: 0px;
+
+    background: black;
+    height: 1px;
+}
+
+ul.progress-list li {
+    display: table-cell;
+    text-align: center;
+
+
+    height: 2px;
+}
+
+ul.progress-list li:first-child {
+    text-align: left;
+}
+ul.progress-list li:last-child {
+    text-align: right;
+}
+
+ul.progress-list li a {
+    display: inline-block;
+
+    background-color: red;
+    border-radius: 1000px;
+    width: 10px;
+    height: 10px;
+
+    position: absolute;
+    margin-top: -4px;
+}
+
+ul.progress-list li a:hover {
+    display: inline-block;
+
+    background-color: red;
+    border-radius: 1000px;
+    width: 16px;
+    height: 16px;
+
+    margin-top: -8px;
+    margin-left: -3px;
+}
+
+.progress-navigation-link {
+    margin-top: 1em;
+    display: inline-block;
+}
+
+.progress-list-wrapper .progress
+{
+    position: absolute;
+    width: 33%;
+    background: blue;
+    border: none;
+    height: 2px;
+
+    margin-bottom: 0px;
+
+    left: 16.5%;
+    top: 1.5em;
+}

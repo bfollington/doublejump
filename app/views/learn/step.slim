@@ -1,0 +1,42 @@
+.row
+    .large-1.medium-1.small-1.columns.center-text
+        a.progress-navigation-link
+            i.fa.fa-arrow-left
+            span.show-for-large-up
+                | &nbsp;back
+    .large-10.medium-10.small-10.columns
+        .box
+            .progress-list-wrapper
+
+
+                .progress
+                ul.progress-list
+                    li
+                        a
+                            |  
+                    li.current-step
+                        a
+                            |  
+                    li.incomplete
+                        a
+                            |  
+    .large-1.medium-1.small-1.columns.center-text
+        a.progress-navigation-link
+            span.show-for-large-up
+                | next&nbsp;
+            i.fa.fa-arrow-right
+
+                
+.row
+    .large-9.columns
+        .box
+            p
+                = @lesson.title
+                = @lesson.description
+
+            h4 =@step.title
+
+            .step-body
+                | #{{RDiscount.new(@step.body).to_html}}
+    .large-3.columns
+        .box

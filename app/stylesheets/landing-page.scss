@@ -112,7 +112,7 @@ p.intro-small {
     color: white;
 }
 
-.feature-description {
+.box {
     background: $page-content-color;
     padding: 1em;
     border-bottom: 2px solid #ccc;
@@ -125,7 +125,7 @@ p.intro-small {
     }
 }
 
-.feature-description p {
+.box p {
     color: $landing-page-font-color;
 }
 

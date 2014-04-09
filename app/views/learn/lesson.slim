@@ -1,0 +1,15 @@
+.row
+    .large-9.columns
+        .box
+            p
+                = @lesson.title
+                = @lesson.description
+
+            h4 Steps
+
+            ul
+                - @lesson.steps.each do |step|
+                    li 
+                        = step.title
+    .large-3.columns
+        .box
