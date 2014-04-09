@@ -354,20 +354,20 @@ td,
 th {
   padding: 0; }
 
-.header a {
+.header a, .banner-navigation a {
   color: #f6ff56;
   transition: .3s;
   font-weight: normal; }
 
-.header a:hover {
+.header a:hover, .banner-navigation a:hover {
   color: #c0e7ff; }
 
-a {
+a, .header-bar a {
   color: #4faee8;
   transition: .3s;
   font-weight: bold; }
 
-a:hover {
+a:hover, .header-bar a:hover {
   color: #0084d5; }
 
 p {
@@ -381,6 +381,10 @@ ul.inline li {
 
 .center-text {
   text-align: center; }
+
+.center {
+  margin-left: auto;
+  margin-right: auto; }
 
 .nudge-down {
   margin-top: 5px; }
@@ -396,6 +400,9 @@ ul.inline li {
 
 .small-margin-bottom {
   margin-bottom: 15px; }
+
+.padding {
+  padding: 0.5em; }
 
 /**
  * FOUNDATION OVERRIDES
@@ -2605,8 +2612,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   animation-name: rollOut; }
 
 .header-bar {
-  height: 76px;
   background-color: white; }
+
+.header-bar.logged-in {
+  padding: 10px; }
 
 .gradient-block {
   background-image: -o-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
@@ -2707,10 +2716,6 @@ a.call-to-action {
 
 p.intro-small {
   color: white; }
-
-.main-content {
-  background: #F6F6F6;
-  padding: 2em 0; }
 
 .feature-description {
   background: white;
@@ -4059,6 +4064,50 @@ footer.footer {
   width: 100%;
   height: 4px; }
 
+.doublejump-gap {
+  background-image: url("/images/doublejump-gap.png");
+  width: 203px;
+  height: 48px;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: 10px; }
+  @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
+    .doublejump-gap {
+      background-image: url("/images/doublejump-gap@2x.png");
+      -webkit-background-size: 203px 28px; } }
+
+.banner-image {
+  background-size: cover;
+  background-image: -o-linear-gradient(-90deg, black 0%, #363636 100%);
+  background-image: -moz-linear-gradient(-90deg, black 0%, #363636 100%);
+  background-image: -webkit-linear-gradient(-90deg, black 0%, #363636 100%);
+  background-image: -ms-linear-gradient(-90deg, black 0%, #363636 100%);
+  background-image: linear-gradient(-180deg, black 0%, #363636 100%); }
+
+.tutorial-title-seperator {
+  width: 33%;
+  text-align: center;
+  margin: 0 auto;
+  color: #999;
+  border-color: #999;
+  background-color: #999; }
+
+nav.banner-navigation {
+  background-color: black;
+  opacity: 0.5;
+  text-align: center;
+  padding: 0.8em;
+  margin-bottom: 3em; }
+
+.avatar {
+  border-radius: 100000px; }
+
+.avatar.small {
+  width: 55px;
+  height: 55px;
+  border: 1px solid #aaa; }
+
 html {
   font-size: 16px;
   font-family: "Nunito", sans-serif;
@@ -4108,3 +4157,7 @@ body {
   width: 90%;
   margin: 0 5%;
   padding-top: 50px; }
+
+.main-content {
+  background: #f6f6f6;
+  padding: 2em 0; }

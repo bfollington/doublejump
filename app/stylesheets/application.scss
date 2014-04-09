@@ -4,6 +4,8 @@ $landing-page-heading-color: #697A7D;
 $landing-page-font-color: #A0A0A0;
 $link-color: #4FAEE8;
 $link-hover-color: #0084D5;
+$page-content-background-color: #F6F6F6;
+$page-content-color: white;
 $nunito-stack: 'Nunito', sans-serif;
 $nunito-light-stack: 'Nunito-Light', sans-serif;
 $montserrat-stack: 'Montserrat', sans-serif;
@@ -28,6 +30,8 @@ $screen: 90em;
 @import 'landing-page';
 @import 'font-awesome/font-awesome';
 @import 'learn';
+@import 'images';
+@import 'override';
 
 html {
     font-size: 16px;
@@ -83,4 +87,9 @@ body {
     width: 90%;
     margin: 0 5%;
     padding-top: 50px;
+}
+
+.main-content {
+    background: $page-content-background-color;
+    padding: 2em 0;
 }

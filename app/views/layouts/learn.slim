@@ -25,16 +25,29 @@ html.no-js lang="en"
     body
         .container
             = partial 'elements/doublejump_header_bar'
-            .banner-image
-                nav.banner-navigation test
-                h1 hello
-                h2 world
+            .banner-image data-background="/images/banner.jpg"
+                nav.banner-navigation
+                    .row
+                        .medium-6.large-3.columns
+                            a hello
+                        .medium-6.large-3.columns
+                            a hello
+                        .medium-6.large-3.columns
+                            a hello
+                        .medium-6.large-3.columns 
+                            a hello
+                h3.welcome-message hello
+                hr.tutorial-title-seperator
+                h4.intro-blurb world
+                button.button hello
 
-            - if session[:flash]
-                = session[:flash]
-                - session[:flash] = nil
+            .main-content           
 
-            = yield
+                - if session[:flash]
+                    = session[:flash]
+                    - session[:flash] = nil
+
+                = yield
 
             footer
                 h1 Test Footer

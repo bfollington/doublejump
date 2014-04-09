@@ -10,6 +10,11 @@ ul.inline li {
     text-align: center;
 }
 
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .nudge-down {
     margin-top: 5px;
 }
@@ -28,6 +33,10 @@ ul.inline li {
 
 .small-margin-bottom {
     margin-bottom: 15px;
+}
+
+.padding {
+    padding: 0.5em;
 }
 
 

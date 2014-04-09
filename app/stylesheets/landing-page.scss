@@ -1,8 +1,11 @@
 @import 'animate';
 
 .header-bar {
-    height: 76px;
     background-color: white;
+}
+
+.header-bar.logged-in {
+    padding: 10px;
 }
 
 .gradient-block {
@@ -109,13 +112,8 @@ p.intro-small {
     color: white;
 }
 
-.main-content {
-    background: #F6F6F6;
-    padding: 2em 0;
-}
-
 .feature-description {
-    background: white;
+    background: $page-content-color;
     padding: 1em;
     border-bottom: 2px solid #ccc;
     margin-bottom: 2em;

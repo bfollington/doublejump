@@ -7,5 +7,43 @@
     width: 100%;
 
     height: 4px;
+}
 
+.doublejump-gap {
+    @include background-image-retina('/images/doublejump-gap', 'png', 203px, 28px);
+    width: 203px;
+    height: 48px;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 10px;
+}
+
+.banner-image {
+    background-size: cover;
+    background-image: -o-linear-gradient(-90deg, #000000 0%, #363636 100%);
+    background-image: -moz-linear-gradient(-90deg, #000000 0%, #363636 100%);
+    background-image: -webkit-linear-gradient(-90deg, #000000 0%, #363636 100%);
+    background-image: -ms-linear-gradient(-90deg, #000000 0%, #363636 100%);
+    background-image: linear-gradient(-180deg, #000000 0%, #363636 100%);
+}
+
+.tutorial-title-seperator {
+    width: 33%;
+    text-align: center;
+    margin: 0 auto;
+
+    color: #999;
+    border-color: #999;
+    background-color: #999;
+}
+
+nav.banner-navigation
+{
+    background-color: black;
+    opacity: 0.5;
+    text-align: center;
+    padding: 0.8em;
+
+    margin-bottom: 3em;
 }

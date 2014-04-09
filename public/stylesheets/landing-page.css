@@ -1,23 +1,23 @@
 /*
 Syntax error: Undefined mixin 'background-image-retina'.
-        on line 21 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/landing-page.scss, in `background-image-retina'
-        from line 21 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/landing-page.scss
+        on line 24 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/landing-page.scss, in `background-image-retina'
+        from line 24 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/landing-page.scss
 
-16:     padding-top: 0px;
-17:     padding-bottom: 20px;
-18: }
-19: 
-20: .controller-image {
-21:     @include background-image-retina('/images/controller', 'png', 334px, 384px);
-22:     width: 334px;
-23:     height: 384px;
-24:     margin: 0 auto;
-25:     background-repeat: no-repeat;
-26:     background-position: center;
+19:     padding-top: 0px;
+20:     padding-bottom: 20px;
+21: }
+22: 
+23: .controller-image {
+24:     @include background-image-retina('/images/controller', 'png', 334px, 384px);
+25:     width: 334px;
+26:     height: 384px;
+27:     margin: 0 auto;
+28:     background-repeat: no-repeat;
+29:     background-position: center;
 
 Backtrace:
-/Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/landing-page.scss:21:in `background-image-retina'
-/Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/landing-page.scss:21
+/Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/landing-page.scss:24:in `background-image-retina'
+/Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/landing-page.scss:24
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:98:in `block in with_mixin'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:121:in `with_frame'
@@ -91,4 +91,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 21 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/landing-page.scss, in `background-image-retina'\A         from line 21 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/landing-page.scss\A \A 16:     padding-top: 0px;\A 17:     padding-bottom: 20px;\A 18: }\A 19: \A 20: .controller-image {\A 21:     @include background-image-retina('/images/controller', 'png', 334px, 384px);\A 22:     width: 334px;\A 23:     height: 384px;\A 24:     margin: 0 auto;\A 25:     background-repeat: no-repeat;\A 26:     background-position: center;"; }
+  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 24 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/landing-page.scss, in `background-image-retina'\A         from line 24 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/landing-page.scss\A \A 19:     padding-top: 0px;\A 20:     padding-bottom: 20px;\A 21: }\A 22: \A 23: .controller-image {\A 24:     @include background-image-retina('/images/controller', 'png', 334px, 384px);\A 25:     width: 334px;\A 26:     height: 384px;\A 27:     margin: 0 auto;\A 28:     background-repeat: no-repeat;\A 29:     background-position: center;"; }

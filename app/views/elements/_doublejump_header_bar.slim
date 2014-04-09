@@ -1,4 +1,25 @@
 .header
-    .header-bar
-        .doublejump
+    - if current_account
+        .header-bar.logged-in
+            .doublejump-gap.center-text
+                img.avatar.small src="#{current_account.avatar}"
+            div.center-text.padding
+                a
+                    = " " + current_account.name + " " + current_account.surname + " "
+                a.dropdown data-dropdown="user_menu"
+                    i.fa.fa-chevron-down
+                    
+                ul#user_menu.f-dropdown data-dropdown-content=''
+                    li
+                        a href="#" This is a link
+                    li
+                        a href="#" This is a link
+                    li
+                        a href="#" This is a link
+                div
+                    small
+                            | (that's you!)
+    - else
+        .header-bar
+            .doublejump
     .gradient-strip

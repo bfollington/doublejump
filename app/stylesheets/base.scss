@@ -1,21 +1,21 @@
-.header a {
+.header a, .banner-navigation a {
     color: $header-link-color;
     transition: .3s;
     font-weight: normal;
 }
 
-.header a:hover {
+.header a:hover, .banner-navigation a:hover {
     color: $header-link-hover-color;
 }
 
-a {
+a, .header-bar a {
     color: $link-color;
     transition: .3s;
 
     font-weight: bold;
 }
 
-a:hover {
+a:hover, .header-bar a:hover {
     color: $link-hover-color;
 }
 

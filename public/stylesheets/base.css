@@ -2,13 +2,13 @@
 Syntax error: Undefined variable: "$header-link-color".
         on line 2 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/base.scss
 
-1: .header a {
+1: .header a, .banner-navigation a {
 2:     color: $header-link-color;
 3:     transition: .3s;
 4:     font-weight: normal;
 5: }
 6: 
-7: .header a:hover {
+7: .header a:hover, .banner-navigation a:hover {
 
 Backtrace:
 /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/base.scss:2
@@ -83,4 +83,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$header-link-color\".\A         on line 2 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/base.scss\A \A 1: .header a {\A 2:     color: $header-link-color;\A 3:     transition: .3s;\A 4:     font-weight: normal;\A 5: }\A 6: \A 7: .header a:hover {"; }
+  content: "Syntax error: Undefined variable: \"$header-link-color\".\A         on line 2 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/base.scss\A \A 1: .header a, .banner-navigation a {\A 2:     color: $header-link-color;\A 3:     transition: .3s;\A 4:     font-weight: normal;\A 5: }\A 6: \A 7: .header a:hover, .banner-navigation a:hover {"; }
