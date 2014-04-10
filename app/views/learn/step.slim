@@ -1,10 +1,10 @@
 .row
-    .large-1.medium-1.small-1.columns.center-text
+    .col-lg-1.col-md-1.col-sm-1.col-xs-1.center-text
         a.progress-navigation-link
             i.fa.fa-arrow-left
-            span.show-for-large-up
+            span.visible-lg
                 | &nbsp;back
-    .large-10.medium-10.small-10.columns
+    .col-lg-10.col-md-10.col-sm-10.col-xs-10
         .box
             .progress-list-wrapper
 
@@ -28,15 +28,15 @@
                     li.incomplete
                         a
                             |  
-    .large-1.medium-1.small-1.columns.center-text
+    .col-lg-1.col-md-1.col-sm-1.col-xs-1.center-text
         a.progress-navigation-link
-            span.show-for-large-up
+            span.visible-lg
                 | next&nbsp;
             i.fa.fa-arrow-right
 
                 
 .row
-    .large-9.columns
+    .col-lg-9.col-md-9
         .box
             p
                 = @lesson.title
@@ -46,5 +46,5 @@
 
             .step-body
                 | #{{RDiscount.new(@step.body).to_html}}
-    .large-3.columns
+    .col-lg-3.col-md-3
         .box

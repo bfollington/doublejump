@@ -34,20 +34,20 @@ $large-screen: 110em;
 @import 'override';
 
 html {
-    font-size: 16px;
+    font-size: 18px;
     font-family: $nunito-stack;
     background-color: #2F3348;
 
     @media only screen and (min-width: $large-screen) { 
-        font-size: 18px;
+        font-size: 20px;
     }
 
     @media only screen and (max-width: $tablet) { 
-        font-size: 14px;
+        font-size: 16px;
     }
 
     @media only screen and (max-width: $mobile) { 
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 
