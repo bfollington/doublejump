@@ -23,15 +23,16 @@ html.no-js lang="en"
 
         = yield_content :include
     body
-        .container
+        .container-fluid
+            .main-content
 
-        - if session[:flash]
-            = session[:flash]
-            - session[:flash] = nil
+            - if session[:flash]
+                = session[:flash]
+                - session[:flash] = nil
 
-        = yield
+            = yield
 
-        footer
-            h1 Test Footer
+            footer
+                h1 Test Footer
 
     script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
