@@ -1,0 +1,73 @@
+section.box
+    h4 Boxes
+    p 
+        | Everything is wrapped in <code>.box</code>s, it makes for a very clear visual division of content (despite straying from the holy "flat design").
+        .box
+            p hello
+            .box
+                p box
+
+
+section.box
+    h4 Header Bar
+    p 
+        | Our header bar that is used on all internal pages, when a user is logged in this is responsible for displaying their account options etc.
+    pre 
+        | = partial 'elements/doublejump_header_bar'
+
+= partial 'elements/doublejump_header_bar'
+br
+
+section.box
+    h4 Popover
+    p 
+        | Popovers are useful for displaying secondary (or AJAX content) if a user is interested. 
+        a href="http://getbootstrap.com/javascript/#popovers" Bootstrap Documentation
+    pre 
+        | rel = "popover"
+        br
+        | data-toggle = "popover"
+        br
+        | data-trigger = "click" (d), "hover", "focus", "manual"
+        br
+        | data-content = "The content for the popover."
+        br
+        | [data-original-title] = "Optional title for the popover."
+
+    a rel="popover" data-toggle="popover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title" Click to toggle popover
+    br
+    a href="/" rel="popover" data-toggle="popover" data-trigger="hover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title" Hover to toggle popover
+
+
+
+
+
+
+section.box
+    h4 Dropdown
+    p
+        | Wrap a trigger element and a list in an element marked as 
+        code .dropdown
+
+    span.dropdown
+        a data-toggle="dropdown" class="dropdown-toggle"
+            = " " + current_account.name + " " + current_account.surname + " "
+            i.fa.fa-chevron-down
+
+
+        ul.dropdown-menu
+            li
+                a href="#" Action
+            li
+                a href="#" Action
+            li.divider
+            li
+                a href="#" Action
+
+
+
+
+section.box
+    h4 Tooltip
+
+    a rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" Tooltip on bottom

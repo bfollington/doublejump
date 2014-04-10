@@ -13,10 +13,15 @@ a, .header-bar a {
     transition: .3s;
 
     font-weight: bold;
+
+    text-decoration: none;
 }
 
 a:hover, .header-bar a:hover {
     color: $link-hover-color;
+
+    text-decoration: none;
+    cursor: pointer;
 }
 
 p {

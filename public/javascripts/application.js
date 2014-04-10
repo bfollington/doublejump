@@ -1,5 +1,12 @@
 $( function() {
 
+    FastClick.attach(document.body);
+
+    $('[rel=tooltip]').tooltip();
+    $('[rel=popover]').popover();
+    $('[rel=popover]').click( function (e) { e.preventDefault(); } );
+    $('[rel=popover][data-trigger=hover]').off("click");
+
     bindSlugFields();
 
     bindEpicEditorFields();

@@ -7,18 +7,20 @@
             - else
                 .doublejump
             div.center-text.padding
-                a
-                    = " " + current_account.name + " " + current_account.surname + " "
-                a.dropdown data-dropdown="user_menu"
-                    i.fa.fa-chevron-down
-                    
-                ul#user_menu.f-dropdown data-dropdown-content=''
-                    li
-                        a href="#" This is a link
-                    li
-                        a href="#" This is a link
-                    li
-                        a href="#" This is a link
+                span.dropdown
+                    a data-toggle="dropdown" class="dropdown-toggle"
+                        = " " + current_account.name + " " + current_account.surname + " "
+                        i.fa.fa-chevron-down
+
+                    ul.dropdown-menu
+                        li
+                            a href="#" Action
+                        li
+                            a href="#" Action
+                        li.divider
+                        li
+                            a href="#" Action
+
                 div
                     small
                             | (that's you!)

@@ -1,13 +1,14 @@
 doctype 5
 
 /[if IE 9]
-    html.lt-ie10 lang="en"
+    html .lt-ie10 lang="en"
 
 html.no-js lang="en"
 
     head
 
         meta charset="utf-8"
+        meta http-equiv="X-UA-Compatible" content="IE=edge"
         meta name="viewport" content="width=device-width, initial-scale=1.0"
 
         title = [@title, "doublejump"].compact.join(" | ")
@@ -15,7 +16,7 @@ html.no-js lang="en"
         link href='http://fonts.googleapis.com/css?family=Montserrat:400,700|Nunito:400,300,700' rel='stylesheet' type='text/css'
         link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
         
-        script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"
+        script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.0/fastclick.min.js"
 
         = stylesheet_link_tag 'application'
@@ -24,14 +25,14 @@ html.no-js lang="en"
         = yield_content :include
     body
         .container
+            .main-content           
+                .row
+                    .col-xs-12
+                        .styleguide
+                            - if session[:flash]
+                                = session[:flash]
+                                - session[:flash] = nil
 
-        - if session[:flash]
-            = session[:flash]
-            - session[:flash] = nil
-
-        = yield
-
-        footer
-            h1 Test Footer
+                            = partial 'styleguide/styles'
 
     script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"

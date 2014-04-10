@@ -13,11 +13,11 @@ html.no-js lang="en"
         title = [@title, "doublejump"].compact.join(" | ")
 
         link href='http://fonts.googleapis.com/css?family=Montserrat:400,700|Nunito:400,300,700' rel='stylesheet' type='text/css'
-        link rel="stylesheet" href="/foundation/css/foundation.min.css"
-
-        script src="/javascripts/jquery.js"
+        link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
+        
+        script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"
+        script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.0/fastclick.min.js"
         script src="/javascripts/wow.min.js"
-        script src="/foundation/js/vendor/modernizr.js"
         
         = stylesheet_link_tag 'application'
         = javascript_include_tag 'application'
@@ -33,14 +33,14 @@ html.no-js lang="en"
 
                     nav.navigation
                         .row
-                            .small-6.large-2.columns 
+                            .col-sm-6.col-lg-2.columns 
                                 a href="/features" Features
-                            .small-6.large-2.columns
+                            .col-sm-6.col-lg-2.columns
                                 a href="/pricing" Pricing
-                            .large-4.columns &nbsp;
-                            .small-6.large-2.columns 
+                            .col-lg-4.columns &nbsp;
+                            .col-sm-6.col-lg-2.columns 
                                 a href="/about" About
-                            .small-6.large-2.columns 
+                            .col-sm-6.col-lg-2.columns 
                                 a href="/login" Sign In
 
                     h3.welcome-message Learn to make games today
@@ -70,7 +70,6 @@ html.no-js lang="en"
                 hr
                 h1 Test Footer
 
-    script src="/foundation/js/foundation.min.js"
+    script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
     javascript:
-        $(document).foundation();
         new WOW().init();

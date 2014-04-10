@@ -365,10 +365,13 @@ th {
 a, .header-bar a {
   color: #4faee8;
   transition: .3s;
-  font-weight: bold; }
+  font-weight: bold;
+  text-decoration: none; }
 
 a:hover, .header-bar a:hover {
-  color: #0084d5; }
+  color: #0084d5;
+  text-decoration: none;
+  cursor: pointer; }
 
 p {
   font-weight: lighter; }
@@ -4115,6 +4118,7 @@ ul.progress-list {
   margin-bottom: 0.5em;
   margin-top: -0.2em;
   margin-left: 0px;
+  padding: 0px;
   background: black;
   height: 1px; }
 
@@ -4224,4 +4228,4 @@ body {
 
 .main-content {
   background: #f6f6f6;
-  padding: 2em 0; }
+  padding: 2em 1em; }

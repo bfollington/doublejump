@@ -140,6 +140,12 @@ module LearnToGameDev
 
 
 
+    get :styleguide do
+      render "index", :layout => :styleguide
+    end
+
+
+
 
 
     #
