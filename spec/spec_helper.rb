@@ -11,10 +11,6 @@ RSpec.configure do |conf|
   # Reset the test DB before running any tests
   Mongoid::Sessions.default.collections.select {|c| c.name !~ /system/ }.each(&:drop)
 
-  ARGV.each do|a|
-    puts "Argument: #{a}"
-  end
-
   if false
     Capybara.current_driver = :selenium
     Capybara.javascript_driver = :selenium
