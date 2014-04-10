@@ -12,6 +12,7 @@ $montserrat-stack: 'Montserrat', sans-serif;
 $mobile: 40em;
 $tablet: 64em;
 $screen: 90em;
+$large-screen: 110em;
 
 @mixin background-image-retina($file, $type, $width, $height) {
   background-image: url($file + '.' + $type);
@@ -36,6 +37,10 @@ html {
     font-size: 16px;
     font-family: $nunito-stack;
     background-color: #2F3348;
+
+    @media only screen and (min-width: $large-screen) { 
+        font-size: 18px;
+    }
 
     @media only screen and (max-width: $tablet) { 
         font-size: 14px;
@@ -81,10 +86,8 @@ body {
     background-color: #2F3348;
 }
 
-.container
+.container-fluid
 {
-    width: 90%;
-    margin: 0 5%;
     padding-top: 50px;
 }
 

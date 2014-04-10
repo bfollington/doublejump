@@ -1623,6 +1623,9 @@ html {
   font-size: 16px;
   font-family: "Nunito", sans-serif;
   background-color: #2F3348; }
+  @media only screen and (min-width: 110em) {
+    html {
+      font-size: 18px; } }
   @media only screen and (max-width: 64em) {
     html {
       font-size: 14px; } }
@@ -1664,9 +1667,7 @@ body {
   line-height: 1.45;
   background-color: #2F3348; }
 
-.container {
-  width: 90%;
-  margin: 0 5%;
+.container-fluid {
   padding-top: 50px; }
 
 .main-content {
