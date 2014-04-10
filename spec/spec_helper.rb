@@ -10,6 +10,19 @@ RSpec.configure do |conf|
 
   # Reset the test DB before running any tests
   Mongoid::Sessions.default.collections.select {|c| c.name !~ /system/ }.each(&:drop)
+
+  ARGV.each do|a|
+    puts "Argument: #{a}"
+  end
+
+  if false
+    Capybara.current_driver = :selenium
+    Capybara.javascript_driver = :selenium
+    Capybara.run_server = true
+    Capybara.server_port = 7000
+    Capybara.app_host = "http://localhost:#{Capybara.server_port}"
+  end
+
 end
 
 # You can use this method to custom specify a Rack app

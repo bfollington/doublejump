@@ -25,6 +25,7 @@ group :test do
 	gem 'rspec'
 	gem 'capybara'
 	gem 'rack-test', :require => 'rack/test'
+	gem 'selenium-webdriver'
 end
 
 # Padrino Stable Gem
