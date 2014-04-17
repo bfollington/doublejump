@@ -20,6 +20,9 @@ a:hover, .header-bar a:hover {
 p {
   font-weight: lighter; }
 
+.js-select2 {
+  width: 50%; }
+
 ul.inline {
   list-style: none; }
 

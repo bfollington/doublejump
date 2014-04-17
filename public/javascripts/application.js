@@ -2,6 +2,8 @@ $( function() {
 
     FastClick.attach(document.body);
 
+    $(".js-select2").select2();
+
     boostrapMods();
 
     bindSlugFields();
