@@ -190,7 +190,7 @@ function bindSortableLists()
             e.preventDefault();
 
             $targetList.append( format(
-                                        getTemplate("lesson_list_entry"), 
+                                        getTemplate("_lesson_list_entry"), 
                                         {
                                             "item-text": $readSelectionFrom.find('option:selected').text(),
                                             "field-name": hiddenField,

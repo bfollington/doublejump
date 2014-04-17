@@ -1,0 +1,10 @@
+.row
+    .col-lg-9
+        .box
+            - @courses.each do |course|
+                = partial 'courses/elements/course', :object => course
+    .col-lg-3
+        .box
+
+
+

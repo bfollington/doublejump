@@ -1,31 +1,37 @@
 - content_for :include do
     = javascript_include_tag 'jquery.sortable.min'
 
-= render_js_template 'js-templates/lesson_list_entry'
+= render_js_template 'js-templates/_lesson_list_entry'
 
 .create-course-form
-    = form_for :course, "/courses/new", { :remote => true, :id => 'addCourseForm' } do |f|
+    = form_for :course, "", { :id => 'addCourseForm' } do |f|
         p
             = f.label :title, :caption => "Course Title"
-            = f.text_field :title, :class => "js-slug", :'data-object' => :course, :'data-target' => :slug
+            = f.text_field :title, :class => "js-slug form-control", :'data-object' => :course, :'data-target' => :slug
             = partial 'form_error', :collection => (errors_for @course, :title)
 
         p
             = f.label :slug, :caption => "Course Slug (For URL)"
-            = f.text_field :slug
+            = f.text_field :slug, :class => "form-control"
             = partial 'form_error', :collection => (errors_for @course, :slug)
 
         p
             = f.label :description, :caption => "Course Description"
-            = f.text_area :description
+            = f.text_area :description, :class => "form-control"
             = partial 'form_error', :collection => (errors_for @course, :description)
 
+        - hidden_field_name = 'course[lessons][]'
+
         p
-            = f.select(:lesson, :collection => @lessons, :fields => [:title, :id])
-            a.js-sortable-add-new data-read-selection-from='#course_lesson' data-target-list='#lessons' data-hidden-field-name='course[lessons][]' href="#" Add New
+            = f.select(:lesson, :collection => @lessons, :fields => [:title, :id], :class => 'js-select2')
+            a.js-sortable-add-new data-read-selection-from='#course_lesson' data-target-list='#lessons' data-hidden-field-name='#{hidden_field_name}' href="#" Add New
 
         p
             ul#lessons.js-sortable
+                - if @course
+                    - @course.lesson_ids.each do |lesson_id|
+                        - lesson = Lesson.find( lesson_id )
+                        = partial 'js-templates/lesson_list_entry', :locals => { :item_text => lesson.title, :field_value => lesson.id, :field_name => hidden_field_name}
 
         p
-            = f.submit "Create", :class => 'button'
+            = f.submit "Save", :class => 'button'

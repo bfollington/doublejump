@@ -13,6 +13,10 @@ class Course
 
   has_and_belongs_to_many :lessons
 
+  def get_lesson(index)
+    Lesson.find lesson_ids[index]
+  end
+
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>
 

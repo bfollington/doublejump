@@ -22,15 +22,44 @@ LearnToGameDev::App.controllers :courses do
   # end
   
   get :index do
-    render 'index'
+    @courses = Course.all
+    render 'courses/index'
   end
 
-  get :new do
+  get :make do
     @lessons = Lesson.all
     render 'courses/new'
   end
 
-  post :new do
+  get :make, :with => :slug do
+    @lessons = Lesson.all
+    @course = Course.where(:slug => params[:slug]).first
+    render 'courses/new'
+  end
+
+  post :make, :with => :slug do
+    @course = Course.where(:slug => params[:slug]).first
+
+    @course.title = params[:course][:title]
+    @course.description = params[:course][:description]
+    @course.slug = params[:course][:slug]
+    @course.lessons = []
+
+    puts @params[:course][:lessons]
+
+    params[:course][:lessons].each do |lesson_id|
+      @course.lessons.push( Lesson.find(lesson_id) )
+    end
+
+    if @course.valid?
+      @course.save
+      render 'courses/new_success'
+    else
+      render 'courses/edit'
+    end
+  end
+
+  post :make do
 
     @course = Course.create( :title => params[:course][:title],
                              :description => params[:course][:description],
