@@ -2,6 +2,11 @@ LearnToGameDev::App.controllers :lessons do
     
   layout :app
 
+  get :index do
+    @lessons = Lesson.all
+    render 'lessons/index'
+  end
+
   get :make do
     new_lesson
   end
