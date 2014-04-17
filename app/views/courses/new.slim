@@ -5,33 +5,40 @@
 
 .create-course-form
     = form_for :course, "", { :id => 'addCourseForm' } do |f|
-        p
-            = f.label :title, :caption => "Course Title"
-            = f.text_field :title, :class => "js-slug form-control", :'data-object' => :course, :'data-target' => :slug
-            = partial 'form_error', :collection => (errors_for @course, :title)
+        .row
+            .col-lg-9
+                .box
+                    p
+                        = f.label :title, :caption => "Course Title"
+                        = f.text_field :title, :class => "js-slug form-control", :'data-object' => :course, :'data-target' => :slug
+                        = partial 'form_error', :collection => (errors_for @course, :title)
 
-        p
-            = f.label :slug, :caption => "Course Slug (For URL)"
-            = f.text_field :slug, :class => "form-control"
-            = partial 'form_error', :collection => (errors_for @course, :slug)
+                    p
+                        = f.label :slug, :caption => "Course Slug (For URL)"
+                        = f.text_field :slug, :class => "form-control"
+                        = partial 'form_error', :collection => (errors_for @course, :slug)
 
-        p
-            = f.label :description, :caption => "Course Description"
-            = f.text_area :description, :class => "form-control"
-            = partial 'form_error', :collection => (errors_for @course, :description)
+                    p
+                        = f.label :description, :caption => "Course Description"
+                        = f.text_area :description, :class => "form-control"
+                        = partial 'form_error', :collection => (errors_for @course, :description)
 
-        - hidden_field_name = 'course[lessons][]'
+            .col-lg-3
+                .box
+                    - hidden_field_name = 'course[lessons][]'
 
-        p
-            = f.select(:lesson, :collection => @lessons, :fields => [:title, :id], :class => 'js-select2')
-            a.js-sortable-add-new data-read-selection-from='#course_lesson' data-target-list='#lessons' data-hidden-field-name='#{hidden_field_name}' href="#" Add New
+                    p
+                        = f.select(:lesson, :collection => @lessons, :fields => [:title, :id], :class => 'js-select2')
+                        a.js-sortable-add-new data-read-selection-from='#course_lesson' data-target-list='#lessons' data-hidden-field-name='#{hidden_field_name}' href="#" Add New
 
-        p
-            ul#lessons.js-sortable
-                - if @course
-                    - @course.lesson_ids.each do |lesson_id|
-                        - lesson = Lesson.find( lesson_id )
-                        = partial 'js-templates/lesson_list_entry', :locals => { :item_text => lesson.title, :field_value => lesson.id, :field_name => hidden_field_name}
+                    p
+                        ul#lessons.js-sortable
+                            - if @course
+                                - @course.lesson_ids.each do |lesson_id|
+                                    - lesson = Lesson.find( lesson_id )
+                                    = partial 'js-templates/lesson_list_entry', :locals => { :item_text => lesson.title, :field_value => lesson.id, :field_name => hidden_field_name}
 
-        p
-            = f.submit "Save", :class => 'button'
+        .row
+            .col-lg-12
+                p.center-text
+                    = f.submit "Save", :class => 'button'

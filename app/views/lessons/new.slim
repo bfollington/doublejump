@@ -1,0 +1,45 @@
+
+- content_for :include do
+    = javascript_include_tag 'jquery.sortable.min'
+
+= render_js_template 'js-templates/_lesson_list_entry'
+
+.create-lesson-form
+
+    = form_for :lesson, "", { :id => 'addLessonForm' } do |f|
+        .row
+            .col-lg-9
+                .box
+
+                            p
+                                = f.label :title, :caption => "Lesson Title"
+                                = f.text_field :title, :class => "js-slug form-control", :'data-object' => :lesson, :'data-target' => :slug
+                                = partial 'form_error', :collection => (errors_for @lesson, :title)
+
+                            p
+                                = f.label :slug, :caption => "Lesson Slug (For URL)"
+                                = f.text_field :slug, :class => 'form-control'
+                                = partial 'form_error', :collection => (errors_for @lesson, :slug)
+
+                            p
+                                = f.label :description, :caption => "Lesson Description"
+                                = f.text_area :description, :class => 'form-control'
+                                = partial 'form_error', :collection => (errors_for @lesson, :description)
+
+            .col-lg-3
+                .box
+                    - hidden_field_name = 'lesson[steps][]'
+
+                    p
+                        = f.select(:step, :collection => @steps, :fields => [:title, :id], :class => 'js-select2')
+                        a.js-sortable-add-new data-read-selection-from='#lesson_step' data-target-list='#steps' data-hidden-field-name='#{hidden_field_name}' href="#" Add New
+
+                    p
+                        ul#steps.js-sortable
+                            - if @lesson
+                                - @lesson.step_ids.each do |step_id|
+                                    - step = Step.find( step_id )
+                                    = partial 'js-templates/lesson_list_entry', :locals => { :item_text => step.title, :field_value => step.id, :field_name => hidden_field_name}
+        .row
+            p.center-text
+                = f.submit "Save", :class => 'button'
