@@ -23,6 +23,10 @@ p {
 .js-select2 {
   width: 50%; }
 
+.comment {
+  margin-top: 10px;
+  margin-left: 20px; }
+
 ul.inline {
   list-style: none; }
 
@@ -1621,6 +1625,17 @@ ul.progress-list li a:hover {
 
 .button {
   font-family: "Nunito", sans-serif; }
+
+#comment_frame {
+  position: absolute;
+  padding: 15px;
+  border: 1px solid black;
+  border-radius: 3px;
+  display: none;
+  background: white;
+  width: 320px;
+  max-height: 400px;
+  overflow-y: scroll; }
 
 html {
   font-size: 18px;

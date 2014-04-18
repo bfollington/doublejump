@@ -7,6 +7,8 @@ $( function() {
         $(".js-select2").select2();
     }
 
+    bindComments();
+
     boostrapMods();
 
     bindSlugFields();
@@ -45,6 +47,39 @@ function boostrapMods()
     $('.dropdown').on('hide.bs.dropdown', function(e){
         $(this).find('.dropdown-menu').first().stop(true, true).slideUp(100);
     });
+}
+
+
+
+
+
+function bindComments()
+{
+
+    $(".comment").each( function() {
+
+        var $comment = $(this);
+
+        $(this).html("<i class='fa fa-comment'></i>");
+        $(this).click( function () { 
+
+            $.ajax({
+              url: "/learn/get_comments/" + window.location.href.substr(window.location.href.lastIndexOf('/') + 1) + "/" + $(this).attr("data-group"),
+              success: function (data) { 
+                    $("#comment_frame").html(data);
+                    $("#comment_frame").css("display", "block");
+                    $("#comment_frame").offset({ left: $comment.offset().left, top: $comment.offset().top});
+                    animate("#comment_frame", 'fadeInDown');
+
+                    $("form#Comment").off();
+
+                    $("form#Comment").ajaxForm();
+                }
+            });
+
+        } );
+
+    } );
 }
 
 
@@ -223,6 +258,24 @@ function getTemplate(name)
 /**
  * %UTILITY FUNCTIONS
  */
+
+/**
+ * Calls an Animate.css animation on the provided selector
+ * @param  {[type]} element_ID [description]
+ * @param  {[type]} animation  [description]
+ */
+function animate(element_ID, animation) {
+    $(element_ID).addClass(animation);
+    $(element_ID).addClass("animated");
+
+    $(element_ID).off();
+    $(element_ID).bind("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
+        function() {
+            $(element_ID).removeClass(animation);
+            $(element_ID).removeClass("animated");
+        }
+    );
+}
 
 function format(html, variables)
 {

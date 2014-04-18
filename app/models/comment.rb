@@ -10,7 +10,7 @@ class Comment
   belongs_to :account
   embedded_in :step
   embedded_in :comment
-  embeds_many :replies
+  embeds_many :comments
 
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>

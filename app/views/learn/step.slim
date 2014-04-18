@@ -62,6 +62,7 @@
             h4 = @step.title
 
             .step-body
-                | #{{RDiscount.new(@step.body.gsub(Step.id_regex, "")).to_html}}
+                | #{{RDiscount.new(@body_edited).to_html}}
+                #comment_frame
     .col-lg-3.col-md-3
         .box

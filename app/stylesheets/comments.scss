@@ -1,0 +1,15 @@
+#comment_frame
+{
+    position: absolute;
+    padding: 15px;
+    border: 1px solid black;
+    border-radius: 3px;
+
+    display: none;
+    background: white;
+
+    width: 320px;
+
+    max-height: 400px;
+    overflow-y: scroll;
+}

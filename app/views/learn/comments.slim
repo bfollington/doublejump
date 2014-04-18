@@ -1,0 +1,18 @@
+- if @comments.length > 0
+    - @comments.each do |comment|
+        .comment-wrapper
+            strong
+                = comment.account.name + " " + comment.account.surname
+            p
+                = comment.body
+- else
+    p No Comments.
+
+.add-comment
+    = form_for :comment, "/learn/submit_comment/#{@step.slug}/#{@group}", { :id => 'Comment' } do |f|
+        p
+            = f.label :body, :caption => "Message"
+            = f.text_area :body, :class => "form-control"
+
+        p.center-text
+            = f.submit "Post", :class => 'button'
