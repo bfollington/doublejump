@@ -14,6 +14,40 @@ class Lesson
   has_and_belongs_to_many :courses
   has_and_belongs_to_many :steps
 
+  def get_step_index(current_step)
+    step_ids.index(current_step.id)
+  end
+
+  def get_next_step(current_step)
+    current_index = step_ids.index(current_step.id)
+
+    if (step_ids.length > current_index + 1)
+      Step.find( step_ids[current_index + 1] )
+    else
+      nil
+    end
+  end
+
+  def get_prev_step(current_step)
+    current_index = step_ids.index(current_step.id)
+
+    if (current_index - 1 >= 0)
+      Step.find( step_ids[current_index - 1] )
+    else
+      nil
+    end
+  end
+
+  def get_steps_in_order
+    result = []
+
+    step_ids.each do |step_id|
+      result << Step.find(step_id)
+    end
+
+    result
+  end
+
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>
 

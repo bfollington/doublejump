@@ -31,7 +31,7 @@ html.no-js lang="en"
     body
         .container-fluid
             = partial 'elements/doublejump_header_bar'
-            .main-content
+            .main-content#main_content
                 - if session[:flash]
                     = session[:flash]
                     - session[:flash] = nil

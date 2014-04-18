@@ -33,10 +33,12 @@ section.box
         | data-content = "The content for the popover."
         br
         | [data-original-title] = "Optional title for the popover."
+        br
+        | [data-placement] = "left", "right", "top", "bottom"
 
     a rel="popover" data-toggle="popover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title" Click to toggle popover
     br
-    a href="/" rel="popover" data-toggle="popover" data-trigger="hover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title" Hover to toggle popover
+    a href="/" rel="popover" data-toggle="popover" data-trigger="hover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title" data-placement="bottom" Hover to toggle popover
 
 
 

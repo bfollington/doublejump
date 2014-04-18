@@ -1,48 +1,65 @@
 .row
-    .col-lg-1.col-md-1.col-sm-1.col-xs-1.center-text
-        a.progress-navigation-link
-            i.fa.fa-arrow-left
-            span.visible-lg
-                | &nbsp;back
-    .col-lg-10.col-md-10.col-sm-10.col-xs-10
+    .col-lg-2.col-md-2.col-sm-2.col-xs-2.center-text
+
+        - if !@lesson.get_prev_step(@step).nil?
+            a.progress-navigation-link href="/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_prev_step(@step).slug}#main_content"
+                span.visible-lg.visible-md
+                    i.fa.fa-arrow-left
+                    | &nbsp;Back
+                span.visible-sm.visible-xs
+                    i.fa.fa-arrow-left
+
+        - else
+            a.progress-navigation-link href="/learn/#{@course.slug}/#{@lesson.slug}/"
+                span.visible-lg.visible-md
+                    i.fa.fa-book
+                    | &nbsp;Lesson Overview
+                span.visible-sm.visible-xs
+                    i.fa.fa-book
+
+    .col-lg-8.col-md-8.col-sm-8.col-xs-8
         .box
             .progress-list-wrapper
-
                 .progress
                 ul.progress-list
-                    li
-                        a
-                            |  
-                    li.current-step
-                        a
-                            |  
-                    li
-                        a
-                            |  
-                    li
-                        a
-                            |  
-                    li
-                        a
-                            |  
-                    li.incomplete
-                        a
-                            |  
-    .col-lg-1.col-md-1.col-sm-1.col-xs-1.center-text
-        a.progress-navigation-link
-            span.visible-lg
-                | next&nbsp;
-            i.fa.fa-arrow-right
+                    - @lesson.get_steps_in_order.each do |step|
+                        - if @lesson.get_step_index(step) < @lesson.get_step_index(@step)
+                            li
+                                = partial 'learn/elements/progress_bar_step_link', :locals => {:step => step }
+
+                        - elsif @lesson.get_step_index(step) == @lesson.get_step_index(@step)
+                            li.current-step
+                                = partial 'learn/elements/progress_bar_step_link', :locals => {:step => step }
+
+                        - else
+                            li.incomplete
+                                = partial 'learn/elements/progress_bar_step_link', :locals => {:step => step }
+
+
+    .col-lg-2.col-md-2.col-sm-2.col-xs-2.center-text
+
+        - if !@lesson.get_next_step(@step).nil?
+            a.progress-navigation-link href="/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_next_step(@step).slug}#main_content"
+                span.visible-lg.visible-md
+                    | Next&nbsp;
+                    i.fa.fa-arrow-right
+                span.visible-sm.visible-xs
+                    i.fa.fa-arrow-right
+
+
+        - else
+            a.progress-navigation-link href="/learn/#{@course.slug}/#{@lesson.slug}/finish"
+                span.visible-lg.visible-md
+                    | Finish Lesson&nbsp;
+                    i.fa.fa-check
+                span.visible-sm.visible-xs
+                    i.fa.fa-check
 
                 
 .row
     .col-lg-9.col-md-9
         .box
-            p
-                = @lesson.title
-                = @lesson.description
-
-            h4 =@step.title
+            h4 = @step.title
 
             .step-body
                 | #{{RDiscount.new(@step.body).to_html}}
