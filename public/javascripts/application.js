@@ -73,7 +73,11 @@ function bindComments()
 
                     $("form#Comment").off();
 
-                    $("form#Comment").ajaxForm();
+                    $("form#Comment").ajaxForm({
+                        success: function (data) {
+                                $("#comment_frame").html(data);
+                            }
+                    });
                 }
             });
 

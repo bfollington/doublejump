@@ -22,13 +22,17 @@ LearnToGameDev::App.controllers :learn do
 
   post :submit_comment, :map => "/learn/submit_comment/:slug/:group" do
 
-    step = Step.where(slug: params[:slug]).first
+    @step = Step.where(slug: params[:slug]).first
     comment = Comment.new(:body => params[:comment][:body], :account => current_account, :group => params[:group])
 
-    if comment.valid?
-      step.comments << comment
+    @group = params[:group]
 
-      return "OK"
+    if comment.valid?
+      @step.comments << comment
+
+      @comments = @step.comments.where(group: params[:group])
+
+      render 'learn/comments', :layout => false
     else
       return "NO"
     end
