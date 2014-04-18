@@ -59,7 +59,9 @@ def create_admin
     :email => @username,
     :password  => @password,
     :password_confirmation => @password,
-    :role => "admin"
+    :role => "admin",
+    :name => "Test",
+    :surname => "Account"
   )
 
   @admin.save
@@ -75,7 +77,9 @@ def create_user
     :email => @username,
     :password  => @password,
     :password_confirmation => @password,
-    :role => "user"
+    :role => "user",
+    :name => "Test",
+    :surname => "Account"
   )
 
   @user.save

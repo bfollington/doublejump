@@ -11,7 +11,7 @@ describe "courses controller", :type => :feature do
   end
 
   it "shows the course form" do
-    visit "/courses/new"
+    visit "/courses/make"
 
     expect(page).to have_content "Course Title"
   end
