@@ -12,6 +12,11 @@ class Step
   validates_presence_of :body, :message => "You can't have an empty step, that makes no sense."
 
   has_and_belongs_to_many :lessons
+  embeds_many :comments
+
+  def self.id_regex
+    /(\_[A-z0-9]+\_)+/
+  end
 
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>
