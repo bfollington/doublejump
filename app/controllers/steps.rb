@@ -13,7 +13,7 @@ LearnToGameDev::App.controllers :steps do
 
   post :make do
 
-    @step = Step.create( :title => params[:step][:title], :body => params[:step][:body], :slug => params[:step][:slug] )
+    @step = Step.create( :title => params[:step][:title], :body => params[:step][:body], :slug => params[:step][:slug], :account => current_account)
 
     if @step.valid?
       @step.save
@@ -37,6 +37,7 @@ LearnToGameDev::App.controllers :steps do
 
     @step.title = params[:step][:title]
     @step.slug = params[:step][:slug]
+    @step.account = current_account
     @step.body = process_body( params[:step][:body] )
 
     if @step.valid?

@@ -13,6 +13,7 @@ class Lesson
 
   has_and_belongs_to_many :courses
   has_and_belongs_to_many :steps
+  belongs_to :account
 
   def get_step_index(current_step)
     step_ids.index(current_step.id)

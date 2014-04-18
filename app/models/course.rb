@@ -12,6 +12,7 @@ class Course
   validates_presence_of :description, :message => "Put a description in doofus"
 
   has_and_belongs_to_many :lessons
+  belongs_to :account
 
   def get_lesson(index)
     Lesson.find lesson_ids[index]

@@ -13,7 +13,7 @@ LearnToGameDev::App.controllers :lessons do
 
   post :make do
 
-    @lesson = Lesson.create( :title => params[:lesson][:title], :description => params[:lesson][:description], :slug => params[:lesson][:slug] )
+    @lesson = Lesson.create( :title => params[:lesson][:title], :description => params[:lesson][:description], :slug => params[:lesson][:slug], :account => current_account)
 
     params[:lesson][:steps].each do |step_id|
       @lesson.steps.push( Step.find(step_id) )
@@ -39,6 +39,7 @@ LearnToGameDev::App.controllers :lessons do
 
     @lesson.title = params[:lesson][:title]
     @lesson.slug = params[:lesson][:slug]
+    @lesson.account = current_account
     @lesson.description = params[:lesson][:description]
     @lesson.steps = []
 
