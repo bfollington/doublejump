@@ -25,6 +25,20 @@ $large-screen: 110em;
   }
 }
 
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+@mixin animation-duration($duration) {
+  -webkit-animation-duration: $duration;
+     -moz-animation-duration: $duration;
+      -ms-animation-duration: $duration;
+          animation-duration: $duration;
+}
+
 @import 'base';
 @import 'util';
 @import 'landing-page';

@@ -58,6 +58,12 @@ ul.inline li {
 .padding {
   padding: 0.5em; }
 
+.float-right {
+  float: right; }
+
+.float-left {
+  float: left; }
+
 .vertical-center {
   display: table-cell;
   vertical-align: middle;
@@ -1634,7 +1640,13 @@ ul.progress-list li a:hover {
   display: none;
   background: white;
   width: 320px;
-  max-height: 400px;
+  -webkit-animation-duration: 0.3s;
+  -moz-animation-duration: 0.3s;
+  -ms-animation-duration: 0.3s;
+  animation-duration: 0.3s; }
+
+.comments-list {
+  max-height: 320px;
   overflow-y: scroll; }
 
 html {

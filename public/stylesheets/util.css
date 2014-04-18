@@ -29,6 +29,12 @@ ul.inline li {
 .padding {
   padding: 0.5em; }
 
+.float-right {
+  float: right; }
+
+.float-left {
+  float: left; }
+
 .vertical-center {
   display: table-cell;
   vertical-align: middle;

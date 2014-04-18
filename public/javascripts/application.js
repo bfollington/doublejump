@@ -55,35 +55,77 @@ function boostrapMods()
 
 function bindComments()
 {
-
     $(".comment").each( function() {
 
         var $comment = $(this);
 
-        $(this).html("<i class='fa fa-comment'></i>");
-        $(this).click( function () { 
+        $(this).html(getTemplate("_comment_icon"));
 
-            $.ajax({
-              url: "/learn/get_comments/" + window.location.href.substr(window.location.href.lastIndexOf('/') + 1) + "/" + $(this).attr("data-group"),
-              success: function (data) { 
-                    $("#comment_frame").html(data);
-                    $("#comment_frame").css("display", "block");
-                    $("#comment_frame").offset({ left: $comment.offset().left, top: $comment.offset().top});
-                    animate("#comment_frame", 'fadeInDown');
+        var id = "#comment_frame";
+        var $frame = $(id);
 
-                    $("form#Comment").off();
+        $(this).click( function (e) { 
 
-                    $("form#Comment").ajaxForm({
-                        success: function (data) {
-                                $("#comment_frame").html(data);
-                            }
-                    });
-                }
-            });
+            e.preventDefault();
+
+            stopEventPropagating(e);
+
+            // Do not interrupt a transition
+            if (!$("#comment_frame").hasClass("animated"))
+            {
+
+                var currentStep = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
+                currentStep = currentStep.split("#")[0];
+                currentStep = currentStep.split("?")[0];
+
+                $.ajax({
+                    url: "/learn/get_comments/" + currentStep + "/" + $(this).attr("data-group"),
+                    success: function (data) { 
+                        $frame.html(data);
+                        showCommentFrame(id, $frame, $comment);
+                    },
+                    timeout: 1000,
+                    error: function(data) {
+                        $frame.html("Could not load comments.");
+                        showCommentFrame(id, $frame, $comment);
+                    }
+                });
+            }  
 
         } );
 
+        $('body').click( function (e) {
+            if (!$(id).hasClass("animated"))
+            {
+                animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
+            }
+        });
+
     } );
+}
+
+function showCommentFrame(id, $frame, $comment)
+{
+
+    $frame.css("display", "block");
+    $frame.offset({ left: $comment.offset().left + 32, top: $comment.offset().top - 64});
+
+    animate(id, 'fadeInDown', null);
+
+    $("form#Comment").off();
+
+    $("form#Comment").ajaxForm({
+        success: function (data) {
+                $frame.html(data);
+            }
+    });
+
+    $(".js-close-comments").click( function(e) {
+        e.preventDefault();
+
+        animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
+
+    });
 }
 
 
@@ -268,7 +310,7 @@ function getTemplate(name)
  * @param  {[type]} element_ID [description]
  * @param  {[type]} animation  [description]
  */
-function animate(element_ID, animation) {
+function animate(element_ID, animation, completeCallback) {
     $(element_ID).addClass(animation);
     $(element_ID).addClass("animated");
 
@@ -277,8 +319,28 @@ function animate(element_ID, animation) {
         function() {
             $(element_ID).removeClass(animation);
             $(element_ID).removeClass("animated");
+
+            if (completeCallback != null)
+            {
+                completeCallback();
+            }
         }
     );
+}
+
+function stopEventPropagating(e)
+{
+    if (!e)
+      e = window.event;
+
+    //IE9 & Other Browsers
+    if (e.stopPropagation) {
+      e.stopPropagation();
+    }
+    //IE8 and Lower
+    else {
+      e.cancelBubble = true;
+    }
 }
 
 function format(html, variables)
