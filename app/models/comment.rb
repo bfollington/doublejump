@@ -7,6 +7,9 @@ class Comment
   field :upvotes, :type => Integer
   field :group, :type => Integer
 
+  validates_presence_of :group, :message => "A comment has to belong to something, supply a group."
+  validates_length_of   :body, :minimum => 20, :message => "That comment's pretty short, write some more maybe?"
+
   belongs_to :account
   embedded_in :step
   embedded_in :comment

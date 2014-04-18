@@ -18,5 +18,7 @@ a.js-close-comments.float-right
             = f.label :body, :caption => "Message"
             = f.text_area :body, :class => "form-control"
 
-        p.center-text
+        .errors
+
+        p.center-text.no-margin
             = f.submit "Post", :class => 'button'

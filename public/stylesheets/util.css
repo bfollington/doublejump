@@ -23,6 +23,9 @@ ul.inline li {
 .margin-left {
   margin-top: 15px; }
 
+.no-margin {
+  margin: 0 0; }
+
 .small-margin-bottom {
   margin-bottom: 15px; }
 

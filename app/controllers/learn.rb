@@ -17,7 +17,8 @@ LearnToGameDev::App.controllers :learn do
 
     @comments = @step.comments.where(group: params[:group])
 
-    render 'learn/comments', :layout => false
+    content_type :json
+    {:html => render('learn/comments', :layout => false), :success => true }.to_json
   end
 
   post :submit_comment, :map => "/learn/submit_comment/:slug/:group" do
@@ -32,9 +33,11 @@ LearnToGameDev::App.controllers :learn do
 
       @comments = @step.comments.where(group: params[:group])
 
-      render 'learn/comments', :layout => false
+      content_type :json
+      {:html => render('learn/comments', :layout => false), :success => true }.to_json
     else
-      return "NO"
+      content_type :json
+      {:errors => comment.errors.messages, :success => false }.to_json
     end
   end
 

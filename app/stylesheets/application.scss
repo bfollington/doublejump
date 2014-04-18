@@ -5,6 +5,7 @@ $landing-page-font-color: #A0A0A0;
 $link-color: #4FAEE8;
 $link-hover-color: #0084D5;
 $page-content-background-color: #F6F6F6;
+$error-color: red;
 $page-content-color: white;
 $nunito-stack: 'Nunito', sans-serif;
 $nunito-light-stack: 'Nunito-Light', sans-serif;
@@ -47,6 +48,7 @@ $large-screen: 110em;
 @import 'images';
 @import 'override';
 @import 'comments';
+@import 'step';
 
 html {
     font-size: 18px;

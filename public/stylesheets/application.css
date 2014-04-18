@@ -52,6 +52,9 @@ ul.inline li {
 .margin-left {
   margin-top: 15px; }
 
+.no-margin {
+  margin: 0 0; }
+
 .small-margin-bottom {
   margin-bottom: 15px; }
 
@@ -1644,10 +1647,18 @@ ul.progress-list li a:hover {
   -moz-animation-duration: 0.3s;
   -ms-animation-duration: 0.3s;
   animation-duration: 0.3s; }
+  #comment_frame .errors {
+    font-size: 0.8em;
+    color: red; }
 
 .comments-list {
   max-height: 320px;
   overflow-y: scroll; }
+
+.step-body img {
+  max-width: 70%;
+  display: block;
+  margin: 0 auto; }
 
 html {
   font-size: 18px;

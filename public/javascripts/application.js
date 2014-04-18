@@ -55,16 +55,17 @@ function boostrapMods()
 
 function bindComments()
 {
+
+    var id = "#comment_frame";
+    var $frame = $(id);
+
     $(".comment").each( function() {
 
         var $comment = $(this);
 
         $(this).html(getTemplate("_comment_icon"));
 
-        var id = "#comment_frame";
-        var $frame = $(id);
-
-        $(this).click( function (e) { 
+        $(this).find('a').click( function (e) { 
 
             e.preventDefault();
 
@@ -79,12 +80,16 @@ function bindComments()
                 currentStep = currentStep.split("?")[0];
 
                 $.ajax({
-                    url: "/learn/get_comments/" + currentStep + "/" + $(this).attr("data-group"),
+                    url: "/learn/get_comments/" + currentStep + "/" + $(this).parent().attr("data-group"),
                     success: function (data) { 
-                        $frame.html(data);
-                        showCommentFrame(id, $frame, $comment);
+                        if (data.success)
+                        {
+                            $frame.html(data.html);
+                            showCommentFrame(id, $frame, $comment);
+                        }
                     },
                     timeout: 1000,
+                    dataType: 'json',
                     error: function(data) {
                         $frame.html("Could not load comments.");
                         showCommentFrame(id, $frame, $comment);
@@ -94,14 +99,18 @@ function bindComments()
 
         } );
 
-        $('body').click( function (e) {
-            if (!$(id).hasClass("animated"))
+    } );
+
+    $('html').click( function (e) {
+
+        if ( eventTargetDoesNotInclude(e, '#comment_frame') )
+        {
+            if (!$frame.hasClass("animated") && $frame.css("display") == "block")
             {
                 animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
             }
-        });
-
-    } );
+        }
+    });
 }
 
 function showCommentFrame(id, $frame, $comment)
@@ -115,9 +124,20 @@ function showCommentFrame(id, $frame, $comment)
     $("form#Comment").off();
 
     $("form#Comment").ajaxForm({
+        beforeSubmit:  function () {
+            $frame.find(".errors").text("");  
+        },
         success: function (data) {
-                $frame.html(data);
+            if (data.success)
+            {
+                $frame.html(data.html);
+            } else {
+                for (var i in data.errors)
+                {
+                    $frame.find(".errors").append(data.errors[i]);
+                }
             }
+        }
     });
 
     $(".js-close-comments").click( function(e) {
@@ -311,11 +331,31 @@ function getTemplate(name)
  * @param  {[type]} animation  [description]
  */
 function animate(element_ID, animation, completeCallback) {
+
+    if ($(element_ID).attr("data-timeout-id"))
+    {
+        window.clearTimeout($(element_ID).attr("data-timeout-id"));
+    }
+
     $(element_ID).addClass(animation);
     $(element_ID).addClass("animated");
 
+    var timeoutId = window.setTimeout( function () {
+
+        $(element_ID).removeClass(animation);
+        $(element_ID).removeClass("animated");
+
+        if (completeCallback != null)
+        {
+            completeCallback();
+        }
+
+    }, 2000);
+
+    $(element_ID).attr("data-timeout-id", timeoutId);
+
     $(element_ID).off();
-    $(element_ID).bind("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
+    $(element_ID).one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
         function() {
             $(element_ID).removeClass(animation);
             $(element_ID).removeClass("animated");
@@ -341,6 +381,11 @@ function stopEventPropagating(e)
     else {
       e.cancelBubble = true;
     }
+}
+
+function eventTargetDoesNotInclude(event, element)
+{
+    return ( $(event.target).closest(element).length == 0 );
 }
 
 function format(html, variables)
