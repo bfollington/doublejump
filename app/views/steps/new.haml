@@ -1,26 +1,23 @@
-- content_for :include do
-    = javascript_include_tag 'epiceditor/epiceditor.min'
-
 .create-step-form
-    = form_for :step, "/steps/new", { :remote => true, :id => 'addStepForm' } do |f|
+    = form_for :step, "", { :id => 'addStepForm' } do |f|
     
         %p
             = f.label :title, :caption => "Step Title"
-            = f.text_field :title, :class => "js-slug", :'data-object' => :step, :'data-target' => :slug
+            = f.text_field :title, :class => "js-slug form-control", :'data-object' => :step, :'data-target' => :slug
             = partial 'form_error', :collection => (errors_for @step, :title)
 
         %p
             = f.label :slug, :caption => "Step Slug (For URL)"
-            = f.text_field :slug
+            = f.text_field :slug, :class => "form-control"
             = partial 'form_error', :collection => (errors_for @step, :slug)
 
         %p
             = f.label :body, :caption => "Step Content"
-            = f.text_area :body, :id => 'epiceditor-target'
+            = f.text_area :body, :id => 'epiceditor-target', :class => "form-control"
             = partial 'form_error', :collection => (errors_for @step, :body)
 
         %p
             #epiceditor
 
         %p
-            = f.submit "Create", :class => 'button'
+            = f.submit "Save", :class => 'button'

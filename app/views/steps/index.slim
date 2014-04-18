@@ -1,0 +1,7 @@
+.row
+    .col-lg-9
+        .box
+            - @steps.each do |step|
+                = partial 'steps/elements/step', :object => step
+    .col-lg-3
+        .box

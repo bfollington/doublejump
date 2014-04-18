@@ -2,7 +2,10 @@ $( function() {
 
     FastClick.attach(document.body);
 
-    $(".js-select2").select2();
+    if (defined('Select2'))
+    {
+        $(".js-select2").select2();
+    }
 
     boostrapMods();
 
@@ -114,7 +117,7 @@ function setUpBannerImage()
 
 function bindEpicEditorFields()
 {
-    if (defined('EpicEditor')) {
+    if (defined('EpicEditor') && $("#epiceditor-target").length > 0) {
 
         var opts = {
             textarea: 'epiceditor-target',
