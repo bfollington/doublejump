@@ -133,7 +133,7 @@ function bindEpicEditorFields()
             },
             theme: {
                 base: 'themes/base/epiceditor.css',
-                preview: 'themes/preview/preview-light.css',
+                preview: 'themes/preview/github.css',
                 editor: 'themes/editor/epic-dark.css'
             },
             focusOnLoad: false,
