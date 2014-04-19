@@ -38,3 +38,24 @@ p {
     margin-top: 10px;
     margin-left: 20px;
 }
+
+.create-button
+{
+    @include border-radius(10000px);
+    background-color: $link-color;
+    border: 0px;
+    padding: 5px 15px;
+    color: white;
+}
+
+.create-button:disabled, .create-button[disabled=disabled]
+{
+    background-color: $link-disabled;
+    @include animation(fading 2s infinite);
+}
+
+@include keyframes(fading) {
+    0%   { background: $link-color; }
+    50%  { background: $link-disabled; }
+    100% { background: $link-color; }
+}

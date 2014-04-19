@@ -126,6 +126,7 @@ function showCommentFrame(id, $frame, $comment)
     $("form#Comment").ajaxForm({
         beforeSubmit:  function () {
             $frame.find(".errors").text("");  
+            $("form#Comment").find('input[type="submit"]').attr("disabled", "disabled");
         },
         success: function (data) {
             if (data.success)
@@ -137,6 +138,12 @@ function showCommentFrame(id, $frame, $comment)
                     $frame.find(".errors").append(data.errors[i]);
                 }
             }
+
+            $("form#Comment").find('input[type="submit"]').attr("disabled", false);
+        },
+        error: function (data) {
+            $frame.find(".errors").append("Could not post comment, try again?");
+            $("form#Comment").find('input[type="submit"]').attr("disabled", false);
         }
     });
 

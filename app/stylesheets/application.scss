@@ -1,45 +1,5 @@
-$header-link-color: #F6FF56;
-$header-link-hover-color: #C0E7FF;
-$landing-page-heading-color: #697A7D;
-$landing-page-font-color: #A0A0A0;
-$link-color: #4FAEE8;
-$link-hover-color: #0084D5;
-$page-content-background-color: #F6F6F6;
-$error-color: red;
-$page-content-color: white;
-$nunito-stack: 'Nunito', sans-serif;
-$nunito-light-stack: 'Nunito-Light', sans-serif;
-$montserrat-stack: 'Montserrat', sans-serif;
-$mobile: 40em;
-$tablet: 64em;
-$screen: 90em;
-$large-screen: 110em;
-
-@mixin background-image-retina($file, $type, $width, $height) {
-  background-image: url($file + '.' + $type);
- 
-  @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
-    & {
-      background-image: url($file + '@2x.' + $type);
-      -webkit-background-size: $width $height;
-    }
-  }
-}
-
-@mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-     -moz-border-radius: $radius;
-      -ms-border-radius: $radius;
-          border-radius: $radius;
-}
-
-@mixin animation-duration($duration) {
-  -webkit-animation-duration: $duration;
-     -moz-animation-duration: $duration;
-      -ms-animation-duration: $duration;
-          animation-duration: $duration;
-}
-
+@import 'variables';
+@import 'mixins';
 @import 'base';
 @import 'util';
 @import 'landing-page';

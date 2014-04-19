@@ -27,6 +27,59 @@ p {
   margin-top: 10px;
   margin-left: 20px; }
 
+.create-button {
+  -webkit-border-radius: 10000px;
+  -moz-border-radius: 10000px;
+  -ms-border-radius: 10000px;
+  border-radius: 10000px;
+  background-color: #4faee8;
+  border: 0px;
+  padding: 5px 15px;
+  color: white; }
+
+.create-button:disabled, .create-button[disabled=disabled] {
+  background-color: #b7d1e0;
+  -webkit-animation: fading 2s infinite;
+  -moz-animation: fading 2s infinite;
+  -ms-animation: fading 2s infinite;
+  animation: fading 2s infinite; }
+
+@-webkit-keyframes fading {
+  0% {
+    background: #4faee8; }
+
+  50% {
+    background: #b7d1e0; }
+
+  100% {
+    background: #4faee8; } }
+@-moz-keyframes fading {
+  0% {
+    background: #4faee8; }
+
+  50% {
+    background: #b7d1e0; }
+
+  100% {
+    background: #4faee8; } }
+@-ms-keyframes fading {
+  0% {
+    background: #4faee8; }
+
+  50% {
+    background: #b7d1e0; }
+
+  100% {
+    background: #4faee8; } }
+@keyframes fading {
+  0% {
+    background: #4faee8; }
+
+  50% {
+    background: #b7d1e0; }
+
+  100% {
+    background: #4faee8; } }
 ul.inline {
   list-style: none; }
 
