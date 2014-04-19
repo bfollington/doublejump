@@ -7,6 +7,8 @@ a.js-close-comments.float-right
             .comment-wrapper
                 strong
                     = comment.account.name + " " + comment.account.surname
+                    a.js-delete-comment href="/learn/delete_comment/#{@step.slug}/#{comment.id}" Delete
+                    a.js-report-comment href="/learn/report_comment/#{@step.slug}/#{comment.id}" Report
                 p
                     = comment.body
     - else

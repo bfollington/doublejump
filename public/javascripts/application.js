@@ -146,6 +146,48 @@ function showCommentFrame(id, $frame, $comment)
         animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
 
     });
+
+    $(".js-delete-comment").bind('click', function (e) {
+
+        e.preventDefault();
+
+        if (confirm("Delete this comment?"))
+        {
+            var $commentEntry = $(this).parent().parent();
+
+            $.get( $(this).attr("href") )
+                .done( function(data) {
+                    if (data.success)
+                    {
+                        $commentEntry.remove();
+                    }
+                })
+                .fail( function(data) {
+
+                });
+        }
+    });
+
+    $(".js-report-comment").bind('click', function (e) {
+
+        e.preventDefault();
+
+        if (confirm("Report this comment?"))
+        {
+            $.get( $(this).attr("href") )
+                .done( function(data) {
+                    if (data.success)
+                    {
+                        alert("Comment reported, thanks!");
+                    } else {
+                        alert("Comment already reported.")
+                    }
+                })
+                .fail( function(data) {
+
+                });
+        }
+    });
 }
 
 

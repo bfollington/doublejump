@@ -12,7 +12,7 @@ class Step
   validates_presence_of :body, :message => "You can't have an empty step, that makes no sense."
 
   has_and_belongs_to_many :lessons
-  embeds_many :comments
+  has_many :comments
   belongs_to :account
 
   def self.id_regex
