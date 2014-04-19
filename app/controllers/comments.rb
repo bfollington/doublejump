@@ -6,10 +6,9 @@ LearnToGameDev::App.controllers :comments do
   #
 
   get :get_comments, :map => '/comments/get/:slug/:group' do
+
     @step = Step.where(slug: params[:slug]).first
-
     @group = params[:group]
-
     @comments = @step.comments.where(group: params[:group])
 
     content_type :json
@@ -20,13 +19,12 @@ LearnToGameDev::App.controllers :comments do
 
     @step = Step.where(slug: params[:slug]).first
     comment = Comment.new(:body => params[:comment][:body], :account => current_account, :group => params[:group])
-
     @group = params[:group]
 
     if comment.valid?
-      @step.comments = @step.comments || []
       @step.comments << comment
 
+      # get comments after save to include new one
       @comments = @step.comments.where(group: params[:group])
 
       content_type :json
