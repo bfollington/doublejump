@@ -80,7 +80,7 @@ function bindComments()
                 currentStep = currentStep.split("?")[0];
 
                 $.ajax({
-                    url: "/learn/get_comments/" + currentStep + "/" + $(this).parent().attr("data-group"),
+                    url: "/comments/get/" + currentStep + "/" + $(this).parent().attr("data-group"),
                     success: function (data) { 
                         if (data.success)
                         {

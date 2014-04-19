@@ -7,15 +7,15 @@ a.js-close-comments.float-right
             .comment-wrapper
                 strong
                     = comment.account.name + " " + comment.account.surname
-                    a.js-delete-comment href="/learn/delete_comment/#{@step.slug}/#{comment.id}" Delete
-                    a.js-report-comment href="/learn/report_comment/#{@step.slug}/#{comment.id}" Report
+                    a.js-delete-comment href="/comments/delete/#{@step.slug}/#{comment.id}" Delete
+                    a.js-report-comment href="/comments/report/#{@step.slug}/#{comment.id}" Report
                 p
                     = comment.body
     - else
         p No Comments.
 
 .add-comment
-    = form_for :comment, "/learn/submit_comment/#{@step.slug}/#{@group}", { :id => 'Comment' } do |f|
+    = form_for :comment, "/comments/submit/#{@step.slug}/#{@group}", { :id => 'Comment' } do |f|
         p
             = f.label :body, :caption => "Message"
             = f.text_area :body, :class => "form-control"
