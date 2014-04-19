@@ -48,11 +48,12 @@ LearnToGameDev::App.controllers :courses do
 
     puts @params[:course][:lessons]
 
-    params[:course][:lessons].each do |lesson_id|
-      @course.lessons.push( Lesson.find(lesson_id) )
-    end
+    if @course.valid? && params[:course][:lessons].length > 0
 
-    if @course.valid?
+      params[:course][:lessons].each do |lesson_id|
+        @course.lessons.push( Lesson.find(lesson_id) )
+      end
+
       @course.save
       render 'courses/new_success'
     else
@@ -68,11 +69,12 @@ LearnToGameDev::App.controllers :courses do
                              :account => current_account
                             )
 
-    params[:course][:lessons].each do |lesson_id|
-      @course.lessons.push( Lesson.find(lesson_id) )
-    end
+    if @course.valid? && params[:course][:lessons].length > 0
 
-    if @course.valid?
+      params[:course][:lessons].each do |lesson_id|
+        @course.lessons.push( Lesson.find(lesson_id) )
+      end
+
       @course.save
       render 'courses/new_success'
     else

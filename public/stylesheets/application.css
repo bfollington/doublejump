@@ -80,6 +80,10 @@ p {
 
   100% {
     background: #4faee8; } }
+.errors {
+  font-size: 0.8em;
+  color: red; }
+
 ul.inline {
   list-style: none; }
 
@@ -1700,9 +1704,6 @@ ul.progress-list li a:hover {
   -moz-animation-duration: 0.3s;
   -ms-animation-duration: 0.3s;
   animation-duration: 0.3s; }
-  #comment_frame .errors {
-    font-size: 0.8em;
-    color: red; }
 
 .comments-list {
   max-height: 320px;

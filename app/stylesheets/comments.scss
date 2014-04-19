@@ -11,12 +11,6 @@
     width: 320px;
 
     @include animation-duration(0.3s);
-
-    .errors 
-    {
-        font-size: 0.8em;
-        color: $error-color;
-    }
 }
 
 .comments-list

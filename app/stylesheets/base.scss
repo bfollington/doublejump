@@ -59,3 +59,9 @@ p {
     50%  { background: $link-disabled; }
     100% { background: $link-color; }
 }
+
+.errors 
+{
+    font-size: 0.8em;
+    color: $error-color;
+}
