@@ -58,7 +58,7 @@ LearnToGameDev::Admin.controllers :accounts do
     @title = "Accounts"
     account = Account.find(params[:id])
     if account
-      if account.destroy
+      if account != current_account && account.destroy
         flash[:success] = pat(:delete_success, :model => 'Account', :id => "#{params[:id]}")
       else
         flash[:error] = pat(:delete_error, :model => 'account')
@@ -79,7 +79,9 @@ LearnToGameDev::Admin.controllers :accounts do
     ids = params[:account_ids].split(',').map(&:strip)
     accounts = Account.find(ids)
     
-    if accounts.each(&:destroy)
+    if accounts.include? current_account
+      flash[:error] = pat(:delete_error, :model => 'account')
+    elsif accounts.each(&:destroy)
     
       flash[:success] = pat(:destroy_many_success, :model => 'Accounts', :ids => "#{ids.to_sentence}")
     end

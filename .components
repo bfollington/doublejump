@@ -7,4 +7,4 @@
 :stylesheet: scss
 :namespace: LearnToGameDev
 :migration_format: number
-:admin_renderer: haml
+:admin_renderer: slim
