@@ -1,15 +1,10 @@
 .row
     .col-lg-9
-        .box
-            p
-                = @lesson.title
-                = @lesson.description
-
-            h4 Steps
-
-            ul
-                - @lesson.steps.each do |step|
-                    li 
-                        = step.title
+        - @lesson.steps.each do |step|
+            .box
+                a href="/learn/#{@course.slug}/#{@lesson.slug}/#{step.slug}"
+                    = step.title
     .col-lg-3
         .box
+            p
+                = @lesson.description

@@ -30,22 +30,23 @@ html.no-js lang="en"
     body
         .container-fluid
             = partial 'elements/doublejump_header_bar'
-            .banner-image data-background="/images/banner.jpg"
-                nav.banner-navigation
-                    .row
-                        .col-md-6.col-lg-3.col-sm-6.col-xs-6
-                            a hello
-                        .col-md-6.col-lg-3.col-sm-6.col-xs-6
-                            a hello
-                        .col-md-6.col-lg-3.col-sm-6.col-xs-6
-                            a hello
-                        .col-md-6.col-lg-3.col-sm-6.col-xs-6
-                            a hello
-                h3.welcome-message =@course.title
-                - if @lesson
-                    hr.tutorial-title-seperator
-                    h4.intro-blurb = @lesson.title
-                span &nbsp;
+            - if @course
+                .banner-image data-background="#{@course.image_url}"
+                    nav.banner-navigation
+                        .row
+                            .col-md-6.col-lg-3.col-sm-6.col-xs-6
+                                a href="/learn/" Courses
+                            .col-md-6.col-lg-3.col-sm-6.col-xs-6
+                                a hello
+                            .col-md-6.col-lg-3.col-sm-6.col-xs-6
+                                a hello
+                            .col-md-6.col-lg-3.col-sm-6.col-xs-6
+                                a hello
+                    h3.welcome-message = @course.title
+                    - if @lesson
+                        hr.tutorial-title-seperator
+                        h4.intro-blurb = @lesson.title
+                    span &nbsp;
 
             .main-content#main_content           
 

@@ -19,6 +19,11 @@
                         = partial 'form_error', :collection => (errors_for @course, :slug)
 
                     p
+                        = f.label :image_url, :caption => "Backgroud Image URL"
+                        = f.text_field :image_url, :class => "form-control"
+                        = partial 'form_error', :collection => (errors_for @course, :image_url)
+
+                    p
                         = f.label :description, :caption => "Course Description"
                         = f.text_area :description, :class => "form-control"
                         = partial 'form_error', :collection => (errors_for @course, :description)

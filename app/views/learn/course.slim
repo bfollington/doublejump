@@ -1,10 +1,13 @@
-p
-    = @course.title
-    = @course.description
-
-ul
-    - @course.lessons.each do |lesson|
-        li
-            = lesson.title
-            = '-'
-            = lesson.description
+.row
+    .col-lg-9
+        - @course.lessons.each do |lesson|
+            .box
+                a href="/learn/#{@course.slug}/#{lesson.slug}"
+                    h4
+                        = lesson.title
+                p
+                    = lesson.description
+    .col-lg-3
+        .box
+            p
+                = @course.description

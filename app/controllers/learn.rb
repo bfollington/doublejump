@@ -3,7 +3,10 @@ LearnToGameDev::App.controllers :learn do
   layout :learn
   
   get :index do
-    return "Yo"
+
+    @courses = Course.all
+
+    render 'learn/index'
   end
 
 
@@ -18,6 +21,8 @@ LearnToGameDev::App.controllers :learn do
   get :view_course, :map => '/learn/:course/' do
     
     fetch_course(params[:course])
+
+    puts @course.inspect
 
     render 'learn/course'
   end

@@ -1695,7 +1695,7 @@ ul.progress-list li a:hover {
 #comment_frame {
   position: absolute;
   padding: 15px;
-  border: 1px solid black;
+  border: 1px solid #ccc;
   border-radius: 3px;
   display: none;
   background: white;

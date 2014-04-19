@@ -1,0 +1,17 @@
+.row
+    .col-lg-12
+        .box
+            | Filter Box
+
+.row
+    - @courses.each do |course|
+        .col-lg-4.col-md-4.col-sm-6
+            .box
+                p
+                    a href="/learn/#{course.slug}"
+                        = course.title
+                    small
+                        |  by 
+                        = course.account.name + " " + course.account.surname
+                p
+                    = course.description

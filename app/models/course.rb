@@ -6,6 +6,7 @@ class Course
   field :title, :type => String
   field :slug, :type => String
   field :description, :type => String
+  field :image_url, :type => String
 
   validates_presence_of :title, :message => "Supply a title for the course you ding-dong"
   validates_presence_of :slug, :message => "The slug gets filled in for you, just leave it there!"
