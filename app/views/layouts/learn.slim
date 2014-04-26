@@ -48,7 +48,15 @@ html.no-js lang="en"
                         h4.intro-blurb = @lesson.title
                     span &nbsp;
 
-            .main-content#main_content           
+            .main-content#main_content 
+
+                div.center-text
+                    ol.breadcrumb
+                        li 
+                            a href="#" Home
+                        li
+                            a href="#" Library
+                        li.active Data          
 
                 - if session[:flash]
                     = session[:flash]
