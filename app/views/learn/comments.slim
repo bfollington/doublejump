@@ -7,8 +7,12 @@ a.js-close-comments.float-right
             .comment-wrapper
                 strong
                     = comment.account.name + " " + comment.account.surname
-                    a.js-delete-comment href="/comments/delete/#{@step.slug}/#{comment.id}" Delete
-                    a.js-report-comment href="/comments/report/#{@step.slug}/#{comment.id}" Report
+                    a.js-delete-comment title="Delete comment?" href="/comments/delete/#{@step.slug}/#{comment.id}"
+                        |  
+                        i.fa.fa-times-circle
+                    a.js-report-comment title="Report comment?" href="/comments/report/#{@step.slug}/#{comment.id}" 
+                        |  
+                        i.fa.fa-exclamation-circle
                 p
                     = comment.body
     - else
@@ -20,7 +24,7 @@ a.js-close-comments.float-right
             = f.label :body, :caption => "Message"
             = f.text_area :body, :class => "form-control"
 
-        .errors
-
         p.center-text.no-margin
             = f.submit "Post", :class => 'button create-button'
+
+        .errors

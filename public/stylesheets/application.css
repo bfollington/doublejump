@@ -21,7 +21,7 @@ p {
   font-weight: lighter; }
 
 .js-select2 {
-  width: 50%; }
+  width: 90%; }
 
 .comment {
   margin-top: 10px;
@@ -35,7 +35,11 @@ p {
   background-color: #4faee8;
   border: 0px;
   padding: 5px 15px;
-  color: white; }
+  color: white;
+  transition: .3s; }
+
+.create-button:hover {
+  background-color: #0084d5; }
 
 .create-button:disabled, .create-button[disabled=disabled] {
   background-color: #b7d1e0;
@@ -82,7 +86,11 @@ p {
     background: #4faee8; } }
 .errors {
   font-size: 0.8em;
-  color: red; }
+  color: red;
+  padding-top: 1em; }
+
+#epiceditor {
+  height: 320px; }
 
 ul.inline {
   list-style: none; }
@@ -110,7 +118,10 @@ ul.inline li {
   margin-top: 15px; }
 
 .no-margin {
-  margin: 0 0; }
+  margin: 0px 0px; }
+
+.no-margin-bottom {
+  margin-bottom: 0px; }
 
 .small-margin-bottom {
   margin-bottom: 15px; }
@@ -128,12 +139,6 @@ ul.inline li {
   display: table-cell;
   vertical-align: middle;
   height: 100%; }
-
-/**
- * FOUNDATION OVERRIDES
- */
-.row {
-  max-width: none; }
 
 .header-bar {
   background-color: white; }
@@ -1607,7 +1612,8 @@ footer.footer {
   background-image: -moz-linear-gradient(-90deg, black 0%, #363636 100%);
   background-image: -webkit-linear-gradient(-90deg, black 0%, #363636 100%);
   background-image: -ms-linear-gradient(-90deg, black 0%, #363636 100%);
-  background-image: linear-gradient(-180deg, black 0%, #363636 100%); }
+  background-image: linear-gradient(-180deg, black 0%, #363636 100%);
+  padding-bottom: 2em; }
 
 .tutorial-title-seperator {
   width: 33%;
@@ -1617,12 +1623,12 @@ footer.footer {
   border-color: #999;
   background-color: #999; }
 
-nav.banner-navigation {
+.banner-navigation {
   background-color: black;
   opacity: 0.5;
   text-align: center;
   padding: 0.8em;
-  margin-bottom: 3em; }
+  margin-bottom: 4em; }
 
 .progress-list-wrapper {
   width: 100%; }
@@ -1635,37 +1641,31 @@ ul.progress-list {
   margin-top: -0.2em;
   margin-left: 0px;
   padding: 0px;
-  background: black;
+  background: #b7d1e0;
   height: 1px; }
-
-ul.progress-list li {
-  display: table-cell;
-  text-align: center;
-  height: 2px; }
-
-ul.progress-list li:first-child {
-  text-align: left; }
-
-ul.progress-list li:last-child {
-  text-align: right; }
-
-ul.progress-list li a {
-  display: inline-block;
-  background-color: red;
-  border-radius: 1000px;
-  width: 10px;
-  height: 10px;
-  position: absolute;
-  margin-top: -4px; }
-
-ul.progress-list li a:hover {
-  display: inline-block;
-  background-color: red;
-  border-radius: 1000px;
-  width: 16px;
-  height: 16px;
-  margin-top: -8px;
-  margin-left: -3px; }
+  ul.progress-list li {
+    display: table-cell;
+    text-align: center;
+    height: 2px; }
+    ul.progress-list li a {
+      display: inline-block;
+      background-color: #4faee8;
+      border-radius: 1000px;
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      margin-top: -4px; }
+    ul.progress-list li a:hover {
+      width: 16px;
+      height: 16px;
+      margin-top: -8px;
+      margin-left: -3px; }
+  ul.progress-list li.incomplete a {
+    background: #b7d1e0; }
+  ul.progress-list li:first-child {
+    text-align: left; }
+  ul.progress-list li:last-child {
+    text-align: right; }
 
 .progress-navigation-link {
   margin-top: 1em;
@@ -1674,12 +1674,36 @@ ul.progress-list li a:hover {
 .progress-list-wrapper .progress {
   position: absolute;
   width: 33%;
-  background: blue;
+  background: #4faee8;
   border: none;
   height: 2px;
   margin-bottom: 0px;
   left: 16.5%;
   top: 1.5em; }
+
+.banner-navigation .breadcrumb-holder {
+  margin-bottom: 0px;
+  background: none;
+  opacity: 1.0; }
+  .banner-navigation .breadcrumb-holder ol.breadcrumb {
+    margin-bottom: 0;
+    background: none;
+    padding: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    border-radius: 0px; }
+
+.step-body img {
+  border-bottom: 2px solid #aaa;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  border-radius: 2px; }
+.step-body img + .comment,
+.step-body pre + p .comment {
+  display: table;
+  margin: 0 auto; }
 
 .avatar {
   border-radius: 100000px; }
@@ -1692,7 +1716,7 @@ ul.progress-list li a:hover {
 .button {
   font-family: "Nunito", sans-serif; }
 
-#comment_frame {
+#comment_frame, #upload_frame {
   position: absolute;
   padding: 15px;
   border: 1px solid #ccc;
@@ -1767,4 +1791,4 @@ body {
 
 .main-content {
   background: #f6f6f6;
-  padding: 2em 1em; }
+  padding: 1em 1em; }

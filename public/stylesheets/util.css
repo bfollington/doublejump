@@ -24,7 +24,10 @@ ul.inline li {
   margin-top: 15px; }
 
 .no-margin {
-  margin: 0 0; }
+  margin: 0px 0px; }
+
+.no-margin-bottom {
+  margin-bottom: 0px; }
 
 .small-margin-bottom {
   margin-bottom: 15px; }
@@ -42,9 +45,3 @@ ul.inline li {
   display: table-cell;
   vertical-align: middle;
   height: 100%; }
-
-/**
- * FOUNDATION OVERRIDES
- */
-.row {
-  max-width: none; }

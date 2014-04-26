@@ -26,6 +26,8 @@
     background-image: -webkit-linear-gradient(-90deg, #000000 0%, #363636 100%);
     background-image: -ms-linear-gradient(-90deg, #000000 0%, #363636 100%);
     background-image: linear-gradient(-180deg, #000000 0%, #363636 100%);
+
+    padding-bottom: 2em;
 }
 
 .tutorial-title-seperator {
@@ -38,14 +40,14 @@
     background-color: #999;
 }
 
-nav.banner-navigation
+.banner-navigation
 {
     background-color: black;
     opacity: 0.5;
     text-align: center;
     padding: 0.8em;
 
-    margin-bottom: 3em;
+    margin-bottom: 4em;
 }
 
 .progress-list-wrapper
@@ -64,47 +66,54 @@ ul.progress-list{
 
     padding: 0px;
 
-    background: black;
+    background: $link-disabled;
     height: 1px;
-}
 
-ul.progress-list li {
-    display: table-cell;
-    text-align: center;
+    li 
+    {
+        display: table-cell;
+        text-align: center;
 
+        height: 2px;
 
-    height: 2px;
-}
+        a
+        {
+            display: inline-block;
 
-ul.progress-list li:first-child {
-    text-align: left;
-}
-ul.progress-list li:last-child {
-    text-align: right;
-}
+            background-color: $link-color;
+            border-radius: 1000px;
+            width: 10px;
+            height: 10px;
 
-ul.progress-list li a {
-    display: inline-block;
+            position: absolute;
+            margin-top: -4px;
+        }
 
-    background-color: red;
-    border-radius: 1000px;
-    width: 10px;
-    height: 10px;
+        a:hover
+        {
+            width: 16px;
+            height: 16px;
 
-    position: absolute;
-    margin-top: -4px;
-}
+            margin-top: -8px;
+            margin-left: -3px;
+        }
+    }
 
-ul.progress-list li a:hover {
-    display: inline-block;
+    li.incomplete
+    {
+        a 
+        {
+            background: $link-disabled;
+        }
+    }
 
-    background-color: red;
-    border-radius: 1000px;
-    width: 16px;
-    height: 16px;
+    li:first-child {
+        text-align: left;
+    }
 
-    margin-top: -8px;
-    margin-left: -3px;
+    li:last-child {
+        text-align: right;
+    }
 }
 
 .progress-navigation-link {
@@ -116,7 +125,7 @@ ul.progress-list li a:hover {
 {
     position: absolute;
     width: 33%;
-    background: blue;
+    background: $link-color;
     border: none;
     height: 2px;
 
@@ -124,4 +133,37 @@ ul.progress-list li a:hover {
 
     left: 16.5%;
     top: 1.5em;
+}
+
+.banner-navigation .breadcrumb-holder
+{
+
+    margin-bottom: 0px;
+    background: none;
+    opacity: 1.0;
+
+    ol.breadcrumb
+    {
+        margin-bottom: 0;
+        background: none;
+        padding: 0px;
+        @include border-radius(0px);
+    }
+
+}
+
+.step-body
+{
+    img
+    {
+        border-bottom: 2px solid #aaa;
+        @include border-radius(2px);
+    }
+
+    img + .comment,
+    pre + p .comment
+    {
+        display: table;
+        margin: 0 auto;
+    }
 }

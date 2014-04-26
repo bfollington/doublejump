@@ -35,11 +35,11 @@ html.no-js lang="en"
                     nav.banner-navigation
                         .row
                             .col-md-6.col-lg-3.col-sm-6.col-xs-6
+                                a href="/profile/" Home
+                            .col-md-6.col-lg-3.col-sm-6.col-xs-6
                                 a href="/learn/" Courses
                             .col-md-6.col-lg-3.col-sm-6.col-xs-6
-                                a hello
-                            .col-md-6.col-lg-3.col-sm-6.col-xs-6
-                                a hello
+                                a href="/learn/" Definitions
                             .col-md-6.col-lg-3.col-sm-6.col-xs-6
                                 a hello
                     h3.welcome-message = @course.title
@@ -53,10 +53,24 @@ html.no-js lang="en"
                 div.center-text
                     ol.breadcrumb
                         li 
-                            a href="#" Home
-                        li
-                            a href="#" Library
-                        li.active Data          
+                            a href="/learn/" Learn
+                        - if @lesson
+                            li
+                                a href="/learn/#{@course.slug}"
+                                    = @course.title
+                            - if @step
+                                li
+                                    a href="/learn/#{@course.slug}/#{@lesson.slug}" 
+                                        = @lesson.title
+                                li.active 
+                                    = @step.title  
+
+                            - else
+                                li.active
+                                    = @lesson.title  
+                        - else
+                            li.active
+                                = @course.title 
 
                 - if session[:flash]
                     = session[:flash]

@@ -106,11 +106,18 @@ module LearnToGameDev
     #
 
     get :upload do
-      render 'upload'
+
+      content_type :json
+      {:html => render('upload', :layout => false), :success => true }.to_json
     end
 
     post :upload do
       puts params.inspect
+
+      if params[:shared_image] == ""
+        content_type :json
+        return {:errors => "No file provided.", :success => false }.to_json
+      end
 
       tempfile = params[:shared_image][:tempfile]
       filename = params[:shared_image][:filename]
@@ -126,15 +133,11 @@ module LearnToGameDev
       puts "Uploading file #{filename} to bucket #{bucket_name}."
 
       @file = filename
-      render 'display_upload'
 
-      #File.copy(tempfile.path, "./files/#{filename}")
-      #redirect '/'
-    end
-
-    get :display_upload, :with => :file do
-      @file = params[:file]
-      render 'display_upload'
+      puts @file.inspect
+      
+      content_type :json
+      {:file => aws_url + @file, :success => true }.to_json
     end
 
 

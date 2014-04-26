@@ -34,7 +34,9 @@
 
                     p
                         = f.select(:lesson, :collection => @lessons, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#course_lesson' data-target-list='#lessons' data-hidden-field-name='#{hidden_field_name}' href="#" Add New
+                        a.js-sortable-add-new data-read-selection-from='#course_lesson' data-target-list='#lessons' data-hidden-field-name='#{hidden_field_name}' href="#"
+                            |  
+                            i.fa.fa-plus-circle
 
                     p
                         ul#lessons.js-sortable

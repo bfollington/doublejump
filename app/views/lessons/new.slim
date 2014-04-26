@@ -31,7 +31,9 @@
 
                     p
                         = f.select(:step, :collection => @steps, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#lesson_step' data-target-list='#steps' data-hidden-field-name='#{hidden_field_name}' href="#" Add New
+                        a.js-sortable-add-new data-read-selection-from='#lesson_step' data-target-list='#steps' data-hidden-field-name='#{hidden_field_name}' href="#" 
+                            |  
+                            i.fa.fa-plus-circle
 
                     p
                         ul#steps.js-sortable
@@ -39,6 +41,8 @@
                                 - @lesson.step_ids.each do |step_id|
                                     - step = Step.find( step_id )
                                     = partial 'js-templates/lesson_list_entry', :locals => { :item_text => step.title, :field_value => step.id, :field_name => hidden_field_name}
+
         .row
             p.center-text
                 = f.submit "Save", :class => 'button create-button'
+            

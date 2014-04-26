@@ -30,7 +30,7 @@ p {
 
 .js-select2
 {
-    width: 50%;
+    width: 90%;
 }
 
 .comment
@@ -46,6 +46,13 @@ p {
     border: 0px;
     padding: 5px 15px;
     color: white;
+
+    transition: .3s;
+}
+
+.create-button:hover
+{
+    background-color: $link-hover-color;
 }
 
 .create-button:disabled, .create-button[disabled=disabled]
@@ -64,4 +71,10 @@ p {
 {
     font-size: 0.8em;
     color: $error-color;
+    padding-top: 1em;
+}
+
+#epiceditor
+{
+    height: 320px;
 }

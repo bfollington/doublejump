@@ -1,6 +1,6 @@
 /*
 Syntax error: Undefined variable: "$header-link-color".
-        on line 2 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/base.scss
+        on line 2 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/base.scss
 
 1: .header a, .banner-navigation a {
 2:     color: $header-link-color;
@@ -11,7 +11,7 @@ Syntax error: Undefined variable: "$header-link-color".
 7: .header a:hover, .banner-navigation a:hover {
 
 Backtrace:
-/Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/base.scss:2
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/base.scss:2
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/script/tree/node.rb:50:in `perform'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:366:in `visit_prop'
@@ -83,4 +83,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$header-link-color\".\A         on line 2 of /Users/Ben/Projects/Ruby/learn_to_game_dev/app/stylesheets/base.scss\A \A 1: .header a, .banner-navigation a {\A 2:     color: $header-link-color;\A 3:     transition: .3s;\A 4:     font-weight: normal;\A 5: }\A 6: \A 7: .header a:hover, .banner-navigation a:hover {"; }
+  content: "Syntax error: Undefined variable: \"$header-link-color\".\A         on line 2 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/base.scss\A \A 1: .header a, .banner-navigation a {\A 2:     color: $header-link-color;\A 3:     transition: .3s;\A 4:     font-weight: normal;\A 5: }\A 6: \A 7: .header a:hover, .banner-navigation a:hover {"; }
