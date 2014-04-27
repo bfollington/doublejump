@@ -63,6 +63,13 @@ LearnToGameDev::App.controllers :learn do
     fetch_course(params[:course])
     fetch_lesson(params[:lesson])
 
+    current_account.complete_step @lesson.get_last_step unless current_account.nil?
+    current_account.complete_lesson @lesson unless current_account.nil?
+
+    if @lesson == @course.get_last_lesson
+      current_account.complete_course @course unless current_account.nil?
+    end
+
     render 'learn/finish_lesson'
   end
 
@@ -82,7 +89,6 @@ end
 
 #
 # Marks the step the user just viewed as complete, called when viewing a step
-# TODO: handle finishing a lesson
 #
 def mark_prev_step_as_complete
   prev_step = @lesson.get_prev_step @step

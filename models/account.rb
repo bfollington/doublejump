@@ -27,6 +27,8 @@ class Account
   has_many :lessons
   has_many :courses
   has_many :completed_steps
+  has_many :completed_lessons
+  has_many :completed_courses
 
   # Callbacks
   before_save :encrypt_password, :if => :password_required
@@ -39,6 +41,11 @@ class Account
     account && account.has_password?(password) ? account : nil
   end
 
+
+
+
+
+
   def complete_step(step)
 
     if !has_completed_step? step
@@ -49,9 +56,42 @@ class Account
     
   end
 
+  def complete_lesson(lesson)
+
+    if !has_completed_lesson? lesson
+      completed_lesson = CompletedLesson.new(:lesson => lesson, :account => self)
+      completed_lessons << completed_lesson
+      save
+    end
+    
+  end
+
+  def complete_course(course)
+
+    if !has_completed_course? course
+      completed_course = CompletedCourse.new(:course => course, :account => self)
+      completed_courses << completed_course
+      save
+    end
+    
+  end
+
   def has_completed_step?(step)
     !completed_steps.where(:step => step).first.nil?
   end
+
+  def has_completed_lesson?(lesson)
+    !completed_lessons.where(:lesson => lesson).first.nil?
+  end
+
+  def has_completed_course?(course)
+    !completed_courses.where(:course => course).first.nil?
+  end
+
+
+
+
+
 
   ##
   # This method is used by AuthenticationHelper.

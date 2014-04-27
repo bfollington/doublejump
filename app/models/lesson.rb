@@ -19,6 +19,14 @@ class Lesson
     step_ids.index(current_step.id)
   end
 
+  def get_first_step
+    Step.find( step_ids[0] )
+  end
+
+  def get_last_step
+    Step.find( step_ids[step_ids.length - 1] )
+  end
+
   def get_next_step(current_step)
     current_index = step_ids.index(current_step.id)
 

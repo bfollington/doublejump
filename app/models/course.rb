@@ -19,6 +19,48 @@ class Course
     Lesson.find lesson_ids[index]
   end
 
+  def get_lesson_index(current_lesson)
+    lesson_ids.index(current_lesson.id)
+  end
+
+  def get_first_lesson
+    Lesson.find( lesson_ids[0] )
+  end
+
+  def get_last_lesson
+    Lesson.find( lesson_ids[lesson_ids.length - 1] )
+  end
+
+  def get_next_lesson(current_lesson)
+    current_index = lesson_ids.index(current_lesson.id)
+
+    if (lesson_ids.length > current_index + 1)
+      Lesson.find( lesson_ids[current_index + 1] )
+    else
+      nil
+    end
+  end
+
+  def get_prev_lesson(current_lesson)
+    current_index = lesson_ids.index(current_lesson.id)
+
+    if (current_index - 1 >= 0)
+      Lesson.find( lesson_ids[current_index - 1] )
+    else
+      nil
+    end
+  end
+
+  def get_lessons_in_order
+    result = []
+
+    lesson_ids.each do |lesson_id|
+      result << Lesson.find(lesson_id)
+    end
+
+    result
+  end
+
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>
 
