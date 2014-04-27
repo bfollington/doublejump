@@ -28,7 +28,7 @@ task :migrate => :environment do
                 send('m_' + i.to_s)
             rescue Exception => e 
                 puts 'Migration m_' + i.to_s + ' failed'.red
-                puts e.inspect.red
+                puts e.backtrace.join("\n").red
             else
                 puts 'Migration m_' + i.to_s + ' passed'.green
                 settings.version = i
