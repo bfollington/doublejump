@@ -23,6 +23,7 @@ GEM
       xpath (~> 2.0)
     childprocess (0.5.2)
       ffi (~> 1.0, >= 1.0.11)
+    colorize (0.7.2)
     diff-lcs (1.2.5)
     ffi (1.9.3)
     haml (4.0.5)
@@ -129,6 +130,7 @@ DEPENDENCIES
   aws-sdk
   bcrypt-ruby
   capybara
+  colorize
   haml
   mongoid (~> 3.0.0)
   padrino (= 0.12.0)
