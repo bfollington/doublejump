@@ -1722,6 +1722,12 @@ ul.progress-list {
   display: table;
   margin: 0 auto; }
 
+.completed {
+  width: 12em;
+  float: right;
+  font-size: 0.7em;
+  text-align: center; }
+
 .avatar {
   border-radius: 100000px; }
 

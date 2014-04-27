@@ -2,11 +2,17 @@
     .col-lg-9
         - @course.lessons.each do |lesson|
             .box
+                .completed
+                    - if current_account && current_account.has_completed_lesson?(lesson)
+                        | Completed on #{current_account.get_completed_lesson(lesson).created_at.strftime("%A, %d %B, %Y")}
+
                 a href="/learn/#{@course.slug}/#{lesson.slug}"
                     h4
                         = lesson.title
                 p
                     = lesson.description
+
+                
     .col-lg-3
         .box
             p

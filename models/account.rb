@@ -77,15 +77,27 @@ class Account
   end
 
   def has_completed_step?(step)
-    !completed_steps.where(:step => step).first.nil?
+    !get_completed_step(step).nil?
   end
 
   def has_completed_lesson?(lesson)
-    !completed_lessons.where(:lesson => lesson).first.nil?
+    completed_lessons.where(:lesson => lesson).first
   end
 
   def has_completed_course?(course)
-    !completed_courses.where(:course => course).first.nil?
+    completed_courses.where(:course => course).first
+  end
+
+  def get_completed_step(step)
+    completed_steps.where(:step => step).first
+  end
+
+  def get_completed_lesson(lesson)
+    completed_lessons.where(:lesson => lesson).first
+  end
+
+  def get_completed_course(course)
+    completed_courses.where(:course => course).first
   end
 
 

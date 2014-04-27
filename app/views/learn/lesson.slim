@@ -4,7 +4,12 @@
             .box
                 a href="/learn/#{@course.slug}/#{@lesson.slug}/#{step.slug}"
                     = step.title
+                .completed
+                    - if current_account && current_account.has_completed_step?(step)
+                        | Completed on #{current_account.get_completed_step(step).created_at.strftime("%A, %d %B, %Y")}
     .col-lg-3
         .box
             p
                 = @lesson.description
+
+            
