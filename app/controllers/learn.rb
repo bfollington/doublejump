@@ -87,7 +87,7 @@ end
 def mark_prev_step_as_complete
   prev_step = @lesson.get_prev_step @step
 
-  if prev_step
+  if prev_step && current_account
     current_account.complete_step prev_step
   end
 end
