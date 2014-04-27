@@ -72,26 +72,38 @@ LearnToGameDev::App.controllers :learn do
     fetch_lesson(params[:lesson])
     fetch_step(params[:step])
 
-    body = @step.body
-
-    body.scan(Step.id_regex).each do |tag|
-      puts tag.inspect
-
-      html_tag = "\n<span class='comment' data-group='#{tag[0][1..-2]}' id='comment#{tag[0][0..-2]}'></span>"
-
-      body = body.gsub(tag[0], html_tag)
-    end
-
-    @body_edited = body
+    @body_edited = insert_comment_tags @step.body
+    mark_prev_step_as_complete
 
     render 'learn/step'
   end
 
 end
 
+#
+# Marks the step the user just viewed as complete, called when viewing a step
+# TODO: handle finishing a lesson
+#
+def mark_prev_step_as_complete
+  prev_step = @lesson.get_prev_step @step
 
+  if prev_step
+    current_account.complete_step prev_step
+  end
+end
 
+#
+# Marks up the body of the step with comment tags, replace _#num_ by a comment icon.
+#
+def insert_comment_tags(body)
+  body.scan(Step.id_regex).each do |tag|
+    html_tag = "\n<span class='comment' data-group='#{tag[0][1..-2]}' id='comment#{tag[0][0..-2]}'></span>"
 
+    body = body.gsub(tag[0], html_tag)
+  end
+
+  body
+end
 
 
 

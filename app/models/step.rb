@@ -14,6 +14,7 @@ class Step
   has_and_belongs_to_many :lessons
   has_many :comments
   belongs_to :account
+  has_many :completed_steps
 
   def self.id_regex
     /(\_[A-z0-9]+\_)+/

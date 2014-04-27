@@ -78,3 +78,23 @@ p {
 {
     height: 320px;
 }
+
+.box .callout
+{
+    color: #444;
+    @include border-radius(2px);
+    padding: 1em;
+    margin-bottom: 0px;
+}
+
+.box .info
+{
+    background: $info-colour;
+    border-left: 5px solid $info-bar-colour;
+}
+
+.box .notification
+{
+    background: $notification-colour;
+    border-left: 5px solid $notification-bar-colour;
+}

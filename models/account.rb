@@ -26,6 +26,7 @@ class Account
   has_many :steps
   has_many :lessons
   has_many :courses
+  has_many :completed_steps
 
   # Callbacks
   before_save :encrypt_password, :if => :password_required
@@ -36,6 +37,20 @@ class Account
   def self.authenticate(email, password)
     account = where(:email => /#{Regexp.escape(email)}/i).first if email.present?
     account && account.has_password?(password) ? account : nil
+  end
+
+  def complete_step(step)
+
+    if !has_completed_step? step
+      completed_step = CompletedStep.new(:step => step, :account => self)
+      completed_steps << completed_step
+      save
+    end
+    
+  end
+
+  def has_completed_step?(step)
+    !completed_steps.where(:step => step).first.nil?
   end
 
   ##

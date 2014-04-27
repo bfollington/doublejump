@@ -61,6 +61,9 @@
 .row
     .col-lg-9.col-md-9
         .box
+            - if current_account
+                - if current_account.has_completed_step?(@step)
+                    p.notification.callout You've completed this step before, just thought you should know.
             h4 = @step.title
 
             .step-body

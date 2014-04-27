@@ -92,6 +92,23 @@ p {
 #epiceditor {
   height: 320px; }
 
+.box .callout {
+  color: #444;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  border-radius: 2px;
+  padding: 1em;
+  margin-bottom: 0px; }
+
+.box .info {
+  background: #d9edf7;
+  border-left: 5px solid #428bca; }
+
+.box .notification {
+  background: #fcf8e3;
+  border-left: 5px solid #ecd871; }
+
 ul.inline {
   list-style: none; }
 
