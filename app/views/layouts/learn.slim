@@ -49,28 +49,7 @@ html.no-js lang="en"
                     span &nbsp;
 
             .main-content#main_content 
-
-                div.center-text
-                    ol.breadcrumb
-                        li 
-                            a href="/learn/" Learn
-                        - if @lesson
-                            li
-                                a href="/learn/#{@course.slug}"
-                                    = @course.title
-                            - if @step
-                                li
-                                    a href="/learn/#{@course.slug}/#{@lesson.slug}" 
-                                        = @lesson.title
-                                li.active 
-                                    = @step.title  
-
-                            - else
-                                li.active
-                                    = @lesson.title  
-                        - else
-                            li.active
-                                = @course.title 
+                = partial 'elements/breadcrumbs'
 
                 - if session[:flash]
                     = session[:flash]
