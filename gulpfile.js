@@ -14,8 +14,6 @@ var gulp = require('gulp'),
 
 gulp.task('scripts', function() {
   return gulp.src('javascript/**/*.js')
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'))
     .pipe(concat('doublejump.js'))
     .pipe(gulp.dest('public/javascripts'))
     .pipe(rename({suffix: '.min'}))
