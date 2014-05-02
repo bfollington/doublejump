@@ -21,8 +21,6 @@ html.no-js lang="en"
         script src="//cdnjs.cloudflare.com/ajax/libs/wow/0.1.6/wow.min.js"
         
         = stylesheet_link_tag 'application'
-        = javascript_include_tag 'application'
-
 
         = yield_content :include
 
@@ -76,6 +74,7 @@ html.no-js lang="en"
                     img src="//cdn.mxpnl.com/site_media/images/partner/badge_blue.png" alt="Mobile Analytics"
 
     script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
+    = javascript_include_tag 'doublejump'
     javascript:
         new WOW().init();
         mixpanel.track("Landing page visited");

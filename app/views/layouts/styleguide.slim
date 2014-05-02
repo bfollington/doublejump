@@ -20,7 +20,6 @@ html.no-js lang="en"
         script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.0/fastclick.min.js"
 
         = stylesheet_link_tag 'application'
-        = javascript_include_tag 'application'
 
         = yield_content :include
     body
@@ -36,3 +35,4 @@ html.no-js lang="en"
                             = partial 'styleguide/styles'
 
     script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
+    = javascript_include_tag 'doublejump'

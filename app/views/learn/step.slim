@@ -61,14 +61,19 @@
 .row
     .col-lg-9.col-md-9
         .box
-            - if current_account
-                - if current_account.has_completed_step?(@step)
-                    p.notification.callout You've completed this step before, just thought you should know.
+            - if current_account && current_account.has_completed_step?(@step)
+                p.notification.callout You've completed this step before, just thought you should know.
             h4 = @step.title
 
-            .step-body
-                | #{{RDiscount.new(@body_edited).to_html}}
-                #comment_frame
+            - if !@step.is_sharing_step
+                .step-body
+                    | #{{RDiscount.new(@body_edited).to_html}}
+
+                    #comment_frame
+            - else
+                .sharing-step
+                    | #{{RDiscount.new(@body_edited).to_html}}
+                    = partial 'learn/elements/sharing_step' 
     .col-lg-3.col-md-3
         .box
             p

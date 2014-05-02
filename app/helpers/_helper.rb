@@ -22,5 +22,15 @@ LearnToGameDev::App.helpers do
   def list_exists(list)
     return !list.nil? && ( list.length > 0 )
   end
+
+  def interable_list(list)
+
+    if !list.nil? && ( list.length > 0 )
+      return list
+    else
+      return []
+    end
+
+  end
   
 end

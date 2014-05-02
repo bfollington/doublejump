@@ -15,6 +15,10 @@
                         = partial 'form_error', :collection => (errors_for @step, :slug)
 
                     p
+                        = f.label :is_sharing_step, :caption => "Is this a step to share progress? "
+                            = f.check_box :is_sharing_step
+
+                    p
                         = f.label :body, :caption => "Step Content"
                         = f.text_area :body, :id => 'epiceditor-target', :class => "form-control"
                         = partial 'form_error', :collection => (errors_for @step, :body)

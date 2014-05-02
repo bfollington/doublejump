@@ -86,6 +86,22 @@ LearnToGameDev::App.controllers :learn do
     render 'learn/step'
   end
 
+
+
+
+
+
+
+
+
+  post :share_image, :map => '/learn/share-image/:step' do
+    
+    fetch_step(params[:step])
+
+    content_type :json
+    {:refresh => true, :success => true}.to_json
+  end
+
 end
 
 #

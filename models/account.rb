@@ -29,6 +29,7 @@ class Account
   has_many :completed_steps
   has_many :completed_lessons
   has_many :completed_courses
+  has_many :shared_images
 
   # Callbacks
   before_save :encrypt_password, :if => :password_required

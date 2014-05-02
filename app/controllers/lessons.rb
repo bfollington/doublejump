@@ -15,11 +15,11 @@ LearnToGameDev::App.controllers :lessons do
 
     @lesson = Lesson.create( :title => params[:lesson][:title], :description => params[:lesson][:description], :slug => params[:lesson][:slug], :account => current_account)
 
-    params[:lesson][:steps].each do |step_id|
+    interable_list( params[:lesson][:steps] ).each do |step_id|
       @lesson.steps.push( Step.find(step_id) )
     end
 
-    params[:lesson][:related_readings].each do |related_reading_id|
+    interable_list( params[:lesson][:related_readings] ).each do |related_reading_id|
       @lesson.related_readings.push( RelatedReading.find(related_reading_id) )
     end
 
@@ -48,11 +48,11 @@ LearnToGameDev::App.controllers :lessons do
     @lesson.steps = []
     @lesson.related_readings = []
 
-    params[:lesson][:steps].each do |step_id|
+    interable_list( params[:lesson][:steps] ).each do |step_id|
       @lesson.steps.push( Step.find(step_id) )
     end
 
-    params[:lesson][:related_readings].each do |related_reading_id|
+    interable_list( params[:lesson][:related_readings] ).each do |related_reading_id|
       @lesson.related_readings.push( RelatedReading.find(related_reading_id) )
     end
 

@@ -6,6 +6,7 @@ class Step
   field :title, :type => String
   field :slug, :type => String
   field :body, :type => String
+  field :is_sharing_step, :type => Boolean
 
   validates_presence_of :title, :message => "Steps need titles too..."
   validates_presence_of :slug, :message => "The slug gets filled in for you, just leave it there!"
@@ -17,6 +18,7 @@ class Step
   has_many :comments
   belongs_to :account
   has_many :completed_steps
+  has_many :shared_images
 
   index({ slug: 1 }, { unique: true, name: "slug_index" })
 
