@@ -1,0 +1,16 @@
+.create-shared-image-form
+    = form_for :shared_image, "/learn/share-image/#{@step.slug}", { :id => 'addSharedImageForm' } do |f|
+        p
+            = f.label :description, :caption => "Describe your progress"
+            = f.text_area :description, :class => "form-control"
+            = partial 'form_error', :collection => (errors_for @related_reading, :description)
+
+        p
+            = f.label :url, :caption => "Image URL"
+            = f.text_field :url, :class => "form-control"
+            = partial 'form_error', :collection => (errors_for @related_reading, :url)
+
+        .errors
+
+        p.center-text
+            = f.submit "Share Image", :class => 'button create-button'

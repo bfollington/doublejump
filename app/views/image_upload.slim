@@ -1,0 +1,11 @@
+= form_tag '/image-upload', :id => "ImageUpload", :class => 'image-upload-form', :enctype => "multipart/form-data" do
+    p
+        = label_tag :shared_image, :caption => "File to Upload"
+        = file_field_tag :shared_image, :class => "form-control"
+
+    p.center-text.no-margin
+        = submit_tag "Share", :class => "button create-button"
+    .file
+        |
+    .errors
+        |
