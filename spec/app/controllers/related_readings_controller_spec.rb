@@ -6,6 +6,6 @@ describe "RelatedReadingsController" do
   end
 
   it "returns hello world" do
-    last_response.body.should == "Hello World"
+    last_response.should be_ok
   end
 end
