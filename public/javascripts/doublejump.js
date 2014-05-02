@@ -7,32 +7,7 @@ $( function() {
         $(".js-select2").select2();
     }
 
-    bindComments();
-
-    bindUpload();
-
-    boostrapMods();
-
-    bindSlugFields();
-
-    bindEpicEditorFields();
-
-    bindSortableLists();
-
-    setUpBannerImage();
-
-    bindProgressBarResize();
 });
-
-
-
-
-
-/**
- * %BOOTSTRAP MODS
- */
-
-
 function boostrapMods()
 {
     $('[rel=tooltip]').tooltip();
@@ -50,135 +25,14 @@ function boostrapMods()
         $(this).find('.dropdown-menu').first().stop(true, true).slideUp(100);
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function bindUpload()
-{
-
-    var id = "#upload_frame";
-    var $frame = $(id);
-
-    $(".js-upload-link").click( function (e) { 
-
-        e.preventDefault();
-
-        stopEventPropagating(e);
-
-        // Do not interrupt a transition
-        if (!$frame.hasClass("animated"))
-        {
-
-            $.ajax({
-                url: "/upload/",
-                success: function (data) { 
-                    if (data.success)
-                    {
-                        $frame.html(data.html);
-                        showUploadFrame(id, $frame);
-                    }
-                },
-                timeout: 1000,
-                dataType: 'json',
-                error: function(data) {
-                    $frame.html("Could not load upload form.");
-                    showUploadFrame(id, $frame);
-                }
-            });
-        }  
-
-    } );
-
-    $('html').click( function (e) {
-
-        if ( eventTargetDoesNotInclude(e, '#upload_frame') )
-        {
-            if (!$frame.hasClass("animated") && $frame.css("display") == "block")
-            {
-                animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
-            }
-        }
-    });
-}
-
-function showUploadFrame(id, $frame)
-{
-    $frame.css("display", "block");
-    $frame.offset({ left: $(".js-upload-link").offset().left, top: $(".js-upload-link").offset().top + 40});
-    animate(id, 'fadeInDown', null);
-
-    $("form#Upload").off();
-
-    $("form#Upload").ajaxForm({
-        beforeSubmit:  function () {
-            $frame.find(".errors").text("");  
-            $frame.find(".file").text("");  
-            $("form#Upload").find('input[type="submit"]').attr("disabled", "disabled");
-        },
-        success: function (data) {
-            if (data.success)
-            {
-                console.log(data);
-                $frame.find(".file").html("<a href='" + data.file + "'>View File</a>&nbsp;<a class='js-copy-link' href='" + data.file + "'>Get Link</a>");
-
-                $frame.find(".js-copy-link").click(function (e) {
-                    e.preventDefault();
-
-                    window.prompt("Copy to clipboard: Ctrl/Cmd+C, Enter", $(this).attr("href"));
-                });
-            } else {
-                for (var i in data.errors)
-                {
-                    $frame.find(".errors").append(data.errors[i]);
-                    animate(".errors", "fadeInUp");
-                }
-            }
-
-            $("form#Upload").find('input[type="submit"]').attr("disabled", false);
-        },
-        error: function (data) {
-            $frame.find(".errors").append("Could not post comment, try again?");
-            $("form#Upload").find('input[type="submit"]').attr("disabled", false);
-        }
-    });
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+boostrapMods();
 function bindComments()
 {
 
     var id = "#comment_frame";
     var $frame = $(id);
 
-    $(".comment").each( function() {
+    $(".step-body .comment").each( function() {
 
         var $comment = $(this);
 
@@ -231,6 +85,8 @@ function bindComments()
         }
     });
 }
+
+bindComments();
 
 function showCommentFrame(id, $frame, $comment)
 {
@@ -316,90 +172,6 @@ function showCommentFrame(id, $frame, $comment)
         }
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * %PROGRESS BAR
- */
-
-function updateProgressBars()
-{
-    $(".progress-list-wrapper .progress").each(function() { 
-
-        var
-        $this = $(this),
-        $parent = $(this).parent(),
-        $first = $parent.find("ul.progress-list li:first a"),
-        $last = $parent.find("ul.progress-list li.current-step a");
-
-        $(this).css("width", $last.offset().left - $first.offset().left); 
-        $(this).css("left", $first.position().left + 2); 
-        $(this).css("top", $first.position().top); 
-
-    } );   
-}
-
-function bindProgressBarResize()
-{
-    updateProgressBars();
-    $(window).resize( updateProgressBars );
-}
-
-
-
-
-/**
- * %SLUG FIELDS
- */
-
-function bindSlugFields()
-{
-    $(".js-slug").keyup( function() {
-
-        var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
-
-        $(targetId).val( convertToSlug( $(this).val() ) );
-
-    });
-}
-
-
-
-
-function setUpBannerImage()
-{
-    $(".banner-image").each( function() {
-        var $this = $(this);
-
-        if ($this.attr("data-background") && $this.attr("data-background") != "")
-        {
-            $this.css("background-image", "url(" + $this.attr("data-background") + ")");
-        }
-    });
-}
-
-
-
-
-/**
- * %MARKDOWN EDITOR SETUP
- */
-
 function bindEpicEditorFields()
 {
     if (defined('EpicEditor') && $("#epiceditor-target").length > 0) {
@@ -437,14 +209,90 @@ function bindEpicEditorFields()
     }
 }
 
+bindEpicEditorFields();
+function setUpBannerImage()
+{
+    $(".banner-image").each( function() {
+        var $this = $(this);
 
+        if ($this.attr("data-background") && $this.attr("data-background") != "")
+        {
+            $this.css("background-image", "url(" + $this.attr("data-background") + ")");
+        }
+    });
+}
 
+setUpBannerImage();
+function updateProgressBars()
+{
+    $(".progress-list-wrapper .progress").each(function() { 
 
+        var
+        $this = $(this),
+        $parent = $(this).parent(),
+        $first = $parent.find("ul.progress-list li:first a"),
+        $last = $parent.find("ul.progress-list li.current-step a");
 
-/**
- * %SORTABLE LISTS
- */
+        $(this).css("width", $last.offset().left - $first.offset().left); 
+        $(this).css("left", $first.position().left + 2); 
+        $(this).css("top", $first.position().top); 
 
+    } );   
+}
+
+function bindProgressBarResize()
+{
+    updateProgressBars();
+    $(window).resize( updateProgressBars );
+}
+
+bindProgressBarResize();
+function bindSharingImageForm()
+{
+    var $sharedImageForm = $("form#addSharedImageForm");
+
+    $sharedImageForm.ajaxForm({
+        beforeSubmit:  function () {
+            $sharedImageForm.find(".errors").text("");  
+            $sharedImageForm.find('input[type="submit"]').attr("disabled", "disabled");
+        },
+        success: function (data) {
+            if (data.success)
+            {
+                if (data.refresh)
+                {
+                    location.reload(true);
+                }
+            } else {
+                for (var i in data.errors)
+                {
+                    $frame.find(".errors").append(data.errors[i]);
+                    animate(".errors", "fadeInUp");
+                }
+            }
+
+            $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
+        },
+        error: function (data) {
+            $frame.find(".errors").append("Could not share image, try again?");
+            $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
+        }
+    });
+}
+
+bindSharingImageForm();
+function bindSlugFields()
+{
+    $(".js-slug").keyup( function() {
+
+        var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
+
+        $(targetId).val( convertToSlug( $(this).val() ) );
+
+    });
+}
+
+bindSlugFields();
 function bindSortableLists()
 {
 
@@ -493,22 +341,97 @@ function bindSortableLists()
     }
 }
 
-
-
-/**
- *  %TEMPLATES
- */
-
-
-function getTemplate(name)
+bindSortableLists();
+function bindUpload()
 {
-    return $("#" + name + "_template").html();
+
+    var id = "#upload_frame";
+    var $frame = $(id);
+
+    $(".js-upload-link").click( function (e) { 
+
+        e.preventDefault();
+
+        stopEventPropagating(e);
+
+        // Do not interrupt a transition
+        if (!$frame.hasClass("animated"))
+        {
+
+            $.ajax({
+                url: "/upload/",
+                success: function (data) { 
+                    if (data.success)
+                    {
+                        $frame.html(data.html);
+                        showUploadFrame(id, $frame);
+                    }
+                },
+                timeout: 1000,
+                dataType: 'json',
+                error: function(data) {
+                    $frame.html("Could not load upload form.");
+                    showUploadFrame(id, $frame);
+                }
+            });
+        }  
+
+    } );
+
+    $('html').click( function (e) {
+
+        if ( eventTargetDoesNotInclude(e, '#upload_frame') )
+        {
+            if (!$frame.hasClass("animated") && $frame.css("display") == "block")
+            {
+                animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
+            }
+        }
+    });
 }
+bindUpload();
 
-/**
- * %UTILITY FUNCTIONS
- */
+function showUploadFrame(id, $frame)
+{
+    $frame.css("display", "block");
+    $frame.offset({ left: $(".js-upload-link").offset().left, top: $(".js-upload-link").offset().top + 40});
+    animate(id, 'fadeInDown', null);
 
+    $("form#Upload").off();
+
+    $("form#Upload").ajaxForm({
+        beforeSubmit:  function () {
+            $frame.find(".errors").text("");  
+            $frame.find(".file").text("");  
+            $("form#Upload").find('input[type="submit"]').attr("disabled", "disabled");
+        },
+        success: function (data) {
+            if (data.success)
+            {
+                console.log(data);
+                $frame.find(".file").html("<a href='" + data.file + "'>View File</a>&nbsp;<a class='js-copy-link' href='" + data.file + "'>Get Link</a>");
+
+                $frame.find(".js-copy-link").click(function (e) {
+                    e.preventDefault();
+
+                    window.prompt("Copy to clipboard: Ctrl/Cmd+C, Enter", $(this).attr("href"));
+                });
+            } else {
+                for (var i in data.errors)
+                {
+                    $frame.find(".errors").append(data.errors[i]);
+                    animate(".errors", "fadeInUp");
+                }
+            }
+
+            $("form#Upload").find('input[type="submit"]').attr("disabled", false);
+        },
+        error: function (data) {
+            $frame.find(".errors").append("Could not post comment, try again?");
+            $("form#Upload").find('input[type="submit"]').attr("disabled", false);
+        }
+    });
+}
 /**
  * Calls an Animate.css animation on the provided selector
  * @param  {[type]} element_ID [description]
@@ -551,7 +474,6 @@ function animate(element_ID, animation, completeCallback) {
         }
     );
 }
-
 function stopEventPropagating(e)
 {
     if (!e)
@@ -571,6 +493,10 @@ function eventTargetDoesNotInclude(event, element)
 {
     return ( $(event.target).closest(element).length == 0 );
 }
+function getTemplate(name)
+{
+    return $("#" + name + "_template").html();
+}
 
 function format(html, variables)
 {
@@ -583,7 +509,6 @@ function format(html, variables)
 
     return html;
 }
-
 function defined(variable)
 {
     return typeof window[variable] != "undefined";
