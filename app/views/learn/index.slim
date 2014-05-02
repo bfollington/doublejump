@@ -7,14 +7,4 @@
     - @courses.each do |course|
         .col-lg-4.col-md-4.col-sm-6
             .box
-                .completed
-                    - if current_account && current_account.has_completed_course?(course)
-                        | Completed on #{current_account.get_completed_course(course).created_at.strftime("%A, %d %B, %Y")}
-                p
-                    a href="/learn/#{course.slug}"
-                        = course.title
-                    small
-                        |  by 
-                        = course.account.name + " " + course.account.surname
-                p
-                    = course.description
+                = partial 'learn/elements/course_block', :object => course

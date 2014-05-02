@@ -1,5 +1,15 @@
 .row
     .col-lg-9
+
+        h4 Lesson Breakdown
+
+        p
+            = @lesson.description
+    .col-lg-3
+        h4 Related Readings
+
+.row
+    .col-lg-9
         - @lesson.steps.each do |step|
             .box
                 a href="/learn/#{@course.slug}/#{@lesson.slug}/#{step.slug}"
@@ -8,8 +18,11 @@
                     - if current_account && current_account.has_completed_step?(step)
                         | Completed on #{current_account.get_completed_step(step).created_at.strftime("%A, %d %B, %Y")}
     .col-lg-3
-        .box
-            p
-                = @lesson.description
 
-            
+        - if @lesson.related_readings.length == 0
+            p There are no related readings for this lesson.
+
+        - @lesson.related_readings.each do |related_reading|
+            .box
+                = partial 'learn/elements/related_reading', :object => related_reading
+                

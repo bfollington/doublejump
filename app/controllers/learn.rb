@@ -68,6 +68,7 @@ LearnToGameDev::App.controllers :learn do
 
     if @lesson == @course.get_last_lesson
       current_account.complete_course @course unless current_account.nil?
+      @completing_course = true
     end
 
     render 'learn/finish_lesson'

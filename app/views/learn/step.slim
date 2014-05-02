@@ -71,3 +71,14 @@
                 #comment_frame
     .col-lg-3.col-md-3
         .box
+            p
+                = @lesson.description
+
+        h4 Related Readings
+
+        - if @lesson.related_readings.length == 0
+            p There are no related readings for this lesson.
+
+        - @lesson.related_readings.each do |related_reading|
+            .box
+                = partial 'learn/elements/related_reading', :object => related_reading

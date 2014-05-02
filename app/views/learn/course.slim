@@ -1,5 +1,15 @@
 .row
     .col-lg-9
+
+        h4 Course Plan
+
+        p
+            = @course.description
+    .col-lg-3
+        h4 Prerequisites
+
+.row
+    .col-lg-9
         - @course.lessons.each do |lesson|
             .box
                 .completed
@@ -14,6 +24,19 @@
 
                 
     .col-lg-3
-        .box
-            p
-                = @course.description
+
+        - if @course.prerequisites.length == 0
+            p There are no prerequisites for this course.
+
+        - @course.prerequisites.each do |prerequisite|
+            .box
+                = partial 'learn/elements/course_block', :object => prerequisite
+
+        h4 Follow Ons
+
+        - if @course.follow_ons.length == 0
+            p There are no follow ons for this course.
+
+        - @course.follow_ons.each do |follow_on|
+            .box
+                = partial 'learn/elements/course_block', :object => follow_on
