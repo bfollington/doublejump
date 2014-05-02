@@ -10,10 +10,15 @@ class Lesson
   validates_presence_of :title, :message => "PUT IN A TITLE!"
   validates_presence_of :slug, :message => "The slug gets filled in for you, just leave it there!"
   validates_presence_of :description, :message => "You need a freakin' description dude"
+  validates_uniqueness_of :title
+  validates_uniqueness_of :slug
 
   has_and_belongs_to_many :courses
   has_and_belongs_to_many :steps
   belongs_to :account
+  has_and_belongs_to_many :related_readings
+
+  index({ slug: 1 }, { unique: true, name: "slug_index" })
 
   def get_step_index(current_step)
     step_ids.index(current_step.id)

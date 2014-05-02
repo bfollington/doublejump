@@ -1,8 +1,15 @@
 .row
     .col-lg-9
-        .box
+        - if @courses
             - @courses.each do |course|
-                = partial 'courses/elements/course', :object => course
+                .box
+                    = partial 'courses/elements/course', :object => course
+        - else
+            .box.empty-placeholder
+                h4 There are no Courses!
+                p
+                    | Maybe you should 
+                    a.class.button.create-button href="/courses/make" Make One
     .col-lg-3
         .box
 

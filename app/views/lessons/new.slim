@@ -41,6 +41,21 @@
                                 - @lesson.step_ids.each do |step_id|
                                     - step = Step.find( step_id )
                                     = partial 'js-templates/lesson_list_entry', :locals => { :item_text => step.title, :field_value => step.id, :field_name => hidden_field_name}
+                .box
+                    - hidden_field_name = 'lesson[related_readings][]'
+
+                    p
+                        = f.select(:related_reading, :collection => @related_readings, :fields => [:title, :id], :class => 'js-select2')
+                        a.js-sortable-add-new data-read-selection-from='#lesson_related_reading' data-target-list='#related_readings' data-hidden-field-name='#{hidden_field_name}' href="#" 
+                            |  
+                            i.fa.fa-plus-circle
+
+                    p
+                        ul#related_readings.js-sortable
+                            - if @lesson
+                                - @lesson.related_reading_ids.each do |related_reading_id|
+                                    - related_reading = RelatedReading.find( related_reading_id )
+                                    = partial 'js-templates/lesson_list_entry', :locals => { :item_text => related_reading.title, :field_value => related_reading.id, :field_name => hidden_field_name}
 
         .row
             p.center-text

@@ -11,9 +11,15 @@ class Course
   validates_presence_of :title, :message => "Supply a title for the course you ding-dong"
   validates_presence_of :slug, :message => "The slug gets filled in for you, just leave it there!"
   validates_presence_of :description, :message => "Put a description in doofus"
+  validates_uniqueness_of :title
+  validates_uniqueness_of :slug
 
   has_and_belongs_to_many :lessons
   belongs_to :account
+  has_and_belongs_to_many :prerequisites, class_name: "Course", inverse_of: nil
+  has_and_belongs_to_many :follow_ons, class_name: "Course", inverse_of: nil
+
+  index({ slug: 1 }, { unique: true, name: "slug_index" })
 
   def get_lesson(index)
     Lesson.find lesson_ids[index]

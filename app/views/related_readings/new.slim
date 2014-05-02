@@ -1,0 +1,19 @@
+.create-related-reading-form
+    = form_for :related_reading, "", { :id => 'addRelatedReadingForm' } do |f|
+        .row
+            .col-lg-12
+                .box
+                    p
+                        = f.label :title, :caption => "Related Reading Title"
+                        = f.text_field :title, :class => "form-control"
+                        = partial 'form_error', :collection => (errors_for @related_reading, :title)
+
+                    p
+                        = f.label :link, :caption => "Related Reading Link"
+                        = f.text_field :link, :class => "form-control"
+                        = partial 'form_error', :collection => (errors_for @related_reading, :link)
+
+        .row
+            .col-lg-12
+                p.center-text
+                    = f.submit "Save", :class => 'button create-button'

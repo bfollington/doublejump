@@ -1,25 +1,6 @@
 LearnToGameDev::App.controllers :courses do
   
   layout :app
-
-  # get :index, :map => '/foo/bar' do
-  #   session[:foo] = 'bar'
-  #   render 'index'
-  # end
-
-  # get :sample, :map => '/sample/url', :provides => [:any, :js] do
-  #   case content_type
-  #     when :js then ...
-  #     else ...
-  # end
-
-  # get :foo, :with => :id do
-  #   'Maps to url '/foo/#{params[:id]}''
-  # end
-
-  # get '/example' do
-  #   'Hello world!'
-  # end
   
   get :index do
     @courses = Course.all
@@ -28,11 +9,13 @@ LearnToGameDev::App.controllers :courses do
 
   get :make do
     @lessons = Lesson.all
+    @courses = Course.all
     render 'courses/new'
   end
 
   get :make, :with => :slug do
     @lessons = Lesson.all
+    @courses = Course.all
     @course = Course.where(:slug => params[:slug]).first
     render 'courses/new'
   end
@@ -46,20 +29,10 @@ LearnToGameDev::App.controllers :courses do
     @course.image_url = params[:course][:image_url]
     @course.slug = params[:course][:slug]
     @course.lessons = []
+    @course.prerequisites = []
+    @course.follow_ons = []
 
-    puts @params[:course][:lessons]
-
-    if @course.valid? && params[:course][:lessons].length > 0
-
-      params[:course][:lessons].each do |lesson_id|
-        @course.lessons.push( Lesson.find(lesson_id) )
-      end
-
-      @course.save
-      render 'courses/new_success'
-    else
-      render 'courses/edit'
-    end
+    save_course
   end
 
   post :make do
@@ -71,17 +44,7 @@ LearnToGameDev::App.controllers :courses do
                              :account => current_account
                             )
 
-    if @course.valid? && params[:course][:lessons].length > 0
-
-      params[:course][:lessons].each do |lesson_id|
-        @course.lessons.push( Lesson.find(lesson_id) )
-      end
-
-      @course.save
-      render 'courses/new_success'
-    else
-      render 'courses/new'
-    end
+    save_course
 
   end
 
@@ -89,4 +52,32 @@ LearnToGameDev::App.controllers :courses do
 
   end
 
+end
+
+def save_course
+  if @course.valid?
+
+    if list_exists(params[:course][:lessons])
+      params[:course][:lessons].each do |lesson_id|
+        @course.lessons.push( Lesson.find(lesson_id) )
+      end
+    end
+
+    if list_exists(params[:course][:prerequisites])
+      params[:course][:prerequisites].each do |prereq_id|
+        @course.prerequisites.push( Course.find(prereq_id) )
+      end
+    end
+
+    if list_exists(params[:course][:follow_ons])
+      params[:course][:follow_ons].each do |follow_on_id|
+        @course.follow_ons.push( Course.find(follow_on_id) )
+      end
+    end
+
+    @course.save
+    render 'courses/new_success'
+  else
+    render 'courses/new'
+  end
 end

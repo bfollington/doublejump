@@ -39,7 +39,8 @@ p {
   transition: .3s; }
 
 .create-button:hover {
-  background-color: #0084d5; }
+  background-color: #0084d5;
+  color: white; }
 
 .create-button:disabled, .create-button[disabled=disabled] {
   background-color: #b7d1e0;
@@ -108,6 +109,9 @@ p {
 .box .notification {
   background: #fcf8e3;
   border-left: 5px solid #ecd871; }
+
+.empty-placeholder {
+  text-align: center; }
 
 ul.inline {
   list-style: none; }

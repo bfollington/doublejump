@@ -18,5 +18,9 @@ LearnToGameDev::App.helpers do
     @template = name
     render 'js-templates/template', :layout => false
   end
+
+  def list_exists(list)
+    return !list.nil? && ( list.length > 0 )
+  end
   
 end

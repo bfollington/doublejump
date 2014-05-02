@@ -10,11 +10,15 @@ class Step
   validates_presence_of :title, :message => "Steps need titles too..."
   validates_presence_of :slug, :message => "The slug gets filled in for you, just leave it there!"
   validates_presence_of :body, :message => "You can't have an empty step, that makes no sense."
+  validates_uniqueness_of :title
+  validates_uniqueness_of :slug
 
   has_and_belongs_to_many :lessons
   has_many :comments
   belongs_to :account
   has_many :completed_steps
+
+  index({ slug: 1 }, { unique: true, name: "slug_index" })
 
   def self.id_regex
     /(\_[A-z0-9]+\_)+/
