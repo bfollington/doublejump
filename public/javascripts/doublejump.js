@@ -308,6 +308,8 @@ $("img.lazy").click(function () {
 
     $("#sharing_lightbox img").attr("src", "http://www.appelsiini.net/projects/lazyload/img/bmw_m1_hood.jpg");
 
+    animate("#sharing_lightbox", 'fadeInDown', null);
+
 
 
 });
