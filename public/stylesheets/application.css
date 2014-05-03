@@ -1732,11 +1732,36 @@ ul.progress-list {
   font-size: 0.7em;
   text-align: center; }
 
-img.shared-image {
-  height: auto;
+#sharing_lightbox {
+  display: none;
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  margin-left: -35%;
+  width: 70%;
+  height: 90%;
+  z-index: 9999; }
+
+#sharing_lightbox img {
   width: 100%; }
 
-.shared-image-holder:before {
+.image-frame {
+  width: 66%;
+  height: 100%;
+  overflow: hidden;
+  background: black;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block; }
+
+#sharing_lightbox .comments {
+  width: 33%;
+  display: inline-block; }
+
+img.shared-image {
+  width: 100%; }
+
+.shared-image-holder:before, .image-frame:before {
   content: "";
   display: inline-block;
   height: 100%;

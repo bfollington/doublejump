@@ -1,0 +1,94 @@
+/*
+Syntax error: Undefined mixin 'border-radius'.
+        on line 60 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss, in `border-radius'
+        from line 60 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss
+
+55:     width: 100%;
+56:     overflow: hidden;
+57:     text-align: center;
+58:     vertical-align: middle;
+59: 
+60:     @include border-radius(2px);
+61: 
+62:     background: black;
+63: }
+64: 
+65: .shared-wrapper
+
+Backtrace:
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss:60:in `border-radius'
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss:60
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:98:in `block in with_mixin'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:121:in `with_frame'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:98:in `with_mixin'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:318:in `visit_mixin'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:79:in `block in with_base'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:121:in `with_frame'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:79:in `with_base'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:152:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:389:in `block (2 levels) in visit_rule'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:389:in `map'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:389:in `block in visit_rule'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:387:in `visit_rule'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:79:in `block in with_base'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:121:in `with_frame'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:79:in `with_base'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:152:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/base.rb:52:in `map'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:161:in `block in visit_children'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:160:in `visit_children'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:180:in `visit_root'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:151:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/root_node.rb:36:in `css_tree'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/root_node.rb:20:in `render'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/engine.rb:274:in `render'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/plugin/compiler.rb:414:in `update_stylesheet'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/plugin/compiler.rb:189:in `block in update_stylesheets'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/plugin/compiler.rb:186:in `each'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/plugin/compiler.rb:186:in `update_stylesheets'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/plugin.rb:82:in `update_stylesheets'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/plugin.rb:54:in `check_for_updates'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/plugin/rack.rb:51:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.2/lib/rack/protection/base.rb:50:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.2/lib/rack/protection/xss_header.rb:18:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.2/lib/rack/protection/base.rb:50:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.2/lib/rack/protection/base.rb:50:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.2/lib/rack/protection/json_csrf.rb:18:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.2/lib/rack/protection/base.rb:50:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.2/lib/rack/protection/base.rb:50:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.2/lib/rack/protection/frame_options.rb:31:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/head.rb:11:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/methodoverride.rb:21:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.0/lib/padrino-core/reloader/rack.rb:22:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.0/lib/padrino-core/logger.rb:398:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.4/lib/sinatra/show_exceptions.rb:21:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/session/abstract/id.rb:225:in `context'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/session/abstract/id.rb:220:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.4/lib/sinatra/base.rb:2004:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.4/lib/sinatra/base.rb:1469:in `block in call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.4/lib/sinatra/base.rb:1778:in `synchronize'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.4/lib/sinatra/base.rb:1469:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.0/lib/padrino-core/router.rb:82:in `block in call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.0/lib/padrino-core/router.rb:75:in `each'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.0/lib/padrino-core/router.rb:75:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/handler/webrick.rb:60:in `service'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p484/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p484/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p484/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined mixin 'border-radius'.\A         on line 60 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss, in `border-radius'\A         from line 60 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss\A \A 55:     width: 100%;\A 56:     overflow: hidden;\A 57:     text-align: center;\A 58:     vertical-align: middle;\A 59: \A 60:     @include border-radius(2px);\A 61: \A 62:     background: black;\A 63: }\A 64: \A 65: .shared-wrapper"; }

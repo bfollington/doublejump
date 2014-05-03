@@ -77,6 +77,7 @@
 
         - if @step.is_sharing_step
             = partial 'learn/elements/shared_image', :collection => @sharing_steps
+
     .col-lg-3.col-md-3
         .box
             p
@@ -90,3 +91,9 @@
         - @lesson.related_readings.each do |related_reading|
             .box
                 = partial 'learn/elements/related_reading', :object => related_reading
+
+#sharing_lightbox.box
+    .image-frame
+        img
+    .comments
+        | hello

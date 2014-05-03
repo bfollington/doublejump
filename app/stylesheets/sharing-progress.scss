@@ -1,0 +1,81 @@
+#sharing_lightbox
+{
+    display: none;
+
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    margin-left: -35%;
+    width: 70%;
+    height: 90%;
+
+    z-index: 9999;
+
+}
+
+#sharing_lightbox img
+{
+    width: 100%;
+}
+
+.image-frame
+{
+    width: 66%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+
+    text-align: center;
+    vertical-align: middle;
+
+    display: inline-block;
+}
+
+#sharing_lightbox .comments
+{
+    width: 33%;
+    display: inline-block;
+}
+
+img.shared-image
+{
+    width: 100%;
+}
+
+.shared-image-holder:before, .image-frame:before
+{
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.shared-image-holder
+{
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+
+    @include border-radius(2px);
+
+    background: black;
+}
+
+.shared-wrapper
+{
+    display: inline-block;
+
+    margin-right: 0.5%;
+    margin-left: 0.5%;
+    margin-bottom: 0.5%;
+    padding: 0.5%;
+    padding: 0.5%;
+
+    width: 24%;
+
+    .caption
+    {
+        padding: 0.2em;
+    }
+}
