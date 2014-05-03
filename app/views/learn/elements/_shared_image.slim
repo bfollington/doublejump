@@ -1,0 +1,7 @@
+.shared-wrapper.box
+    .shared-image-holder
+        img.shared-image.lazy data-original="#{shared_image.url}"
+    .caption
+        i.fa.fa-heart
+        |  
+        = shared_image.likes || 0

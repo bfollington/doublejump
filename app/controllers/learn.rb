@@ -1,3 +1,5 @@
+require "rest_client"
+
 LearnToGameDev::App.controllers :learn do
   
   layout :learn
@@ -83,6 +85,10 @@ LearnToGameDev::App.controllers :learn do
     @body_edited = insert_comment_tags @step.body
     mark_prev_step_as_complete
 
+    if @step.is_sharing_step
+      @sharing_steps = SharedImage.where(step: @step).order_by(:created_at.desc)
+    end
+
     render 'learn/step'
   end
 
@@ -98,8 +104,49 @@ LearnToGameDev::App.controllers :learn do
     
     fetch_step(params[:step])
 
+    shared_image = SharedImage.new(
+      :url => params[:shared_image][:url],
+      :description => params[:shared_image][:description],
+      :step => @step,
+      :account => current_account
+    )
+
+    errors = {}
+
+    if shared_image.valid?
+
+      begin
+        res = RestClient::Request.execute(:method => :head, :url => params[:shared_image][:url], :timeout => 10, :open_timeout => 10)
+
+        puts res.net_http_res.header['content-type']
+        valid_image = ( res.net_http_res.header['content-type'].start_with?("image/") )
+      rescue
+        valid_image = false
+      end
+
+
+
+      if !valid_image
+        errors = {:url => "This URL does not point to a valid image."}
+      end
+
+    end
+    
+
     content_type :json
-    {:refresh => true, :success => true}.to_json
+
+    if shared_image.valid? && valid_image
+
+      shared_image.save
+
+      {:refresh => true, :success => true}.to_json
+    else
+
+      {:success => false, :errors => errors.merge(shared_image.errors.messages)}.to_json
+    end
+
+    
+    
   end
 
 end

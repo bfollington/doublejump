@@ -87,6 +87,8 @@ GEM
       rack (>= 1.0)
     rake (10.2.1)
     rdiscount (2.1.7)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -137,6 +139,7 @@ DEPENDENCIES
   rack-test
   rake
   rdiscount
+  rest-client
   rspec
   sass
   selenium-webdriver

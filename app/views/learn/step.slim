@@ -74,6 +74,9 @@
                 .sharing-step
                     | #{{RDiscount.new(@body_edited).to_html}}
                     = partial 'learn/elements/sharing_step' 
+
+        - if @step.is_sharing_step
+            = partial 'learn/elements/shared_image', :collection => @sharing_steps
     .col-lg-3.col-md-3
         .box
             p

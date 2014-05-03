@@ -266,7 +266,7 @@ function bindSharingImageForm()
             } else {
                 for (var i in data.errors)
                 {
-                    $frame.find(".errors").append(data.errors[i]);
+                    $sharedImageForm.find(".errors").append(data.errors[i]);
                     animate(".errors", "fadeInUp");
                 }
             }
@@ -274,13 +274,34 @@ function bindSharingImageForm()
             $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
         },
         error: function (data) {
-            $frame.find(".errors").append("Could not share image, try again?");
+            $sharedImageForm.find(".errors").append("Could not share image, try again?");
             $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
         }
     });
 }
 
 bindSharingImageForm();
+
+
+function bindPageResize()
+{
+    updateProgressBars();
+    $(window).resize( updateLearnGrid );
+}
+
+function updateLearnGrid()
+{
+    $(".shared-image-holder").each( function () {
+        $(this).css("height", $(this).css("width"))
+    });
+}
+
+bindPageResize();
+updateLearnGrid();
+
+$("img.lazy").lazyload();
+
+
 function bindSlugFields()
 {
     $(".js-slug").keyup( function() {

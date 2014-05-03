@@ -7,9 +7,9 @@ class SharedImage
   field :description, :type => String
   field :likes, :type => Integer
 
-  validates_format_of :link, with: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, message: "Must be a valid URL"
-  validates_presence_of :title, message: "Title is required!"
-  validates_presence_of :link, message: "No point of making a reading without a link..."
+  validates_format_of :url, with: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, message: "Must be a valid URL"
+  validates_presence_of :description, message: "Description is required!"
+  validates_presence_of :url, message: "No point of making a reading without a link..."
 
   belongs_to :account
   belongs_to :step

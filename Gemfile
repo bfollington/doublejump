@@ -13,6 +13,7 @@ source 'https://rubygems.org'
 # Project requirements
 gem 'rake'
 gem 'colorize'
+gem 'rest-client'
 
 # Component requirements
 gem 'bcrypt-ruby', :require => 'bcrypt'
