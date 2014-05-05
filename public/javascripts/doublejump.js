@@ -306,7 +306,7 @@ $("img.lazy").click(function () {
     $("#sharing_lightbox")
         .css("display", "block");
 
-    $("#sharing_lightbox img").attr("src", "http://www.appelsiini.net/projects/lazyload/img/bmw_m1_hood.jpg");
+    $("#sharing_lightbox img").attr("src", $(this).attr("src"));
 
     animate("#sharing_lightbox", 'fadeInDown', null);
 
