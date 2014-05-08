@@ -8,6 +8,7 @@ module LearnToGameDev
 
     require 'rubygems'
     require 'aws-sdk'
+    require 'securerandom'
 
     AWS.config(
       :access_key_id => 'AKIAIAR5NTF4NPMT7ANQ', 
@@ -139,6 +140,7 @@ module LearnToGameDev
       end
 
       tempfile = params[:shared_image][:shared_image][:tempfile]
+      type = params[:shared_image][:shared_image][:type]
 
       # Check filesize (fallback for JS check)
       if (File.size(tempfile) / 1048576 > 2)
@@ -146,15 +148,14 @@ module LearnToGameDev
       end
 
       # Check if file is a valid image
-      if !params[:shared_image][:shared_image][:type].start_with?("image/")
+      if !type.start_with?("image/")
         fail_with_error("Please provide a valid image file.")
       end
 
       # Generate a random name
-      require 'securerandom'
-      random_string = SecureRandom.hex
+      random_string = SecureRandom.hex + type.gsub("image/", ".")
 
-      result = upload_public_file(tempfile, random_string)
+      result = upload_public_file(tempfile, random_string, type)
       @file = result[:filename]
       
       content_type :json

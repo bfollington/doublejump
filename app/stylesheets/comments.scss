@@ -8,9 +8,17 @@
     display: none;
     background: white;
 
-    width: 320px;
+    width: 19em;
+    max-width: 100%;
 
     @include animation-duration(0.3s);
+
+    z-index: 10000;
+}
+
+#sharing_lightbox, #upload_frame
+{
+    position: fixed;
 }
 
 .comments-list

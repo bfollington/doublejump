@@ -4,11 +4,14 @@ function bindComments()
     var id = "#comment_frame";
     var $frame = $(id);
 
-    $(".step-body .comment").each( function() {
+    $(".step-body .comment, #sharing_lightbox .comment").each( function() {
 
         var $comment = $(this);
+        var $parent = $(this).parent().parent().parent().parent();
 
-        $(this).html(getTemplate("_comment_icon"));
+        console.log($parent);
+
+        if ($parent.attr("id") != "sharing_lightbox") $(this).html(getTemplate("_comment_icon"));
 
         $(this).find('a').click( function (e) { 
 
@@ -19,27 +22,45 @@ function bindComments()
             // Do not interrupt a transition
             if (!$("#comment_frame").hasClass("animated"))
             {
+                
+                var url = "";
+                var offsetLeft, offsetTop;
 
-                var currentStep = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
-                currentStep = currentStep.split("#")[0];
-                currentStep = currentStep.split("?")[0];
+                console.log($parent);
+
+                if ($parent.attr("id") == "sharing_lightbox")
+                {
+                    url = "/comments/image-get/" + $parent.attr("data-id");
+                    offsetLeft = -160;
+                    offsetTop = "auto";
+                } else {
+                    var currentStep = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
+                    currentStep = currentStep.split("#")[0];
+                    currentStep = currentStep.split("?")[0];
+
+                    url = "/comments/get/" + currentStep + "/" + $(this).parent().attr("data-group");
+
+                    offsetLeft = 32;
+                    offsetTop = -64;
+                }
 
                 $.ajax({
-                    url: "/comments/get/" + currentStep + "/" + $(this).parent().attr("data-group"),
+                    url: url,
                     success: function (data) { 
                         if (data.success)
                         {
                             $frame.html(data.html);
-                            showCommentFrame(id, $frame, $comment);
+                            showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop);
                         }
                     },
                     timeout: 1000,
                     dataType: 'json',
                     error: function(data) {
                         $frame.html("Could not load comments.");
-                        showCommentFrame(id, $frame, $comment);
+                        showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop);
                     }
                 });
+                
             }  
 
         } );
@@ -60,11 +81,16 @@ function bindComments()
 
 bindComments();
 
-function showCommentFrame(id, $frame, $comment)
+function showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop)
 {
 
+    var autoOffset = (offsetTop == "auto");
+
+    if (!offsetLeft) offsetLeft = 32;
+    if (!offsetTop) offsetTop = -64;
+
     $frame.css("display", "block");
-    $frame.offset({ left: $comment.offset().left + 32, top: $comment.offset().top - 64});
+    $frame.offset({ left: $comment.offset().left + offsetLeft, top: $comment.offset().top + offsetTop});
 
     animate(id, 'fadeInDown', null);
 
@@ -90,6 +116,12 @@ function showCommentFrame(id, $frame, $comment)
             $("form#Comment").find('input[type="submit"]').attr("disabled", false);
         }
     });
+
+    if (autoOffset)
+    {
+        $frame.offset({top: $comment.offset().top - $frame.height() - 32});
+    }
+    
 
     $(".js-close-comments").click( function(e) {
         e.preventDefault();

@@ -42,7 +42,7 @@ LearnToGameDev::App.helpers do
     return {:errors => [error], :success => false }.to_json
   end
   
-  def upload_public_file(tempfile, filename)
+  def upload_public_file(tempfile, filename, content_type)
 
     bucket_name = 'voltic-test-bucket'
 
@@ -51,7 +51,7 @@ LearnToGameDev::App.helpers do
 
     # Upload a file.
     key = File.basename(filename)
-    s3.buckets[aws_bucket].objects[key].write(:file => tempfile, :acl => :public_read)
+    s3.buckets[aws_bucket].objects[key].write(:file => tempfile, :acl => :public_read, :content_type => content_type)
     puts "Uploading file #{filename} to bucket #{bucket_name}."
     puts filename
 

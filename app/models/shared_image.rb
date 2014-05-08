@@ -13,6 +13,7 @@ class SharedImage
 
   belongs_to :account
   belongs_to :step
+  has_many :comments
 
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>

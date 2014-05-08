@@ -1739,8 +1739,14 @@ ul.progress-list {
   left: 50%;
   margin-left: -35%;
   width: 70%;
-  height: 90%;
+  height: 80%;
+  -webkit-animation-duration: 0.3s;
+  -moz-animation-duration: 0.3s;
+  -ms-animation-duration: 0.3s;
+  animation-duration: 0.3s;
   z-index: 9999; }
+  #sharing_lightbox .box {
+    height: 100%; }
 
 #sharing_lightbox img {
   width: 100%; }
@@ -1754,19 +1760,19 @@ ul.progress-list {
   background-color: black;
   opacity: 1.0;
   display: none;
-  z-index: 9998; }
+  z-index: 9998;
+  -webkit-animation-duration: 0.3s;
+  -moz-animation-duration: 0.3s;
+  -ms-animation-duration: 0.3s;
+  animation-duration: 0.3s; }
 
 .image-frame {
-  width: 66%;
+  width: 100%;
   height: 100%;
   overflow: hidden;
   background: black;
   text-align: center;
   vertical-align: middle;
-  display: inline-block; }
-
-#sharing_lightbox .comments {
-  width: 33%;
   display: inline-block; }
 
 img.shared-image {
@@ -1800,6 +1806,18 @@ img.shared-image {
   .shared-wrapper .caption {
     padding: 0.2em; }
 
+.action-list {
+  list-style-type: none;
+  margin-left: 0px;
+  padding-left: 1em;
+  text-align: center; }
+  .action-list li {
+    display: inline-block; }
+
+.description.dark-bg {
+  color: white;
+  text-align: center; }
+
 .avatar {
   border-radius: 100000px; }
 
@@ -1807,6 +1825,9 @@ img.shared-image {
   width: 55px;
   height: 55px;
   border: 1px solid #aaa; }
+
+.image.small {
+  max-width: 128px; }
 
 .button {
   font-family: "Nunito", sans-serif; }
@@ -1818,11 +1839,16 @@ img.shared-image {
   border-radius: 3px;
   display: none;
   background: white;
-  width: 320px;
+  width: 19em;
+  max-width: 100%;
   -webkit-animation-duration: 0.3s;
   -moz-animation-duration: 0.3s;
   -ms-animation-duration: 0.3s;
-  animation-duration: 0.3s; }
+  animation-duration: 0.3s;
+  z-index: 10000; }
+
+#sharing_lightbox, #upload_frame {
+  position: fixed; }
 
 .comments-list {
   max-height: 320px;

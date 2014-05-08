@@ -32,11 +32,14 @@ function bindComments()
     var id = "#comment_frame";
     var $frame = $(id);
 
-    $(".step-body .comment").each( function() {
+    $(".step-body .comment, #sharing_lightbox .comment").each( function() {
 
         var $comment = $(this);
+        var $parent = $(this).parent().parent().parent().parent();
 
-        $(this).html(getTemplate("_comment_icon"));
+        console.log($parent);
+
+        if ($parent.attr("id") != "sharing_lightbox") $(this).html(getTemplate("_comment_icon"));
 
         $(this).find('a').click( function (e) { 
 
@@ -47,27 +50,45 @@ function bindComments()
             // Do not interrupt a transition
             if (!$("#comment_frame").hasClass("animated"))
             {
+                
+                var url = "";
+                var offsetLeft, offsetTop;
 
-                var currentStep = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
-                currentStep = currentStep.split("#")[0];
-                currentStep = currentStep.split("?")[0];
+                console.log($parent);
+
+                if ($parent.attr("id") == "sharing_lightbox")
+                {
+                    url = "/comments/image-get/" + $parent.attr("data-id");
+                    offsetLeft = -160;
+                    offsetTop = "auto";
+                } else {
+                    var currentStep = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
+                    currentStep = currentStep.split("#")[0];
+                    currentStep = currentStep.split("?")[0];
+
+                    url = "/comments/get/" + currentStep + "/" + $(this).parent().attr("data-group");
+
+                    offsetLeft = 32;
+                    offsetTop = -64;
+                }
 
                 $.ajax({
-                    url: "/comments/get/" + currentStep + "/" + $(this).parent().attr("data-group"),
+                    url: url,
                     success: function (data) { 
                         if (data.success)
                         {
                             $frame.html(data.html);
-                            showCommentFrame(id, $frame, $comment);
+                            showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop);
                         }
                     },
                     timeout: 1000,
                     dataType: 'json',
                     error: function(data) {
                         $frame.html("Could not load comments.");
-                        showCommentFrame(id, $frame, $comment);
+                        showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop);
                     }
                 });
+                
             }  
 
         } );
@@ -88,11 +109,16 @@ function bindComments()
 
 bindComments();
 
-function showCommentFrame(id, $frame, $comment)
+function showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop)
 {
 
+    var autoOffset = (offsetTop == "auto");
+
+    if (!offsetLeft) offsetLeft = 32;
+    if (!offsetTop) offsetTop = -64;
+
     $frame.css("display", "block");
-    $frame.offset({ left: $comment.offset().left + 32, top: $comment.offset().top - 64});
+    $frame.offset({ left: $comment.offset().left + offsetLeft, top: $comment.offset().top + offsetTop});
 
     animate(id, 'fadeInDown', null);
 
@@ -118,6 +144,12 @@ function showCommentFrame(id, $frame, $comment)
             $("form#Comment").find('input[type="submit"]').attr("disabled", false);
         }
     });
+
+    if (autoOffset)
+    {
+        $frame.offset({top: $comment.offset().top - $frame.height() - 32});
+    }
+    
 
     $(".js-close-comments").click( function(e) {
         e.preventDefault();
@@ -210,8 +242,18 @@ function appendErrors(errorsData, $form, errorsSelector)
 {
     for (var i in errorsData)
     {
-        $form.find(errorsSelector).append(errorsData[i]);
-        $form.find(errorsSelector).append("<br>");
+        if (Array.isArray(errorsData[i]))
+        {
+            for (var j = 0; j < errorsData[i].length; j++)
+            {
+                $form.find(errorsSelector).append(errorsData[i][j]);
+                $form.find(errorsSelector).append("<br>");
+            }
+        } else {
+            $form.find(errorsSelector).append(errorsData[i]);
+            $form.find(errorsSelector).append("<br>");
+        }
+        
         animate(errorsSelector, "fadeInUp");
     }
 }
@@ -295,6 +337,8 @@ function updateLearnGrid()
     $(".shared-image-holder").each( function () {
         $(this).css("height", $(this).css("width"))
     });
+
+    resizeLightboxImage();
 }
 
 bindPageResize();
@@ -309,7 +353,7 @@ $(".js-close-lightbox").click( function(e) {
 
 $('html').click( function (e) {
 
-    if ( eventTargetDoesNotInclude(e, sharingLightboxId) )
+    if ( eventTargetDoesNotInclude(e, sharingLightboxId) && eventTargetDoesNotInclude(e, "#comment_frame") )
     {
         if (!$sharingLightbox.hasClass("animated") && $sharingLightbox.css("display") == "block")
         {
@@ -336,20 +380,33 @@ if (jQuery().lazyload)
     $("img.lazy").lazyload();
 }
 
+var $currentLightboxSource;
 
 $("img.lazy").click(function () {
+
+    showLightbox($(this));
+    animate("#sharing_lightbox_overlay", 'fadeInDown', null);
+
+});
+
+function showLightbox($source)
+{
+    console.log($source);
+
+    $currentLightboxSource = $source;
 
     $("#sharing_lightbox").css("display", "block");
     $("#sharing_lightbox_overlay").css("display", "block");
 
-    $("#sharing_lightbox img").attr("src", $(this).attr("src"));
+    $("#sharing_lightbox img").attr("src", $source.attr("src"));
+    $("#sharing_lightbox .download-link").attr("href", $source.attr("src"));
+    $("#sharing_lightbox").attr("data-id", $source.attr("data-id"));
+    $("#sharing_lightbox .description p").text($source.attr("data-description"));
 
     animate("#sharing_lightbox", 'fadeInDown', null);
-    animate("#sharing_lightbox_overlay", 'fadeInDown', null);
 
-
-
-});
+    window.setTimeout(resizeLightboxImage(), 500);
+}
 
 $("#shared_image_shared_image").change( function (e) {
 
@@ -372,6 +429,7 @@ $("#shared_image_shared_image").change( function (e) {
                 if (data.success)
                 {
                     $("#shared_image_url").val(data.file);
+                    $("#shared_image_preview").attr("src", data.file);
                 } else {
                     appendErrors(data.errors, $sharedImageForm, ".errors");
                 }
@@ -388,6 +446,50 @@ $("#shared_image_shared_image").change( function (e) {
 
     
 });
+
+function resizeLightboxImage()
+{
+    $("#sharing_lightbox img").attr("style", null);
+
+    if ($("#sharing_lightbox img").height() > $("#sharing_lightbox .image-frame").height() )
+    {
+        var ratio = $("#sharing_lightbox .image-frame").height() / $("#sharing_lightbox img").height();
+
+        $("#sharing_lightbox img").height( $("#sharing_lightbox .image-frame").height() );
+        $("#sharing_lightbox img").width( $("#sharing_lightbox img").width() * ratio );
+    }
+
+}
+
+document.onkeydown = function(evt) {
+    evt = evt || window.event;
+
+    // Ensure we only handle printable keys
+    var charCode = typeof evt.which == "number" ? evt.which : evt.keyCode;
+
+    if ($("#sharing_lightbox").is(':visible'))
+    {
+        if (charCode == 37)
+        {
+            showPrevImage();
+        }
+
+        if (charCode == 39)
+        {
+            showNextImage();
+        }
+    }
+};
+
+function showNextImage()
+{
+    showLightbox($currentLightboxSource.parent().parent().next().find(".shared-image-holder img"));
+}
+
+function showPrevImage()
+{
+    showLightbox($currentLightboxSource.parent().parent().prev().find(".shared-image-holder img"));
+}
 
 
 function bindSlugFields()

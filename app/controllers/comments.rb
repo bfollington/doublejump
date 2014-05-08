@@ -35,20 +35,47 @@ LearnToGameDev::App.controllers :comments do
     end
   end
 
-  get :delete_comment, :map => '/comments/delete/:slug/:id' do
+
+
+
+  get :get_comments_for_image, :map => '/comments/image-get/:image_id' do
+
+    @shared_image = SharedImage.find(params[:image_id])
+    @comments = @shared_image.comments
+
+    content_type :json
+    {:html => render('learn/comments', :layout => false), :success => true }.to_json
+  end
+
+  post :submit_comment_on_image, :map => "/comments/image-submit/:image_id" do
+
+    @shared_image = SharedImage.find(params[:image_id])
+    comment = Comment.new(:body => params[:comment][:body], :account => current_account, :group => 1)
+
+    if comment.valid?
+      @shared_image.comments << comment
+
+      # get comments after save to include new one
+      @comments = @shared_image.comments
+
+      content_type :json
+      {:html => render('learn/comments', :layout => false), :success => true }.to_json
+    else
+      content_type :json
+      {:errors => comment.errors.messages, :success => false }.to_json
+    end
+  end
+
+
+
+
+  get :delete_comment, :map => '/comments/delete/:id' do
 
     if current_account.role != "admin"
       return fail_with_json
     end
 
-    step = Step.where(slug: params[:slug]).first
-    fail_if_nil step
-
-    if step.nil?
-      return fail_with_json
-    end
-
-    comment = step.comments.find( params[:id] )
+    comment = Comment.find( params[:id] )
     fail_if_nil comment
 
     comment.destroy
@@ -57,16 +84,9 @@ LearnToGameDev::App.controllers :comments do
     {:success => true }.to_json
   end
 
-  get :report_comment, :map => '/comments/report/:slug/:id' do
+  get :report_comment, :map => '/comments/report/:id' do
 
-    step = Step.where(slug: params[:slug]).first
-    fail_if_nil step
-
-    if step.nil?
-      return fail_with_json
-    end
-
-    comment = step.comments.find( params[:id] )
+    comment = Comment.find( params[:id] )
 
     fail_if_nil comment
 

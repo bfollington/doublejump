@@ -7,10 +7,10 @@ a.js-close-comments.float-right
             .comment-wrapper
                 strong
                     = comment.account.name + " " + comment.account.surname
-                    a.js-delete-comment title="Delete comment?" href="/comments/delete/#{@step.slug}/#{comment.id}"
+                    a.js-delete-comment title="Delete comment?" href="/comments/delete/#{comment.id}"
                         |  
                         i.fa.fa-times-circle
-                    a.js-report-comment title="Report comment?" href="/comments/report/#{@step.slug}/#{comment.id}" 
+                    a.js-report-comment title="Report comment?" href="/comments/report/#{comment.id}" 
                         |  
                         i.fa.fa-exclamation-circle
                 p
@@ -19,12 +19,26 @@ a.js-close-comments.float-right
         p No Comments.
 
 .add-comment
-    = form_for :comment, "/comments/submit/#{@step.slug}/#{@group}", { :id => 'Comment' } do |f|
-        p
-            = f.label :body, :caption => "Message"
-            = f.text_area :body, :class => "form-control"
+    - if @shared_image
 
-        p.center-text.no-margin
-            = f.submit "Post", :class => 'button create-button'
+        = form_for :comment, "/comments/image-submit/#{@shared_image.id}", { :id => 'Comment' } do |f|
+            p
+                = f.label :body, :caption => "Message"
+                = f.text_area :body, :class => "form-control"
 
-        .errors
+            p.center-text.no-margin
+                = f.submit "Post", :class => 'button create-button'
+
+            .errors
+
+    - else
+
+        = form_for :comment, "/comments/submit/#{@step.slug}/#{@group}", { :id => 'Comment' } do |f|
+            p
+                = f.label :body, :caption => "Message"
+                = f.text_area :body, :class => "form-control"
+
+            p.center-text.no-margin
+                = f.submit "Post", :class => 'button create-button'
+
+            .errors
