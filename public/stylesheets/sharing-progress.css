@@ -1,23 +1,23 @@
 /*
 Syntax error: Undefined mixin 'border-radius'.
-        on line 60 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss, in `border-radius'
-        from line 60 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss
+        on line 75 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss, in `border-radius'
+        from line 75 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss
 
-55:     width: 100%;
-56:     overflow: hidden;
-57:     text-align: center;
-58:     vertical-align: middle;
-59: 
-60:     @include border-radius(2px);
-61: 
-62:     background: black;
-63: }
-64: 
-65: .shared-wrapper
+70:     width: 100%;
+71:     overflow: hidden;
+72:     text-align: center;
+73:     vertical-align: middle;
+74: 
+75:     @include border-radius(2px);
+76: 
+77:     background: black;
+78: }
+79: 
+80: .shared-wrapper
 
 Backtrace:
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss:60:in `border-radius'
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss:60
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss:75:in `border-radius'
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss:75
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:98:in `block in with_mixin'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:121:in `with_frame'
@@ -91,4 +91,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'border-radius'.\A         on line 60 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss, in `border-radius'\A         from line 60 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss\A \A 55:     width: 100%;\A 56:     overflow: hidden;\A 57:     text-align: center;\A 58:     vertical-align: middle;\A 59: \A 60:     @include border-radius(2px);\A 61: \A 62:     background: black;\A 63: }\A 64: \A 65: .shared-wrapper"; }
+  content: "Syntax error: Undefined mixin 'border-radius'.\A         on line 75 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss, in `border-radius'\A         from line 75 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sharing-progress.scss\A \A 70:     width: 100%;\A 71:     overflow: hidden;\A 72:     text-align: center;\A 73:     vertical-align: middle;\A 74: \A 75:     @include border-radius(2px);\A 76: \A 77:     background: black;\A 78: }\A 79: \A 80: .shared-wrapper"; }

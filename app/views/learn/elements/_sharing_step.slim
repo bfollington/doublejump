@@ -1,14 +1,23 @@
 .create-shared-image-form
-    = form_for :shared_image, "/learn/share-image/#{@step.slug}", { :id => 'addSharedImageForm' } do |f|
+    = form_for :shared_image, "/learn/share-image/#{@step.slug}", { :id => 'addSharedImageForm', :enctype => "multipart/form-data" } do |f|
         p
             = f.label :description, :caption => "Describe your progress"
             = f.text_area :description, :class => "form-control"
             = partial 'form_error', :collection => (errors_for @related_reading, :description)
 
-        p
-            = f.label :url, :caption => "Image URL"
-            = f.text_field :url, :class => "form-control"
-            = partial 'form_error', :collection => (errors_for @related_reading, :url)
+        .col-md-5.col-sm-12
+            p
+                = f.label :url, :caption => "Image URL"
+                = f.text_field :url, :class => "form-control"
+                = partial 'form_error', :collection => (errors_for @related_reading, :url)
+        .col-md-2.col-sm-12
+            p.center-text
+                | OR
+
+        .col-md-5.col-sm-12
+            p
+                = f.label :shared_image, :caption => "File to Upload"
+                = f.file_field :shared_image, :class => "form-control"
 
         .errors
 

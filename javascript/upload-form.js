@@ -73,11 +73,7 @@ function showUploadFrame(id, $frame)
                     window.prompt("Copy to clipboard: Ctrl/Cmd+C, Enter", $(this).attr("href"));
                 });
             } else {
-                for (var i in data.errors)
-                {
-                    $frame.find(".errors").append(data.errors[i]);
-                    animate(".errors", "fadeInUp");
-                }
+                appendErrors(data.errors, $frame, ".errors");
             }
 
             $("form#Upload").find('input[type="submit"]').attr("disabled", false);

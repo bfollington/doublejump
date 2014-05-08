@@ -18,8 +18,7 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest('public/javascripts'))
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
-    .pipe(gulp.dest('public/javascripts'))
-    .pipe(notify({ message: 'Scripts task complete' }));
+    .pipe(gulp.dest('public/javascripts'));
 });
 
 gulp.task('watch', function() {

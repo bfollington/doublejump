@@ -80,11 +80,7 @@ function showCommentFrame(id, $frame, $comment)
             {
                 $frame.html(data.html);
             } else {
-                for (var i in data.errors)
-                {
-                    $frame.find(".errors").append(data.errors[i]);
-                    animate(".errors", "fadeInUp");
-                }
+                appendErrors(data.errors, $frame, ".errors");
             }
 
             $("form#Comment").find('input[type="submit"]').attr("disabled", false);

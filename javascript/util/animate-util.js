@@ -5,31 +5,18 @@
  */
 function animate(element_ID, animation, completeCallback) {
 
-    if ($(element_ID).attr("data-timeout-id"))
+    if (supportsTransitions())
     {
-        window.clearTimeout($(element_ID).attr("data-timeout-id"));
-    }
-
-    $(element_ID).addClass(animation);
-    $(element_ID).addClass("animated");
-
-    var timeoutId = window.setTimeout( function () {
-
-        $(element_ID).removeClass(animation);
-        $(element_ID).removeClass("animated");
-
-        if (completeCallback != null)
+        if ($(element_ID).attr("data-timeout-id"))
         {
-            completeCallback();
+            window.clearTimeout($(element_ID).attr("data-timeout-id"));
         }
 
-    }, 2000);
+        $(element_ID).addClass(animation);
+        $(element_ID).addClass("animated");
 
-    $(element_ID).attr("data-timeout-id", timeoutId);
+        var timeoutId = window.setTimeout( function () {
 
-    $(element_ID).off();
-    $(element_ID).one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
-        function() {
             $(element_ID).removeClass(animation);
             $(element_ID).removeClass("animated");
 
@@ -37,6 +24,26 @@ function animate(element_ID, animation, completeCallback) {
             {
                 completeCallback();
             }
-        }
-    );
+
+        }, 2000);
+
+        $(element_ID).attr("data-timeout-id", timeoutId);
+
+        $(element_ID).off();
+        $(element_ID).one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
+            function() {
+                $(element_ID).removeClass(animation);
+                $(element_ID).removeClass("animated");
+
+                if (completeCallback != null)
+                {
+                    completeCallback();
+                }
+            }
+        );
+    } else {
+        completeCallback();
+    }
+
+
 }

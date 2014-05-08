@@ -108,11 +108,7 @@ function showCommentFrame(id, $frame, $comment)
             {
                 $frame.html(data.html);
             } else {
-                for (var i in data.errors)
-                {
-                    $frame.find(".errors").append(data.errors[i]);
-                    animate(".errors", "fadeInUp");
-                }
+                appendErrors(data.errors, $frame, ".errors");
             }
 
             $("form#Comment").find('input[type="submit"]').attr("disabled", false);
@@ -210,6 +206,15 @@ function bindEpicEditorFields()
 }
 
 bindEpicEditorFields();
+function appendErrors(errorsData, $form, errorsSelector)
+{
+    for (var i in errorsData)
+    {
+        $form.find(errorsSelector).append(errorsData[i]);
+        $form.find(errorsSelector).append("<br>");
+        animate(errorsSelector, "fadeInUp");
+    }
+}
 function setUpBannerImage()
 {
     $(".banner-image").each( function() {
@@ -247,10 +252,10 @@ function bindProgressBarResize()
 }
 
 bindProgressBarResize();
+var $sharedImageForm = $("form#addSharedImageForm");
+
 function bindSharingImageForm()
 {
-    var $sharedImageForm = $("form#addSharedImageForm");
-
     $sharedImageForm.ajaxForm({
         beforeSubmit:  function () {
             $sharedImageForm.find(".errors").text("");  
@@ -264,11 +269,7 @@ function bindSharingImageForm()
                     location.reload(true);
                 }
             } else {
-                for (var i in data.errors)
-                {
-                    $sharedImageForm.find(".errors").append(data.errors[i]);
-                    animate(".errors", "fadeInUp");
-                }
+                appendErrors(data.errors, $sharedImageForm, ".errors");
             }
 
             $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
@@ -299,19 +300,93 @@ function updateLearnGrid()
 bindPageResize();
 updateLearnGrid();
 
-$("img.lazy").lazyload();
+var sharingLightboxId = "#sharing_lightbox";
+var $sharingLightbox = $(sharingLightboxId);
+
+$(".js-close-lightbox").click( function(e) {
+    hideLightbox();
+});
+
+$('html').click( function (e) {
+
+    if ( eventTargetDoesNotInclude(e, sharingLightboxId) )
+    {
+        if (!$sharingLightbox.hasClass("animated") && $sharingLightbox.css("display") == "block")
+        {
+            hideLightbox();
+        }
+    }
+});
+
+function hideLightbox()
+{
+    animate("#sharing_lightbox", 'fadeOutUp', function () {
+        $("#sharing_lightbox").css("display", "none");
+    });
+
+    animate("#sharing_lightbox_overlay", 'fadeOutUp', function () {
+        $("#sharing_lightbox_overlay").css("display", "none");
+    });
+}
+
+
+//Only if we are on the appropriate page, need to used defined? util
+if (jQuery().lazyload)
+{
+    $("img.lazy").lazyload();
+}
+
 
 $("img.lazy").click(function () {
 
-    $("#sharing_lightbox")
-        .css("display", "block");
+    $("#sharing_lightbox").css("display", "block");
+    $("#sharing_lightbox_overlay").css("display", "block");
 
     $("#sharing_lightbox img").attr("src", $(this).attr("src"));
 
     animate("#sharing_lightbox", 'fadeInDown', null);
+    animate("#sharing_lightbox_overlay", 'fadeInDown', null);
 
 
 
+});
+
+$("#shared_image_shared_image").change( function (e) {
+
+    // Only allow files less than 2Mb in size
+    if (this.files[0].size/1048576 > 2)
+    {
+        $sharedImageForm.find(".errors").append("This file is too large (bigger than 2MB), try compressing or resizing it.");
+    } else {
+        $sharedImageForm.ajaxSubmit(
+        {
+            url: '/upload-image/',
+            type: 'post',
+            beforeSubmit:  function () {
+                $sharedImageForm.find(".errors").text("");  
+                $sharedImageForm.find('input[type="submit"]').attr("disabled", "disabled");
+            },
+            success: function (data) {
+
+                console.log(data);
+                if (data.success)
+                {
+                    $("#shared_image_url").val(data.file);
+                } else {
+                    appendErrors(data.errors, $sharedImageForm, ".errors");
+                }
+
+                $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
+            },
+            error: function (data) {
+                $sharedImageForm.find(".errors").append("Could not share image, try again?");
+                $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
+            }
+        }
+    );
+    }
+
+    
 });
 
 
@@ -451,11 +526,7 @@ function showUploadFrame(id, $frame)
                     window.prompt("Copy to clipboard: Ctrl/Cmd+C, Enter", $(this).attr("href"));
                 });
             } else {
-                for (var i in data.errors)
-                {
-                    $frame.find(".errors").append(data.errors[i]);
-                    animate(".errors", "fadeInUp");
-                }
+                appendErrors(data.errors, $frame, ".errors");
             }
 
             $("form#Upload").find('input[type="submit"]').attr("disabled", false);
@@ -473,31 +544,18 @@ function showUploadFrame(id, $frame)
  */
 function animate(element_ID, animation, completeCallback) {
 
-    if ($(element_ID).attr("data-timeout-id"))
+    if (supportsTransitions())
     {
-        window.clearTimeout($(element_ID).attr("data-timeout-id"));
-    }
-
-    $(element_ID).addClass(animation);
-    $(element_ID).addClass("animated");
-
-    var timeoutId = window.setTimeout( function () {
-
-        $(element_ID).removeClass(animation);
-        $(element_ID).removeClass("animated");
-
-        if (completeCallback != null)
+        if ($(element_ID).attr("data-timeout-id"))
         {
-            completeCallback();
+            window.clearTimeout($(element_ID).attr("data-timeout-id"));
         }
 
-    }, 2000);
+        $(element_ID).addClass(animation);
+        $(element_ID).addClass("animated");
 
-    $(element_ID).attr("data-timeout-id", timeoutId);
+        var timeoutId = window.setTimeout( function () {
 
-    $(element_ID).off();
-    $(element_ID).one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
-        function() {
             $(element_ID).removeClass(animation);
             $(element_ID).removeClass("animated");
 
@@ -505,8 +563,28 @@ function animate(element_ID, animation, completeCallback) {
             {
                 completeCallback();
             }
-        }
-    );
+
+        }, 2000);
+
+        $(element_ID).attr("data-timeout-id", timeoutId);
+
+        $(element_ID).off();
+        $(element_ID).one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
+            function() {
+                $(element_ID).removeClass(animation);
+                $(element_ID).removeClass("animated");
+
+                if (completeCallback != null)
+                {
+                    completeCallback();
+                }
+            }
+        );
+    } else {
+        completeCallback();
+    }
+
+
 }
 function stopEventPropagating(e)
 {
@@ -554,4 +632,22 @@ function convertToSlug(Text)
         .toLowerCase()
         .replace(/[^\w ]+/g,'')
         .replace(/ +/g,'-');
+}
+
+function supportsTransitions() {
+    var b = document.body || document.documentElement,
+        s = b.style,
+        p = 'transition';
+
+    if (typeof s[p] == 'string') { return true; }
+
+    // Tests for vendor specific prop
+    var v = ['Moz', 'webkit', 'Webkit', 'Khtml', 'O', 'ms'];
+    p = p.charAt(0).toUpperCase() + p.substr(1);
+
+    for (var i=0; i<v.length; i++) {
+        if (typeof s[v[i] + p] == 'string') { return true; }
+    }
+
+    return false;
 }

@@ -122,23 +122,46 @@ module LearnToGameDev
       tempfile = params[:shared_image][:tempfile]
       filename = params[:shared_image][:filename]
 
-      bucket_name = 'voltic-test-bucket'
-
-      # Get an instance of the S3 interface.
-      s3 = AWS::S3.new
-
-      # Upload a file.
-      key = File.basename(filename)
-      puts s3.buckets[bucket_name].objects[key].write(:file => tempfile, :acl => :public_read).inspect
-      puts "Uploading file #{filename} to bucket #{bucket_name}."
-
-      @file = filename
-
-      puts @file.inspect
+      result = upload_public_file(tempfile, filename)
+      @file = result[:filename]
       
       content_type :json
-      {:file => aws_url + @file, :success => true }.to_json
+      {:file => result[:url], :success => true }.to_json
     end
+
+    # Called during a sharing step when an image is being uploaded.
+    post :upload_image, :map => "/upload-image" do
+      puts params.inspect
+
+      # Check if image actually provided
+      if params[:shared_image][:shared_image] == ""
+        fail_with_error("No file provided!")
+      end
+
+      tempfile = params[:shared_image][:shared_image][:tempfile]
+
+      # Check filesize (fallback for JS check)
+      if (File.size(tempfile) / 1048576 > 2)
+        fail_with_error("This file is too large (bigger than 2MB), try compressing or resizing it.")
+      end
+
+      # Check if file is a valid image
+      if !params[:shared_image][:shared_image][:type].start_with?("image/")
+        fail_with_error("Please provide a valid image file.")
+      end
+
+      # Generate a random name
+      require 'securerandom'
+      random_string = SecureRandom.hex
+
+      result = upload_public_file(tempfile, random_string)
+      @file = result[:filename]
+      
+      content_type :json
+      {:file => result[:url], :success => true }.to_json
+    end
+
+
 
 
 
