@@ -109,7 +109,7 @@ function showLightbox($source)
 
     animate("#sharing_lightbox", 'fadeInDown', null);
 
-    window.setTimeout(resizeLightboxImage(), 500);
+    resizeLightboxImage();
 }
 
 $("#shared_image_shared_image").change( function (e) {
