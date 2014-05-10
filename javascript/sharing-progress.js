@@ -1,3 +1,5 @@
+// sharing-progress.js controls everything about the gallery sharing steps
+
 var $sharedImageForm = $("form#addSharedImageForm");
 
 function bindSharingImageForm()

@@ -1,3 +1,5 @@
+// progress-bar.js powers the progress bar during a lesson
+
 function updateProgressBars()
 {
     $(".progress-list-wrapper .progress").each(function() { 

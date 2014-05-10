@@ -1,3 +1,5 @@
+// form-util.js provides form handling abstractions
+
 function appendErrors(errorsData, $form, errorsSelector)
 {
     for (var i in errorsData)

@@ -1,3 +1,5 @@
+// base.js binds UI stuff
+
 $( function() {
 
     FastClick.attach(document.body);
@@ -8,6 +10,8 @@ $( function() {
     }
 
 });
+// bootstrap-mod.js alters some bootstrap UI animations
+
 function boostrapMods()
 {
     $('[rel=tooltip]').tooltip();
@@ -26,6 +30,8 @@ function boostrapMods()
     });
 }
 boostrapMods();
+// comments.js powers the comment frame for articles and images
+
 function bindComments()
 {
 
@@ -200,6 +206,61 @@ function showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop)
         }
     });
 }
+// definitions.js handle definition lookups
+
+function bindDefinitions()
+{
+    $("a[rel='definition']").mouseenter( function(e) {
+        var $definition = $(this);
+
+        var query = $(this).attr("data-query");
+
+        $.ajax({
+            url: "/definitions/define/" + query,
+            success: function (data) { 
+                if (data != 'null')
+                {
+                    $definition.popover(
+                        {
+                            trigger: "manual",
+                            placement: "top",
+                            title: $definition.text(),
+                            content: marked(data.body),
+                            html: true
+                        }
+                    );
+
+                    $definition.popover("show");
+                }
+            },
+            timeout: 1000,
+            dataType: 'json',
+            error: function(data) {
+                console.log("Could not load definition.");
+            }
+        });
+    });
+
+    $("a[rel='definition']").mouseleave( function(e) {
+        $(this).popover("hide");
+    });
+
+    $(".js-insert-definition").click( function(e) {
+        e.preventDefault();
+
+        var term = prompt("Enter definition term:");
+
+        if (term)
+        {
+            var html = '<a href="/definitions/view/' + term.toLowerCase() + '" rel="definition" data-query="' + term.toLowerCase() + '">LINK TEXT</a>';
+            prompt("Link HTML:", html);
+        }
+    });
+}
+
+bindDefinitions();
+// epiceditor-config.js configures the epic editor backend fields
+
 function bindEpicEditorFields()
 {
     if (defined('EpicEditor') && $("#epiceditor-target").length > 0) {
@@ -207,7 +268,7 @@ function bindEpicEditorFields()
         var opts = {
             textarea: 'epiceditor-target',
             basePath: '/javascripts/epiceditor/',
-            clientSideStorage: true,
+            clientSideStorage: false,
             localStorageName: 'epiceditor',
             useNativeFullscreen: true,
             parser: marked,
@@ -238,6 +299,8 @@ function bindEpicEditorFields()
 }
 
 bindEpicEditorFields();
+// form-util.js provides form handling abstractions
+
 function appendErrors(errorsData, $form, errorsSelector)
 {
     for (var i in errorsData)
@@ -257,6 +320,8 @@ function appendErrors(errorsData, $form, errorsSelector)
         animate(errorsSelector, "fadeInUp");
     }
 }
+// learn.js modifies the learn page layout to inject images etc.
+
 function setUpBannerImage()
 {
     $(".banner-image").each( function() {
@@ -270,6 +335,8 @@ function setUpBannerImage()
 }
 
 setUpBannerImage();
+// progress-bar.js powers the progress bar during a lesson
+
 function updateProgressBars()
 {
     $(".progress-list-wrapper .progress").each(function() { 
@@ -294,6 +361,8 @@ function bindProgressBarResize()
 }
 
 bindProgressBarResize();
+// sharing-progress.js controls everything about the gallery sharing steps
+
 var $sharedImageForm = $("form#addSharedImageForm");
 
 function bindSharingImageForm()
@@ -492,6 +561,8 @@ function showPrevImage()
 }
 
 
+// slug-fields.js powers slugifying and lower-casing of fields into another field
+
 function bindSlugFields()
 {
     $(".js-slug").keyup( function() {
@@ -504,6 +575,21 @@ function bindSlugFields()
 }
 
 bindSlugFields();
+
+function bindLowercaseFields()
+{
+    $(".js-lowercase").keyup( function() {
+
+        var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
+
+        $(targetId).val( convertToLowercase( $(this).val() ) );
+
+    });
+}
+
+bindLowercaseFields();
+// sortable-list.js powers the re-orderable lists for creating steps, lessons, etc.
+
 function bindSortableLists()
 {
 
@@ -553,6 +639,8 @@ function bindSortableLists()
 }
 
 bindSortableLists();
+// upload-form.js powers the file uploader available in the backend
+
 function bindUpload()
 {
 
@@ -728,12 +816,17 @@ function defined(variable)
     return typeof window[variable] != "undefined";
 }
 
-function convertToSlug(Text)
+function convertToSlug(text)
 {
-    return Text
+    return text
         .toLowerCase()
         .replace(/[^\w ]+/g,'')
         .replace(/ +/g,'-');
+}
+
+function convertToLowercase(text)
+{
+    return text.toLowerCase();
 }
 
 function supportsTransitions() {

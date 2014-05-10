@@ -1,3 +1,5 @@
+// epiceditor-config.js configures the epic editor backend fields
+
 function bindEpicEditorFields()
 {
     if (defined('EpicEditor') && $("#epiceditor-target").length > 0) {
@@ -5,7 +7,7 @@ function bindEpicEditorFields()
         var opts = {
             textarea: 'epiceditor-target',
             basePath: '/javascripts/epiceditor/',
-            clientSideStorage: true,
+            clientSideStorage: false,
             localStorageName: 'epiceditor',
             useNativeFullscreen: true,
             parser: marked,

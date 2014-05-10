@@ -20,11 +20,14 @@
 
                     p
                         = f.label :body, :caption => "Step Content"
-                        = f.text_area :body, :id => 'epiceditor-target', :class => "form-control"
-                        = partial 'form_error', :collection => (errors_for @step, :body)
+                        
+                    p
+                        button.button.create-button.js-insert-definition Insert Definition
+                        #epiceditor
 
                     p
-                        #epiceditor
+                        = f.text_area :body, :id => 'epiceditor-target', :class => "form-control"
+                        = partial 'form_error', :collection => (errors_for @step, :body)
 
                     p
                         button.create-button.button.js-upload-link Upload File

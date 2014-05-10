@@ -1,3 +1,5 @@
+// slug-fields.js powers slugifying and lower-casing of fields into another field
+
 function bindSlugFields()
 {
     $(".js-slug").keyup( function() {
@@ -10,3 +12,16 @@ function bindSlugFields()
 }
 
 bindSlugFields();
+
+function bindLowercaseFields()
+{
+    $(".js-lowercase").keyup( function() {
+
+        var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
+
+        $(targetId).val( convertToLowercase( $(this).val() ) );
+
+    });
+}
+
+bindLowercaseFields();

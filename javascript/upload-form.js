@@ -1,3 +1,5 @@
+// upload-form.js powers the file uploader available in the backend
+
 function bindUpload()
 {
 

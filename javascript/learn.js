@@ -1,3 +1,5 @@
+// learn.js modifies the learn page layout to inject images etc.
+
 function setUpBannerImage()
 {
     $(".banner-image").each( function() {

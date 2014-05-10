@@ -1,3 +1,5 @@
+// sortable-list.js powers the re-orderable lists for creating steps, lessons, etc.
+
 function bindSortableLists()
 {
 

@@ -1,3 +1,5 @@
+// bootstrap-mod.js alters some bootstrap UI animations
+
 function boostrapMods()
 {
     $('[rel=tooltip]').tooltip();

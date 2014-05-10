@@ -1,23 +1,23 @@
 /*
 Syntax error: Undefined mixin 'background-image-retina'.
-        on line 13 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss, in `background-image-retina'
-        from line 13 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss
+        on line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss, in `background-image-retina'
+        from line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss
 
-8: 
-9:     height: 4px;
-10: }
-11: 
-12: .doublejump-gap {
-13:     @include background-image-retina('/images/doublejump-gap', 'png', 203px, 28px);
-14:     width: 203px;
-15:     height: 48px;
-16:     margin: 0 auto;
-17:     background-repeat: no-repeat;
-18:     background-position: center;
+19:         margin-bottom: 0;
+20:     }
+21: }
+22: 
+23: .doublejump-gap {
+24:     @include background-image-retina('/images/doublejump-gap', 'png', 203px, 28px);
+25:     width: 203px;
+26:     height: 48px;
+27:     margin: 0 auto;
+28:     background-repeat: no-repeat;
+29:     background-position: center;
 
 Backtrace:
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss:13:in `background-image-retina'
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss:13
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss:24:in `background-image-retina'
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss:24
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:98:in `block in with_mixin'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.4/lib/sass/stack.rb:121:in `with_frame'
@@ -91,4 +91,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 13 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss, in `background-image-retina'\A         from line 13 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss\A \A 8: \A 9:     height: 4px;\A 10: }\A 11: \A 12: .doublejump-gap {\A 13:     @include background-image-retina('/images/doublejump-gap', 'png', 203px, 28px);\A 14:     width: 203px;\A 15:     height: 48px;\A 16:     margin: 0 auto;\A 17:     background-repeat: no-repeat;\A 18:     background-position: center;"; }
+  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss, in `background-image-retina'\A         from line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss\A \A 19:         margin-bottom: 0;\A 20:     }\A 21: }\A 22: \A 23: .doublejump-gap {\A 24:     @include background-image-retina('/images/doublejump-gap', 'png', 203px, 28px);\A 25:     width: 203px;\A 26:     height: 48px;\A 27:     margin: 0 auto;\A 28:     background-repeat: no-repeat;\A 29:     background-position: center;"; }

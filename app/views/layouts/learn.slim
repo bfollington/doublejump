@@ -18,9 +18,6 @@ html.no-js lang="en"
         link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css"
         
         script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"
-        script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.0/fastclick.min.js"
-        script src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.49/jquery.form.js"
-        script src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"
 
         = stylesheet_link_tag 'application'
 
@@ -32,25 +29,15 @@ html.no-js lang="en"
             = partial 'elements/doublejump_header_bar'
             - if @course
                 .banner-image data-background="#{@course.image_url}"
-                    nav.banner-navigation
-                        .row
-                            .col-md-6.col-lg-3.col-sm-6.col-xs-6
-                                - if !current_account
-                                    a href="/login/" Login
-                                - else 
-                                    a href="/profile/" Home
-                            .col-md-6.col-lg-3.col-sm-6.col-xs-6
-                                a href="/learn/" Courses
-                            .col-md-6.col-lg-3.col-sm-6.col-xs-6
-                                a href="/learn/" Definitions
-                            .col-md-6.col-lg-3.col-sm-6.col-xs-6
-                                a hello
-                    h3.welcome-message = @course.title
+                    = partial "learn/elements/navigation"
+                    h2.welcome-message = @course.title
                     - if @lesson
                         hr.tutorial-title-seperator
-                        h4.intro-blurb = @lesson.title
+                        h3.intro-blurb = @lesson.title
                     span &nbsp;
-
+            - else
+                .gradient-container
+                    = partial "learn/elements/navigation"
             .main-content#main_content 
                 = partial 'elements/breadcrumbs'
 
@@ -65,5 +52,9 @@ html.no-js lang="en"
                 a href="https://mixpanel.com/f/partner"
                     img src="//cdn.mxpnl.com/site_media/images/partner/badge_blue.png" alt="Mobile Analytics"
 
+    script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.0/fastclick.min.js"
+    script src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.49/jquery.form.js"
+    script src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"
+    script src="/javascripts/epiceditor/epiceditor.min.js"
     script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
     = javascript_include_tag 'doublejump'

@@ -1,3 +1,5 @@
+// comments.js powers the comment frame for articles and images
+
 function bindComments()
 {
 

@@ -1,0 +1,23 @@
+h3 Definitions
+
+.row
+    .col-xs-12
+        .box
+            | Filter Box
+
+.row
+    - if @definitions.length > 0
+        - @definitions.each do |definition|
+            .col-sm-6.col-xs-12
+                .box
+                    h4
+                        = definition.title
+                    p
+                        = definition.body
+    - else
+        .col-xs-12
+            .box.empty-placeholder
+                h4 There are no Definitions!
+                p
+                    | Maybe you should 
+                    a.class.button.create-button href="/definitions/make" Make One

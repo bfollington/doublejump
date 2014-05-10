@@ -1,12 +1,23 @@
-.gradient-strip {
+.gradient-strip, .gradient-container {
     background-image: -o-linear-gradient(135deg, #3C52E3 0%, #3E88F3 30%, #40A6FC 47%, #B4E658 100%);
     background-image: -moz-linear-gradient(135deg, #3C52E3 0%, #3E88F3 30%, #40A6FC 47%, #B4E658 100%);
     background-image: -webkit-linear-gradient(135deg, #3C52E3 0%, #3E88F3 30%, #40A6FC 47%, #B4E658 100%);
     background-image: -ms-linear-gradient(135deg, #3C52E3 0%, #3E88F3 30%, #40A6FC 47%, #B4E658 100%);
     background-image: linear-gradient(135deg, #3C52E3 0%, #3E88F3 30%, #40A6FC 47%, #B4E658 100%);
     width: 100%;
+}
 
+.gradient-strip
+{
     height: 4px;
+}
+
+.gradient-container
+{
+    .banner-navigation
+    {
+        margin-bottom: 0;
+    }
 }
 
 .doublejump-gap {

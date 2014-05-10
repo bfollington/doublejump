@@ -3,12 +3,17 @@ function defined(variable)
     return typeof window[variable] != "undefined";
 }
 
-function convertToSlug(Text)
+function convertToSlug(text)
 {
-    return Text
+    return text
         .toLowerCase()
         .replace(/[^\w ]+/g,'')
         .replace(/ +/g,'-');
+}
+
+function convertToLowercase(text)
+{
+    return text.toLowerCase();
 }
 
 function supportsTransitions() {

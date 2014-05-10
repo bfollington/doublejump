@@ -1,3 +1,5 @@
+// base.js binds UI stuff
+
 $( function() {
 
     FastClick.attach(document.body);

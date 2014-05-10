@@ -224,7 +224,7 @@ ul.inline li {
     .doublejump-dark {
       background-size: 125px 37px; } }
 
-h3.welcome-message {
+.welcome-message {
   text-align: center;
   text-transform: uppercase;
   font-family: "Montserrat", sans-serif;
@@ -233,7 +233,7 @@ h3.welcome-message {
   margin-top: 0px;
   letter-spacing: 2px; }
 
-h4.intro-blurb {
+.intro-blurb {
   font-family: "Montserrat", sans-serif;
   color: white;
   text-align: center;
@@ -1605,14 +1605,19 @@ footer.footer {
 .fa-plus-square-o:before {
   content: "\f196"; }
 
-.gradient-strip {
+.gradient-strip, .gradient-container {
   background-image: -o-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
   background-image: -moz-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
   background-image: -webkit-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
   background-image: -ms-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
   background-image: linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
-  width: 100%;
+  width: 100%; }
+
+.gradient-strip {
   height: 4px; }
+
+.gradient-container .banner-navigation {
+  margin-bottom: 0; }
 
 .doublejump-gap {
   background-image: url("/images/doublejump-gap.png");
@@ -1877,23 +1882,23 @@ p {
   margin-bottom: 1.3em; }
 
 h1, h2, h3, h4 {
-  margin: 1.414em 0 0.5em;
+  margin: 0.77em 0 0.5em;
   font-weight: inherit;
   line-height: 1.2;
   font-family: "Montserrat", sans-serif; }
 
 h1 {
   margin-top: 0;
-  font-size: 6.854em; }
-
-h2 {
   font-size: 4.236em; }
 
-h3 {
+h2 {
   font-size: 2.618em; }
 
-h4 {
+h3 {
   font-size: 1.618em; }
+
+h4 {
+  font-size: 1em; }
 
 small, .font-small {
   font-size: 0.818em; }
