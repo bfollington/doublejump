@@ -184,10 +184,12 @@ ul.inline li {
   margin: 0 auto;
   background-repeat: no-repeat;
   background-position: center; }
-  @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
+  @media (-webkit-min-device-pixel-ratio: 2), (-moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
     .controller-image {
       background-image: url("/images/controller@2x.png");
-      -webkit-background-size: 334px 384px; } }
+      -webkit-background-size: 334px 384px;
+      -moz-background-size: 334px 384px;
+      background-size: 334px 384px; } }
   @media only screen and (max-width: 40em) {
     .controller-image {
       background-size: 167px 192px;
@@ -201,10 +203,12 @@ ul.inline li {
   margin: 0 auto;
   background-repeat: no-repeat;
   background-position: center; }
-  @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
+  @media (-webkit-min-device-pixel-ratio: 2), (-moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
     .doublejump {
       background-image: url("/images/doublejump@2x.png");
-      -webkit-background-size: 187px 55px; } }
+      -webkit-background-size: 187px 55px;
+      -moz-background-size: 187px 55px;
+      background-size: 187px 55px; } }
   @media only screen and (max-width: 40em) {
     .doublejump {
       background-size: 125px 37px; } }
@@ -216,10 +220,12 @@ ul.inline li {
   margin: 0 auto;
   background-repeat: no-repeat;
   background-position: center; }
-  @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
+  @media (-webkit-min-device-pixel-ratio: 2), (-moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
     .doublejump-dark {
       background-image: url("/images/doublejump-dark@2x.png");
-      -webkit-background-size: 187px 55px; } }
+      -webkit-background-size: 187px 55px;
+      -moz-background-size: 187px 55px;
+      background-size: 187px 55px; } }
   @media only screen and (max-width: 40em) {
     .doublejump-dark {
       background-size: 125px 37px; } }
@@ -1627,10 +1633,12 @@ footer.footer {
   background-repeat: no-repeat;
   background-position: center;
   margin-top: 10px; }
-  @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
+  @media (-webkit-min-device-pixel-ratio: 2), (-moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
     .doublejump-gap {
       background-image: url("/images/doublejump-gap@2x.png");
-      -webkit-background-size: 203px 28px; } }
+      -webkit-background-size: 203px 28px;
+      -moz-background-size: 203px 28px;
+      background-size: 203px 28px; } }
 
 .banner-image {
   background-size: cover;
