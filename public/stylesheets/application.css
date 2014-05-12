@@ -189,6 +189,7 @@ ul.inline li {
       background-image: url("/images/controller@2x.png");
       -webkit-background-size: 334px 384px;
       -moz-background-size: 334px 384px;
+      -ms-background-size: 334px 384px;
       background-size: 334px 384px; } }
   @media only screen and (max-width: 40em) {
     .controller-image {
@@ -208,6 +209,7 @@ ul.inline li {
       background-image: url("/images/doublejump@2x.png");
       -webkit-background-size: 187px 55px;
       -moz-background-size: 187px 55px;
+      -ms-background-size: 187px 55px;
       background-size: 187px 55px; } }
   @media only screen and (max-width: 40em) {
     .doublejump {
@@ -225,6 +227,7 @@ ul.inline li {
       background-image: url("/images/doublejump-dark@2x.png");
       -webkit-background-size: 187px 55px;
       -moz-background-size: 187px 55px;
+      -ms-background-size: 187px 55px;
       background-size: 187px 55px; } }
   @media only screen and (max-width: 40em) {
     .doublejump-dark {
@@ -1638,6 +1641,7 @@ footer.footer {
       background-image: url("/images/doublejump-gap@2x.png");
       -webkit-background-size: 203px 28px;
       -moz-background-size: 203px 28px;
+      -ms-background-size: 203px 28px;
       background-size: 203px 28px; } }
 
 .banner-image {
