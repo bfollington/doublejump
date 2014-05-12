@@ -5,10 +5,5 @@
 # just execute it from the command line.
 
 require File.expand_path("../config/boot.rb", __FILE__)
-require 'rack/session/moneta'
-
-use Rack::Session::Moneta, :store => :Mongo
-
-puts "Test"
 
 run Padrino.application
