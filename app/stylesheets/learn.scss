@@ -173,7 +173,8 @@ ul.progress-list{
 
     img + .comment,
     pre + p .comment,
-    .hideable + p .comment
+    .hideable + p .comment,
+    .callout.info + p .comment
 
     {
         display: table;
