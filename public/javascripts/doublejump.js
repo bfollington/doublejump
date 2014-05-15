@@ -386,6 +386,8 @@ function setUpBannerImage()
             $this.css("background-image", "url(" + $this.attr("data-background") + ")");
         }
     });
+
+    $(".step-body img").addClass("lazy");
 }
 
 setUpBannerImage();
