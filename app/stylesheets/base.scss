@@ -100,6 +100,23 @@ p {
     border-left: 5px solid $notification-bar-colour;
 }
 
+.box .hideable-inner.callout
+{
+    background: $hideable-colour;
+    border-left: 5px solid $hideable-bar-colour;
+}
+
+.hideable-inner .content
+{
+    margin-top: 10px;
+    @include animation-duration(0.3s);
+}
+
+.hideable-inner .title
+{
+    font-style: italic;
+}
+
 .empty-placeholder
 {
     text-align: center;

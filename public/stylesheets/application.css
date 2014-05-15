@@ -110,6 +110,20 @@ p {
   background: #fcf8e3;
   border-left: 5px solid #ecd871; }
 
+.box .hideable-inner.callout {
+  background: #f8f8f8;
+  border-left: 5px solid #dbdbdb; }
+
+.hideable-inner .content {
+  margin-top: 10px;
+  -webkit-animation-duration: 0.3s;
+  -moz-animation-duration: 0.3s;
+  -ms-animation-duration: 0.3s;
+  animation-duration: 0.3s; }
+
+.hideable-inner .title {
+  font-style: italic; }
+
 .empty-placeholder {
   text-align: center; }
 
@@ -121,6 +135,9 @@ ul.inline li {
 
 .center-text {
   text-align: center; }
+
+.align-right {
+  text-align: right; }
 
 .center {
   margin-left: auto;
@@ -136,7 +153,7 @@ ul.inline li {
   margin-left: 5px; }
 
 .margin-left {
-  margin-top: 15px; }
+  margin-left: 15px; }
 
 .no-margin {
   margin: 0px 0px; }
@@ -1739,7 +1756,8 @@ ul.progress-list {
   -ms-border-radius: 2px;
   border-radius: 2px; }
 .step-body img + .comment,
-.step-body pre + p .comment {
+.step-body pre + p .comment,
+.step-body .hideable + p .comment {
   display: table;
   margin: 0 auto; }
 

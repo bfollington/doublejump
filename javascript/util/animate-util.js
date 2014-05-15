@@ -5,44 +5,50 @@
  */
 function animate(element_ID, animation, completeCallback) {
 
+    animateElement($(element_ID), animation, completeCallback);
+
+}
+
+function animateElement($element, animation, completeCallback) {
+
     if (supportsTransitions())
     {
-        if ($(element_ID).attr("data-timeout-id"))
+        if ($element.attr("data-timeout-id"))
         {
-            window.clearTimeout($(element_ID).attr("data-timeout-id"));
+            window.clearTimeout($element.attr("data-timeout-id"));
         }
 
-        $(element_ID).addClass(animation);
-        $(element_ID).addClass("animated");
+        $element.addClass(animation);
+        $element.addClass("animated");
 
         var timeoutId = window.setTimeout( function () {
 
-            $(element_ID).removeClass(animation);
-            $(element_ID).removeClass("animated");
+            $element.removeClass(animation);
+            $element.removeClass("animated");
 
             if (completeCallback != null)
             {
-                completeCallback();
+                completeCallback($element);
             }
 
         }, 2000);
 
-        $(element_ID).attr("data-timeout-id", timeoutId);
+        $element.attr("data-timeout-id", timeoutId);
 
-        $(element_ID).off();
-        $(element_ID).one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
+        $element.off();
+        $element.one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
             function() {
-                $(element_ID).removeClass(animation);
-                $(element_ID).removeClass("animated");
+                $element.removeClass(animation);
+                $element.removeClass("animated");
 
                 if (completeCallback != null)
                 {
-                    completeCallback();
+                    completeCallback($element);
                 }
             }
         );
     } else {
-        completeCallback();
+        completeCallback($element);
     }
 
 

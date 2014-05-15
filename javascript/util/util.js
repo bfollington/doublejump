@@ -33,3 +33,13 @@ function supportsTransitions() {
 
     return false;
 }
+
+function isVisible($elem)
+{
+    if ($elem.css("display") != "none" && $elem.css("display") != "hidden")
+    {
+        return true;
+    } else {
+        return false;
+    }
+}

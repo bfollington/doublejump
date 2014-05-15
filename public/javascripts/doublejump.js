@@ -320,6 +320,60 @@ function appendErrors(errorsData, $form, errorsSelector)
         animate(errorsSelector, "fadeInUp");
     }
 }
+function createHideableRegions()
+{
+    $(".hideable").each( function () {
+        var html = $(this).html();
+        var title = $(this).attr("data-title");
+
+        $(this).html(
+            format(
+                getTemplate("_hideable_region"), 
+                {
+                    "item-text": html,
+                    "item-title": title
+                }
+            )
+        );
+
+        $(this).find(".content").hide();
+    });
+
+    $(".js-toggle-hideable").click( function(e) {
+        e.preventDefault();
+
+        var content = $(this).parent().find(".content");
+
+        if (isVisible(content))
+        {
+            animateElement( content, "fadeOutDown", function ($elem) { $elem.hide(); } );
+        } else {
+            content.css("display", "block");
+            animateElement( content, "fadeInUp" );
+        }
+
+        
+    });
+}
+
+createHideableRegions();
+
+function bindInsertRegionButton()
+{
+    $(".js-insert-hideable").click( function(e) {
+        e.preventDefault();
+
+        var term = prompt("Enter hideable region content:");
+
+        if (term)
+        {
+            var html = '<div class="hideable" data-title="TITLE FOR HIDEABLE REGION">' + term + '</div>';
+            prompt("Hideable Region HTML:", html);
+        }
+    });
+}
+
+bindInsertRegionButton();
 // learn.js modifies the learn page layout to inject images etc.
 
 function setUpBannerImage()
@@ -734,44 +788,50 @@ function showUploadFrame(id, $frame)
  */
 function animate(element_ID, animation, completeCallback) {
 
+    animateElement($(element_ID), animation, completeCallback);
+
+}
+
+function animateElement($element, animation, completeCallback) {
+
     if (supportsTransitions())
     {
-        if ($(element_ID).attr("data-timeout-id"))
+        if ($element.attr("data-timeout-id"))
         {
-            window.clearTimeout($(element_ID).attr("data-timeout-id"));
+            window.clearTimeout($element.attr("data-timeout-id"));
         }
 
-        $(element_ID).addClass(animation);
-        $(element_ID).addClass("animated");
+        $element.addClass(animation);
+        $element.addClass("animated");
 
         var timeoutId = window.setTimeout( function () {
 
-            $(element_ID).removeClass(animation);
-            $(element_ID).removeClass("animated");
+            $element.removeClass(animation);
+            $element.removeClass("animated");
 
             if (completeCallback != null)
             {
-                completeCallback();
+                completeCallback($element);
             }
 
         }, 2000);
 
-        $(element_ID).attr("data-timeout-id", timeoutId);
+        $element.attr("data-timeout-id", timeoutId);
 
-        $(element_ID).off();
-        $(element_ID).one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
+        $element.off();
+        $element.one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
             function() {
-                $(element_ID).removeClass(animation);
-                $(element_ID).removeClass("animated");
+                $element.removeClass(animation);
+                $element.removeClass("animated");
 
                 if (completeCallback != null)
                 {
-                    completeCallback();
+                    completeCallback($element);
                 }
             }
         );
     } else {
-        completeCallback();
+        completeCallback($element);
     }
 
 
@@ -845,4 +905,14 @@ function supportsTransitions() {
     }
 
     return false;
+}
+
+function isVisible($elem)
+{
+    if ($elem.css("display") != "none" && $elem.css("display") != "hidden")
+    {
+        return true;
+    } else {
+        return false;
+    }
 }

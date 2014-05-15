@@ -126,8 +126,9 @@ module LearnToGameDev
 
       tempfile = params[:shared_image][:tempfile]
       filename = params[:shared_image][:filename]
+      type = params[:shared_image][:type]
 
-      result = upload_public_file(tempfile, filename)
+      result = upload_public_file(tempfile, filename, type)
       @file = result[:filename]
       
       content_type :json

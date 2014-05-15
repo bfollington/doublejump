@@ -172,7 +172,9 @@ ul.progress-list{
     }
 
     img + .comment,
-    pre + p .comment
+    pre + p .comment,
+    .hideable + p .comment
+
     {
         display: table;
         margin: 0 auto;
