@@ -23,7 +23,7 @@ class Step
   index({ slug: 1 }, { unique: true, name: "slug_index" })
 
   def self.id_regex
-    /(\_[A-z0-9]+\_)+/
+    /(\_\{[A-z0-9]+\}\_)+/
   end
 
   # You can define indexes on documents using the index macro:

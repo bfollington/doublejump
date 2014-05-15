@@ -15,7 +15,7 @@ LearnToGameDev::App.controllers :steps do
 
     @step = Step.create(
       :title => params[:step][:title],
-      :body => params[:step][:body],
+      :body => process_body( params[:step][:body] ),
       :slug => params[:step][:slug],
       :account => current_account,
       :is_sharing_step => params[:step][:is_sharing_step]
@@ -84,7 +84,7 @@ def process_body(body)
     # If there is no ID for this paragraph
     if (para =~ re).nil?
       # We add one in
-      new_body += para + " _" + (highest_id + 1).to_s + "_" + "\n\n"
+      new_body += para + " _{" + (highest_id + 1).to_s + "}_" + "\n\n"
       # And bump up the highest ID for the next match
       highest_id += 1
     else
