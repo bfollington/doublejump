@@ -1757,7 +1757,8 @@ ul.progress-list {
   border-radius: 2px; }
 .step-body img + .comment,
 .step-body pre + p .comment,
-.step-body .hideable + p .comment {
+.step-body .hideable + p .comment,
+.step-body .callout.info + p .comment {
   display: table;
   margin: 0 auto; }
 
