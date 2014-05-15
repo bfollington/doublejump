@@ -5,6 +5,10 @@ Syntax error: Undefined variable: "$nunito-stack".
 1: .button {
 2:     font-family: $nunito-stack;
 3: }
+4: 
+5: .popover {
+6:     max-width: 400px;
+7: }
 
 Backtrace:
 /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/override.scss:2
@@ -79,4 +83,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$nunito-stack\".\A         on line 2 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/override.scss\A \A 1: .button {\A 2:     font-family: $nunito-stack;\A 3: }"; }
+  content: "Syntax error: Undefined variable: \"$nunito-stack\".\A         on line 2 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/override.scss\A \A 1: .button {\A 2:     font-family: $nunito-stack;\A 3: }\A 4: \A 5: .popover {\A 6:     max-width: 400px;\A 7: }"; }

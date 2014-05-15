@@ -1868,6 +1868,9 @@ img.shared-image {
 .button {
   font-family: "Nunito", sans-serif; }
 
+.popover {
+  max-width: 400px; }
+
 #comment_frame, #upload_frame {
   position: absolute;
   padding: 15px;
