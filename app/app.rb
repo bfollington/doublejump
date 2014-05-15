@@ -128,7 +128,7 @@ module LearnToGameDev
       filename = params[:shared_image][:filename]
       type = params[:shared_image][:type]
 
-      random_string = SecureRandom.hex + type.gsub("image/", ".")
+      random_string = SecureRandom.hex + File.extname(filename)  
 
       result = upload_public_file(tempfile, random_string, type)
       @file = result[:filename]
