@@ -9,6 +9,12 @@ $( function() {
         $(".js-select2").select2();
     }
 
+    //Only if we are on the appropriate page, need to used defined? util
+    if (jQuery().lazyload)
+    {
+        $("img.lazy").lazyload();
+    }
+
 });
 // bootstrap-mod.js alters some bootstrap UI animations
 
@@ -496,13 +502,6 @@ function hideLightbox()
     animate("#sharing_lightbox_overlay", 'fadeOutUp', function () {
         $("#sharing_lightbox_overlay").css("display", "none");
     });
-}
-
-
-//Only if we are on the appropriate page, need to used defined? util
-if (jQuery().lazyload)
-{
-    $("img.lazy").lazyload();
 }
 
 var $currentLightboxSource;
