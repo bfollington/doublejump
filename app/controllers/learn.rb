@@ -83,6 +83,8 @@ LearnToGameDev::App.controllers :learn do
     fetch_step(params[:step])
 
     @body_edited = insert_comment_tags @step.body
+    @body_edited = RDiscount.new(@body_edited).to_html
+    @body_edited = lazy_load_images @body_edited
     mark_prev_step_as_complete
 
     if @step.is_sharing_step
@@ -173,6 +175,10 @@ def insert_comment_tags(body)
   end
 
   body
+end
+
+def lazy_load_images(body)
+  body.gsub("src=", "data-original=")
 end
 
 

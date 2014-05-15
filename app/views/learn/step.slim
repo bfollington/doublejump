@@ -68,12 +68,12 @@
 
             - if !@step.is_sharing_step
                 .step-body
-                    | #{{RDiscount.new(@body_edited).to_html}}
+                    | #{{@body_edited}}
 
                     #comment_frame
             - else
                 .sharing-step
-                    | #{{RDiscount.new(@body_edited).to_html}}
+                    | #{{@body_edited}}
                     = partial 'learn/elements/sharing_step' 
 
         - if @step.is_sharing_step

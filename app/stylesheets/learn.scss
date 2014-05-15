@@ -169,6 +169,8 @@ ul.progress-list{
     {
         border-bottom: 2px solid #aaa;
         @include border-radius(2px);
+
+        min-width: 128px;
     }
 
     img + .comment,
