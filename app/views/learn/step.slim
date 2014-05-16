@@ -79,8 +79,17 @@
         - if @step.is_sharing_step
             = partial 'learn/elements/shared_image', :collection => @sharing_steps
 
+        p.center-text.margin-top
+            - if !@lesson.get_next_step(@step).nil?
+                a.button.create-button href="/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_next_step(@step).slug}#main_content"
+                    | Go To Next Step: #{@lesson.get_next_step(@step).title}
+            - else
+                a.button.create-button href="/learn/#{@course.slug}/#{@lesson.slug}/finish"
+                    | Finish This Lesson
+
     .col-lg-3.col-md-3
         .box
+            h4 = @lesson.title
             p
                 = @lesson.description
 

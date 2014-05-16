@@ -14,15 +14,18 @@
 
                     ul.dropdown-menu
                         li
-                            a href="#" Action
-                        li
-                            a href="#" Action
+                            a href="#" Home
+                        - if current_account.role == "admin"
+                            li
+                                a href="/admin" Padrino Admin
+                            li
+                                a href="/manage" Manage Content
                         li.divider
                         li
                             a href="/destroy" Logout
 
                 div
-                    small
+                    small.extra-small
                             | (that's you!)
     - else
         .header-bar

@@ -106,6 +106,13 @@ module LearnToGameDev
 
 
 
+
+    get :manage do
+      render 'manage', :layout => :app
+    end
+
+
+
     #
     # S3 UPLOADS
     #

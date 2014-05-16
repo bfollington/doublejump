@@ -1938,6 +1938,9 @@ h4 {
 small, .font-small {
   font-size: 0.818em; }
 
+.extra-small {
+  font-size: 0.6em; }
+
 .js-template {
   display: none; }
 

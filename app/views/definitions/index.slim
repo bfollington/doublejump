@@ -4,6 +4,10 @@ h3 Definitions
     .col-xs-12
         .box
             | Filter Box
+            - if !current_account.nil? && current_account.role == "admin"
+                br
+            p.center-text.no-margin
+                a.class.button.create-button href="/definitions/make" Create New Definition
 
 .row
     - if @definitions.length > 0
@@ -12,12 +16,16 @@ h3 Definitions
                 .box
                     h4
                         = definition.title
+                        - if !current_account.nil? && current_account.role == "admin"
+                            small.margin-left
+                                a href="/definitions/make/#{definition.id}" Edit
                     p
                         = definition.body
     - else
-        .col-xs-12
-            .box.empty-placeholder
-                h4 There are no Definitions!
-                p
-                    | Maybe you should 
-                    a.class.button.create-button href="/definitions/make" Make One
+        - if !current_account.nil? && current_account.role == "admin"
+            .col-xs-12
+                .box.empty-placeholder
+                    h4 There are no Definitions!
+                    p
+                        | Maybe you should 
+                        a.class.button.create-button href="/definitions/make" Make One
