@@ -1,5 +1,7 @@
 // epiceditor-config.js configures the epic editor backend fields
 
+var editor;
+
 function bindEpicEditorFields()
 {
     if (defined('EpicEditor') && $("#epiceditor-target").length > 0) {
@@ -30,7 +32,7 @@ function bindEpicEditorFields()
             autogrow: false
         } 
 
-        var editor = new EpicEditor(opts).load();
+        editor = new EpicEditor(opts).load();
 
         $("#epiceditor-target").parent().hide();
 

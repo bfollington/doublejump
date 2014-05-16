@@ -15,10 +15,6 @@ module LearnToGameDev
       :secret_access_key => 'gVEIU7WKIpmTNE+o04C1KoZwgWxy3TcL3mkzSYIC'
     )
 
-    require 'rack/session/moneta'
-
-    use Rack::Session::Moneta, :store => Moneta.new(:Memory)
-
     set :login_page, "/login" # determines the url login occurs
 
     access_control.roles_for :any do |role|

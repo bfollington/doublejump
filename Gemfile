@@ -23,8 +23,6 @@ gem 'slim'
 gem 'mongoid', '~>3.0.0'
 
 # Session management
-gem 'mongo'
-gem 'bson_ext'
 gem 'moneta'
 
 # Test requirements

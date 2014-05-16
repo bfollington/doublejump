@@ -25,7 +25,7 @@ function bindDefinitions()
                     $definition.popover("show");
                 }
             },
-            timeout: 1000,
+            timeout: 3000,
             dataType: 'json',
             error: function(data) {
                 console.log("Could not load definition.");
@@ -40,13 +40,19 @@ function bindDefinitions()
     $(".js-insert-definition").click( function(e) {
         e.preventDefault();
 
-        var term = prompt("Enter definition term:");
+        var html = '{definition{TITLE, TERM}}';
+        prompt("Macro:", html);
 
-        if (term)
-        {
-            var html = '<a href="/definitions/view/' + term.toLowerCase() + '" rel="definition" data-query="' + term.toLowerCase() + '">LINK TEXT</a>';
-            prompt("Link HTML:", html);
-        }
+        editor.focus();
+    });
+
+    $(".js-insert-inline-definition").click( function(e) {
+        e.preventDefault();
+
+        var html = '{inline-definition{TERM}}';
+        prompt("Macro:", html);
+
+        editor.focus();
     });
 }
 

@@ -1,4 +1,5 @@
 require "rest_client"
+require 'profiler'
 
 LearnToGameDev::App.controllers :learn do
   
@@ -77,14 +78,16 @@ LearnToGameDev::App.controllers :learn do
   end
 
   get :view_step, :map => '/learn/:course/:lesson/:step' do
-    
+
     fetch_course(params[:course])
     fetch_lesson(params[:lesson])
     fetch_step(params[:step])
 
     @body_edited = insert_comment_tags @step.body
     @body_edited = RDiscount.new(@body_edited).to_html
+    @body_edited = expand_macros @body_edited
     @body_edited = lazy_load_images @body_edited
+
     mark_prev_step_as_complete
 
     if @step.is_sharing_step
@@ -92,6 +95,7 @@ LearnToGameDev::App.controllers :learn do
     end
 
     render 'learn/step'
+
   end
 
 
@@ -181,7 +185,55 @@ def lazy_load_images(body)
   body.gsub("src=", "data-original=")
 end
 
+def expand_macros(body)
 
+  edited_body = body
+
+  body.scan(Step.macro_regex).each do |match|
+    puts "match 0: " + match[0]
+    edited_body.gsub!(match[0], process_macro(match))
+  end
+
+  edited_body
+
+end
+
+def process_macro(macro)
+
+  name =  macro[1]
+  params = macro[2].split(/\",\s*\"/)
+  params[0] = params[0][1..-1]
+  params[-1] = params[-1][0..-2]
+
+  puts macro.inspect
+  puts params.inspect
+
+  if (name == "definition")
+    @link_text = params[0]
+    @term = params[1].downcase
+    render 'macros/definition', :layout => false
+  elsif (name == "hideable")
+    @item_text = RDiscount.new(params[1]).to_html
+    @item_title = params[0]
+    render 'macros/hideable', :layout => false
+  elsif (name == "inline-definition")
+
+    definition = Definition.where(:search_title => params[0].downcase).first
+
+    if !definition.nil?
+      @definition = RDiscount.new(definition.body).to_html
+      @definition_title = definition.title
+      render 'macros/inline-definition', :layout => false
+    else
+      "Invalid Definition Term."
+    end
+
+    
+  else
+    macro[0]
+  end
+  
+end
 
 def fetch_course(slug)
   @course = Course.where(:slug => slug).first

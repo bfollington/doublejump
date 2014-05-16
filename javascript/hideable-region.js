@@ -1,19 +1,6 @@
 function createHideableRegions()
 {
-    $(".hideable").each( function () {
-        var html = $(this).html();
-        var title = $(this).attr("data-title");
-
-        $(this).html(
-            format(
-                getTemplate("_hideable_region"), 
-                {
-                    "item-text": html,
-                    "item-title": title
-                }
-            )
-        );
-
+    $(".hideable-inner").each( function () {
         $(this).find(".content").hide();
     });
 
@@ -41,13 +28,10 @@ function bindInsertRegionButton()
     $(".js-insert-hideable").click( function(e) {
         e.preventDefault();
 
-        var term = prompt("Enter hideable region content:");
+        var html = '{hideable{TITLE, CONTENT}}';
+        prompt("Macro:", html);
 
-        if (term)
-        {
-            var html = '<div class="hideable" data-title="TITLE FOR HIDEABLE REGION">' + term + '</div>';
-            prompt("Hideable Region HTML:", html);
-        }
+        editor.focus();
     });
 }
 

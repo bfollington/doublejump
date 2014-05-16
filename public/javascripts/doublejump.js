@@ -243,7 +243,7 @@ function bindDefinitions()
                     $definition.popover("show");
                 }
             },
-            timeout: 1000,
+            timeout: 3000,
             dataType: 'json',
             error: function(data) {
                 console.log("Could not load definition.");
@@ -258,18 +258,26 @@ function bindDefinitions()
     $(".js-insert-definition").click( function(e) {
         e.preventDefault();
 
-        var term = prompt("Enter definition term:");
+        var html = '{definition{TITLE, TERM}}';
+        prompt("Macro:", html);
 
-        if (term)
-        {
-            var html = '<a href="/definitions/view/' + term.toLowerCase() + '" rel="definition" data-query="' + term.toLowerCase() + '">LINK TEXT</a>';
-            prompt("Link HTML:", html);
-        }
+        editor.focus();
+    });
+
+    $(".js-insert-inline-definition").click( function(e) {
+        e.preventDefault();
+
+        var html = '{inline-definition{TERM}}';
+        prompt("Macro:", html);
+
+        editor.focus();
     });
 }
 
 bindDefinitions();
 // epiceditor-config.js configures the epic editor backend fields
+
+var editor;
 
 function bindEpicEditorFields()
 {
@@ -301,7 +309,7 @@ function bindEpicEditorFields()
             autogrow: false
         } 
 
-        var editor = new EpicEditor(opts).load();
+        editor = new EpicEditor(opts).load();
 
         $("#epiceditor-target").parent().hide();
 
@@ -332,20 +340,7 @@ function appendErrors(errorsData, $form, errorsSelector)
 }
 function createHideableRegions()
 {
-    $(".hideable").each( function () {
-        var html = $(this).html();
-        var title = $(this).attr("data-title");
-
-        $(this).html(
-            format(
-                getTemplate("_hideable_region"), 
-                {
-                    "item-text": html,
-                    "item-title": title
-                }
-            )
-        );
-
+    $(".hideable-inner").each( function () {
         $(this).find(".content").hide();
     });
 
@@ -373,13 +368,10 @@ function bindInsertRegionButton()
     $(".js-insert-hideable").click( function(e) {
         e.preventDefault();
 
-        var term = prompt("Enter hideable region content:");
+        var html = '{hideable{TITLE, CONTENT}}';
+        prompt("Macro:", html);
 
-        if (term)
-        {
-            var html = '<div class="hideable" data-title="TITLE FOR HIDEABLE REGION">' + term + '</div>';
-            prompt("Hideable Region HTML:", html);
-        }
+        editor.focus();
     });
 }
 
@@ -919,5 +911,43 @@ function isVisible($elem)
         return true;
     } else {
         return false;
+    }
+}
+
+function insertTextAtCursor(text) {
+    var sel, range, html;
+    if (window.getSelection) {
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.deleteContents();
+            range.insertNode( document.createTextNode(text) );
+        }
+    } else if (document.selection && document.selection.createRange) {
+        document.selection.createRange().text = text;
+    }
+}
+
+function saveSelection() {
+    if (window.getSelection) {
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            return sel.getRangeAt(0);
+        }
+    } else if (document.selection && document.selection.createRange) {
+        return document.selection.createRange();
+    }
+    return null;
+}
+
+function restoreSelection(range) {
+    if (range) {
+        if (window.getSelection) {
+            sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+        } else if (document.selection && range.select) {
+            range.select();
+        }
     }
 }
