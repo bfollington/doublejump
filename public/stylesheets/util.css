@@ -4,6 +4,9 @@ ul.inline {
 ul.inline li {
   display: inline; }
 
+.inline-block {
+  display: inline-block; }
+
 .center-text {
   text-align: center; }
 

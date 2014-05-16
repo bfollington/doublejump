@@ -175,7 +175,8 @@ ul.progress-list{
 
     img + .comment,
     pre + p .comment,
-    .hideable + p .comment,
+    .hideable-inner + .comment,
+    .callout.definition + .comment,
     .callout.info + p .comment
 
     {

@@ -70,7 +70,7 @@ def process_body(body)
   # Scan the body and find the highest ID mentioned
   body.scan(re).each do |match|
     # Convert to an integer
-    match_number = match[0].gsub("_", "").gsub("_", "").to_i
+    match_number = match[0].gsub("_{", "").gsub("}_", "").to_i
 
     # Basic max finding
     if (match_number > highest_id)

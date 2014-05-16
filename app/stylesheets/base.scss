@@ -36,7 +36,7 @@ p {
 .comment
 {
     margin-top: 10px;
-    margin-left: 20px;
+    margin-left: 0.5em;
 }
 
 .create-button
@@ -110,6 +110,17 @@ p {
 {
     margin-top: 10px;
     @include animation-duration(0.3s);
+
+    p
+    {
+        margin-bottom: 0;
+    }
+}
+
+.callout.definition
+{
+    background: $definition-colour;
+    border-left: 5px solid $definition-bar-colour;
 }
 
 .hideable-inner .title

@@ -351,8 +351,10 @@ function createHideableRegions()
 
         if (isVisible(content))
         {
+            $(this).text("Expand");
             animateElement( content, "fadeOutDown", function ($elem) { $elem.hide(); } );
         } else {
+            $(this).text("Hide");
             content.css("display", "block");
             animateElement( content, "fadeInUp" );
         }
