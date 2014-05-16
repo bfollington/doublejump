@@ -26,6 +26,10 @@ class Step
     /(\_\{[A-z0-9]+\}\_)+/
   end
 
+  def self.macro_regex
+    /(\{[ ]*([A-z0-9\-]+)\{(((,\s+)*\"[A-z0-9, \n\*_\/\|\(\)\-\+\>\<\`\#\=\.\&\!\?\$\@\;\'\:]+\")*)\}[ \n]*\})+/
+  end
+
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>
 
