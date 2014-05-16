@@ -22,9 +22,10 @@ function bindSortableLists()
             $(this).parent().remove();
         });
 
-
         // Add a new row to the list
         $(".js-sortable-add-new").click( function(e) {
+
+
 
             var $readSelectionFrom = $( $(this).attr("data-read-selection-from") ),
                 hiddenField = $(this).attr("data-hidden-field-name"),

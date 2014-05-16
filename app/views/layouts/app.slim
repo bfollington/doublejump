@@ -39,4 +39,3 @@ html.no-js lang="en"
 
     = partial( local_or_live('includes/local_app_js', 'includes/live_app_js') )
     script src="#{ local_or_live( '/local_required/select2.min.js', '//cdnjs.cloudflare.com/ajax/libs/select2/3.4.8/select2.min.js') }"
-    = yield_content :include_js
