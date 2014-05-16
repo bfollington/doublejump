@@ -10,6 +10,18 @@ LearnToGameDev::App.helpers do
     end
   end
 
+  def local_or_live(local_option, live_option)
+
+    ret = case Padrino.env
+      when :development then local_option
+      when :production  then live_option
+      when :test        then local_option
+    end
+
+    ret
+
+  end
+
   def aws_bucket()
     "voltic-test-bucket"
   end

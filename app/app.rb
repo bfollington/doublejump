@@ -86,7 +86,7 @@ module LearnToGameDev
     #
 
     get :register do
-      render 'register'
+      render 'register', :layout => :app
     end
 
     post :register do

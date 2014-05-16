@@ -1,12 +1,11 @@
 .row
-    .col-lg-9
+    .col-lg-12
 
         h4 Lesson Breakdown
 
         p
             = @lesson.description
-    .col-lg-3
-        h4 Related Readings
+        
 
 .row
     .col-lg-9
@@ -18,6 +17,7 @@
                     - if current_account && current_account.has_completed_step?(step)
                         | Completed on #{current_account.get_completed_step(step).created_at.strftime("%A, %d %B, %Y")}
     .col-lg-3
+        h4 Related Readings
 
         - if @lesson.related_readings.length == 0
             p There are no related readings for this lesson.

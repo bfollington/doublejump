@@ -1,15 +1,6 @@
 .row
-    .col-lg-9
-
-        h4 Course Plan
-
-        p
-            = @course.description
-    .col-lg-3
-        h4 Prerequisites
-
-.row
-    .col-lg-9
+    .col-lg-8
+        h4 Lessons in this Course
         - @course.lessons.each do |lesson|
             .box
                 .completed
@@ -23,8 +14,14 @@
                     = lesson.description
 
                 
-    .col-lg-3
+    .col-lg-4
 
+        h4
+            = @course.title
+        p
+            = @course.description
+
+        h4 Prerequisites
         - if @course.prerequisites.length == 0
             p There are no prerequisites for this course.
 
