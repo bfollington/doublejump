@@ -169,7 +169,7 @@ end
 #
 def insert_comment_tags(body)
   body.scan(Step.id_regex).each do |tag|
-    html_tag = "\n<span class='comment' data-group='#{tag[0][1..-2]}' id='comment#{tag[0][0..-2]}'></span>"
+    html_tag = "\n<span class='comment' data-group='#{tag[0][2..-3]}' id='comment#{tag[0][1..-3]}'></span>"
 
     body = body.gsub(tag[0], html_tag)
   end
