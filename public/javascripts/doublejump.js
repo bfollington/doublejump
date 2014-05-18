@@ -256,6 +256,7 @@ function bindDefinitions()
                                         {
                                             "definition-title": data.title,
                                             "definition-body": marked(data.body),
+                                            "definition-id": marked(data.id)
                                         }
                                     );
 

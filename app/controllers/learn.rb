@@ -223,6 +223,7 @@ def process_macro(macro)
     if !definition.nil?
       @definition = RDiscount.new(definition.body).to_html
       @definition_title = definition.title
+      @definition_id = definition.id
       render 'macros/inline-definition', :layout => false
     else
       "Invalid Definition Term."

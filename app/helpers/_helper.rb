@@ -22,6 +22,12 @@ LearnToGameDev::App.helpers do
 
   end
 
+  def is_admin()
+
+    return !current_account.nil? && current_account.role == "admin"
+
+  end
+
   def aws_bucket()
     "voltic-test-bucket"
   end

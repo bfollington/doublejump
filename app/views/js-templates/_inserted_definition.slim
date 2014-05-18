@@ -1,9 +1,13 @@
 - definition_title = definition_title || "{{#definition-title}}"
 - definition_body = definition_body || "{{#definition-body}}"
+- definition_id = definition_id || "{{#definition-id}}"
 
 .definition.callout.js-inserted-definition
     a.js-close-inserted-definition.float-right href="#" title="Close Definition" 
         i.fa.fa-times
+    - if is_admin
+        a.js-close-inserted-definition.float-right href="/definitions/make/#{definition_id}" title="Edit Definition" target="new"
+            i.fa.fa-edit
     h4
         = definition_title
 
