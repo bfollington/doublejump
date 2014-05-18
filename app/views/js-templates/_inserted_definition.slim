@@ -1,0 +1,10 @@
+- definition_title = definition_title || "{{#definition-title}}"
+- definition_body = definition_body || "{{#definition-body}}"
+
+.definition.callout.js-inserted-definition
+    a.js-close-inserted-definition.float-right href="#" title="Close Definition" 
+        i.fa.fa-times
+    h4
+        = definition_title
+
+    = definition_body

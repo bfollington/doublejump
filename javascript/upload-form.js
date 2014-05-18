@@ -66,7 +66,6 @@ function showUploadFrame(id, $frame)
         success: function (data) {
             if (data.success)
             {
-                console.log(data);
                 $frame.find(".file").html("<a href='" + data.file + "'>View File</a>&nbsp;<a class='js-copy-link' href='" + data.file + "'>Get Link</a>");
 
                 $frame.find(".js-copy-link").click(function (e) {

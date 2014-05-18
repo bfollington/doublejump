@@ -11,8 +11,6 @@ function bindComments()
         var $comment = $(this);
         var $parent = $(this).parent().parent().parent().parent();
 
-        console.log($parent);
-
         if ($parent.attr("id") != "sharing_lightbox") $(this).html(getTemplate("_comment_icon"));
 
         $(this).find('a').click( function (e) { 
@@ -27,8 +25,6 @@ function bindComments()
                 
                 var url = "";
                 var offsetLeft, offsetTop;
-
-                console.log($parent);
 
                 if ($parent.attr("id") == "sharing_lightbox")
                 {

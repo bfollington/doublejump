@@ -19,6 +19,27 @@ $( function() {
         });
     }
 
+    $(".step-body a[rel='definition'").each( function() {
+
+        $(this).html($(this).html() + ' <i class="fa fa-book"></i>');
+
+    });
+
+    $(".step-body a[href*='http']").each( function() {
+
+        $(this).html($(this).html() + ' <i class="fa fa-external-link"></i>');
+
+        if ( typeof $(this).attr("title") == "undefined")
+        {
+            $(this).attr("title", $(this).attr("href"));
+        }
+
+        $(this).attr("target", "new");
+
+        $(this).tooltip();
+
+    });
+
 });
 // bootstrap-mod.js alters some bootstrap UI animations
 
@@ -53,8 +74,6 @@ function bindComments()
         var $comment = $(this);
         var $parent = $(this).parent().parent().parent().parent();
 
-        console.log($parent);
-
         if ($parent.attr("id") != "sharing_lightbox") $(this).html(getTemplate("_comment_icon"));
 
         $(this).find('a').click( function (e) { 
@@ -69,8 +88,6 @@ function bindComments()
                 
                 var url = "";
                 var offsetLeft, offsetTop;
-
-                console.log($parent);
 
                 if ($parent.attr("id") == "sharing_lightbox")
                 {
@@ -220,8 +237,10 @@ function showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop)
 
 function bindDefinitions()
 {
-    $("a[rel='definition']").mouseenter( function(e) {
+    $("a[rel='definition']").click( function(e) {
         var $definition = $(this);
+
+        e.preventDefault();
 
         var query = $(this).attr("data-query");
 
@@ -230,17 +249,24 @@ function bindDefinitions()
             success: function (data) { 
                 if (data != 'null')
                 {
-                    $definition.popover(
-                        {
-                            trigger: "manual",
-                            placement: "top",
-                            title: $definition.text(),
-                            content: marked(data.body),
-                            html: true
-                        }
-                    );
+                    $(".step-body .js-inserted-definition").remove();
 
-                    $definition.popover("show");
+                    var template = format(
+                                        getTemplate("_inserted_definition"), 
+                                        {
+                                            "definition-title": data.title,
+                                            "definition-body": marked(data.body),
+                                        }
+                                    );
+
+                    $definition.parent().after(template);
+                    animate($definition.parent().next(), "fadeInUp");
+
+                    $(".js-close-inserted-definition").click( function(e) {
+                        e.preventDefault();
+
+                        animate($(this).parent(), "fadeOutDown", function($el) { $el.remove(); });
+                    });
                 }
             },
             timeout: 3000,
@@ -249,10 +275,6 @@ function bindDefinitions()
                 console.log("Could not load definition.");
             }
         });
-    });
-
-    $("a[rel='definition']").mouseleave( function(e) {
-        $(this).popover("hide");
     });
 
     $(".js-insert-definition").click( function(e) {
@@ -513,7 +535,6 @@ $("img.lazy").click(function () {
 
 function showLightbox($source)
 {
-    console.log($source);
 
     $currentLightboxSource = $source;
 
@@ -547,7 +568,6 @@ $("#shared_image_shared_image").change( function (e) {
             },
             success: function (data) {
 
-                console.log(data);
                 if (data.success)
                 {
                     $("#shared_image_url").val(data.file);
@@ -761,7 +781,6 @@ function showUploadFrame(id, $frame)
         success: function (data) {
             if (data.success)
             {
-                console.log(data);
                 $frame.find(".file").html("<a href='" + data.file + "'>View File</a>&nbsp;<a class='js-copy-link' href='" + data.file + "'>Get Link</a>");
 
                 $frame.find(".js-copy-link").click(function (e) {

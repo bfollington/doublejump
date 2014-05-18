@@ -123,10 +123,6 @@ p {
   .hideable-inner .content p {
     margin-bottom: 0; }
 
-.callout.definition {
-  background: #fcf8e3;
-  border-left: 5px solid #ecd871; }
-
 .hideable-inner .title {
   font-style: italic; }
 
@@ -1779,6 +1775,9 @@ ul.progress-list {
   font-size: 0.7em;
   text-align: center; }
 
+.step-body a[href*='http'] .fa {
+  font-size: 80%; }
+
 #sharing_lightbox {
   display: none;
   position: fixed;
@@ -1908,6 +1907,21 @@ img.shared-image {
   max-width: 90%;
   display: block;
   margin: 0 auto; }
+
+.js-inserted-definition {
+  -webkit-animation-duration: 0.3s;
+  -moz-animation-duration: 0.3s;
+  -ms-animation-duration: 0.3s;
+  animation-duration: 0.3s; }
+
+.step-body a[rel="definition"] {
+  color: #ecd871; }
+  .step-body a[rel="definition"] .fa {
+    font-size: 80%; }
+
+.callout.definition {
+  background: #fcf8e3;
+  border-left: 5px solid #ecd871; }
 
 html {
   font-size: 18px;

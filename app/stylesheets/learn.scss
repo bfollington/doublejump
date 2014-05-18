@@ -192,3 +192,11 @@ ul.progress-list{
     font-size: 0.7em;
     text-align: center;
 }
+
+.step-body a[href*='http']
+{
+    .fa
+    {
+        font-size: 80%;
+    }
+}

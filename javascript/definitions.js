@@ -2,8 +2,10 @@
 
 function bindDefinitions()
 {
-    $("a[rel='definition']").mouseenter( function(e) {
+    $("a[rel='definition']").click( function(e) {
         var $definition = $(this);
+
+        e.preventDefault();
 
         var query = $(this).attr("data-query");
 
@@ -12,17 +14,24 @@ function bindDefinitions()
             success: function (data) { 
                 if (data != 'null')
                 {
-                    $definition.popover(
-                        {
-                            trigger: "manual",
-                            placement: "top",
-                            title: $definition.text(),
-                            content: marked(data.body),
-                            html: true
-                        }
-                    );
+                    $(".step-body .js-inserted-definition").remove();
 
-                    $definition.popover("show");
+                    var template = format(
+                                        getTemplate("_inserted_definition"), 
+                                        {
+                                            "definition-title": data.title,
+                                            "definition-body": marked(data.body),
+                                        }
+                                    );
+
+                    $definition.parent().after(template);
+                    animate($definition.parent().next(), "fadeInUp");
+
+                    $(".js-close-inserted-definition").click( function(e) {
+                        e.preventDefault();
+
+                        animate($(this).parent(), "fadeOutDown", function($el) { $el.remove(); });
+                    });
                 }
             },
             timeout: 3000,
@@ -31,10 +40,6 @@ function bindDefinitions()
                 console.log("Could not load definition.");
             }
         });
-    });
-
-    $("a[rel='definition']").mouseleave( function(e) {
-        $(this).popover("hide");
     });
 
     $(".js-insert-definition").click( function(e) {

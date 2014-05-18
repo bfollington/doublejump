@@ -90,7 +90,6 @@ $("img.lazy").click(function () {
 
 function showLightbox($source)
 {
-    console.log($source);
 
     $currentLightboxSource = $source;
 
@@ -124,7 +123,6 @@ $("#shared_image_shared_image").change( function (e) {
             },
             success: function (data) {
 
-                console.log(data);
                 if (data.success)
                 {
                     $("#shared_image_url").val(data.file);

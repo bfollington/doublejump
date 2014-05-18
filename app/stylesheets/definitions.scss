@@ -1,0 +1,21 @@
+.js-inserted-definition
+{
+    @include animation-duration(0.3s);
+}
+
+.step-body a[rel="definition"]
+{
+    color: $definition-bar-colour;
+
+    .fa
+    {
+        font-size: 80%;
+
+    }
+}
+
+.callout.definition
+{
+    background: $definition-colour;
+    border-left: 5px solid $definition-bar-colour;
+}

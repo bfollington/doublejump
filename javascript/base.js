@@ -19,4 +19,25 @@ $( function() {
         });
     }
 
+    $(".step-body a[rel='definition'").each( function() {
+
+        $(this).html($(this).html() + ' <i class="fa fa-book"></i>');
+
+    });
+
+    $(".step-body a[href*='http']").each( function() {
+
+        $(this).html($(this).html() + ' <i class="fa fa-external-link"></i>');
+
+        if ( typeof $(this).attr("title") == "undefined")
+        {
+            $(this).attr("title", $(this).attr("href"));
+        }
+
+        $(this).attr("target", "new");
+
+        $(this).tooltip();
+
+    });
+
 });
