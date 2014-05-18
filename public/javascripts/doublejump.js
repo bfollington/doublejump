@@ -23,6 +23,13 @@ $( function() {
 
         $(this).html($(this).html() + ' <i class="fa fa-book"></i>');
 
+        if ( typeof $(this).attr("title") == "undefined")
+        {
+            $(this).attr("title", "Show Definition");
+        }
+
+        $(this).tooltip();
+
     });
 
     $(".step-body .comment a").tooltip();
