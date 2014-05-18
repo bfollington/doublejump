@@ -25,6 +25,8 @@ $( function() {
 
     });
 
+    $(".step-body .comment a").tooltip();
+
     $(".step-body a[href*='http']").each( function() {
 
         $(this).html($(this).html() + ' <i class="fa fa-external-link"></i>');

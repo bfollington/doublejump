@@ -24,6 +24,16 @@ a:hover, .header-bar a:hover {
     cursor: pointer;
 }
 
+.comment a
+{
+    color: #ccc;
+}
+
+.comment a:hover
+{
+    color: $link-hover-color;
+}
+
 p {
     font-weight: lighter;
 }
