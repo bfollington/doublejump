@@ -1924,7 +1924,15 @@ div.tooltip-inner {
 
 .callout.definition {
   background: #fcf8e3;
-  border-left: 5px solid #ecd871; }
+  border-left: 5px solid #ecd871;
+  margin-bottom: 1em; }
+
+.admin-tools {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  padding: 5px;
+  z-index: 100; }
 
 html {
   font-size: 18px;
