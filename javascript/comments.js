@@ -22,6 +22,8 @@ function bindComments()
             // Do not interrupt a transition
             if (!$("#comment_frame").hasClass("animated"))
             {
+
+                $comment.append(loadingIndicator);
                 
                 var url = "";
                 var offsetLeft, offsetTop;
@@ -50,12 +52,15 @@ function bindComments()
                             $frame.html(data.html);
                             showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop);
                         }
+
+                        $comment.children().last().remove();
                     },
-                    timeout: 1000,
+                    timeout: 3000,
                     dataType: 'json',
                     error: function(data) {
                         $frame.html("Could not load comments.");
                         showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop);
+                        $comment.children().last().remove();
                     }
                 });
                 

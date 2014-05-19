@@ -2,7 +2,7 @@
 
 $( function() {
 
-    FastClick.attach(document.body);
+    //FastClick.attach(document.body);
 
     if (defined('Select2'))
     {
@@ -94,6 +94,8 @@ function bindComments()
             // Do not interrupt a transition
             if (!$("#comment_frame").hasClass("animated"))
             {
+
+                $comment.append(loadingIndicator);
                 
                 var url = "";
                 var offsetLeft, offsetTop;
@@ -122,12 +124,15 @@ function bindComments()
                             $frame.html(data.html);
                             showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop);
                         }
+
+                        $comment.children().last().remove();
                     },
-                    timeout: 1000,
+                    timeout: 3000,
                     dataType: 'json',
                     error: function(data) {
                         $frame.html("Could not load comments.");
                         showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop);
+                        $comment.children().last().remove();
                     }
                 });
                 
@@ -253,6 +258,8 @@ function bindDefinitions()
 
         var query = $(this).attr("data-query");
 
+        $definition.after(loadingIndicator);
+
         $.ajax({
             url: "/definitions/define/" + query,
             success: function (data) { 
@@ -277,11 +284,14 @@ function bindDefinitions()
 
                         animate($(this).parent(), "fadeOutDown", function($el) { $el.remove(); });
                     });
+
+                    $definition.next().remove();
                 }
             },
             timeout: 3000,
             dataType: 'json',
             error: function(data) {
+                $definition.next().remove();
                 console.log("Could not load definition.");
             }
         });
@@ -427,6 +437,7 @@ function setUpBannerImage()
 }
 
 setUpBannerImage();
+var loadingIndicator = '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
 // progress-bar.js powers the progress bar during a lesson
 
 function updateProgressBars()

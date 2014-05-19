@@ -9,6 +9,8 @@ function bindDefinitions()
 
         var query = $(this).attr("data-query");
 
+        $definition.after(loadingIndicator);
+
         $.ajax({
             url: "/definitions/define/" + query,
             success: function (data) { 
@@ -33,11 +35,14 @@ function bindDefinitions()
 
                         animate($(this).parent(), "fadeOutDown", function($el) { $el.remove(); });
                     });
+
+                    $definition.next().remove();
                 }
             },
             timeout: 3000,
             dataType: 'json',
             error: function(data) {
+                $definition.next().remove();
                 console.log("Could not load definition.");
             }
         });
