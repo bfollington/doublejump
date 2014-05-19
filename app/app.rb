@@ -3,6 +3,7 @@ module LearnToGameDev
     register ScssInitializer
     register Padrino::Rendering
     register Padrino::Mailer
+    register Padrino::Cache
     register Padrino::Helpers
     register Padrino::Admin::AccessControl
 
@@ -37,7 +38,7 @@ module LearnToGameDev
     end
 
     enable :sessions
-
+    enable :caching
 
 
     #

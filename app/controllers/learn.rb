@@ -1,7 +1,6 @@
 require "rest_client"
-require 'profiler'
 
-LearnToGameDev::App.controllers :learn do
+LearnToGameDev::App.controllers :learn, :cache => true do
   
   layout :learn
   
