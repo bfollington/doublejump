@@ -32,6 +32,7 @@ GEM
       url_mount (~> 0.2.1)
     i18n (0.6.9)
     json (1.8.1)
+    kgio (2.9.2)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -84,6 +85,7 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
+    raindrops (0.13.0)
     rake (10.3.1)
     rdiscount (2.1.7.1)
     rest-client (1.6.7)
@@ -117,6 +119,10 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.39)
+    unicorn (4.8.3)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
     url_mount (0.2.1)
       rack
     websocket (1.0.7)
@@ -143,3 +149,4 @@ DEPENDENCIES
   sass
   selenium-webdriver
   slim
+  unicorn

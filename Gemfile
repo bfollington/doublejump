@@ -10,6 +10,9 @@ source 'https://rubygems.org'
 # Optional JSON codec (faster performance)
 # gem 'oj'
 
+#rack server
+gem 'unicorn'
+
 # Project requirements
 gem 'rake'
 gem 'colorize'
