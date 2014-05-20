@@ -46,7 +46,7 @@ module LearnToGameDev
     # 
 
     get :index do
-      render 'index', :layout => :landing
+      render 'notify', :layout => :landing
     end
 
     #
