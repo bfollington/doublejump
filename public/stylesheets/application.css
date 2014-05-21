@@ -317,7 +317,7 @@ p.intro-small {
   border-bottom: 2px solid #ccc;
   margin-bottom: 1em;
   border-radius: 2px; }
-  .box h4 {
+  .box h1, .box h2, .box h3, .box h4, .box h5 {
     color: #697a7d; }
 
 .box p {

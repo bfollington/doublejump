@@ -1,9 +1,15 @@
-= form_tag '/login', :class => 'login-form', :id => "login_form" do
-    p
-        = label_tag :email
-        = text_field_tag :email, :value => params[:email]
-    p
-        = label_tag :password
-        = password_field_tag :password, :value => params[:password]
+.row
+    .col-xs-12
+        .box
+            h4 Login
 
-    = submit_tag "Login", :class => "button"
+            = form_tag '/login', :class => 'login-form', :id => "login_form" do
+                p
+                    = label_tag :email
+                    = text_field_tag :email, :value => params[:email], :class => "form-control"
+                p
+                    = label_tag :password
+                    = password_field_tag :password, :value => params[:password], :class => "form-control"
+
+                p.center-text
+                    = submit_tag "Login", :class => "button create-button"
