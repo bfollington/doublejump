@@ -3,9 +3,10 @@
         .header-bar.logged-in
             - if current_account.avatar
                 .doublejump-gap.center-text
-                    img.avatar.small src="#{current_account.avatar}"
+                    a href="/profile"
+                        img.avatar.small src="#{current_account.avatar}"
             - else
-                .doublejump
+                a.doublejump  href="/"
             div.center-text.padding
                 span.dropdown
                     a data-toggle="dropdown" class="dropdown-toggle"
@@ -14,7 +15,7 @@
 
                     ul.dropdown-menu
                         li
-                            a href="#" Home
+                            a href="/profile" Home
                         - if current_account.role == "admin"
                             li
                                 a href="/admin" Padrino Admin
@@ -29,5 +30,6 @@
                             | (that's you!)
     - else
         .header-bar
-            .doublejump
-    .gradient-strip
+            a.doublejump href="/"
+    - if !(defined? no_bar) || ( (defined? no_bar) && !no_bar )
+        .gradient-strip

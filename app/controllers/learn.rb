@@ -5,6 +5,7 @@ LearnToGameDev::App.controllers :learn, :cache => true do
   layout :learn
   
   get :index do
+    expires_in 30
 
     @courses = Course.all
 

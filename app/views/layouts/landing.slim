@@ -19,41 +19,9 @@ html.no-js lang="en"
     body
         .container-fluid
             .header
-                .header-bar
-                    .doublejump.wow.bounceIn
-                .gradient-block
+                = partial 'elements/doublejump_header_bar', :object => nil, :locals => { :no_bar => true }
 
-                    nav.navigation
-                        .row
-                            .col-sm-6.col-xs-6.col-md-2.col-lg-2
-                                a href="/features" Features
-                            .col-sm-6.col-xs-6.col-md-2.col-lg-2
-                                a href="/pricing" Pricing
-                            .col-lg-4.col-md-4.hidden-sm &nbsp;
-                            .col-sm-6.col-xs-6.col-md-2.col-lg-2 
-                                a href="/about" About
-                            .col-sm-6.col-xs-6.col-md-2.col-lg-2 
-                                a href="/login" Sign In
-
-                    h2.welcome-message Learn to make games today
-
-                    .controller-image
-
-                    h3.intro-blurb
-                        | Learn at your own pace, and develop the skills and knowledge to become a game developer.
-
-                    p.center-text.margin-top.small-margin-bottom
-                        a.call-to-action.wow.pulse#get_started_banner href="/letsgo" Get Started
-
-                    p.intro-small.center-text.font-small    
-                        | Complete the "Getting Started" course, 
-                        a href="/learn" browse our other courses 
-                        | and 
-                        a href="/register" sign up
-                        |  when you're ready.
-                        br
-                        | Already a member? 
-                        a href="/login" Sign in.
+                = yield_content :header_splash
 
             .main-content
                 - if session[:flash]

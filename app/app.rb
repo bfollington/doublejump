@@ -23,6 +23,9 @@ module LearnToGameDev
       role.protect "/courses/*"
       role.protect "/lessons/*"
       role.protect "/steps/*"
+      role.protect "/learn/"
+      role.protect "/related-readings/*"
+      role.protect "/definitions/*"
     end
 
     # now we add a role for users
@@ -38,8 +41,10 @@ module LearnToGameDev
     end
 
     enable :sessions
-    enable :caching
 
+    case Padrino.env
+      when :production  then enable :caching
+    end
 
     #
     # LANDING PAGE
