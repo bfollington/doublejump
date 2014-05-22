@@ -1,10 +1,17 @@
 .row
     .col-lg-12
+            h3
+                = @lesson.title
+                | ,
+                small
+                    |  by 
+                    img.avatar.small src="#{@course.account.avatar}"
+                    = " " + @course.account.name + " " + @course.account.surname + " "
 
-        h4 Lesson Breakdown
+            p
+                = @lesson.description
 
-        p
-            = @lesson.description
+            h3 Steps in This Lesson
         
 
 .row
@@ -15,7 +22,8 @@
                     = step.title
                 .completed
                     - if current_account && current_account.has_completed_step?(step)
-                        | Completed on #{current_account.get_completed_step(step).created_at.strftime("%A, %d %B, %Y")}
+                        i.fa.fa-check-circle
+                        |  Completed on #{current_account.get_completed_step(step).created_at.strftime("%A, %d %B, %Y")}
     .col-lg-3
         h4 Related Readings
 

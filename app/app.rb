@@ -196,8 +196,7 @@ module LearnToGameDev
     #
 
     get :profile do
-      content_type :text
-      current_account.to_yaml
+      render "profile", :layout => :learn
     end
 
     get :destroy do

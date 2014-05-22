@@ -64,7 +64,7 @@
         .box
             - if current_account && current_account.has_completed_step?(@step)
                 p.notification.callout You've completed this step before, just thought you should know.
-            h4 = @step.title
+            h3 = @step.title
 
             - if !@step.is_sharing_step
                 .step-body
