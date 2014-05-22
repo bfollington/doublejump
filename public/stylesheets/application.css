@@ -42,6 +42,7 @@ p {
   border: 0px;
   padding: 5px 15px;
   color: white;
+  display: inline-block;
   transition: .3s; }
 
 .create-button:hover {
@@ -298,7 +299,6 @@ a.call-to-action {
   border-radius: 999px;
   font-family: "Nunito", sans-serif;
   font-size: 1.5em;
-  text-transform: uppercase;
   color: #f6ff56;
   display: inline-block;
   position: relative;
@@ -1663,6 +1663,9 @@ footer.footer {
 .gradient-container .banner-navigation {
   margin-bottom: 0; }
 
+.gradient-block {
+  padding: 1em; }
+
 .doublejump-gap {
   background-image: url("/images/doublejump-gap.png");
   width: 203px;
@@ -2039,6 +2042,10 @@ body {
 
 .container-fluid {
   padding-top: 50px; }
+  @media only screen and (max-width: 40em) {
+    .container-fluid {
+      padding-left: 5px;
+      padding-right: 5px; } }
 
 .main-content {
   background: #f6f6f6;

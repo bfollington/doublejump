@@ -19,7 +19,7 @@ $( function() {
         });
     }
 
-    $(".step-body a[rel='definition'").each( function() {
+    $(".step-body a[rel='definition']").each( function() {
 
         $(this).html($(this).html() + ' <i class="fa fa-book"></i>');
 

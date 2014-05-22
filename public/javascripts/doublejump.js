@@ -19,7 +19,7 @@ $( function() {
         });
     }
 
-    $(".step-body a[rel='definition'").each( function() {
+    $(".step-body a[rel='definition']").each( function() {
 
         $(this).html($(this).html() + ' <i class="fa fa-book"></i>');
 
@@ -142,7 +142,7 @@ function bindComments()
 
     } );
 
-    $('html').click( function (e) {
+    $('html').on( "touch, click", function (e) {
 
         if ( eventTargetDoesNotInclude(e, '#comment_frame') )
         {
@@ -165,7 +165,26 @@ function showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop)
     if (!offsetTop) offsetTop = -64;
 
     $frame.css("display", "block");
-    $frame.offset({ left: $comment.offset().left + offsetLeft, top: $comment.offset().top + offsetTop});
+
+    if (findBootstrapEnvironment() == "ExtraSmall")
+    {
+        // Centre the display on mobiles
+        $frame.offset({ left: getViewportWidth() / 2 - $frame.outerWidth() / 2, top: $comment.offset().top + offsetTop});
+    } else {
+
+        // Stop comments panel sticking off the right side of the display
+        if ($comment.offset().left + offsetLeft + $frame.outerWidth() >= getViewportWidth())
+        {
+            $frame.offset({ left: getViewportWidth() - $frame.outerWidth() - 10, top: $comment.offset().top + offsetTop});
+        } else {
+            // Just display it normally
+            $frame.offset({ left: $comment.offset().left + offsetLeft, top: $comment.offset().top + offsetTop});
+        }
+
+        
+    }
+
+    
 
     animate(id, 'fadeInDown', null);
 
@@ -547,7 +566,7 @@ function hideLightbox()
 
 var $currentLightboxSource;
 
-$("img.lazy").click(function () {
+$(".sharing-step img.lazy").click(function () {
 
     showLightbox($(this));
     animate("#sharing_lightbox_overlay", 'fadeInDown', null);
@@ -993,4 +1012,32 @@ function restoreSelection(range) {
             range.select();
         }
     }
+}
+
+function findBootstrapEnvironment() {
+    var envs = ["ExtraSmall", "Small", "Medium", "Large"];
+    var envValues = ["xs", "sm", "md", "lg"];
+
+    var $el = $('<div>');
+    $el.appendTo($('body'));
+
+    for (var i = envValues.length - 1; i >= 0; i--) {
+        var envVal = envValues[i];
+
+        $el.addClass('hidden-'+envVal);
+        if ($el.is(':hidden')) {
+            $el.remove();
+            return envs[i]
+        }
+    };
+}
+
+function getViewportWidth()
+{
+    return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+}
+
+function getViewportHeight()
+{
+    return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 }

@@ -71,6 +71,11 @@ body {
 .container-fluid
 {
     padding-top: 50px;
+
+    @media only screen and (max-width: $mobile) { 
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 }
 
 .main-content {

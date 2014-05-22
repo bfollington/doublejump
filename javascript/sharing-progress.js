@@ -81,7 +81,7 @@ function hideLightbox()
 
 var $currentLightboxSource;
 
-$("img.lazy").click(function () {
+$(".sharing-step img.lazy").click(function () {
 
     showLightbox($(this));
     animate("#sharing_lightbox_overlay", 'fadeInDown', null);

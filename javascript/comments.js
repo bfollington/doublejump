@@ -70,7 +70,7 @@ function bindComments()
 
     } );
 
-    $('html').click( function (e) {
+    $('html').on( "touch, click", function (e) {
 
         if ( eventTargetDoesNotInclude(e, '#comment_frame') )
         {
@@ -93,7 +93,26 @@ function showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop)
     if (!offsetTop) offsetTop = -64;
 
     $frame.css("display", "block");
-    $frame.offset({ left: $comment.offset().left + offsetLeft, top: $comment.offset().top + offsetTop});
+
+    if (findBootstrapEnvironment() == "ExtraSmall")
+    {
+        // Centre the display on mobiles
+        $frame.offset({ left: getViewportWidth() / 2 - $frame.outerWidth() / 2, top: $comment.offset().top + offsetTop});
+    } else {
+
+        // Stop comments panel sticking off the right side of the display
+        if ($comment.offset().left + offsetLeft + $frame.outerWidth() >= getViewportWidth())
+        {
+            $frame.offset({ left: getViewportWidth() - $frame.outerWidth() - 10, top: $comment.offset().top + offsetTop});
+        } else {
+            // Just display it normally
+            $frame.offset({ left: $comment.offset().left + offsetLeft, top: $comment.offset().top + offsetTop});
+        }
+
+        
+    }
+
+    
 
     animate(id, 'fadeInDown', null);
 

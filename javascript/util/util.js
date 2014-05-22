@@ -81,3 +81,31 @@ function restoreSelection(range) {
         }
     }
 }
+
+function findBootstrapEnvironment() {
+    var envs = ["ExtraSmall", "Small", "Medium", "Large"];
+    var envValues = ["xs", "sm", "md", "lg"];
+
+    var $el = $('<div>');
+    $el.appendTo($('body'));
+
+    for (var i = envValues.length - 1; i >= 0; i--) {
+        var envVal = envValues[i];
+
+        $el.addClass('hidden-'+envVal);
+        if ($el.is(':hidden')) {
+            $el.remove();
+            return envs[i]
+        }
+    };
+}
+
+function getViewportWidth()
+{
+    return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+}
+
+function getViewportHeight()
+{
+    return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+}
