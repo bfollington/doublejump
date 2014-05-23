@@ -85,7 +85,7 @@ function bindComments()
 
         if ($parent.attr("id") != "sharing_lightbox") $(this).html(getTemplate("_comment_icon"));
 
-        $(this).find('a').click( function (e) { 
+        $(this).find('a').on("touchstart, click", function (e) { 
 
             e.preventDefault();
 
@@ -142,7 +142,7 @@ function bindComments()
 
     } );
 
-    $('html').on( "touch, click", function (e) {
+    $('html').on( "touchstart, click", function (e) {
 
         if ( eventTargetDoesNotInclude(e, '#comment_frame') )
         {
