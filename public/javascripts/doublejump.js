@@ -471,16 +471,13 @@ setUpBannerImage();
 
 function scrollBinding()
 {
-
-    $(".progress-bar-row").hide();
-
     $('.step-body').waypoint(function(direction) {
 
         if (direction == "down")
         {
-            $(".progress-bar-row").slideDown(300);
+            $(".fixed-bars").fadeIn();
         } else {
-            $(".progress-bar-row").slideUp(300);
+            $(".fixed-bars").fadeOut();
         }
     });
 }
