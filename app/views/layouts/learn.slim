@@ -28,9 +28,6 @@ html.no-js lang="en"
                             br
                     - if @step
                             a href="/steps/make/#{@step.slug}" target="new" Edit Step
-        .fixed-bars
-            = partial 'elements/breadcrumbs'
-            = yield_content :progress_bar
         .container-fluid
             = partial 'elements/doublejump_header_bar'
             - if @course
@@ -45,6 +42,7 @@ html.no-js lang="en"
                 .gradient-container
                     = partial "learn/elements/navigation"
             .main-content#main_content 
+                = partial 'elements/breadcrumbs'
 
                 - if session[:flash]
                     = session[:flash]

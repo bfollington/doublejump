@@ -1745,9 +1745,8 @@ ul.progress-list {
     text-align: right; }
 
 .progress-navigation-link {
-  margin-top: -0.5em;
-  display: inline-block;
-  padding-bottom: 10px; }
+  margin-top: 1em;
+  display: inline-block; }
 
 .progress-list-wrapper .progress {
   position: absolute;
@@ -1795,17 +1794,6 @@ ul.progress-list {
 
 .step-body a[href*='http'] .fa {
   font-size: 80%; }
-
-.fixed-bars {
-  position: fixed;
-  top: 0;
-  z-index: 99;
-  width: 100%;
-  background: white;
-  border-bottom: 2px solid #ccc; }
-  .fixed-bars .breadcrumb {
-    background: none;
-    margin-bottom: 0px; }
 
 #sharing_lightbox {
   display: none;
@@ -1958,7 +1946,7 @@ div.tooltip-inner {
 
 .admin-tools {
   position: fixed;
-  top: 120px;
+  top: 10px;
   left: 10px;
   padding: 5px;
   z-index: 100; }

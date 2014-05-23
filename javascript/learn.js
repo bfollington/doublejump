@@ -15,18 +15,3 @@ function setUpBannerImage()
 }
 
 setUpBannerImage();
-
-function scrollBinding()
-{
-    $('.step-body').waypoint(function(direction) {
-
-        if (direction == "down")
-        {
-            $(".fixed-bars").fadeIn();
-        } else {
-            $(".fixed-bars").fadeOut();
-        }
-    });
-}
-
-scrollBinding();
