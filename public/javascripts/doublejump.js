@@ -68,6 +68,10 @@ function boostrapMods()
     $('.dropdown').on('hide.bs.dropdown', function(e){
         $(this).find('.dropdown-menu').first().stop(true, true).slideUp(100);
     });
+
+    $(".dropdown-toggle").click( function(e) {
+        e.preventDefault();
+    });
 }
 boostrapMods();
 // comments.js powers the comment frame for articles and images
