@@ -18,13 +18,16 @@ setUpBannerImage();
 
 function scrollBinding()
 {
+
+    $(".progress-bar-row").hide();
+
     $('.step-body').waypoint(function(direction) {
 
         if (direction == "down")
         {
-            $(".fixed-bars").fadeIn();
+            $(".progress-bar-row").slideDown(300);
         } else {
-            $(".fixed-bars").fadeOut();
+            $(".progress-bar-row").slideUp(300);
         }
     });
 }
