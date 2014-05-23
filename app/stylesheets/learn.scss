@@ -134,8 +134,9 @@ ul.progress-list{
 }
 
 .progress-navigation-link {
-    margin-top: 1em;
+    margin-top: -0.5em;
     display: inline-block;
+    padding-bottom: 10px;
 }
 
 .progress-list-wrapper .progress
@@ -204,5 +205,22 @@ ul.progress-list{
     .fa
     {
         font-size: 80%;
+    }
+}
+
+.fixed-bars
+{
+    position: fixed;
+    top: 0;
+    z-index: 99;
+    width: 100%;
+    background: white;
+
+    border-bottom: 2px solid #ccc;
+
+    .breadcrumb
+    {
+        background: none;
+        margin-bottom: 0px;
     }
 }
