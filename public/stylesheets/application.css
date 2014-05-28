@@ -2054,7 +2054,8 @@ body {
   background-color: #2F3348; }
 
 .container-fluid {
-  padding-top: 50px; }
+  padding-top: 50px;
+  max-width: 1920px; }
   @media only screen and (max-width: 40em) {
     .container-fluid {
       padding-left: 5px;
