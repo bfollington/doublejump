@@ -16,7 +16,7 @@ def login_admin
     
     click_button 'Login'
 
-    expect(page).to have_content @username
+    expect(page).to have_content "PROFILE"
 
 end
 
@@ -36,7 +36,7 @@ def login
     
     click_button 'Login'
 
-    expect(page).to have_content @username
+    expect(page).to have_content "PROFILE"
 
 end
 
