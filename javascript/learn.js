@@ -11,7 +11,8 @@ function setUpBannerImage()
         }
     });
 
-    $(".step-body img").addClass("lazy");
+    $(".step-body img").addClass("lazy").wrap( "<a href='#' data-fluidbox></a>" );
+    $("a[data-fluidbox]").fluidbox({ overlayColor: "rgba(0, 0, 0, 0.5)" });
 }
 
 setUpBannerImage();
