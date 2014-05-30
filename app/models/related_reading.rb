@@ -6,7 +6,7 @@ class RelatedReading
   field :title, :type => String
   field :link, :type => String
 
-  validates_format_of :link, with: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, message: "Must be a valid URL"
+  validates_format_of :link, with: /^(https?|ftp):\/\/[^\s\/$.?#].[^\s]*$/, message: "Must be a valid URL"
   validates_presence_of :title, message: "Title is required!"
   validates_presence_of :link, message: "No point of making a reading without a link..."
 
