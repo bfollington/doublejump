@@ -15,6 +15,12 @@
 @import 'loading';
 @import 'fluidbox';
 
+html, input, textarea, button {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
 html {
     font-size: 18px;
     font-family: $nunito-stack;

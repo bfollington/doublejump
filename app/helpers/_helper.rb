@@ -33,7 +33,7 @@ LearnToGameDev::App.helpers do
   end
 
   def aws_url()
-    "https://s3-ap-southeast-2.amazonaws.com/#{aws_bucket}/"
+    "http://s3-ap-southeast-2.amazonaws.com/#{aws_bucket}/"
   end
 
   def render_js_template(name)

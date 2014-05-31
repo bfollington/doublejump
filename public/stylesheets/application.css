@@ -220,7 +220,7 @@ ul.inline li {
   margin: 0 auto;
   background-repeat: no-repeat;
   background-position: center; }
-  @media (-webkit-min-device-pixel-ratio: 2), (-moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .controller-image {
       background-image: url("/images/controller@2x.png");
       -webkit-background-size: 334px 384px;
@@ -241,7 +241,7 @@ ul.inline li {
   background-repeat: no-repeat;
   background-position: center;
   display: block; }
-  @media (-webkit-min-device-pixel-ratio: 2), (-moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .doublejump {
       background-image: url("/images/doublejump@2x.png");
       -webkit-background-size: 187px 55px;
@@ -259,7 +259,7 @@ ul.inline li {
   margin: 0 auto;
   background-repeat: no-repeat;
   background-position: center; }
-  @media (-webkit-min-device-pixel-ratio: 2), (-moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .doublejump-dark {
       background-image: url("/images/doublejump-dark@2x.png");
       -webkit-background-size: 187px 55px;
@@ -1675,7 +1675,7 @@ footer.footer {
   background-repeat: no-repeat;
   background-position: center;
   margin-top: 10px; }
-  @media (-webkit-min-device-pixel-ratio: 2), (-moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .doublejump-gap {
       background-image: url("/images/doublejump-gap@2x.png");
       -webkit-background-size: 203px 28px;
@@ -2024,6 +2024,11 @@ div.tooltip-inner {
   -o-transition-property: top, left, opacity, -o-transform;
   transition-property: top, left, opacity, transform;
   transition-delay: 0, 0, .25s, 0; }
+
+html, input, textarea, button {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility; }
 
 html {
   font-size: 18px;
