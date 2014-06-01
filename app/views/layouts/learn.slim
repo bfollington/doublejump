@@ -42,6 +42,9 @@ html.no-js lang="en"
                 .gradient-container
                     = partial "learn/elements/navigation"
             .main-content#main_content 
+                - if !is_logged_in
+                    = partial 'elements/sign_up_cta'
+                    
                 = partial 'elements/breadcrumbs'
 
                 - if session[:flash]

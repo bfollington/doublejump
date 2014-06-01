@@ -79,6 +79,10 @@ LearnToGameDev::App.controllers :learn, :cache => true do
 
   get :view_step, :map => '/learn/:course/:lesson/:step' do
 
+    if !is_logged_in
+      redirect '/login'
+    end
+
     fetch_course(params[:course])
     fetch_lesson(params[:lesson])
     fetch_step(params[:step])

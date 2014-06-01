@@ -15,6 +15,10 @@
 @import 'loading';
 @import 'fluidbox';
 
+a {
+   outline: 0;
+}
+
 html, input, textarea, button {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

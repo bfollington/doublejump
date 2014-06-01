@@ -28,6 +28,10 @@ LearnToGameDev::App.helpers do
 
   end
 
+  def is_logged_in()
+    return !current_account.nil?
+  end
+
   def aws_bucket()
     "voltic-test-bucket"
   end

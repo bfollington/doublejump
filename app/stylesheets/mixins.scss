@@ -20,6 +20,14 @@
   }
 }
 
+// Vertically center any object within its container. Works in IE9 and up.
+// @include vertical-center;
+@mixin vertical-center {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
      -moz-border-radius: $radius;

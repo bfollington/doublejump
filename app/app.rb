@@ -23,7 +23,6 @@ module LearnToGameDev
       role.protect "/courses/*"
       role.protect "/lessons/*"
       role.protect "/steps/*"
-      role.protect "/learn/"
       role.protect "/related-readings/*"
       role.protect "/definitions/*"
     end
@@ -62,7 +61,7 @@ module LearnToGameDev
       if current_account
         redirect url(:profile)
       else
-        render 'login', :layout => :app
+        render 'login', :layout => :learn
       end
     end
 
