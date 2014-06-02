@@ -38,13 +38,13 @@
 
 .banner-image {
     background-size: cover;
-    background-image: -o-linear-gradient(-90deg, #000000 0%, #363636 100%);
+    /*background-image: -o-linear-gradient(-90deg, #000000 0%, #363636 100%);
     background-image: -moz-linear-gradient(-90deg, #000000 0%, #363636 100%);
     background-image: -webkit-linear-gradient(-90deg, #000000 0%, #363636 100%);
     background-image: -ms-linear-gradient(-90deg, #000000 0%, #363636 100%);
-    background-image: linear-gradient(-180deg, #000000 0%, #363636 100%);
+    background-image: linear-gradient(-180deg, #000000 0%, #363636 100%);*/
 
-    padding-bottom: 2em;
+    padding-bottom: 0.5em;
 }
 
 .tutorial-title-seperator {
@@ -64,7 +64,7 @@
     text-align: center;
     padding: 0.8em;
 
-    margin-bottom: 4em;
+    margin-bottom: 2em;
 }
 
 .progress-list-wrapper

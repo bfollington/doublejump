@@ -162,6 +162,9 @@ ul.inline li {
   margin-left: auto;
   margin-right: auto; }
 
+.margin-bottom {
+  margin-bottom: 10px; }
+
 .nudge-down {
   margin-top: 5px; }
 
@@ -1685,12 +1688,12 @@ footer.footer {
 
 .banner-image {
   background-size: cover;
-  background-image: -o-linear-gradient(-90deg, black 0%, #363636 100%);
-  background-image: -moz-linear-gradient(-90deg, black 0%, #363636 100%);
-  background-image: -webkit-linear-gradient(-90deg, black 0%, #363636 100%);
-  background-image: -ms-linear-gradient(-90deg, black 0%, #363636 100%);
-  background-image: linear-gradient(-180deg, black 0%, #363636 100%);
-  padding-bottom: 2em; }
+  /*background-image: -o-linear-gradient(-90deg, #000000 0%, #363636 100%);
+  background-image: -moz-linear-gradient(-90deg, #000000 0%, #363636 100%);
+  background-image: -webkit-linear-gradient(-90deg, #000000 0%, #363636 100%);
+  background-image: -ms-linear-gradient(-90deg, #000000 0%, #363636 100%);
+  background-image: linear-gradient(-180deg, #000000 0%, #363636 100%);*/
+  padding-bottom: 0.5em; }
 
 .tutorial-title-seperator {
   width: 33%;
@@ -1705,7 +1708,7 @@ footer.footer {
   opacity: 0.75;
   text-align: center;
   padding: 0.8em;
-  margin-bottom: 4em; }
+  margin-bottom: 2em; }
 
 .progress-list-wrapper {
   width: 100%; }
@@ -1891,6 +1894,9 @@ img.shared-image {
 
 .image.small {
   max-width: 128px; }
+
+.image.very-small {
+  max-width: 64px; }
 
 .button {
   font-family: "Nunito", sans-serif; }

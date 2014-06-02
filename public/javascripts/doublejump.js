@@ -449,9 +449,14 @@ function setUpBannerImage()
     $(".banner-image").each( function() {
         var $this = $(this);
 
-        if ($this.attr("data-background") && $this.attr("data-background") != "")
+        var bg = $this.attr("data-background");
+
+        if (bg && bg != "" && bg[0] != '#')
         {
-            $this.css("background-image", "url(" + $this.attr("data-background") + ")");
+            $this.css("background-image", "url(" + bg + ")");
+        } else if (bg && bg != "")
+        {
+            $this.css("background-color", bg);
         }
     });
 

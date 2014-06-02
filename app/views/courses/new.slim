@@ -19,9 +19,19 @@
                         = partial 'form_error', :collection => (errors_for @course, :slug)
 
                     p
-                        = f.label :image_url, :caption => "Backgroud Image URL"
+                        = f.label :icon, :caption => "Icon"
+                        = f.text_field :icon, :class => "form-control"
+                        = partial 'form_error', :collection => (errors_for @course, :icon)
+
+                    p
+                        = f.label :image_url, :caption => "Background Image URL"
                         = f.text_field :image_url, :class => "form-control"
                         = partial 'form_error', :collection => (errors_for @course, :image_url)
+
+                    p
+                        = f.label :bg_colour, :caption => "Background Colour (Fallback)"
+                        = f.text_field :bg_colour, :class => "form-control", :placeholder => "#FFFFFF"
+                        = partial 'form_error', :collection => (errors_for @course, :bg_colour)
 
                     p
                         = f.label :description, :caption => "Course Description"

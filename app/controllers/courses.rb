@@ -27,6 +27,8 @@ LearnToGameDev::App.controllers :courses do
     @course.description = params[:course][:description]
     @course.account = current_account
     @course.image_url = params[:course][:image_url]
+    @course.bg_colour = params[:course][:bg_colour]
+    @course.icon = params[:course][:icon]
     @course.slug = params[:course][:slug]
     @course.lessons = []
     @course.prerequisites = []
@@ -41,6 +43,8 @@ LearnToGameDev::App.controllers :courses do
                              :description => params[:course][:description],
                              :slug => params[:course][:slug],
                              :image_url => params[:course][:image_url],
+                             :icon => params[:course][:icon],
+                             :bg_colour => params[:course][:bg_colour],
                              :account => current_account
                             )
 
