@@ -324,7 +324,7 @@ p.intro-small {
   .box h1, .box h2, .box h3, .box h4, .box h5 {
     color: #697a7d; }
 
-.box p {
+.box p, .box li {
   color: #a0a0a0; }
 
 footer.footer {
