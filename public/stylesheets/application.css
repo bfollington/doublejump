@@ -23,7 +23,7 @@ a:hover, .header-bar a:hover {
 .comment a:hover {
   color: #0084d5; }
 
-p {
+p, li {
   font-weight: lighter; }
 
 .js-select2 {
