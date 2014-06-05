@@ -215,6 +215,12 @@ def process_macro(macro)
   if (name == "definition")
     @link_text = params[0]
     @term = params[1].downcase
+
+    definition = Definition.where(:search_title => params[1].downcase).first
+    if definition.nil?
+      @invalid_term = true
+    end
+
     render 'macros/definition', :layout => false
   elsif (name == "hideable")
     @item_text = RDiscount.new(params[1]).to_html
