@@ -14,7 +14,7 @@ function bindDefinitions()
         $.ajax({
             url: "/definitions/define/" + query,
             success: function (data) { 
-                if (data != 'null')
+                if (data != "null" && data != null)
                 {
                     $(".step-body .js-inserted-definition").remove();
 
@@ -36,8 +36,9 @@ function bindDefinitions()
                         animate($(this).parent(), "fadeOutDown", function($el) { $el.remove(); });
                     });
 
-                    $definition.next().remove();
                 }
+
+                $definition.next().remove();
             },
             timeout: 3000,
             dataType: 'json',
