@@ -8,7 +8,7 @@
                 i.fa.fa-check-circle
                 |  Completed on #{current_account.get_completed_course(course_block).created_at.strftime("%A, %d %B, %Y")}
         p
-            a href="/learn/#{course_block.slug}"
+            a href="/learn/#{course_block.slug}" data-colour="#{course_block.category.colour}"
                 = course_block.title
             br
             small

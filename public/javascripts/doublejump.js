@@ -465,6 +465,10 @@ function setUpBannerImage()
         $(this).css("background-color", $(this).attr("data-bg"));
     });
 
+    $("[data-colour]").each( function() {
+        $(this).css("color", $(this).attr("data-colour"));
+    });
+
     if (jQuery().lazyload)
     {
         $(".step-body img").lazyload(
