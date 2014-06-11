@@ -461,6 +461,10 @@ function setUpBannerImage()
         }
     });
 
+    $("[data-bg]").each( function() {
+        $(this).css("background-color", $(this).attr("data-bg"));
+    });
+
     if (jQuery().lazyload)
     {
         $(".step-body img").lazyload(

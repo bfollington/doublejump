@@ -20,6 +20,14 @@
   }
 }
 
+@mixin background-size($width, $height)
+{
+  -webkit-background-size: $width $height;
+  -moz-background-size: $width $height;
+  -ms-background-size: $width $height;
+  background-size: $width $height;
+}
+
 // Vertically center any object within its container. Works in IE9 and up.
 // @include vertical-center;
 @mixin vertical-center {

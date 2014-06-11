@@ -8,5 +8,4 @@
         h3 Courses
     - @courses.each do |course|
         .col-lg-4.col-md-4.col-sm-6
-            .box
-                = partial 'learn/elements/course_block', :object => course
+            = partial 'learn/elements/course_block', :object => course
