@@ -165,6 +165,9 @@ ul.inline li {
 .margin-bottom {
   margin-bottom: 10px; }
 
+.big-margin-bottom {
+  margin-bottom: 20px; }
+
 .nudge-down {
   margin-top: 5px; }
 
@@ -1666,6 +1669,22 @@ footer.footer {
 
 .gradient-container .banner-navigation {
   margin-bottom: 0; }
+
+.course-icon {
+  width: 64px;
+  height: 64px;
+  margin-left: auto;
+  margin-right: auto; }
+
+.math-icon {
+  background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Math.png"); }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .math-icon {
+      background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Math@2x.png");
+      -webkit-background-size: 64px 64px;
+      -moz-background-size: 64px 64px;
+      -ms-background-size: 64px 64px;
+      background-size: 64px 64px; } }
 
 .gradient-block {
   padding: 1em; }

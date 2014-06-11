@@ -33,7 +33,7 @@ html.no-js lang="en"
             - if @course
                 .banner-image.center-text data-background="#{@course.bg_colour ||  @course.image_url}"
                     = partial "learn/elements/navigation"
-                    img.image.very-small.margin-bottom src="#{@course.icon}"
+                    .course-icon.big-margin-bottom class="#{@course.icon}"
                     h2.welcome-message = @course.title
                     - if @lesson
                         hr.tutorial-title-seperator

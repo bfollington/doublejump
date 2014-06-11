@@ -21,6 +21,19 @@
     }
 }
 
+.course-icon
+{
+    width: 64px;
+    height: 64px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.math-icon
+{
+    @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Math', 'png', 64px, 64px);
+}
+
 .gradient-block
 {
     padding: 1em;
