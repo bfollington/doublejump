@@ -198,6 +198,31 @@ module LearnToGameDev
       render "profile", :layout => :learn
     end
 
+    get '/profile/edit' do
+
+      @account = current_account
+
+      render "edit_profile", :layout => :learn
+    end
+
+    post '/profile/edit' do
+
+      @account = current_account
+
+      @account.name = params[:account][:name]
+      @account.surname = params[:account][:surname]
+      @account.email = params[:account][:email]
+
+      if !params[:account][:password_confirmation].empty?
+        @account.password = params[:account][:password]
+        @account.password_confirmation = params[:account][:password_confirmation]
+      end
+
+      @account.save
+
+      render "edit_profile", :layout => :learn
+    end
+
     get :destroy do
       set_current_account(nil)
       redirect url(:login)

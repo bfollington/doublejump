@@ -16,6 +16,8 @@
                     ul.dropdown-menu
                         li
                             a href="/profile" Home
+                        li
+                            a href="/profile/edit" Update Account
                         - if current_account.role == "admin"
                             li
                                 a href="/admin" Padrino Admin
