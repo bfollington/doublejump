@@ -24,6 +24,11 @@ function updateProgressBars()
         $last = $(".course-progress-node.last");
         nodeWidth = $first.outerWidth() - 3;
 
+        if ($upto.length == 0)
+        {
+            $upto = $first;
+        }
+
         console.log($first, $upto, $last);
 
         var $doneBar = $(".vertical-progress-done");
