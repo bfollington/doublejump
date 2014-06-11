@@ -32,8 +32,7 @@
             p There are no prerequisites for this course.
 
         - @course.prerequisites.each do |prerequisite|
-            .box
-                = partial 'learn/elements/course_block', :object => prerequisite
+            = partial 'learn/elements/course_block', :object => prerequisite
 
         h4 Follow Ons
 
@@ -41,5 +40,4 @@
             p There are no follow ons for this course.
 
         - @course.follow_ons.each do |follow_on|
-            .box
-                = partial 'learn/elements/course_block', :object => follow_on
+            = partial 'learn/elements/course_block', :object => follow_on

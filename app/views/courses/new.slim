@@ -18,10 +18,6 @@
                         = f.text_field :slug, :class => "form-control"
                         = partial 'form_error', :collection => (errors_for @course, :slug)
 
-                    p
-                        = f.label :icon, :caption => "Icon"
-                        = f.text_field :icon, :class => "form-control"
-                        = partial 'form_error', :collection => (errors_for @course, :icon)
 
                     p
                         = f.label :image_url, :caption => "Background Image URL"
@@ -29,9 +25,11 @@
                         = partial 'form_error', :collection => (errors_for @course, :image_url)
 
                     p
-                        = f.label :bg_colour, :caption => "Background Colour (Fallback)"
-                        = f.text_field :bg_colour, :class => "form-control", :placeholder => "#FFFFFF"
-                        = partial 'form_error', :collection => (errors_for @course, :bg_colour)
+                        = f.label :category, :caption => "Category"
+                        br
+                        = f.select(:category, :collection => @categories, :fields => [:name, :id], :class => 'js-select2')
+                        = partial 'form_error', :collection => (errors_for @course, :category)
+
 
                     p
                         = f.label :description, :caption => "Course Description"

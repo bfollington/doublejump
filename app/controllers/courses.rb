@@ -9,12 +9,14 @@ LearnToGameDev::App.controllers :courses do
 
   get :make do
     @lessons = Lesson.all
+    @categories = Category.all
     @courses = Course.all
     render 'courses/new'
   end
 
   get :make, :with => :slug do
     @lessons = Lesson.all
+    @categories = Category.all
     @courses = Course.all
     @course = Course.where(:slug => params[:slug]).first
     render 'courses/new'
@@ -27,9 +29,8 @@ LearnToGameDev::App.controllers :courses do
     @course.description = params[:course][:description]
     @course.account = current_account
     @course.image_url = params[:course][:image_url]
-    @course.bg_colour = params[:course][:bg_colour]
-    @course.icon = params[:course][:icon]
     @course.slug = params[:course][:slug]
+    @course.category = Category.find(params[:course][:category])
     @course.lessons = []
     @course.prerequisites = []
     @course.follow_ons = []
@@ -43,8 +44,7 @@ LearnToGameDev::App.controllers :courses do
                              :description => params[:course][:description],
                              :slug => params[:course][:slug],
                              :image_url => params[:course][:image_url],
-                             :icon => params[:course][:icon],
-                             :bg_colour => params[:course][:bg_colour],
+                             :category => Category.find(params[:course][:category]),
                              :account => current_account
                             )
 

@@ -1,0 +1,21 @@
+class Category
+  include Mongoid::Document
+  include Mongoid::Timestamps # adds created_at and updated_at fields
+
+  # field <name>, :type => <type>, :default => <value>
+  field :name, :type => String
+  field :icon, :type => String
+  field :colour, :type => String
+
+  validates_presence_of :name
+  validates_presence_of :icon
+  validates_presence_of :colour
+
+  has_many :courses
+
+  # You can define indexes on documents using the index macro:
+  # index :field <, :unique => true>
+
+  # You can create a composite key in mongoid to replace the default id using the key macro:
+  # key :field <, :another_field, :one_more ....>
+end
