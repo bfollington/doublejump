@@ -5,8 +5,9 @@
             | ,
             small
                 |  by 
-                img.avatar.small src="#{@course.account.avatar}"
-                = " " + @course.account.name + " " + @course.account.surname + " "
+                = @course.account.name
+                img.avatar.small.margin-left.margin-right src="#{@course.account.avatar}"
+                = @course.account.surname
         p
             = @course.description
 
