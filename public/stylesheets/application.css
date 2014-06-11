@@ -1699,9 +1699,10 @@ footer.footer {
   width: 33%;
   text-align: center;
   margin: 0 auto;
-  color: #999;
-  border-color: #999;
-  background-color: #999; }
+  color: #fff;
+  border-color: #fff;
+  background-color: #fff;
+  opacity: 0.4; }
 
 .banner-navigation {
   background-color: black;
