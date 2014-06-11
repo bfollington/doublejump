@@ -212,6 +212,7 @@ module LearnToGameDev
       @account.name = params[:account][:name]
       @account.surname = params[:account][:surname]
       @account.email = params[:account][:email]
+      @account.avatar = params[:account][:avatar]
 
       if !params[:account][:password_confirmation].empty?
         @account.password = params[:account][:password]

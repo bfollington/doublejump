@@ -1,2 +1,16 @@
-| HELLO PROFILE
-a.class.button.create-button href="/profile/edit" Edit Profile
+a.class.button.create-button.float-right href="/profile/edit" Edit Profile
+
+h2.center-text
+    = current_account.name
+    img.avatar.small.margin-left.margin-right src="#{current_account.avatar}"
+    = current_account.surname
+
+p.center-text
+    | description bio will go here
+
+h4 Completed Courses
+
+.row
+    - current_account.completed_courses.each do |completed_course|
+        .col-md-4.col-sm-6.col-xs-12
+            = partial 'learn/elements/course_block', :object => completed_course.course

@@ -3,8 +3,8 @@ class CompletedCourse
   include Mongoid::Timestamps # adds created_at and updated_at fields
 
   # field <name>, :type => <type>, :default => <value>
-  belongs_to :account
-  belongs_to :course
+  belongs_to :account, inverse_of: nil
+  belongs_to :course, inverse_of: nil
 
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>
