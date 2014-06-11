@@ -12,7 +12,7 @@ $( function() {
     //Only if we are on the appropriate page, need to used defined? util
     if (jQuery().lazyload)
     {
-        $("img.lazy").lazyload(
+        $("img.lazy, .step-body img").lazyload(
         {
             threshold : 200
         });
@@ -461,8 +461,15 @@ function setUpBannerImage()
         }
     });
 
-    $(".step-body img").addClass("lazy").wrap( "<a href='#' data-fluidbox></a>" );
-    $("a[data-fluidbox]").fluidbox({ overlayColor: "rgba(0, 0, 0, 0.5)" });
+    //$(".step-body img").addClass("lazy").wrap( "<a href='#' data-fluidbox></a>" );
+    //$("a[data-fluidbox]").fluidbox({ overlayColor: "rgba(0, 0, 0, 0.5)" });
+
+    $(".step-body img").attr("data-closeclick", true);
+    $(".step-body img").attr("data-targetsize", 0.95);
+    $(".step-body img").attr("data-duration", 200);
+    $(".step-body img").attr("data-easing", "ease");
+    $(".step-body img").attr("data-nativeanimation", false);
+    $(".step-body img").zoomTarget();
 }
 
 setUpBannerImage();
