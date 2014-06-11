@@ -1787,7 +1787,7 @@ ul.progress-list {
   margin: 0 auto; }
 .step-body .zoom-wrapper + .comment,
 .step-body pre + p .comment,
-.step-body .hideable-inner + .comment,
+.step-body .hideable-inner + p .comment,
 .step-body .callout.definition + .comment,
 .step-body .callout.info + p .comment {
   display: table;
