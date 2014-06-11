@@ -1782,7 +1782,10 @@ ul.progress-list {
   -ms-border-radius: 2px;
   border-radius: 2px;
   min-width: 128px; }
-.step-body img + .comment,
+.step-body .zoom-wrapper {
+  display: block;
+  margin: 0 auto; }
+.step-body .zoom-wrapper + .comment,
 .step-body pre + p .comment,
 .step-body .hideable-inner + .comment,
 .step-body .callout.definition + .comment,

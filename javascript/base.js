@@ -12,7 +12,7 @@ $( function() {
     //Only if we are on the appropriate page, need to used defined? util
     if (jQuery().lazyload)
     {
-        $("img.lazy, .step-body img").lazyload(
+        $("img.lazy").lazyload(
         {
             threshold : 200
         });

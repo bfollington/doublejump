@@ -12,7 +12,7 @@ $( function() {
     //Only if we are on the appropriate page, need to used defined? util
     if (jQuery().lazyload)
     {
-        $("img.lazy, .step-body img").lazyload(
+        $("img.lazy").lazyload(
         {
             threshold : 200
         });
@@ -461,18 +461,34 @@ function setUpBannerImage()
         }
     });
 
-    //$(".step-body img").addClass("lazy").wrap( "<a href='#' data-fluidbox></a>" );
-    //$("a[data-fluidbox]").fluidbox({ overlayColor: "rgba(0, 0, 0, 0.5)" });
+    if (jQuery().lazyload)
+    {
+        $(".step-body img").lazyload(
+        {
+            threshold : 200,
+            load: lazyLoadHandler
+        });
+    }
+    
 
-    $(".step-body img").attr("data-closeclick", true);
-    $(".step-body img").attr("data-targetsize", 0.95);
-    $(".step-body img").attr("data-duration", 200);
-    $(".step-body img").attr("data-easing", "ease");
-    $(".step-body img").attr("data-nativeanimation", false);
-    $(".step-body img").zoomTarget();
+    
 }
 
 setUpBannerImage();
+
+function lazyLoadHandler()
+{
+    if (!$(this).attr("data-zoominit"))
+    {
+        $(this)
+        .attr("data-zoominit", true)
+        .wrap('<div class="zoom-wrapper" style="width:' + $(this).outerWidth() + 'px;"></div>')
+        .parent()
+        .zoom({ on:'mouseover', magnify: 1.0 });
+    }
+
+    //$(".zoom-wrapper").css("overflow", "visible");
+}
 var loadingIndicator = '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
 // progress-bar.js powers the progress bar during a lesson
 

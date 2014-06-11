@@ -173,6 +173,7 @@ ul.progress-list{
 
 .step-body
 {
+
     img
     {
         border-bottom: 2px solid #aaa;
@@ -181,7 +182,13 @@ ul.progress-list{
         min-width: 128px;
     }
 
-    img + .comment,
+    .zoom-wrapper
+    {
+        display:block;
+        margin: 0 auto;
+    }
+
+    .zoom-wrapper + .comment,
     pre + p .comment,
     .hideable-inner + .comment,
     .callout.definition + .comment,
