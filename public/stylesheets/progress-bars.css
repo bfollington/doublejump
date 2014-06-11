@@ -1,28 +1,24 @@
 /*
-Syntax error: Undefined mixin 'background-image-retina'.
-        on line 31 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss, in `background-image-retina'
-        from line 31 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss
+Syntax error: Undefined variable: "$link-disabled".
+        on line 11 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/progress-bars.scss
 
-26: {
-27:     padding: 1em;
-28: }
-29: 
-30: .doublejump-gap {
-31:     @include background-image-retina('/images/doublejump-gap', 'png', 203px, 28px);
-32:     width: 203px;
-33:     height: 48px;
-34:     margin: 0 auto;
-35:     background-repeat: no-repeat;
-36:     background-position: center;
+6: .course-progress-node
+7: {
+8:     border-radius: 10000px;
+9:     width: 0.75em;
+10:     height: 0.75em;
+11:     background-color: $link-disabled;
+12:     margin-left: auto;
+13:     margin-right: auto;
+14:     margin-top: 3em;
+15: }
+16: 
 
 Backtrace:
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss:31:in `background-image-retina'
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss:31
-/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
-/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:98:in `block in with_mixin'
-/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
-/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:98:in `with_mixin'
-/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:318:in `visit_mixin'
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/progress-bars.scss:11
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/script/tree/variable.rb:49:in `_perform'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/script/tree/node.rb:50:in `perform'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:366:in `visit_prop'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `visit'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:79:in `block in with_base'
@@ -91,4 +87,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 31 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss, in `background-image-retina'\A         from line 31 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss\A \A 26: {\A 27:     padding: 1em;\A 28: }\A 29: \A 30: .doublejump-gap {\A 31:     @include background-image-retina('/images/doublejump-gap', 'png', 203px, 28px);\A 32:     width: 203px;\A 33:     height: 48px;\A 34:     margin: 0 auto;\A 35:     background-repeat: no-repeat;\A 36:     background-position: center;"; }
+  content: "Syntax error: Undefined variable: \"$link-disabled\".\A         on line 11 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/progress-bars.scss\A \A 6: .course-progress-node\A 7: {\A 8:     border-radius: 10000px;\A 9:     width: 0.75em;\A 10:     height: 0.75em;\A 11:     background-color: $link-disabled;\A 12:     margin-left: auto;\A 13:     margin-right: auto;\A 14:     margin-top: 3em;\A 15: }\A 16: "; }

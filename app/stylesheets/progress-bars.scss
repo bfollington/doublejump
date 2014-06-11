@@ -1,0 +1,122 @@
+.course-progress-holder
+{
+    height: inherit;
+}
+
+.course-progress-node
+{
+    border-radius: 10000px;
+    width: 0.75em;
+    height: 0.75em;
+    background-color: $link-disabled;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3em;
+}
+
+.course-progress-node.done
+{
+    background-color: $link-color;
+}
+
+.vertical-progress-done
+{
+    width: 3px;
+    height: 100px;
+    background-color: $link-color;
+    position: absolute;
+}
+
+.vertical-progress-todo
+{
+    width: 3px;
+    height: 100px;
+    background-color: $link-disabled;
+    position: absolute;
+}
+
+
+.progress-list-wrapper
+{
+    width: 100%;
+}
+
+ul.progress-list{
+    display: inline-table;
+    width: 99%;
+    list-style: none;
+
+    margin-bottom: 0.5em;
+    margin-top: -0.2em;
+    margin-left: 0px;
+
+    padding: 0px;
+
+    background: $link-disabled;
+    height: 1px;
+
+    li 
+    {
+        display: table-cell;
+        text-align: center;
+
+        height: 2px;
+
+        a
+        {
+            display: inline-block;
+
+            background-color: $link-color;
+            border-radius: 1000px;
+            width: 10px;
+            height: 10px;
+
+            position: absolute;
+            margin-top: -4px;
+        }
+
+        a:hover
+        {
+            width: 16px;
+            height: 16px;
+
+            margin-top: -8px;
+            margin-left: -3px;
+        }
+    }
+
+    li.incomplete
+    {
+        a 
+        {
+            background: $link-disabled;
+        }
+    }
+
+    li:first-child {
+        text-align: left;
+    }
+
+    li:last-child {
+        text-align: right;
+    }
+}
+
+.progress-navigation-link {
+    margin-top: 1em;
+    display: inline-block;
+}
+
+.progress-list-wrapper .progress
+{
+    position: absolute;
+    width: 33%;
+    background: $link-color;
+    border: none;
+    height: 2px;
+
+    margin-bottom: 0px;
+
+    left: 16.5%;
+    top: 1.5em;
+}

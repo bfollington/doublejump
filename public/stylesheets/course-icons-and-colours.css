@@ -1,23 +1,23 @@
 /*
 Syntax error: Undefined mixin 'background-image-retina'.
-        on line 31 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss, in `background-image-retina'
-        from line 31 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss
+        on line 13 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/course-icons-and-colours.scss, in `background-image-retina'
+        from line 13 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/course-icons-and-colours.scss
 
-26: {
-27:     padding: 1em;
-28: }
-29: 
-30: .doublejump-gap {
-31:     @include background-image-retina('/images/doublejump-gap', 'png', 203px, 28px);
-32:     width: 203px;
-33:     height: 48px;
-34:     margin: 0 auto;
-35:     background-repeat: no-repeat;
-36:     background-position: center;
+8:     background-repeat: no-repeat;
+9: }
+10: 
+11: .math-icon
+12: {
+13:     @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Math', 'png', 64px, 64px);
+14: }
+15: 
+16: .gamemaker-icon
+17: {
+18:     @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/GameMaker', 'png', 64px, 64px);
 
 Backtrace:
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss:31:in `background-image-retina'
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss:31
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/course-icons-and-colours.scss:13:in `background-image-retina'
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/course-icons-and-colours.scss:13
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:98:in `block in with_mixin'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
@@ -91,4 +91,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 31 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss, in `background-image-retina'\A         from line 31 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss\A \A 26: {\A 27:     padding: 1em;\A 28: }\A 29: \A 30: .doublejump-gap {\A 31:     @include background-image-retina('/images/doublejump-gap', 'png', 203px, 28px);\A 32:     width: 203px;\A 33:     height: 48px;\A 34:     margin: 0 auto;\A 35:     background-repeat: no-repeat;\A 36:     background-position: center;"; }
+  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 13 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/course-icons-and-colours.scss, in `background-image-retina'\A         from line 13 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/course-icons-and-colours.scss\A \A 8:     background-repeat: no-repeat;\A 9: }\A 10: \A 11: .math-icon\A 12: {\A 13:     @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Math', 'png', 64px, 64px);\A 14: }\A 15: \A 16: .gamemaker-icon\A 17: {\A 18:     @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/GameMaker', 'png', 64px, 64px);"; }
