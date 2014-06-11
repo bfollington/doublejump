@@ -41,6 +41,11 @@
     @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/GameMaker', 'png', 64px, 64px);
 }
 
+.doublejump-icon
+{
+    @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Doublejump', 'png', 64px, 64px);
+}
+
 .course-block
 {
     height: 100%;
