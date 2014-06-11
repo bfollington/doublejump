@@ -11,3 +11,7 @@
 
 .image.very-small {
   max-width: 64px; }
+
+img.fit-width {
+  max-width: 90%;
+  padding: 5%; }
