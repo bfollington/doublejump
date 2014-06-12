@@ -518,18 +518,13 @@ function updateProgressBars()
 
     if ( $(".course-progress-node").length > 0 )
     {
+        var nodes = getVerticalProgressPoints();
+
         var
-        $first = $(".course-progress-node.first"),
-        $upto = $(".course-progress-node.done:last"),
-        $last = $(".course-progress-node.last");
+        $first = nodes.first,
+        $upto = nodes.upto,
+        $last = nodes.last;
         nodeWidth = $first.outerWidth() - 3;
-
-        if ($upto.length == 0)
-        {
-            $upto = $first;
-        }
-
-        console.log($first, $upto, $last);
 
         var $doneBar = $(".vertical-progress-done");
         $doneBar.css("height", $upto.offset().top - $first.offset().top);
@@ -545,12 +540,31 @@ function updateProgressBars()
 
 }
 
+function getVerticalProgressPoints ()
+{
+    var
+    $first = $(".course-progress-node.first"),
+    $upto = $(".course-progress-node.done:last"),
+    $last = $(".course-progress-node.last");
+
+    if ($upto.length == 0)
+    {
+        $upto = $first;
+    }
+
+    return {"first" : $first, "upto": $upto, "last": $last};
+}
+
 function initVerticalBars()
 {
     if ( $(".course-progress-node").length > 0 )
     {
         $("body").prepend("<div class='vertical-progress-done'></div>");
         $("body").prepend("<div class='vertical-progress-todo'></div>");
+
+        var nodes = getVerticalProgressPoints();
+
+        nodes.upto.parent().next().find(".box").prepend("<a href='' class='button create-button float-right lets-go'>Let's Go!</div>");
     } 
 }
 

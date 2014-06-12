@@ -1851,11 +1851,19 @@ footer.footer {
   height: 128px; }
   .lesson-height .course-progress-node {
     margin-top: 64px; }
+  .lesson-height .lets-go {
+    margin-top: 32px; }
+  .lesson-height .box {
+    height: 128px; }
 
 .step-height {
   height: 64px; }
   .step-height .course-progress-node {
     margin-top: 32px; }
+  .step-height .lets-go {
+    margin-top: 4px; }
+  .step-height .box {
+    height: 100%; }
 
 .course-progress-holder {
   height: inherit; }
@@ -2017,7 +2025,7 @@ ul.progress-list {
   .course-block .box {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    height: 12em;
+    height: 10em;
     overflow-y: hidden; }
   .course-block .course-icon {
     width: 100%;
@@ -2122,6 +2130,11 @@ img.shared-image {
 .avatar.small {
   width: 55px;
   height: 55px;
+  border: 1px solid #aaa; }
+
+.avatar.very-small {
+  width: 32px;
+  height: 32px;
   border: 1px solid #aaa; }
 
 .image.small {

@@ -6,6 +6,11 @@
   height: 55px;
   border: 1px solid #aaa; }
 
+.avatar.very-small {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #aaa; }
+
 .image.small {
   max-width: 128px; }
 
