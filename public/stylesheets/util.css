@@ -17,6 +17,12 @@ ul.inline li {
   margin-left: auto;
   margin-right: auto; }
 
+.grey {
+  color: #ccc !important; }
+
+.lighter-font {
+  font-weight: lighter; }
+
 .margin-bottom {
   margin-bottom: 10px; }
 

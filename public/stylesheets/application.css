@@ -244,6 +244,12 @@ ul.inline li {
   margin-left: auto;
   margin-right: auto; }
 
+.grey {
+  color: #ccc !important; }
+
+.lighter-font {
+  font-weight: lighter; }
+
 .margin-bottom {
   margin-bottom: 10px; }
 
@@ -2011,7 +2017,7 @@ ul.progress-list {
   .course-block .box {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    height: 220px;
+    height: 12em;
     overflow-y: hidden; }
   .course-block .course-icon {
     width: 100%;
