@@ -1,3 +1,23 @@
+.lesson-height
+{
+    height: 128px;
+
+    .course-progress-node
+    {
+        margin-top: 64px;
+    }
+}
+
+.step-height
+{
+    height: 64px;
+
+    .course-progress-node
+    {
+        margin-top: 32px;
+    }
+}
+
 .course-progress-holder
 {
     height: inherit;
@@ -11,7 +31,6 @@
     background-color: $link-disabled;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 3em;
 }
 
 .course-progress-node.done

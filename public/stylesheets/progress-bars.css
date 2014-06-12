@@ -1,21 +1,21 @@
 /*
 Syntax error: Undefined variable: "$link-disabled".
-        on line 11 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/progress-bars.scss
+        on line 31 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/progress-bars.scss
 
-6: .course-progress-node
-7: {
-8:     border-radius: 10000px;
-9:     width: 0.75em;
-10:     height: 0.75em;
-11:     background-color: $link-disabled;
-12:     margin-left: auto;
-13:     margin-right: auto;
-14:     margin-top: 3em;
-15: }
-16: 
+26: .course-progress-node
+27: {
+28:     border-radius: 10000px;
+29:     width: 0.75em;
+30:     height: 0.75em;
+31:     background-color: $link-disabled;
+32:     margin-left: auto;
+33:     margin-right: auto;
+34: }
+35: 
+36: .course-progress-node.done
 
 Backtrace:
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/progress-bars.scss:11
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/progress-bars.scss:31
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/script/tree/node.rb:50:in `perform'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:366:in `visit_prop'
@@ -87,4 +87,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$link-disabled\".\A         on line 11 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/progress-bars.scss\A \A 6: .course-progress-node\A 7: {\A 8:     border-radius: 10000px;\A 9:     width: 0.75em;\A 10:     height: 0.75em;\A 11:     background-color: $link-disabled;\A 12:     margin-left: auto;\A 13:     margin-right: auto;\A 14:     margin-top: 3em;\A 15: }\A 16: "; }
+  content: "Syntax error: Undefined variable: \"$link-disabled\".\A         on line 31 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/progress-bars.scss\A \A 26: .course-progress-node\A 27: {\A 28:     border-radius: 10000px;\A 29:     width: 0.75em;\A 30:     height: 0.75em;\A 31:     background-color: $link-disabled;\A 32:     margin-left: auto;\A 33:     margin-right: auto;\A 34: }\A 35: \A 36: .course-progress-node.done"; }

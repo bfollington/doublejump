@@ -17,7 +17,7 @@
 
         - count = 0
         - @course.lessons.each do |lesson|
-            .row
+            .row.lesson-height
                 .col-xs-1.course-progress-holder
 
                     - if is_logged_in && current_account.has_completed_lesson?(lesson)
