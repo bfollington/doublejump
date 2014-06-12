@@ -19,7 +19,7 @@
 .row
     .col-lg-9
         - count = 0
-        - @lesson.steps.each do |step|
+        - @lesson.get_steps_in_order.each do |step|
             .row.step-height
                 .col-xs-1.course-progress-holder
 

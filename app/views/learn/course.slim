@@ -16,7 +16,7 @@
                 h3 Lessons in this Course
 
         - count = 0
-        - @course.lessons.each do |lesson|
+        - @course.get_lessons_in_order.each do |lesson|
             .row.lesson-height
                 .col-xs-1.course-progress-holder
 

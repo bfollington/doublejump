@@ -1966,6 +1966,46 @@ ul.progress-list {
       -ms-background-size: 64px 64px;
       background-size: 64px 64px; } }
 
+.design-icon {
+  background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Design.png"); }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .design-icon {
+      background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Design@2x.png");
+      -webkit-background-size: 64px 64px;
+      -moz-background-size: 64px 64px;
+      -ms-background-size: 64px 64px;
+      background-size: 64px 64px; } }
+
+.management-icon {
+  background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Management.png"); }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .management-icon {
+      background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Management@2x.png");
+      -webkit-background-size: 64px 64px;
+      -moz-background-size: 64px 64px;
+      -ms-background-size: 64px 64px;
+      background-size: 64px 64px; } }
+
+.assets-icon {
+  background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Assets.png"); }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .assets-icon {
+      background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Assets@2x.png");
+      -webkit-background-size: 64px 64px;
+      -moz-background-size: 64px 64px;
+      -ms-background-size: 64px 64px;
+      background-size: 64px 64px; } }
+
+.unity-icon {
+  background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Unity.png"); }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .unity-icon {
+      background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Unity@2x.png");
+      -webkit-background-size: 64px 64px;
+      -moz-background-size: 64px 64px;
+      -ms-background-size: 64px 64px;
+      background-size: 64px 64px; } }
+
 .course-block {
   height: 100%; }
   .course-block .box {
