@@ -2010,7 +2010,9 @@ ul.progress-list {
   height: 100%; }
   .course-block .box {
     border-top-left-radius: 0;
-    border-top-right-radius: 0; }
+    border-top-right-radius: 0;
+    height: 220px;
+    overflow-y: hidden; }
   .course-block .course-icon {
     width: 100%;
     height: 32px;
