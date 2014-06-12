@@ -20,7 +20,7 @@
             .row
                 .col-xs-1.course-progress-holder
 
-                    - if current_account.has_completed_lesson?(lesson)
+                    - if is_logged_in && current_account.has_completed_lesson?(lesson)
                         - done_class = "done"
                     - else
                         - done_class = ""

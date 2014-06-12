@@ -23,7 +23,7 @@
             .row
                 .col-xs-1.course-progress-holder
 
-                    - if current_account.has_completed_step?(step)
+                    - if is_logged_in && current_account.has_completed_step?(step)
                         - done_class = "done"
                     - else
                         - done_class = ""
@@ -36,6 +36,7 @@
                         .course-progress-node class="#{done_class}"
 
                     - count += 1
+
                 .col-xs-11
                     .box
                         h4
