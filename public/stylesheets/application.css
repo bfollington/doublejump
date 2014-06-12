@@ -1,3 +1,81 @@
+@-webkit-keyframes fadeInDownHalfOpacity {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px); }
+
+  100% {
+    opacity: 0.5;
+    transform: translateY(0); } }
+@-moz-keyframes fadeInDownHalfOpacity {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px); }
+
+  100% {
+    opacity: 0.5;
+    transform: translateY(0); } }
+@-ms-keyframes fadeInDownHalfOpacity {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px); }
+
+  100% {
+    opacity: 0.5;
+    transform: translateY(0); } }
+@keyframes fadeInDownHalfOpacity {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px); }
+
+  100% {
+    opacity: 0.5;
+    transform: translateY(0); } }
+.fadeInDownHalfOpacity {
+  -webkit-animation-name: fadeInDownHalfOpacity;
+  -moz-animation-name: fadeInDownHalfOpacity;
+  -ms-animation-name: fadeInDownHalfOpacity;
+  -o-animation-name: fadeInDownHalfOpacity;
+  animation-name: fadeInDownHalfOpacity; }
+
+@-webkit-keyframes fadeOutUpHalfOpacity {
+  0% {
+    opacity: 0.5;
+    transform: translateY(0px); }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-20px); } }
+@-moz-keyframes fadeOutUpHalfOpacity {
+  0% {
+    opacity: 0.5;
+    transform: translateY(0px); }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-20px); } }
+@-ms-keyframes fadeOutUpHalfOpacity {
+  0% {
+    opacity: 0.5;
+    transform: translateY(0px); }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-20px); } }
+@keyframes fadeOutUpHalfOpacity {
+  0% {
+    opacity: 0.5;
+    transform: translateY(0px); }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-20px); } }
+.fadeOutUpHalfOpacity {
+  -webkit-animation-name: fadeOutUpHalfOpacity;
+  -moz-animation-name: fadeOutUpHalfOpacity;
+  -ms-animation-name: fadeOutUpHalfOpacity;
+  -o-animation-name: fadeOutUpHalfOpacity;
+  animation-name: fadeOutUpHalfOpacity; }
+
 .header a, .banner-navigation a {
   color: #f6ff56;
   transition: .3s;
@@ -37,6 +115,7 @@ p, li {
   -webkit-border-radius: 10000px;
   -moz-border-radius: 10000px;
   -ms-border-radius: 10000px;
+  -o-border-radius: 10000px;
   border-radius: 10000px;
   background-color: #4faee8;
   border: 0px;
@@ -55,6 +134,7 @@ p, li {
   -webkit-animation: fading 2s infinite;
   -moz-animation: fading 2s infinite;
   -ms-animation: fading 2s infinite;
+  -o-animation: fading 2s infinite;
   animation: fading 2s infinite; }
 
 @-webkit-keyframes fading {
@@ -106,6 +186,7 @@ p, li {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   -ms-border-radius: 2px;
+  -o-border-radius: 2px;
   border-radius: 2px;
   padding: 1em;
   margin-bottom: 0px; }
@@ -128,6 +209,7 @@ p, li {
   -webkit-animation-duration: 0.3s;
   -moz-animation-duration: 0.3s;
   -ms-animation-duration: 0.3s;
+  -o-animation-duration: 0.3s;
   animation-duration: 0.3s; }
   .hideable-inner .content p {
     margin-bottom: 0; }
@@ -1728,6 +1810,7 @@ footer.footer {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     -ms-border-radius: 0px;
+    -o-border-radius: 0px;
     border-radius: 0px; }
 
 .step-body img {
@@ -1735,6 +1818,7 @@ footer.footer {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   -ms-border-radius: 2px;
+  -o-border-radius: 2px;
   border-radius: 2px;
   min-width: 128px; }
 .step-body .zoom-wrapper {
@@ -1757,6 +1841,16 @@ footer.footer {
 .step-body a[href*='http'] .fa {
   font-size: 80%; }
 
+.lesson-height {
+  height: 128px; }
+  .lesson-height .course-progress-node {
+    margin-top: 64px; }
+
+.step-height {
+  height: 64px; }
+  .step-height .course-progress-node {
+    margin-top: 32px; }
+
 .course-progress-holder {
   height: inherit; }
 
@@ -1766,8 +1860,7 @@ footer.footer {
   height: 0.75em;
   background-color: #b7d1e0;
   margin-left: auto;
-  margin-right: auto;
-  margin-top: 3em; }
+  margin-right: auto; }
 
 .course-progress-node.done {
   background-color: #4faee8; }
@@ -1894,10 +1987,11 @@ ul.progress-list {
   margin-left: -35%;
   width: 70%;
   height: 80%;
-  -webkit-animation-duration: 0.3s;
-  -moz-animation-duration: 0.3s;
-  -ms-animation-duration: 0.3s;
-  animation-duration: 0.3s;
+  -webkit-animation-duration: 0.2s;
+  -moz-animation-duration: 0.2s;
+  -ms-animation-duration: 0.2s;
+  -o-animation-duration: 0.2s;
+  animation-duration: 0.2s;
   z-index: 9999; }
   #sharing_lightbox .box {
     height: 100%; }
@@ -1912,13 +2006,14 @@ ul.progress-list {
   width: 100%;
   height: 110%;
   background-color: black;
-  opacity: 1.0;
+  opacity: 0.5;
   display: none;
   z-index: 9998;
-  -webkit-animation-duration: 0.3s;
-  -moz-animation-duration: 0.3s;
-  -ms-animation-duration: 0.3s;
-  animation-duration: 0.3s; }
+  -webkit-animation-duration: 0.75s;
+  -moz-animation-duration: 0.75s;
+  -ms-animation-duration: 0.75s;
+  -o-animation-duration: 0.75s;
+  animation-duration: 0.75s; }
 
 .image-frame {
   width: 100%;
@@ -1946,6 +2041,7 @@ img.shared-image {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   -ms-border-radius: 2px;
+  -o-border-radius: 2px;
   border-radius: 2px;
   background: black; }
 
@@ -2011,6 +2107,7 @@ div.tooltip-inner {
   -webkit-animation-duration: 0.3s;
   -moz-animation-duration: 0.3s;
   -ms-animation-duration: 0.3s;
+  -o-animation-duration: 0.3s;
   animation-duration: 0.3s;
   z-index: 10000; }
 
@@ -2030,6 +2127,7 @@ div.tooltip-inner {
   -webkit-animation-duration: 0.3s;
   -moz-animation-duration: 0.3s;
   -ms-animation-duration: 0.3s;
+  -o-animation-duration: 0.3s;
   animation-duration: 0.3s; }
 
 .step-body a[rel="definition"] {

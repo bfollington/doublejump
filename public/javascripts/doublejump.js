@@ -638,17 +638,18 @@ function hideLightbox()
         $("#sharing_lightbox").css("display", "none");
     });
 
-    animate("#sharing_lightbox_overlay", 'fadeOutUp', function () {
+    animate("#sharing_lightbox_overlay", 'fadeOutUpHalfOpacity', function () {
         $("#sharing_lightbox_overlay").css("display", "none");
     });
 }
 
 var $currentLightboxSource;
 
-$(".sharing-step img.lazy").click(function () {
+$("img.lazy.shared-image").click(function () {
 
+    console.log("test");
     showLightbox($(this));
-    animate("#sharing_lightbox_overlay", 'fadeInDown', null);
+    animate("#sharing_lightbox_overlay", 'fadeInDownHalfOpacity', null);
 
 });
 
@@ -668,6 +669,8 @@ function showLightbox($source)
     animate("#sharing_lightbox", 'fadeInDown', null);
 
     resizeLightboxImage();
+    $("#sharing_lightbox img").off();
+    $("#sharing_lightbox img").load( resizeLightboxImage )
 }
 
 $("#shared_image_shared_image").change( function (e) {
@@ -744,12 +747,16 @@ document.onkeydown = function(evt) {
 
 function showNextImage()
 {
-    showLightbox($currentLightboxSource.parent().parent().next().find(".shared-image-holder img"));
+    var $next = $currentLightboxSource.parent().parent().next().find(".shared-image-holder img");
+
+    if ($next.length > 0) showLightbox($next);
 }
 
 function showPrevImage()
 {
-    showLightbox($currentLightboxSource.parent().parent().prev().find(".shared-image-holder img"));
+    var $prev = $currentLightboxSource.parent().parent().prev().find(".shared-image-holder img");
+
+    if ($prev.length > 0) showLightbox($prev);
 }
 
 
@@ -957,7 +964,7 @@ function animateElement($element, animation, completeCallback) {
         $element.attr("data-timeout-id", timeoutId);
 
         $element.off();
-        $element.one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
+        $element.one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", 
             function() {
                 $element.removeClass(animation);
                 $element.removeClass("animated");

@@ -36,7 +36,7 @@ function animateElement($element, animation, completeCallback) {
         $element.attr("data-timeout-id", timeoutId);
 
         $element.off();
-        $element.one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", 
+        $element.one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", 
             function() {
                 $element.removeClass(animation);
                 $element.removeClass("animated");

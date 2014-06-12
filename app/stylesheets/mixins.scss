@@ -42,6 +42,7 @@
   -webkit-border-radius: $radius;
      -moz-border-radius: $radius;
       -ms-border-radius: $radius;
+       -o-border-radius: $radius;
           border-radius: $radius;
 }
 
@@ -49,6 +50,7 @@
   -webkit-animation-duration: $duration;
      -moz-animation-duration: $duration;
       -ms-animation-duration: $duration;
+       -o-animation-duration: $duration;
           animation-duration: $duration;
 }
 
@@ -56,7 +58,16 @@
   -webkit-animation: $params;
      -moz-animation: $params;
       -ms-animation: $params;
+       -o-animation: $params;
           animation: $params;
+}
+
+@mixin animation-name($params) {
+  -webkit-animation-name: $params;
+     -moz-animation-name: $params;
+      -ms-animation-name: $params;
+       -o-animation-name: $params;
+          animation-name: $params;
 }
 
 @mixin keyframes($name) {

@@ -9,7 +9,7 @@
     width: 70%;
     height: 80%;
 
-    @include animation-duration(0.3s);
+    @include animation-duration(0.2s);
 
     z-index: 9999;
 
@@ -32,13 +32,13 @@
     width: 100%;
     height: 110%;
     background-color: black;
-    opacity: 1.0;
+    opacity: 0.5;
 
     display: none;
 
     z-index: 9998;
 
-    @include animation-duration(0.3s);
+    @include animation-duration(0.75s);
 }
 
 .image-frame
