@@ -17,6 +17,7 @@ html.no-js lang="en"
         = yield_content :include_css
     body
         .container-fluid
+            = partial 'elements/doublejump_header_bar'
             .main-content           
                 .row
                     .col-xs-12
@@ -26,6 +27,8 @@ html.no-js lang="en"
                                 - session[:flash] = nil
 
                             = partial 'styleguide/styles'
+
+            = partial 'elements/footer'
 
     = partial( local_or_live('includes/local_app_js', 'includes/live_app_js') )
     = yield_content :include_js

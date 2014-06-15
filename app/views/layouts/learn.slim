@@ -54,9 +54,6 @@ html.no-js lang="en"
 
                 = yield
 
-            footer
-                h1 Test Footer
-                a href="https://mixpanel.com/f/partner"
-                    img src="//cdn.mxpnl.com/site_media/images/partner/badge_blue.png" alt="Mobile Analytics"
+            = partial 'elements/footer'
 
     = partial( local_or_live('includes/local_app_js', 'includes/live_app_js') )

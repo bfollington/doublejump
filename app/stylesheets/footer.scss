@@ -1,0 +1,56 @@
+footer.footer {
+    background-color: #444;
+    padding: 20px;
+
+    color: white;
+
+    .make-games-badge
+    {
+        position: relative;
+        display: inline-block;
+        width: 140px;
+        height: 37px;
+
+        left: 210px;
+        top: 20px;
+
+        @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/make-games-badge', 'png', 140px, 37px);
+
+        @media only screen and (max-width: $tablet) { 
+            background-size: 70px 18px;
+            width: 70px;
+            height: 18px;
+            left: 180px;
+            top: 40px;
+        }
+    }
+
+    .doublejump-dark
+    {
+        margin-top: 40px;
+    }
+
+    .footer-header
+    {
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+}
+
+.footer-link-list
+{
+    list-style-type: none;
+    margin-left: 0px;
+    text-align: left;
+    padding-left: 0;
+
+    li
+    {
+        a
+        {
+            font-weight: lighter;
+            color: white;
+        }
+    }
+}
