@@ -20,6 +20,18 @@
     .box
     {
         height: 160px;
+        overflow-y: hidden;
+        padding-bottom: 0;
+    }
+
+    .lesson-block
+    {
+        position: relative;
+    }
+
+    .read-more
+    {
+        bottom: 0.1em;
     }
 
 }

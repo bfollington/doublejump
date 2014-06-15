@@ -43,11 +43,27 @@
     @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Unity', 'png', 64px, 64px);
 }
 
+.read-more
+{
+    position: absolute;
+    bottom: 1.1em;
+    left: 0;
+    width: 100%;
+    text-align: center; 
+    margin: 0; padding: 40px 0; 
 
+    /* "transparent" only works here because == rgba(0,0,0,0) */ 
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, transparent),color-stop(1, white));
+    background-image: -webkit-linear-gradient(top, transparent, white);
+    background-image: -moz-linear-gradient(top, transparent, white);
+    background-image: -ms-linear-gradient(top, transparent, white);
+    background-image: -o-linear-gradient(top, transparent, white);
+}
 
 .course-block
 {
     height: 100%;
+    position: relative;
 
     .box
     {
