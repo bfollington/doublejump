@@ -62,9 +62,11 @@ function initVerticalBars()
         $("body").prepend("<div class='vertical-progress-done'></div>");
         $("body").prepend("<div class='vertical-progress-todo'></div>");
 
-        var href = $(".course-progress-node").not(".done").first().parent().next().find("a").attr("href");
+        var $selector = $(".course-progress-node").not(".done").first().parent().next();
 
-        $(".course-progress-node").not(".done").first().parent().next().find(".box").prepend("<a href='" + href + "' class='button create-button float-right lets-go'>Let's Go!</div>");
+        var href = $selector.find("a").attr("href");
+
+        $selector.find(".box").prepend("<a href='" + href + "' class='button create-button float-right lets-go'>Let's Go!</div>");
     } 
 }
 
