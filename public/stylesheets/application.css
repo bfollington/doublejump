@@ -424,6 +424,7 @@ p.intro-small {
 footer.footer {
   background-color: #444;
   padding: 20px;
+  padding-top: 40px;
   color: white; }
   footer.footer .make-games-badge {
     position: relative;
@@ -2394,4 +2395,5 @@ body {
 
 .main-content {
   background: #f6f6f6;
-  padding: 1em 1em; }
+  padding: 1em 1em;
+  padding-bottom: 4em; }
