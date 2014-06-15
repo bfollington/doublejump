@@ -64,7 +64,10 @@ function initVerticalBars()
 
         var nodes = getVerticalProgressPoints();
 
-        nodes.upto.parent().next().find(".box").prepend("<a href='' class='button create-button float-right lets-go'>Let's Go!</div>");
+        var href = nodes.upto.parent().next().find("a").attr("href");
+        console.log(href);
+
+        nodes.upto.parent().next().find(".box").prepend("<a href='" + href + "' class='button create-button float-right lets-go'>Let's Go!</div>");
     } 
 }
 

@@ -1894,7 +1894,7 @@ footer.footer {
   .lesson-height .course-progress-node {
     margin-top: 80px; }
   .lesson-height .lets-go {
-    margin-top: 48px; }
+    margin-top: 40px; }
   .lesson-height .box {
     height: 160px;
     overflow-y: hidden;
@@ -1911,13 +1911,9 @@ footer.footer {
   .step-height .course-progress-node {
     margin-top: 32px; }
   .step-height .lets-go {
-    margin-top: 4px; }
+    margin-top: 0px; }
   .step-height .box {
     height: 100%; }
-  .step-height .step-block {
-    position: relative; }
-  .step-height .read-more {
-    bottom: 0.1em; }
 
 .course-progress-holder {
   height: inherit; }
@@ -2081,7 +2077,7 @@ ul.progress-list {
   width: 100%;
   text-align: center;
   margin: 0;
-  padding: 40px 0;
+  padding: 20px 0;
   /* "transparent" only works here because == rgba(0,0,0,0) */
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, transparent), color-stop(1, white));
   background-image: -webkit-linear-gradient(top, transparent, white);
