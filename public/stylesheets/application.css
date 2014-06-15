@@ -1888,6 +1888,8 @@ footer.footer {
 
 .lesson-height {
   height: 160px; }
+  .lesson-height h1, .lesson-height h2, .lesson-height h3, .lesson-height h4, .lesson-height h5 {
+    margin-top: 0px; }
   .lesson-height .course-progress-node {
     margin-top: 80px; }
   .lesson-height .lets-go {
@@ -1897,6 +1899,8 @@ footer.footer {
 
 .step-height {
   height: 64px; }
+  .step-height h1, .step-height h2, .step-height h3, .step-height h4, .step-height h5 {
+    margin-top: 0px; }
   .step-height .course-progress-node {
     margin-top: 32px; }
   .step-height .lets-go {

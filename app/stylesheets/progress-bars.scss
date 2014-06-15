@@ -2,6 +2,11 @@
 {
     height: 160px;
 
+    h1, h2, h3, h4, h5
+    {
+        margin-top: 0px;
+    }
+
     .course-progress-node
     {
         margin-top: 80px;
@@ -22,6 +27,11 @@
 .step-height
 {
     height: 64px;
+
+    h1, h2, h3, h4, h5
+    {
+        margin-top: 0px;
+    }
 
     .course-progress-node
     {
