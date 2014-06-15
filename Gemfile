@@ -28,6 +28,9 @@ gem 'mongoid', '~>3.0.0'
 # Session management
 gem 'moneta'
 
+# analytics
+gem 'newrelic_rpm'
+
 # Test requirements
 group :test do
 	gem 'rspec'

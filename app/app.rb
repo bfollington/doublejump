@@ -41,9 +41,9 @@ module LearnToGameDev
 
     enable :sessions
 
-    #case Padrino.env
-      #when :production  then enable :caching
-    #end
+    case Padrino.env
+      when :production then require 'newrelic_rpm'
+    end
 
     #
     # LANDING PAGE
