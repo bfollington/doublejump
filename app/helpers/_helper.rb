@@ -40,6 +40,10 @@ LearnToGameDev::App.helpers do
     "http://s3-ap-southeast-2.amazonaws.com/#{aws_bucket}/"
   end
 
+  def cloudfront_url()
+    "http://d2wkzz9b3028w4.cloudfront.net/"
+  end
+
   def render_js_template(name)
     @template = name
     render 'js-templates/template', :layout => false
@@ -77,7 +81,7 @@ LearnToGameDev::App.helpers do
     puts "Uploading file #{filename} to bucket #{bucket_name}."
     puts filename
 
-    return {:filename => filename, :url => aws_url + filename}
+    return {:filename => filename, :url => cloudfront_url + filename}
 
   end
 

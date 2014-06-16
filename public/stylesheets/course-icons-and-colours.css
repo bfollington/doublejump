@@ -8,12 +8,12 @@ Syntax error: Undefined mixin 'background-image-retina'.
 10: 
 11: .math-icon
 12: {
-13:     @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Math', 'png', 64px, 64px);
+13:     @include background-image-retina('http://d2wkzz9b3028w4.cloudfront.net/Math', 'png', 64px, 64px);
 14: }
 15: 
 16: .gamemaker-icon
 17: {
-18:     @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/GameMaker', 'png', 64px, 64px);
+18:     @include background-image-retina('http://d2wkzz9b3028w4.cloudfront.net/GameMaker', 'png', 64px, 64px);
 
 Backtrace:
 /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/course-icons-and-colours.scss:13:in `background-image-retina'
@@ -91,4 +91,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 13 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/course-icons-and-colours.scss, in `background-image-retina'\A         from line 13 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/course-icons-and-colours.scss\A \A 8:     background-repeat: no-repeat;\A 9: }\A 10: \A 11: .math-icon\A 12: {\A 13:     @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Math', 'png', 64px, 64px);\A 14: }\A 15: \A 16: .gamemaker-icon\A 17: {\A 18:     @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/GameMaker', 'png', 64px, 64px);"; }
+  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 13 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/course-icons-and-colours.scss, in `background-image-retina'\A         from line 13 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/course-icons-and-colours.scss\A \A 8:     background-repeat: no-repeat;\A 9: }\A 10: \A 11: .math-icon\A 12: {\A 13:     @include background-image-retina('http://d2wkzz9b3028w4.cloudfront.net/Math', 'png', 64px, 64px);\A 14: }\A 15: \A 16: .gamemaker-icon\A 17: {\A 18:     @include background-image-retina('http://d2wkzz9b3028w4.cloudfront.net/GameMaker', 'png', 64px, 64px);"; }

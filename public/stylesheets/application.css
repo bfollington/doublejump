@@ -455,10 +455,10 @@ footer.footer {
     height: 37px;
     left: 210px;
     top: 20px;
-    background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/make-games-badge.png"); }
+    background-image: url("http://d2wkzz9b3028w4.cloudfront.net/make-games-badge.png"); }
     @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
       footer.footer .make-games-badge {
-        background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/make-games-badge@2x.png");
+        background-image: url("http://d2wkzz9b3028w4.cloudfront.net/make-games-badge@2x.png");
         -webkit-background-size: 140px 37px;
         -moz-background-size: 140px 37px;
         -ms-background-size: 140px 37px;
@@ -2025,10 +2025,10 @@ ul.progress-list {
   background-repeat: no-repeat; }
 
 .math-icon {
-  background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Math.png"); }
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Math.png"); }
   @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .math-icon {
-      background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Math@2x.png");
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Math@2x.png");
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
@@ -2036,10 +2036,10 @@ ul.progress-list {
       background-size: 64px 64px; } }
 
 .gamemaker-icon {
-  background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/GameMaker.png"); }
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/GameMaker.png"); }
   @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .gamemaker-icon {
-      background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/GameMaker@2x.png");
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/GameMaker@2x.png");
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
@@ -2047,10 +2047,10 @@ ul.progress-list {
       background-size: 64px 64px; } }
 
 .doublejump-icon {
-  background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Doublejump.png"); }
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Doublejump.png"); }
   @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .doublejump-icon {
-      background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Doublejump@2x.png");
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Doublejump@2x.png");
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
@@ -2058,10 +2058,10 @@ ul.progress-list {
       background-size: 64px 64px; } }
 
 .design-icon {
-  background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Design.png"); }
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Design.png"); }
   @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .design-icon {
-      background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Design@2x.png");
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Design@2x.png");
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
@@ -2069,10 +2069,10 @@ ul.progress-list {
       background-size: 64px 64px; } }
 
 .management-icon {
-  background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Management.png"); }
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Management.png"); }
   @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .management-icon {
-      background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Management@2x.png");
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Management@2x.png");
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
@@ -2080,10 +2080,10 @@ ul.progress-list {
       background-size: 64px 64px; } }
 
 .assets-icon {
-  background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Assets.png"); }
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Assets.png"); }
   @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .assets-icon {
-      background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Assets@2x.png");
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Assets@2x.png");
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
@@ -2091,10 +2091,10 @@ ul.progress-list {
       background-size: 64px 64px; } }
 
 .unity-icon {
-  background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Unity.png"); }
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Unity.png"); }
   @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .unity-icon {
-      background-image: url("http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/Unity@2x.png");
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Unity@2x.png");
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;

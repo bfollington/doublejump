@@ -21,7 +21,7 @@ footer.footer {
         left: 210px;
         top: 20px;
 
-        @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/make-games-badge', 'png', 140px, 37px);
+        @include background-image-retina('http://d2wkzz9b3028w4.cloudfront.net/make-games-badge', 'png', 140px, 37px);
 
         @media only screen and (max-width: $tablet) { 
             background-size: 70px 18px;

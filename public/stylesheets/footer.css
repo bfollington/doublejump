@@ -8,7 +8,7 @@ Syntax error: Undefined mixin 'background-image-retina'.
 21:         left: 210px;
 22:         top: 20px;
 23: 
-24:         @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/make-games-badge', 'png', 140px, 37px);
+24:         @include background-image-retina('http://d2wkzz9b3028w4.cloudfront.net/make-games-badge', 'png', 140px, 37px);
 25: 
 26:         @media only screen and (max-width: $tablet) { 
 27:             background-size: 70px 18px;
@@ -102,4 +102,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/footer.scss, in `background-image-retina'\A         from line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/footer.scss\A \A 19:         height: 37px;\A 20: \A 21:         left: 210px;\A 22:         top: 20px;\A 23: \A 24:         @include background-image-retina('http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/make-games-badge', 'png', 140px, 37px);\A 25: \A 26:         @media only screen and (max-width: $tablet) { \A 27:             background-size: 70px 18px;\A 28:             width: 70px;\A 29:             height: 18px;"; }
+  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/footer.scss, in `background-image-retina'\A         from line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/footer.scss\A \A 19:         height: 37px;\A 20: \A 21:         left: 210px;\A 22:         top: 20px;\A 23: \A 24:         @include background-image-retina('http://d2wkzz9b3028w4.cloudfront.net/make-games-badge', 'png', 140px, 37px);\A 25: \A 26:         @media only screen and (max-width: $tablet) { \A 27:             background-size: 70px 18px;\A 28:             width: 70px;\A 29:             height: 18px;"; }
