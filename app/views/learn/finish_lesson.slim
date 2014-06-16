@@ -4,9 +4,7 @@
             h3 Congrats!
             p
                 = "You just finished off #{@lesson.title}, nice work. Now what?" 
-            - if @completing_course
-                h4 Following on From This...
-            - else
+            - if !@completing_course
                 - next_lesson = @course.get_next_lesson(@lesson)
                 p.center-text
 
@@ -19,6 +17,9 @@
                         = "Next Lesson: #{next_lesson.title}"
 
 - if @completing_course
+    
+    h4 Following on From This...
+
     - if @course.follow_ons.length == 0
         .box.empty-placeholder
             p.no-margin-bottom
