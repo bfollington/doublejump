@@ -1,23 +1,23 @@
 /*
 Syntax error: Undefined mixin 'background-image-retina'.
-        on line 22 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss, in `background-image-retina'
-        from line 22 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss
+        on line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss, in `background-image-retina'
+        from line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss
 
-17:     padding-top: 0px;
-18:     padding-bottom: 20px;
-19: }
-20: 
-21: .controller-image {
-22:     @include background-image-retina('/images/controller', 'png', 334px, 384px);
-23:     width: 334px;
-24:     height: 384px;
-25:     margin: 0 auto;
-26:     background-repeat: no-repeat;
-27:     background-position: center;
+19:     padding-top: 0px;
+20:     padding-bottom: 20px;
+21: }
+22: 
+23: .controller-image {
+24:     @include background-image-retina('/images/controller', 'png', 334px, 384px);
+25:     width: 334px;
+26:     height: 384px;
+27:     margin: 0 auto;
+28:     background-repeat: no-repeat;
+29:     background-position: center;
 
 Backtrace:
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss:22:in `background-image-retina'
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss:22
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss:24:in `background-image-retina'
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss:24
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:98:in `block in with_mixin'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
@@ -91,4 +91,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 22 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss, in `background-image-retina'\A         from line 22 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss\A \A 17:     padding-top: 0px;\A 18:     padding-bottom: 20px;\A 19: }\A 20: \A 21: .controller-image {\A 22:     @include background-image-retina('/images/controller', 'png', 334px, 384px);\A 23:     width: 334px;\A 24:     height: 384px;\A 25:     margin: 0 auto;\A 26:     background-repeat: no-repeat;\A 27:     background-position: center;"; }
+  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss, in `background-image-retina'\A         from line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss\A \A 19:     padding-top: 0px;\A 20:     padding-bottom: 20px;\A 21: }\A 22: \A 23: .controller-image {\A 24:     @include background-image-retina('/images/controller', 'png', 334px, 384px);\A 25:     width: 334px;\A 26:     height: 384px;\A 27:     margin: 0 auto;\A 28:     background-repeat: no-repeat;\A 29:     background-position: center;"; }

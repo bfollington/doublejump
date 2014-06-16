@@ -323,6 +323,7 @@ ul.inline li {
   background-image: -ms-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
   background-image: linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
   width: 100%;
+  background-color: #3E88F3;
   padding-top: 0px;
   padding-bottom: 20px; }
 
