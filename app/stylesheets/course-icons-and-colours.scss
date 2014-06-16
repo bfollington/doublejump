@@ -46,7 +46,7 @@
 .read-more
 {
     position: absolute;
-    bottom: 1.1em;
+    bottom: 0.1em;
     left: 0;
     width: 100%;
     text-align: center; 
@@ -63,14 +63,14 @@
 .course-block
 {
     height: 100%;
-    position: relative;
-
+    
     .box
     {
         border-top-left-radius: 0;
         border-top-right-radius: 0;
         height: 10em;
         overflow-y: hidden;
+        position: relative;
     }
 
     .course-icon
