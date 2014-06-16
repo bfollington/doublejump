@@ -225,6 +225,13 @@ span.asterisk {
   padding-left: 5px;
   padding-right: 5px; }
 
+.old-browse {
+  background: #fcf8e3;
+  border-top: 5px solid #ecd871;
+  padding: 10px; }
+  .old-browse p {
+    margin-bottom: 0; }
+
 ul.inline {
   list-style: none; }
 

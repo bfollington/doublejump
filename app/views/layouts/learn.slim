@@ -18,6 +18,9 @@ html.no-js lang="en"
 
         = partial 'includes/mixpanel'
     body
+
+        = partial 'elements/old_browser'
+
         - if !current_account.nil? && current_account.role == "admin"
             .admin-tools.box
                     - if @course

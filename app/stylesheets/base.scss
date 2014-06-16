@@ -147,3 +147,15 @@ span.asterisk
     padding-left: 5px;
     padding-right: 5px;
 }
+
+.old-browse
+{
+    background: $definition-colour;
+    border-top: 5px solid $definition-bar-colour;
+    padding: 10px;
+
+    p
+    {
+        margin-bottom: 0;
+    }
+}

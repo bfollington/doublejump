@@ -17,6 +17,9 @@ html.no-js lang="en"
 
         = partial 'includes/mixpanel'
     body
+
+        = partial 'elements/old_browser'
+
         .container-fluid
             .header
                 = partial 'elements/doublejump_header_bar', :object => nil, :locals => { :no_bar => true }

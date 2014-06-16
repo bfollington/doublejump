@@ -1,8 +1,5 @@
 doctype 5
 
-/[if IE 9]
-    html.lt-ie10 lang="en"
-
 html.no-js lang="en"
 
     head
@@ -21,6 +18,9 @@ html.no-js lang="en"
 
         = partial 'includes/mixpanel'
     body
+
+        = partial 'elements/old_browser'
+
         .container-fluid
             = partial 'elements/doublejump_header_bar'
             .gradient-container
