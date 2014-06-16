@@ -6,6 +6,11 @@ footer.footer {
 
     color: white;
 
+    .row > div
+    {
+        height: 10em;
+    }
+
     .make-games-badge
     {
         position: relative;

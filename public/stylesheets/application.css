@@ -446,6 +446,8 @@ footer.footer {
   padding: 20px;
   padding-top: 40px;
   color: white; }
+  footer.footer .row > div {
+    height: 10em; }
   footer.footer .make-games-badge {
     position: relative;
     display: inline-block;
