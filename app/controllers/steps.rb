@@ -92,6 +92,6 @@ def process_body(body)
     end
   end
 
-  new_body
+  new_body = new_body.gsub("\u00B0","&deg;")
 
 end
