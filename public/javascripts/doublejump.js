@@ -59,7 +59,7 @@ $( function() {
           script.type = "text/x-mathjax-config";
           script[(window.opera ? "innerHTML" : "text")] =
             "MathJax.Hub.Config({\n" +
-            "  jax: ['input/TeX','output/SVG']" +
+            '  jax: ["input/TeX","output/SVG"]' +
             "});"
           head.appendChild(script);
           script = document.createElement("script");
