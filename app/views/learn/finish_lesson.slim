@@ -5,25 +5,25 @@
             
             - if !@completing_course
 
+                p.center-text
+                    img src="http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/finish_lesson.png"
+
                 p
                     = "You just finished off #{@lesson.title}, nice work. Now what?" 
 
                 - next_lesson = @course.get_next_lesson(@lesson)
                 p.center-text
-
-                    img src="http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/finish_lesson.png"
-                    br
-
                     a.button.create-button.margin-right href="/learn/#{@course.slug}#first_lesson"
                         = "Course Overview"
                     a.button.create-button href="/learn/#{@course.slug}/#{next_lesson.slug}"
                         = "Next Lesson: #{next_lesson.title}"
 
             - else
+                p.center-text
+                    img src="http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/finish_lesson.png"
                 p
                     = "That's the end of \"#{@course.title}\", good job. What's next?"
 
-                img src="http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/finish_lesson.png"
 
 - if @completing_course
     
