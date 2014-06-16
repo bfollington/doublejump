@@ -233,7 +233,8 @@ span.asterisk {
     margin-bottom: 0; }
 
 span.MathJax {
-  color: #c7254e; }
+  color: #c7254e;
+  font-size: 90%; }
 
 .MathJax_Display span {
   color: black !important; }
