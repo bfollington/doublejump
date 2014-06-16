@@ -2,27 +2,39 @@
     .col-lg-12
         .box
             h3 Congrats!
-            p NICE JOB
+            p
+                = "You just finished off #{@lesson.title}, nice work. Now what?" 
             - if @completing_course
                 h4 Following on From This...
+            - else
+                - next_lesson = @course.get_next_lesson(@lesson)
+                p.center-text
 
+                    img src="http://s3-ap-southeast-2.amazonaws.com/voltic-test-bucket/finish_lesson.png"
+                    br
 
-- if @course.follow_ons.length == 0
-    .box.empty-placeholder
-        p.no-margin-bottom
-            | There are no follow ons for this course, why not 
-            a.class.button.create-button href="/learn/" Browse The Catalogue
-            |  for more to learn?
+                    a.button.create-button.margin-right href="/learn/#{@course.slug}#first_lesson"
+                        = "Course Overview"
+                    a.button.create-button href="/learn/#{@course.slug}/#{next_lesson.slug}"
+                        = "Next Lesson: #{next_lesson.title}"
 
-- @course.follow_ons.each do |follow_on|
-    .row
-        .col-lg-4.col-md-4.col-sm-6
-            .box
-                p
-                a href="/learn/#{follow_on.slug}"
-                    = follow_on.title
-                small
-                    |  by 
-                    = follow_on.account.name + " " + follow_on.account.surname
-                p
-                    = follow_on.description
+- if @completing_course
+    - if @course.follow_ons.length == 0
+        .box.empty-placeholder
+            p.no-margin-bottom
+                | There are no follow ons for this course, why not 
+                a.class.button.create-button href="/learn/" Browse The Catalogue
+                |  for more to learn?
+
+    - @course.follow_ons.each do |follow_on|
+        .row
+            .col-lg-4.col-md-4.col-sm-6
+                .box
+                    p
+                    a href="/learn/#{follow_on.slug}"
+                        = follow_on.title
+                    small
+                        |  by 
+                        = follow_on.account.name + " " + follow_on.account.surname
+                    p
+                        = follow_on.description
