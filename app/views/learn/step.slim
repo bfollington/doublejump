@@ -86,7 +86,7 @@
         p.center-text.margin-top
             - if !@lesson.get_next_step(@step).nil?
                 a.button.create-button href="/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_next_step(@step).slug}#main_content"
-                    | Go To Next Step: #{@lesson.get_next_step(@step).title}
+                    | Go To Next Step "#{@lesson.get_next_step(@step).title}"
             - else
                 a.button.create-button href="/learn/#{@course.slug}/#{@lesson.slug}/finish"
                     | Finish This Lesson
