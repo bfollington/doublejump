@@ -89,7 +89,7 @@ LearnToGameDev::App.controllers :learn, :cache => true do
 
     @body_edited = insert_comment_tags @step.body
     @body_edited = expand_macros @body_edited
-    @body_edited = RDiscount.new(@body_edited).to_html
+    @body_edited = RDiscount.new(@body_edited, :no_superscript).to_html
     @body_edited = lazy_load_images @body_edited
 
     mark_prev_step_as_complete
@@ -223,7 +223,7 @@ def process_macro(macro)
 
     render 'macros/definition', :layout => false
   elsif (name == "hideable")
-    @item_text = RDiscount.new(params[1]).to_html
+    @item_text = RDiscount.new(params[1], :no_superscript).to_html
     @item_title = params[0]
     render 'macros/hideable', :layout => false
   elsif (name == "inline-definition")
@@ -231,7 +231,7 @@ def process_macro(macro)
     definition = Definition.where(:search_title => params[0].downcase).first
 
     if !definition.nil?
-      @definition = RDiscount.new(definition.body).to_html
+      @definition = RDiscount.new(definition.body, :no_superscript).to_html
       @definition_title = definition.title
       @definition_id = definition.id
       render 'macros/inline-definition', :layout => false

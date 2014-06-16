@@ -4,4 +4,4 @@
             h3
                 = @definition.title
 
-            | #{{RDiscount.new(@definition.body).to_html}}
+            | #{{RDiscount.new(@definition.body, :no_superscript).to_html}}

@@ -20,7 +20,7 @@ h3 Definitions
                             small.margin-left
                                 a href="/definitions/make/#{definition.id}" Edit
                     p
-                        | #{{RDiscount.new(definition.body).to_html}} 
+                        | #{{RDiscount.new(definition.body, :no_superscript).to_html}} 
     - else
         - if !current_account.nil? && current_account.role == "admin"
             .col-xs-12

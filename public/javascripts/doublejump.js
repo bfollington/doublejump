@@ -54,10 +54,18 @@ $( function() {
     if ($("div:contains('$$')").length > 0 || $("div:contains('\\(')").length > 0)
     {
         (function () {
-          var script = document.createElement("script");
+          var head = document.getElementsByTagName("head")[0], script;
+          script = document.createElement("script");
+          script.type = "text/x-mathjax-config";
+          script[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({\n" +
+            "  jax: ['input/TeX','output/SVG']" +
+            "});"
+          head.appendChild(script);
+          script = document.createElement("script");
           script.type = "text/javascript";
           script.src  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML";
-          document.getElementsByTagName("head")[0].appendChild(script);
+          head.appendChild(script);
         })();
     }
 
