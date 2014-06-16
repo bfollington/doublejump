@@ -50,4 +50,15 @@ $( function() {
 
     });
 
+    //Include mathjax if needed
+    if ($("div:contains('$$')").length > 0 || $("div:contains('\\(')").length > 0)
+    {
+        (function () {
+          var script = document.createElement("script");
+          script.type = "text/javascript";
+          script.src  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML";
+          document.getElementsByTagName("head")[0].appendChild(script);
+        })();
+    }
+
 });

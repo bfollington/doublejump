@@ -66,6 +66,24 @@ function bindDefinitions()
 
         editor.focus();
     });
+
+    $(".js-insert-inline-tex").click( function(e) {
+        e.preventDefault();
+
+        var html = "\\\\( \\\\)";
+        prompt("Tex:", html);
+
+        editor.focus();
+    });
+
+    $(".js-insert-block-tex").click( function(e) {
+        e.preventDefault();
+
+        var html = "$$ $$";
+        prompt("Tex:", html);
+
+        editor.focus();
+    });
 }
 
 bindDefinitions();

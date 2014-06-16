@@ -50,6 +50,17 @@ $( function() {
 
     });
 
+    //Include mathjax if needed
+    if ($("div:contains('$$')").length > 0 || $("div:contains('\\(')").length > 0)
+    {
+        (function () {
+          var script = document.createElement("script");
+          script.type = "text/javascript";
+          script.src  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML";
+          document.getElementsByTagName("head")[0].appendChild(script);
+        })();
+    }
+
 });
 // bootstrap-mod.js alters some bootstrap UI animations
 
@@ -336,6 +347,24 @@ function bindDefinitions()
 
         var html = '{inline-definition{TERM}}';
         prompt("Macro:", html);
+
+        editor.focus();
+    });
+
+    $(".js-insert-inline-tex").click( function(e) {
+        e.preventDefault();
+
+        var html = "\\\\( \\\\)";
+        prompt("Tex:", html);
+
+        editor.focus();
+    });
+
+    $(".js-insert-block-tex").click( function(e) {
+        e.preventDefault();
+
+        var html = "$$ $$";
+        prompt("Tex:", html);
 
         editor.focus();
     });
