@@ -330,6 +330,7 @@ ul.inline li {
       -webkit-background-size: 334px 384px;
       -moz-background-size: 334px 384px;
       -ms-background-size: 334px 384px;
+      -o-background-size: 334px 384px;
       background-size: 334px 384px; } }
   @media only screen and (max-width: 480px) {
     .controller-image {
@@ -351,6 +352,7 @@ ul.inline li {
       -webkit-background-size: 187px 55px;
       -moz-background-size: 187px 55px;
       -ms-background-size: 187px 55px;
+      -o-background-size: 187px 55px;
       background-size: 187px 55px; } }
   @media only screen and (max-width: 480px) {
     .doublejump {
@@ -369,6 +371,7 @@ ul.inline li {
       -webkit-background-size: 187px 55px;
       -moz-background-size: 187px 55px;
       -ms-background-size: 187px 55px;
+      -o-background-size: 187px 55px;
       background-size: 187px 55px; } }
   @media only screen and (max-width: 480px) {
     .doublejump-dark {
@@ -447,6 +450,7 @@ footer.footer {
         -webkit-background-size: 140px 37px;
         -moz-background-size: 140px 37px;
         -ms-background-size: 140px 37px;
+        -o-background-size: 140px 37px;
         background-size: 140px 37px; } }
     @media only screen and (max-width: 768px) {
       footer.footer .make-games-badge {
@@ -1825,6 +1829,7 @@ footer.footer {
       -webkit-background-size: 203px 28px;
       -moz-background-size: 203px 28px;
       -ms-background-size: 203px 28px;
+      -o-background-size: 203px 28px;
       background-size: 203px 28px; } }
 
 .banner-image {
@@ -2015,6 +2020,7 @@ ul.progress-list {
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
       background-size: 64px 64px; } }
 
 .gamemaker-icon {
@@ -2025,6 +2031,7 @@ ul.progress-list {
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
       background-size: 64px 64px; } }
 
 .doublejump-icon {
@@ -2035,6 +2042,7 @@ ul.progress-list {
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
       background-size: 64px 64px; } }
 
 .design-icon {
@@ -2045,6 +2053,7 @@ ul.progress-list {
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
       background-size: 64px 64px; } }
 
 .management-icon {
@@ -2055,6 +2064,7 @@ ul.progress-list {
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
       background-size: 64px 64px; } }
 
 .assets-icon {
@@ -2065,6 +2075,7 @@ ul.progress-list {
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
       background-size: 64px 64px; } }
 
 .unity-icon {
@@ -2075,6 +2086,7 @@ ul.progress-list {
       -webkit-background-size: 64px 64px;
       -moz-background-size: 64px 64px;
       -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
       background-size: 64px 64px; } }
 
 .read-more {
@@ -2106,6 +2118,7 @@ ul.progress-list {
     -webkit-background-size: 24px 24px;
     -moz-background-size: 24px 24px;
     -ms-background-size: 24px 24px;
+    -o-background-size: 24px 24px;
     background-size: 24px 24px; }
 
 #sharing_lightbox {

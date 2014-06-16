@@ -4,6 +4,8 @@ $( function() {
 
     //FastClick.attach(document.body);
 
+    $("html").first().removeClass("no-js");
+
     if (defined('Select2'))
     {
         $(".js-select2").select2();

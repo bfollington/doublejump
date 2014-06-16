@@ -5,7 +5,8 @@
     .col-lg-2.col-md-2.col-sm-2.col-xs-2.center-text
 
         - if !@lesson.get_prev_step(@step).nil?
-            a.progress-navigation-link href="/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_prev_step(@step).slug}#main_content"
+            - prev_link = "/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_prev_step(@step).slug}#main_content"
+            a.progress-navigation-link href="#{prev_link}"
                 span.visible-lg.visible-md
                     i.fa.fa-arrow-left
                     | &nbsp;Back
@@ -13,7 +14,8 @@
                     i.fa.fa-arrow-left
 
         - else
-            a.progress-navigation-link href="/learn/#{@course.slug}/#{@lesson.slug}/"
+            - prev_link = "/learn/#{@course.slug}/#{@lesson.slug}/"
+            a.progress-navigation-link href="#{prev_link}"
                 span.visible-lg.visible-md
                     i.fa.fa-book
                     | &nbsp;Lesson Overview
@@ -42,7 +44,8 @@
     .col-lg-2.col-md-2.col-sm-2.col-xs-2.center-text
 
         - if !@lesson.get_next_step(@step).nil?
-            a.progress-navigation-link href="/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_next_step(@step).slug}#main_content"
+            - next_link = "/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_next_step(@step).slug}#main_content"
+            a.progress-navigation-link href="#{next_link}"
                 span.visible-lg.visible-md
                     | Next&nbsp;
                     i.fa.fa-arrow-right
@@ -51,7 +54,8 @@
 
 
         - else
-            a.progress-navigation-link href="/learn/#{@course.slug}/#{@lesson.slug}/finish"
+            - next_link = "/learn/#{@course.slug}/#{@lesson.slug}/finish"
+            a.progress-navigation-link href="#{next_link}"
                 span.visible-lg.visible-md
                     | Finish Lesson&nbsp;
                     i.fa.fa-check
@@ -106,3 +110,7 @@
                 = partial 'learn/elements/related_reading', :object => related_reading
 
 = partial 'learn/elements/sharing_lightbox'
+
+- content_for :include_head do
+    link rel="next" href="#{next_link}"
+    link rel="prev" href="#{prev_link}"
