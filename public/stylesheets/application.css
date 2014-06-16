@@ -232,6 +232,12 @@ span.asterisk {
   .old-browse p {
     margin-bottom: 0; }
 
+span.MathJax {
+  color: #c7254e; }
+
+.MathJax_Display span {
+  color: black !important; }
+
 ul.inline {
   list-style: none; }
 
