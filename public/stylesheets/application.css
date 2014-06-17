@@ -2260,6 +2260,10 @@ img.fit-width {
 div.tooltip-inner {
   max-width: 350px; }
 
+code {
+  background: none;
+  padding: 0; }
+
 #comment_frame, #upload_frame {
   position: absolute;
   padding: 15px;
