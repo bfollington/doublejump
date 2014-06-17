@@ -359,7 +359,7 @@ function bindDefinitions()
     $(".js-insert-definition").click( function(e) {
         e.preventDefault();
 
-        var html = '{definition{TITLE, TERM}}';
+        var html = '{definition{"TITLE", "TERM"}}';
         prompt("Macro:", html);
 
         editor.focus();
@@ -368,7 +368,7 @@ function bindDefinitions()
     $(".js-insert-inline-definition").click( function(e) {
         e.preventDefault();
 
-        var html = '{inline-definition{TERM}}';
+        var html = '{inline-definition{"TERM"}}';
         prompt("Macro:", html);
 
         editor.focus();
@@ -388,6 +388,24 @@ function bindDefinitions()
 
         var html = "\\\\[ \\\\]";
         prompt("Tex:", html);
+
+        editor.focus();
+    });
+
+    $(".js-insert-two-cols").click( function(e) {
+        e.preventDefault();
+
+        var html = '{two-columns{"one", "two"}}';
+        prompt("Macro:", html);
+
+        editor.focus();
+    });
+
+    $(".js-insert-one-col").click( function(e) {
+        e.preventDefault();
+
+        var html = '{one-column{"content"}}';
+        prompt("Macro:", html);
 
         editor.focus();
     });

@@ -222,6 +222,13 @@ def process_macro(macro)
     end
 
     render 'macros/definition', :layout => false
+  elsif (name == "two-columns")
+    @left = RDiscount.new(params[0], :no_superscript).to_html
+    @right = RDiscount.new(params[1], :no_superscript).to_html
+    render 'macros/two-columns', :layout => false
+  elsif (name == "one-column")
+    @content = RDiscount.new(params[0], :no_superscript).to_html
+    render 'macros/one-column', :layout => false
   elsif (name == "hideable")
     @item_text = RDiscount.new(params[1], :no_superscript).to_html
     @item_title = params[0]
