@@ -423,7 +423,9 @@ function bindEpicEditorFields()
                 toggleEdit: 'Toggle Edit Mode',
                 toggleFullscreen: 'Enter Fullscreen'
             },
-            autogrow: false
+            autogrow: true,
+            minHeight: 512
+
         } 
 
         editor = new EpicEditor(opts).load();
