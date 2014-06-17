@@ -67,8 +67,9 @@
     .col-lg-9.col-md-9
         .box
             - if current_account && current_account.has_completed_step?(@step)
-                a.button.create-button.float-right href="#{next_link}" Go To Next Step
-                p.notification.callout You've completed this step before (maybe as part of another course), just thought you should know.
+                p.notification.callout
+                    a.button.create-button.float-right href="#{next_link}" Go To Next Step
+                    | You've completed this step before (maybe as part of another course), just thought you should know.
             h3 = @step.title
 
             - if !@step.is_sharing_step
