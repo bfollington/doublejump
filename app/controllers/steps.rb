@@ -23,7 +23,8 @@ LearnToGameDev::App.controllers :steps do
 
     if @step.valid?
       @step.save
-      render 'steps/new_success'
+      session[:flash] = "Step saved successfully!"
+      render 'steps/new'
     else
       render 'steps/new'
     end
