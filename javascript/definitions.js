@@ -23,7 +23,7 @@ function bindDefinitions()
                                         {
                                             "definition-title": data.title,
                                             "definition-body": marked(data.body),
-                                            "definition-id": marked(data._id)
+                                            "definition-id": data._id
                                         }
                                     );
 
