@@ -105,9 +105,22 @@ function bindComments()
     $(".step-body .comment, #sharing_lightbox .comment").each( function() {
 
         var $comment = $(this);
+        // Almost always the column content resides in
         var $parent = $(this).parent().parent().parent().parent();
+        // This will be a .hideable-inner in an edge case
+        var $otherParent = $(this).parent().parent().parent();
 
-        if ($parent.attr("id") != "sharing_lightbox") $(this).html(getTemplate("_comment_icon"));
+        // Strip comments out of hideable sections, they shouldn't be there in the first place.
+        if ($otherParent.is(".hideable-inner"))
+        {
+            $(this).remove();
+            return true;
+        }
+
+        if ($parent.attr("id") != "sharing_lightbox")
+        {
+            $(this).html(getTemplate("_comment_icon"));
+        }
 
         $(this).find('a').on("touchstart, click", function (e) { 
 
