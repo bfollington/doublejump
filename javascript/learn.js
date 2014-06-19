@@ -45,7 +45,7 @@ function lazyLoadHandler()
     {
         $(this)
         .attr("data-zoominit", true)
-        .wrap('<div class="zoom-wrapper" style="width:' + $(this).innerWidth() + 'px;"></div>')
+        .wrap('<div class="zoom-wrapper" style="width:100%;"></div>')
         .parent()
         .zoom({ on:'mouseover', magnify: 1.5 });
     }
