@@ -30,7 +30,7 @@ function bindDefinitions()
                     $definition.parent().after(template);
                     animate($definition.parent().next(), "fadeInUp");
 
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, $definition.parent().next()[0]]);
+                    if (mathjax) MathJax.Hub.Queue(["Typeset", MathJax.Hub, $definition.parent().next()[0]]);
 
                     $(".js-close-inserted-definition").click( function(e) {
                         e.preventDefault();

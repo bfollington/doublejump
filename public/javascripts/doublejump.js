@@ -1,5 +1,7 @@
 // base.js binds UI stuff
 
+var mathjax = false;
+
 $( function() {
 
     //FastClick.attach(document.body);
@@ -51,15 +53,17 @@ $( function() {
     });
 
     //Include mathjax if needed
-    if ($("div:contains('$$')").length > 0 || $("div:contains('\\(')").length > 0)
+    if ($("div:contains('{\\[')").length > 0 || $("div:contains('\\(')").length > 0)
     {
+
+        mathjax = true;
+
         (function () {
           var head = document.getElementsByTagName("head")[0], script;
           script = document.createElement("script");
           script.type = "text/x-mathjax-config";
           script[(window.opera ? "innerHTML" : "text")] =
             "MathJax.Hub.Config({\n" +
-            '  jax: ["input/TeX","output/SVG"]' +
             "});"
           head.appendChild(script);
           script = document.createElement("script");
@@ -335,7 +339,7 @@ function bindDefinitions()
                     $definition.parent().after(template);
                     animate($definition.parent().next(), "fadeInUp");
 
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, $definition.parent().next()[0]]);
+                    if (mathjax) MathJax.Hub.Queue(["Typeset", MathJax.Hub, $definition.parent().next()[0]]);
 
                     $(".js-close-inserted-definition").click( function(e) {
                         e.preventDefault();
