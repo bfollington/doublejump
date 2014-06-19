@@ -30,7 +30,7 @@ LearnToGameDev::App.controllers :courses do
     @course.account = current_account
     @course.image_url = params[:course][:image_url]
     @course.slug = params[:course][:slug]
-    @course.category = Category.find(params[:course][:category])
+    @course.category = Category.find(params[:course][:category_id])
     @course.lessons = []
     @course.prerequisites = []
     @course.follow_ons = []
@@ -44,7 +44,7 @@ LearnToGameDev::App.controllers :courses do
                              :description => params[:course][:description],
                              :slug => params[:course][:slug],
                              :image_url => params[:course][:image_url],
-                             :category => Category.find(params[:course][:category]),
+                             :category => Category.find(params[:course][:category_id]),
                              :account => current_account
                             )
 

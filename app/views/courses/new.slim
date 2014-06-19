@@ -27,8 +27,8 @@
                     p
                         = f.label :category, :caption => "Category"
                         br
-                        = f.select(:category, :collection => @categories, :fields => [:name, :id], :class => 'js-select2')
-                        = partial 'form_error', :collection => (errors_for @course, :category)
+                        = f.select(:category_id, :collection => @categories, :fields => [:name, :id], :class => 'js-select2')
+                        = partial 'form_error', :collection => (errors_for @course, :category_id)
 
 
                     p
