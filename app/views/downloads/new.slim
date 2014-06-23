@@ -1,0 +1,19 @@
+.create-download-form
+    = form_for :download, "", { :id => 'addDownloadForm' } do |f|
+        .row
+            .col-lg-12
+                .box
+                    p
+                        = f.label :title, :caption => "Download Title"
+                        = f.text_field :title, :class => "form-control"
+                        = partial 'form_error', :collection => (errors_for @download, :title)
+
+                    p
+                        = f.label :link, :caption => "Download Link"
+                        = f.text_field :link, :class => "form-control"
+                        = partial 'form_error', :collection => (errors_for @download, :link)
+
+        .row
+            .col-lg-12
+                p.center-text
+                    = f.submit "Save", :class => 'button create-button'

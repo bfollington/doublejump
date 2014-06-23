@@ -9,6 +9,7 @@ class Course
   field :image_url, :type => String
 
   has_and_belongs_to_many :lessons
+  has_and_belongs_to_many :downloads
   belongs_to :account
   has_and_belongs_to_many :prerequisites, class_name: "Course", inverse_of: nil
   has_and_belongs_to_many :follow_ons, class_name: "Course", inverse_of: nil

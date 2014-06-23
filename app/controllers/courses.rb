@@ -11,12 +11,14 @@ LearnToGameDev::App.controllers :courses do
     @lessons = Lesson.all
     @categories = Category.all
     @courses = Course.all
+    @downloads = Download.all
     render 'courses/new'
   end
 
   get :make, :with => :slug do
     @lessons = Lesson.all
     @categories = Category.all
+    @downloads = Download.all
     @courses = Course.all
     @course = Course.where(:slug => params[:slug]).first
     render 'courses/new'
@@ -34,6 +36,7 @@ LearnToGameDev::App.controllers :courses do
     @course.lessons = []
     @course.prerequisites = []
     @course.follow_ons = []
+    @course.downloads = []
 
     save_course
   end
@@ -76,6 +79,12 @@ def save_course
     if list_exists(params[:course][:follow_ons])
       params[:course][:follow_ons].each do |follow_on_id|
         @course.follow_ons.push( Course.find(follow_on_id) )
+      end
+    end
+
+    if list_exists(params[:course][:downloads])
+      params[:course][:downloads].each do |download_id|
+        @course.downloads.push( Download.find(download_id) )
       end
     end
 

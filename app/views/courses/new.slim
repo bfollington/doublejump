@@ -88,6 +88,23 @@
                                     - follow_on = Course.find( follow_on_id )
                                     = partial 'js-templates/lesson_list_entry', :locals => { :item_text => follow_on.title, :field_value => follow_on.id, :field_name => hidden_field_name}
 
+                .box
+                    - hidden_field_name = 'course[downloads][]'
+
+                    p
+                        = f.label :title, :caption => "Downloads"
+                        = f.select(:download, :collection => @downloads, :fields => [:title, :id], :class => 'js-select2')
+                        a.js-sortable-add-new data-read-selection-from='#course_download' data-target-list='#downloads' data-hidden-field-name='#{hidden_field_name}' href="#" 
+                            |  
+                            i.fa.fa-plus-circle
+
+                    p
+                        ul#downloads.js-sortable
+                            - if @course
+                                - @course.download_ids.each do |download_id|
+                                    - download = Download.find( download_id )
+                                    = partial 'js-templates/lesson_list_entry', :locals => { :item_text => download.title, :field_value => download.id, :field_name => hidden_field_name}
+
         .row
             .col-lg-12
                 p.center-text
