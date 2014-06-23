@@ -1920,6 +1920,17 @@ footer.footer {
 .step-body a[href*='http'] .fa {
   font-size: 80%; }
 
+.category-tag {
+  padding: 2px 5px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+  margin: 0 2px;
+  color: white;
+  cursor: pointer; }
+
 .lesson-height {
   height: 160px; }
   .lesson-height h1, .lesson-height h2, .lesson-height h3, .lesson-height h4, .lesson-height h5 {

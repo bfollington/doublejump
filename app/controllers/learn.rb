@@ -8,6 +8,7 @@ LearnToGameDev::App.controllers :learn, :cache => true do
     expires_in 30
 
     @courses = Course.all
+    @categories = Category.all
 
     render 'learn/index'
   end

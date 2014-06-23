@@ -130,3 +130,12 @@
         font-size: 80%;
     }
 }
+
+.category-tag
+{
+    padding: 2px 5px;
+    @include border-radius(2px);
+    margin: 0 2px;
+    color: white;
+    cursor: pointer;
+}

@@ -1,7 +1,18 @@
 .row
     .col-lg-12
         .box
-            | Filter Box
+            h3 Filter Courses
+            p
+                label for="course_filter" Search
+                input.js-course-filter.form-control name="course_filter"
+
+            p
+                label Categories
+                br
+                span.category-tag.js-category-tag style="background-color: #aaa" data-category="" data-bg="#ccc" data-bg-selected="#aaa" All Categories 
+
+                - @categories.each do |category|
+                    = partial 'learn/elements/category', :object => category
 
 .row
     .col-xs-12

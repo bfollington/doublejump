@@ -1,0 +1,5 @@
+- bg_normal = lighten_color(category.colour, 0.2)
+- bg_selected = darken_color(category.colour, 0.8)
+
+span.category-tag.js-category-tag style="background-color: #{bg_normal}" data-category="#{category.name}" data-bg="#{bg_normal}" data-bg-selected="#{bg_selected}"
+    = category.name
