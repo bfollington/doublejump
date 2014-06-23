@@ -3,7 +3,10 @@ h3 Definitions
 .row
     .col-xs-12
         .box
-            | Filter Box
+            h3 Search For A Definition
+            p
+                label for="definition_filter" Search
+                input.js-definition-filter.form-control name="definition_filter"
             - if !current_account.nil? && current_account.role == "admin"
                 br
             p.center-text.no-margin
@@ -13,7 +16,7 @@ h3 Definitions
     - if @definitions.length > 0
         - @definitions.each do |definition|
             .col-sm-6.col-xs-12
-                .box
+                .box.definition-block data-definition-name="#{definition.title}"
                     h4
                         = definition.title
                         - if !current_account.nil? && current_account.role == "admin"

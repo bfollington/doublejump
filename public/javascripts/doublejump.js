@@ -658,6 +658,37 @@ bindProgressBarResize();
 initVerticalBars();
 var searchTerm = "", categoryFilter = "";
 
+function bindDefinitionSearchField()
+{
+
+    $(".js-definition-filter").keyup( function() {
+
+        var searchTerm = $(this).val().toLowerCase();
+
+        $(".definition-block").each( function() {
+            var
+            definitionTerm = $(this).attr("data-definition-name").toLowerCase(),
+            show = false;
+
+            if ( definitionTerm.indexOf(searchTerm) >= 0 || searchTerm.indexOf(definitionTerm) >= 0 )
+            {
+                show = true;
+            }
+
+            if (show)
+            {
+                $(this).parent().show();
+            } else {
+                $(this).parent().hide();
+            }
+
+        });
+
+            
+    });
+
+}
+
 function bindCourseSearchField()
 {
 
@@ -687,7 +718,6 @@ function bindCourseSearchField()
 
 function filterCourses(searchTerm, categoryFilter)
 {
-    console.log(searchTerm, categoryFilter);
 
     $(".course-block").each( function() {
         var
@@ -719,6 +749,7 @@ function filterCourses(searchTerm, categoryFilter)
 }
 
 bindCourseSearchField();
+bindDefinitionSearchField();
 // sharing-progress.js controls everything about the gallery sharing steps
 
 var $sharedImageForm = $("form#addSharedImageForm");
