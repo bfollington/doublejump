@@ -96,7 +96,7 @@ LearnToGameDev::App.helpers do
 
     # Upload a file.
     key = File.basename(filename)
-    s3.buckets[aws_bucket].objects[key].write(:file => tempfile, :acl => :public_read, :content_type => content_type)
+    s3.buckets[aws_bucket].objects[key].write(:file => tempfile, :acl => :public_read, :content_type => content_type, :cache_control => "max-age=43200")
     puts "Uploading file #{filename} to bucket #{bucket_name}."
     puts filename
 
