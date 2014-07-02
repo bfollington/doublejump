@@ -702,13 +702,25 @@ function bindCourseSearchField()
     });
 
     $(".js-category-tag").click( function() {
-        categoryFilter = $(this).attr("data-category").toLowerCase();
 
-        $(".js-category-tag").each( function() {
+        if ($(this).attr("data-selected") != "true")
+        {
+            categoryFilter = $(this).attr("data-category").toLowerCase();
+
+            $(".js-category-tag").each( function() {
+                $(this).css("background-color", $(this).attr("data-bg"));
+                $(this).attr("data-selected", "false");
+            });
+
+            $(this).css("background-color", $(this).attr("data-bg-selected"));
+            $(this).attr("data-selected", "true");
+
+            
+        } else {
+            categoryFilter = "";
             $(this).css("background-color", $(this).attr("data-bg"));
-        });
-
-        $(this).css("background-color", $(this).attr("data-bg-selected"));
+            $(this).attr("data-selected", "false");
+        }
 
         filterCourses(searchTerm, categoryFilter);
 
