@@ -1920,6 +1920,15 @@ footer.footer {
 .step-body a[href*='http'] .fa {
   font-size: 80%; }
 
+.category-labels {
+  -webkit-user-select: none;
+  /* webkit (safari, chrome) browsers */
+  -moz-user-select: none;
+  /* mozilla browsers */
+  -khtml-user-select: none;
+  /* webkit (konqueror) browsers */
+  -ms-user-select: none; }
+
 .category-tag {
   padding: 2px 5px;
   -webkit-border-radius: 2px;
