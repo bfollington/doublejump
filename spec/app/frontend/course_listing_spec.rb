@@ -1,8 +1,12 @@
 require 'spec_helper'
+require 'login'
 
-describe "course listing page" do
-  it "loads the list" do
-    get "/"
-    expect(last_response).to be_ok
+describe "course listing page", :type => :feature do
+
+  it "loads the course list" do
+    visit '/learn'
+
+    expect(page).to have_field('course_filter')
   end
+
 end
