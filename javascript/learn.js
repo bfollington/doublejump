@@ -41,14 +41,9 @@ setUpBannerImage();
 
 function lazyLoadHandler()
 {
-    if (!$(this).attr("data-zoominit"))
-    {
-        $(this)
-        .attr("data-zoominit", true)
-        .wrap('<div class="zoom-wrapper" style="width:100%;"></div>')
-        .parent()
-        .zoom({ on:'mouseover', magnify: 1.5 });
-    }
+    $(this).attr("data-caption", $(this).attr("alt"));
+    $(this).addClass("plus-cursor");
+    Intense( this );
 
     //$(".zoom-wrapper").css("overflow", "visible");
 }

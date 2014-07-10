@@ -1932,6 +1932,9 @@ footer.footer {
   /* webkit (konqueror) browsers */
   -ms-user-select: none; }
 
+img.plus-cursor {
+  cursor: url("/images/plus_cursor.png") 25 25, auto; }
+
 .category-tag {
   padding: 2px 5px;
   -webkit-border-radius: 2px;
