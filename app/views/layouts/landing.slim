@@ -37,8 +37,7 @@ html.no-js lang="en"
     = partial( local_or_live('includes/local_app_js', 'includes/live_app_js') )
     script src="#{local_or_live('/local_required/wow.min.js', '//cdnjs.cloudflare.com/ajax/libs/wow/0.1.6/wow.min.js')}"
     javascript:
-        new WOW().init();
+        new WOW({offset: 50}).init();
         mixpanel.track("Landing page visited");
         mixpanel.track_links("#get_started_banner" ,"Landing page get started link clicked");
-        mixpanel.track_links("#mc_embed_signup" ,"Landing page notify me clicked");
-        //mixpanel.track_forms("#mc_embed_signup", "Signed up for notifications");
+        mixpanel.track_links("/#mc_embed_signup" ,"Landing page notify me clicked");

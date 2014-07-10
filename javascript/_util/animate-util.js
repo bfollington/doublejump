@@ -40,6 +40,7 @@ function animateElement($element, animation, completeCallback) {
             function() {
                 $element.removeClass(animation);
                 $element.removeClass("animated");
+                $element.trigger("animationOver");
 
                 if (completeCallback != null)
                 {

@@ -47,7 +47,7 @@
                                         i.fa.fa-check-circle
                                         |  Completed on #{current_account.get_completed_step(step).created_at.strftime("%A, %d %B, %Y")}   
             
-    .col-md-3.col-xs-12
+    .col-md-3.col-xs-12.fadeInUp.animated
         h4 Related Readings
 
         - if @lesson.related_readings.length == 0

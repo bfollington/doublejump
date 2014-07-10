@@ -33,7 +33,7 @@ html.no-js lang="en"
         .container-fluid
             = partial 'elements/doublejump_header_bar'
             - if @course
-                .banner-image.center-text data-background="#{@course.category.colour ||  @course.image_url}"
+                .banner-image.center-text.fadeIn.animated data-background="#{@course.category.colour ||  @course.image_url}"
                     = partial "learn/elements/navigation"
                     .course-icon.big-margin-bottom class="#{@course.category.icon}"
                     h2.welcome-message = @course.title

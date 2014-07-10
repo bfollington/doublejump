@@ -1,4 +1,4 @@
-.row
+.row.fadeInUp.animated
     .col-lg-12
         .box
             h3 Filter Courses
@@ -14,7 +14,7 @@
                 - @categories.each do |category|
                     = partial 'learn/elements/category', :object => category
 
-.row
+.row.fadeInUp.animated
     .col-xs-12
         h3 Courses
     - @courses.each do |course|

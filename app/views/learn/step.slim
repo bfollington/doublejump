@@ -1,7 +1,7 @@
 = render_js_template 'js-templates/_comment_icon'
 = render_js_template 'js-templates/_inserted_definition'
 
-.row
+.row.fadeInUp.animated
     .col-lg-2.col-md-2.col-sm-2.col-xs-2.center-text
 
         - if !@lesson.get_prev_step(@step).nil?
@@ -63,12 +63,12 @@
                     i.fa.fa-check
 
                 
-.row
+.row.fadeInUp.animated
     .col-lg-9.col-md-9
         .box
             - if current_account && current_account.has_completed_step?(@step)
                 p.notification.callout
-                    a.button.create-button.float-right href="#{next_link}" Go To Next Step
+                    a.button.create-button.float-right.margin href="#{next_link}" Go To Next Step
                     | You've completed this step before (maybe as part of another course), just thought you should know.
             h3 = @step.title
 

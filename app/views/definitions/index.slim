@@ -1,6 +1,6 @@
 h3 Definitions
 
-.row
+.row.fadeInUp.animated
     .col-xs-12
         .box
             h3 Search For A Definition
@@ -12,7 +12,7 @@ h3 Definitions
             p.center-text.no-margin
                 a.class.button.create-button href="/definitions/make" Create New Definition
 
-.row
+.row.fadeInUp.animated
     - if @definitions.length > 0
         - @definitions.each do |definition|
             .col-sm-6.col-xs-12
