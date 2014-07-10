@@ -1909,7 +1909,10 @@ footer.footer {
 .step-body .zoom-wrapper + .comment,
 .step-body pre + p .comment,
 .step-body .hideable-inner + p .comment,
-.step-body .callout.definition + .comment,
+.step-body .callout.definition + p .comment,
+.step-body img.plus-cursor + .comment,
+.step-body div + p .comment,
+.step-body div + .comment,
 .step-body .callout.info + p .comment {
   display: table;
   margin: 0 auto; }

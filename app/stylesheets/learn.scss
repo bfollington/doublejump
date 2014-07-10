@@ -106,9 +106,11 @@
     .zoom-wrapper + .comment,
     pre + p .comment,
     .hideable-inner + p .comment,
-    .callout.definition + .comment,
+    .callout.definition + p .comment,
+    img.plus-cursor + .comment,
+    div + p .comment,
+    div + .comment,
     .callout.info + p .comment
-
     {
         display: table;
         margin: 0 auto;
