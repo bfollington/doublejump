@@ -1,27 +1,35 @@
 // slug-fields.js powers slugifying and lower-casing of fields into another field
 
-function bindSlugFields()
+var slug = new function()
 {
-    $(".js-slug").keyup( function() {
+    var self = this;
 
-        var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
+    self.bindSlugFields = function()
+    {
+        $(".js-slug").keyup( function() {
 
-        $(targetId).val( convertToSlug( $(this).val() ) );
+            var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
 
-    });
+            $(targetId).val( convertToSlug( $(this).val() ) );
+
+        });
+    }
+
+    
+
+    self.bindLowercaseFields = function()
+    {
+        $(".js-lowercase").keyup( function() {
+
+            var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
+
+            $(targetId).val( convertToLowercase( $(this).val() ) );
+
+        });
+    }
+
+    
 }
 
-bindSlugFields();
-
-function bindLowercaseFields()
-{
-    $(".js-lowercase").keyup( function() {
-
-        var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
-
-        $(targetId).val( convertToLowercase( $(this).val() ) );
-
-    });
-}
-
-bindLowercaseFields();
+slug.bindSlugFields();
+slug.bindLowercaseFields();

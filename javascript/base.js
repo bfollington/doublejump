@@ -1,18 +1,19 @@
-// base.js binds UI stuff
+// base.js binds UI stuff and initialises some important bits
 
 var mathjax = false;
 
 $( function() {
 
-    //FastClick.attach(document.body);
-
+    // Remove no-js class to signify that we... uh... have js
     $("html").first().removeClass("no-js");
 
+    // Configure select2 when the plugin is present
     if (defined('Select2'))
     {
         $(".js-select2").select2();
     }
 
+    //Configure lazy loading of images when the plugin is present
     //Only if we are on the appropriate page, need to used defined? util
     if (jQuery().lazyload)
     {
@@ -22,6 +23,7 @@ $( function() {
         });
     }
 
+    // Add a book icon to every definition link in the body of the step
     $(".step-body a[rel='definition']").each( function() {
 
         $(this).html($(this).html() + ' <i class="fa fa-book"></i>');
@@ -35,8 +37,10 @@ $( function() {
 
     });
 
+    // Add tooltips to comment links
     $(".step-body .comment a").tooltip();
 
+    // Add icons to external links
     $(".step-body a[href*='http']").each( function() {
 
         $(this).html($(this).html() + ' <i class="fa fa-external-link"></i>');

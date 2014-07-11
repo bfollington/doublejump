@@ -1,18 +1,19 @@
-// base.js binds UI stuff
+// base.js binds UI stuff and initialises some important bits
 
 var mathjax = false;
 
 $( function() {
 
-    //FastClick.attach(document.body);
-
+    // Remove no-js class to signify that we... uh... have js
     $("html").first().removeClass("no-js");
 
+    // Configure select2 when the plugin is present
     if (defined('Select2'))
     {
         $(".js-select2").select2();
     }
 
+    //Configure lazy loading of images when the plugin is present
     //Only if we are on the appropriate page, need to used defined? util
     if (jQuery().lazyload)
     {
@@ -22,6 +23,7 @@ $( function() {
         });
     }
 
+    // Add a book icon to every definition link in the body of the step
     $(".step-body a[rel='definition']").each( function() {
 
         $(this).html($(this).html() + ' <i class="fa fa-book"></i>');
@@ -35,8 +37,10 @@ $( function() {
 
     });
 
+    // Add tooltips to comment links
     $(".step-body .comment a").tooltip();
 
+    // Add icons to external links
     $(".step-body a[href*='http']").each( function() {
 
         $(this).html($(this).html() + ' <i class="fa fa-external-link"></i>');
@@ -100,322 +104,335 @@ function boostrapMods()
 boostrapMods();
 // comments.js powers the comment frame for articles and images
 
-function bindComments()
+var comments = new function()
 {
+    var self = this;
+    
+    self.bindComments = function()
+    {
 
-    var id = "#comment_frame";
-    var $frame = $(id);
+        var id = "#comment_frame";
+        var $frame = $(id);
 
-    $(".step-body .comment, #sharing_lightbox .comment").each( function() {
+        $(".step-body .comment, #sharing_lightbox .comment").each( function() {
 
-        var $comment = $(this);
-        // Almost always the column content resides in
-        var $parent = $(this).parent().parent().parent().parent();
-        // This will be a .hideable-inner in an edge case
-        var $otherParent = $(this).parent().parent().parent();
+            var $comment = $(this);
+            // Almost always the column content resides in
+            var $parent = $(this).parent().parent().parent().parent();
+            // This will be a .hideable-inner in an edge case
+            var $otherParent = $(this).parent().parent().parent();
 
-        // Strip comments out of hideable sections, they shouldn't be there in the first place.
-        if ($otherParent.is(".hideable-inner"))
-        {
-            $(this).remove();
-            return true;
-        }
-
-        if ($parent.attr("id") != "sharing_lightbox")
-        {
-            $(this).html(getTemplate("_comment_icon"));
-        }
-
-        $(this).find('a').on("touchstart, click", function (e) { 
-
-            e.preventDefault();
-
-            stopEventPropagating(e);
-
-            // Do not interrupt a transition
-            if (!$("#comment_frame").hasClass("animated"))
+            // Strip comments out of hideable sections, they shouldn't be there in the first place.
+            if ($otherParent.is(".hideable-inner"))
             {
+                $(this).remove();
+                return true;
+            }
 
-                $comment.append(loadingIndicator);
-                
-                var url = "";
-                var offsetLeft, offsetTop;
+            if ($parent.attr("id") != "sharing_lightbox")
+            {
+                $(this).html(getTemplate("_comment_icon"));
+            }
 
-                if ($parent.attr("id") == "sharing_lightbox")
+            $(this).find('a').on("touchstart, click", function (e) { 
+
+                e.preventDefault();
+
+                stopEventPropagating(e);
+
+                // Do not interrupt a transition
+                if (!$("#comment_frame").hasClass("animated"))
                 {
-                    url = "/comments/image-get/" + $parent.attr("data-id");
-                    offsetLeft = -160;
-                    offsetTop = "auto";
-                } else {
-                    var currentStep = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
-                    currentStep = currentStep.split("#")[0];
-                    currentStep = currentStep.split("?")[0];
 
-                    url = "/comments/get/" + currentStep + "/" + $(this).parent().attr("data-group");
+                    $comment.append(loadingIndicator);
+                    
+                    var url = "";
+                    var offsetLeft, offsetTop;
 
-                    offsetLeft = 32;
-                    offsetTop = -64;
-                }
+                    if ($parent.attr("id") == "sharing_lightbox")
+                    {
+                        url = "/comments/image-get/" + $parent.attr("data-id");
+                        offsetLeft = -160;
+                        offsetTop = "auto";
+                    } else {
+                        var currentStep = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
+                        currentStep = currentStep.split("#")[0];
+                        currentStep = currentStep.split("?")[0];
 
-                $.ajax({
-                    url: url,
-                    success: function (data) { 
-                        if (data.success)
-                        {
-                            $frame.html(data.html);
-                            showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop);
-                        }
+                        url = "/comments/get/" + currentStep + "/" + $(this).parent().attr("data-group");
 
-                        $comment.children().last().remove();
-                    },
-                    timeout: 3000,
-                    dataType: 'json',
-                    error: function(data) {
-                        $frame.html("Could not load comments.");
-                        showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop);
-                        $comment.children().last().remove();
+                        offsetLeft = 32;
+                        offsetTop = -64;
                     }
-                });
-                
-            }  
+
+                    $.ajax({
+                        url: url,
+                        success: function (data) { 
+                            if (data.success)
+                            {
+                                $frame.html(data.html);
+                                self.showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop);
+                            }
+
+                            $comment.children().last().remove();
+                        },
+                        timeout: 3000,
+                        dataType: 'json',
+                        error: function(data) {
+                            $frame.html("Could not load comments.");
+                            self.showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop);
+                            $comment.children().last().remove();
+                        }
+                    });
+                    
+                }  
+
+            } );
 
         } );
 
-    } );
+        $('html').on( "touchstart, click", function (e) {
 
-    $('html').on( "touchstart, click", function (e) {
-
-        if ( eventTargetDoesNotInclude(e, '#comment_frame') )
-        {
-            if (!$frame.hasClass("animated") && $frame.css("display") == "block")
+            if ( eventTargetDoesNotInclude(e, '#comment_frame') )
             {
-                animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
+                if (!$frame.hasClass("animated") && $frame.css("display") == "block")
+                {
+                    animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
+                }
             }
-        }
-    });
-}
+        });
+    }
 
-bindComments();
-
-function showCommentFrame(id, $frame, $comment, offsetLeft, offsetTop)
-{
-
-    var autoOffset = (offsetTop == "auto");
-
-    if (!offsetLeft) offsetLeft = 32;
-    if (!offsetTop) offsetTop = -64;
-
-    $frame.css("display", "block");
-
-    if (findBootstrapEnvironment() == "ExtraSmall")
+    self.showCommentFrame = function(id, $frame, $comment, offsetLeft, offsetTop)
     {
-        // Centre the display on mobiles
-        $frame.offset({ left: getViewportWidth() / 2 - $frame.outerWidth() / 2, top: $comment.offset().top + offsetTop});
-    } else {
 
-        // Stop comments panel sticking off the right side of the display
-        if ($comment.offset().left + offsetLeft + $frame.outerWidth() >= getViewportWidth())
+        var autoOffset = (offsetTop == "auto");
+
+        if (!offsetLeft) offsetLeft = 32;
+        if (!offsetTop) offsetTop = -64;
+
+        $frame.css("display", "block");
+
+        if (findBootstrapEnvironment() == "ExtraSmall")
         {
-            $frame.offset({ left: getViewportWidth() - $frame.outerWidth() - 10, top: $comment.offset().top + offsetTop});
+            // Centre the display on mobiles
+            $frame.offset({ left: getViewportWidth() / 2 - $frame.outerWidth() / 2, top: $comment.offset().top + offsetTop});
         } else {
-            // Just display it normally
-            $frame.offset({ left: $comment.offset().left + offsetLeft, top: $comment.offset().top + offsetTop});
+
+            // Stop comments panel sticking off the right side of the display
+            if ($comment.offset().left + offsetLeft + $frame.outerWidth() >= getViewportWidth())
+            {
+                $frame.offset({ left: getViewportWidth() - $frame.outerWidth() - 10, top: $comment.offset().top + offsetTop});
+            } else {
+                // Just display it normally
+                $frame.offset({ left: $comment.offset().left + offsetLeft, top: $comment.offset().top + offsetTop});
+            }
+
+            
         }
 
         
-    }
 
-    
+        animate(id, 'fadeInDown', null);
 
-    animate(id, 'fadeInDown', null);
+        $("form#Comment").off();
 
-    $("form#Comment").off();
-
-    $("form#Comment").ajaxForm({
-        beforeSubmit:  function () {
-            $frame.find(".errors").text("");  
-            $("form#Comment").find('input[type="submit"]').attr("disabled", "disabled");
-        },
-        success: function (data) {
-            if (data.success)
-            {
-                $frame.html(data.html);
-            } else {
-                appendErrors(data.errors, $frame, ".errors");
-            }
-
-            $("form#Comment").find('input[type="submit"]').attr("disabled", false);
-        },
-        error: function (data) {
-            $frame.find(".errors").append("Could not post comment, try again?");
-            $("form#Comment").find('input[type="submit"]').attr("disabled", false);
-        }
-    });
-
-    if (autoOffset)
-    {
-        $frame.offset({top: $comment.offset().top - $frame.height() - 32});
-    }
-    
-
-    $(".js-close-comments").click( function(e) {
-        e.preventDefault();
-
-        animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
-
-    });
-
-    $(".js-delete-comment").bind('click', function (e) {
-
-        e.preventDefault();
-
-        if (confirm("Delete this comment?"))
-        {
-            var $commentEntry = $(this).parent().parent();
-
-            $.get( $(this).attr("href") )
-                .done( function(data) {
-                    if (data.success)
-                    {
-                        $commentEntry.remove();
-                    }
-                })
-                .fail( function(data) {
-
-                });
-        }
-    });
-
-    $(".js-report-comment").bind('click', function (e) {
-
-        e.preventDefault();
-
-        if (confirm("Report this comment?"))
-        {
-            $.get( $(this).attr("href") )
-                .done( function(data) {
-                    if (data.success)
-                    {
-                        alert("Comment reported, thanks!");
-                    } else {
-                        alert("Comment already reported.")
-                    }
-                })
-                .fail( function(data) {
-
-                });
-        }
-    });
-}
-// definitions.js handle definition lookups
-
-function bindDefinitions()
-{
-    $("a[rel='definition']").click( function(e) {
-        var $definition = $(this);
-
-        e.preventDefault();
-
-        var query = $(this).attr("data-query");
-
-        $definition.after(loadingIndicator);
-
-        $.ajax({
-            url: "/definitions/define/" + query,
-            success: function (data) { 
-                if (data != "null" && data != null)
+        $("form#Comment").ajaxForm({
+            beforeSubmit:  function () {
+                $frame.find(".errors").text("");  
+                $("form#Comment").find('input[type="submit"]').attr("disabled", "disabled");
+            },
+            success: function (data) {
+                if (data.success)
                 {
-                    $(".step-body .js-inserted-definition").remove();
-
-                    var template = format(
-                                        getTemplate("_inserted_definition"), 
-                                        {
-                                            "definition-title": data.title,
-                                            "definition-body": marked(data.body),
-                                            "definition-id": data._id
-                                        }
-                                    );
-
-                    $definition.parent().after(template);
-                    animate($definition.parent().next(), "fadeInUp");
-
-                    if (mathjax) MathJax.Hub.Queue(["Typeset", MathJax.Hub, $definition.parent().next()[0]]);
-
-                    $(".js-close-inserted-definition").click( function(e) {
-                        e.preventDefault();
-
-                        animate($(this).parent(), "fadeOutDown", function($el) { $el.remove(); });
-                    });
-
+                    $frame.html(data.html);
+                } else {
+                    appendErrors(data.errors, $frame, ".errors");
                 }
 
-                $definition.next().remove();
+                $("form#Comment").find('input[type="submit"]').attr("disabled", false);
             },
-            timeout: 3000,
-            dataType: 'json',
-            error: function(data) {
-                $definition.next().remove();
-                console.log("Could not load definition.");
+            error: function (data) {
+                $frame.find(".errors").append("Could not post comment, try again?");
+                $("form#Comment").find('input[type="submit"]').attr("disabled", false);
             }
         });
-    });
 
-    $(".js-insert-definition").click( function(e) {
-        e.preventDefault();
+        if (autoOffset)
+        {
+            $frame.offset({top: $comment.offset().top - $frame.height() - 32});
+        }
+        
 
-        var html = '{definition{"TITLE", "TERM"}}';
-        prompt("Macro:", html);
+        $(".js-close-comments").click( function(e) {
+            e.preventDefault();
 
-        editor.focus();
-    });
+            animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
 
-    $(".js-insert-inline-definition").click( function(e) {
-        e.preventDefault();
+        });
 
-        var html = '{inline-definition{"TERM"}}';
-        prompt("Macro:", html);
+        $(".js-delete-comment").bind('click', function (e) {
 
-        editor.focus();
-    });
+            e.preventDefault();
 
-    $(".js-insert-inline-tex").click( function(e) {
-        e.preventDefault();
+            if (confirm("Delete this comment?"))
+            {
+                var $commentEntry = $(this).parent().parent();
 
-        var html = "\\\\( \\\\)";
-        prompt("Tex:", html);
+                $.get( $(this).attr("href") )
+                    .done( function(data) {
+                        if (data.success)
+                        {
+                            $commentEntry.remove();
+                        }
+                    })
+                    .fail( function(data) {
 
-        editor.focus();
-    });
+                    });
+            }
+        });
 
-    $(".js-insert-block-tex").click( function(e) {
-        e.preventDefault();
+        $(".js-report-comment").bind('click', function (e) {
 
-        var html = "\\\\[ \\\\]";
-        prompt("Tex:", html);
+            e.preventDefault();
 
-        editor.focus();
-    });
+            if (confirm("Report this comment?"))
+            {
+                $.get( $(this).attr("href") )
+                    .done( function(data) {
+                        if (data.success)
+                        {
+                            alert("Comment reported, thanks!");
+                        } else {
+                            alert("Comment already reported.")
+                        }
+                    })
+                    .fail( function(data) {
 
-    $(".js-insert-two-cols").click( function(e) {
-        e.preventDefault();
-
-        var html = '{two-columns{"one", "two"}}';
-        prompt("Macro:", html);
-
-        editor.focus();
-    });
-
-    $(".js-insert-one-col").click( function(e) {
-        e.preventDefault();
-
-        var html = '{one-column{"content"}}';
-        prompt("Macro:", html);
-
-        editor.focus();
-    });
+                    });
+            }
+        });
+    }
 }
 
-bindDefinitions();
+comments.bindComments();
+
+
+// definitions.js handle definition lookups
+
+var definitions = new function()
+{
+    var self = this;
+    self.bindDefinitions = function()
+    {
+        $("a[rel='definition']").click( function(e) {
+            var $definition = $(this);
+
+            e.preventDefault();
+
+            var query = $(this).attr("data-query");
+
+            $definition.after(loadingIndicator);
+
+            $.ajax({
+                url: "/definitions/define/" + query,
+                success: function (data) { 
+                    if (data != "null" && data != null)
+                    {
+                        $(".step-body .js-inserted-definition").remove();
+
+                        var template = format(
+                                            getTemplate("_inserted_definition"), 
+                                            {
+                                                "definition-title": data.title,
+                                                "definition-body": marked(data.body),
+                                                "definition-id": data._id
+                                            }
+                                        );
+
+                        $definition.parent().after(template);
+                        animate($definition.parent().next(), "fadeInUp");
+
+                        if (mathjax) MathJax.Hub.Queue(["Typeset", MathJax.Hub, $definition.parent().next()[0]]);
+
+                        $(".js-close-inserted-definition").click( function(e) {
+                            e.preventDefault();
+
+                            animate($(this).parent(), "fadeOutDown", function($el) { $el.remove(); });
+                        });
+
+                    }
+
+                    $definition.next().remove();
+                },
+                timeout: 3000,
+                dataType: 'json',
+                error: function(data) {
+                    $definition.next().remove();
+                    console.log("Could not load definition.");
+                }
+            });
+        });
+
+        $(".js-insert-definition").click( function(e) {
+            e.preventDefault();
+
+            var html = '{definition{"TITLE", "TERM"}}';
+            prompt("Macro:", html);
+
+            editor.focus();
+        });
+
+        $(".js-insert-inline-definition").click( function(e) {
+            e.preventDefault();
+
+            var html = '{inline-definition{"TERM"}}';
+            prompt("Macro:", html);
+
+            editor.focus();
+        });
+
+        $(".js-insert-inline-tex").click( function(e) {
+            e.preventDefault();
+
+            var html = "\\\\( \\\\)";
+            prompt("Tex:", html);
+
+            editor.focus();
+        });
+
+        $(".js-insert-block-tex").click( function(e) {
+            e.preventDefault();
+
+            var html = "\\\\[ \\\\]";
+            prompt("Tex:", html);
+
+            editor.focus();
+        });
+
+        $(".js-insert-two-cols").click( function(e) {
+            e.preventDefault();
+
+            var html = '{two-columns{"one", "two"}}';
+            prompt("Macro:", html);
+
+            editor.focus();
+        });
+
+        $(".js-insert-one-col").click( function(e) {
+            e.preventDefault();
+
+            var html = '{one-column{"content"}}';
+            prompt("Macro:", html);
+
+            editor.focus();
+        });
+    }
+}
+
+definitions.bindDefinitions();
+
+
 // epiceditor-config.js configures the epic editor backend fields
 
 var editor;
@@ -481,210 +498,306 @@ function appendErrors(errorsData, $form, errorsSelector)
         animate(errorsSelector, "fadeInUp");
     }
 }
-function createHideableRegions()
+// hideable-region.js
+
+var hideable = new function()
 {
-    $(".hideable-inner").each( function () {
-        $(this).find(".content").hide();
-    });
-
-    $(".js-toggle-hideable").click( function(e) {
-        e.preventDefault();
-
-        var content = $(this).parent().find(".content");
-
-        if (isVisible(content))
-        {
-            $(this).text("Expand");
-            animateElement( content, "fadeOutDown", function ($elem) { $elem.hide(); } );
-        } else {
-            $(this).text("Hide");
-            content.css("display", "block");
-            animateElement( content, "fadeInUp" );
-        }
-
-        
-    });
-}
-
-createHideableRegions();
-
-function bindInsertRegionButton()
-{
-    $(".js-insert-hideable").click( function(e) {
-        e.preventDefault();
-
-        var html = '{hideable{TITLE, CONTENT}}';
-        prompt("Macro:", html);
-
-        editor.focus();
-    });
-}
-
-bindInsertRegionButton();
-// learn.js modifies the learn page layout to inject images etc.
-
-function setUpBannerImage()
-{
-    $(".banner-image").each( function() {
-        var $this = $(this);
-
-        var bg = $this.attr("data-background");
-
-        if (bg && bg != "" && bg[0] != '#')
-        {
-            $this.css("background-image", "url(" + bg + ")");
-        } else if (bg && bg != "")
-        {
-            $this.css("background-color", bg);
-        }
-    });
-
-    $("[data-bg]").each( function() {
-        $(this).css("background-color", $(this).attr("data-bg"));
-    });
-
-    $("[data-colour]").each( function() {
-        $(this).css("color", $(this).attr("data-colour"));
-    });
-
-    if (jQuery().lazyload)
+    var self = this;
+    self.createHideableRegions = function()
     {
-        $(".step-body img").lazyload(
-        {
-            threshold : 200,
-            load: lazyLoadHandler
+        $(".hideable-inner").each( function () {
+            $(this).find(".content").hide();
+        });
+
+        $(".js-toggle-hideable").click( function(e) {
+            e.preventDefault();
+
+            var content = $(this).parent().find(".content");
+
+            if (isVisible(content))
+            {
+                $(this).text("Expand");
+                animateElement( content, "fadeOutDown", function ($elem) { $elem.hide(); } );
+            } else {
+                $(this).text("Hide");
+                content.css("display", "block");
+                animateElement( content, "fadeInUp" );
+            }
+
+            
         });
     }
-    
 
-    
+    self.bindInsertRegionButton = function()
+    {
+        $(".js-insert-hideable").click( function(e) {
+            e.preventDefault();
+
+            var html = '{hideable{TITLE, CONTENT}}';
+            prompt("Macro:", html);
+
+            editor.focus();
+        });
+    }
 }
 
-setUpBannerImage();
+hideable.createHideableRegions();
+hideable.bindInsertRegionButton();
 
-function lazyLoadHandler()
+
+// learn.js modifies the learn page layout to inject images etc.
+
+var learn = new function()
 {
-    $(this).attr("data-caption", $(this).attr("alt"));
-    $(this).addClass("plus-cursor");
-    Intense( this );
+    var self = this;
+    
+    self.setUpBannerImage = function()
+    {
+        $(".banner-image").each( function() {
+            var $this = $(this);
 
-    //$(".zoom-wrapper").css("overflow", "visible");
+            var bg = $this.attr("data-background");
+
+            if (bg && bg != "" && bg[0] != '#')
+            {
+                $this.css("background-image", "url(" + bg + ")");
+            } else if (bg && bg != "")
+            {
+                $this.css("background-color", bg);
+            }
+        });
+
+        $("[data-bg]").each( function() {
+            $(this).css("background-color", $(this).attr("data-bg"));
+        });
+
+        $("[data-colour]").each( function() {
+            $(this).css("color", $(this).attr("data-colour"));
+        });
+
+        if (jQuery().lazyload)
+        {
+            $(".step-body img").lazyload(
+            {
+                threshold : 200,
+                load: self.lazyLoadHandler
+            });
+        }
+    }
+
+    // Add the intense viewer to the images
+    self.lazyLoadHandler = function()
+    {
+        $(this).attr("data-caption", $(this).attr("alt"));
+        $(this).addClass("plus-cursor");
+        Intense( this );
+    }
 }
+
+learn.setUpBannerImage();
 var loadingIndicator = '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
 // progress-bar.js powers the progress bar during a lesson
 
-function updateProgressBars()
+var progress = new function()
 {
-    $(".progress-list-wrapper .progress").each(function() { 
-
-        var
-        $this = $(this),
-        $parent = $(this).parent(),
-        $first = $parent.find("ul.progress-list li:first a"),
-        $last = $parent.find("ul.progress-list li.current-step a");
-
-        $(this).css("width", $last.offset().left - $first.offset().left); 
-        $(this).css("left", $first.position().left + 2); 
-        $(this).css("top", $first.position().top); 
-
-    } );  
-
-    if ( $(".course-progress-node").length > 0 )
+    var self = this;
+    self.updateProgressBars = function()
     {
-        var nodes = getVerticalProgressPoints();
+        $(".progress-list-wrapper .progress").each(function() { 
 
-        var
-        $first = nodes.first,
-        $upto = nodes.upto,
-        $last = nodes.last;
-        nodeWidth = $first.outerWidth() - 3;
-
-        var $doneBar = $(".vertical-progress-done");
-        $doneBar.css("height", $upto.offset().top - $first.offset().top);
-        $doneBar.css("left", $first.offset().left + nodeWidth / 2);
-        $doneBar.css("top", $first.offset().top + nodeWidth / 2);
-
-        var $toDoBar = $(".vertical-progress-todo");
-        $toDoBar.css("height", $last.offset().top - $upto.offset().top);
-        $toDoBar.css("left", $upto.offset().left + nodeWidth / 2);
-        $toDoBar.css("top", $upto.offset().top + nodeWidth / 2);
-    }
-
-
-}
-
-function getVerticalProgressPoints ()
-{
-    var
-    $first = $(".course-progress-node.first"),
-    $upto = $(".course-progress-node.done:last"),
-    $last = $(".course-progress-node.last");
-
-    if ($upto.length == 0)
-    {
-        $upto = $first;
-    }
-
-    return {"first" : $first, "upto": $upto, "last": $last};
-}
-
-function initVerticalBars()
-{
-    if ( $(".course-progress-node").length > 0 )
-    {
-        $("body").prepend("<div class='vertical-progress-done'></div>");
-        $("body").prepend("<div class='vertical-progress-todo'></div>");
-
-        var $selector = $(".course-progress-node").not(".done").first().parent().next();
-
-        var href = $selector.find("a").attr("href");
-
-        $selector.find(".box").prepend("<a href='" + href + "' class='button create-button float-right lets-go'>Let's Go!</div>");
-    } 
-}
-
-function bindProgressBarResize()
-{
-    updateProgressBars();
-    window.setTimeout(updateProgressBars, 1000);
-    $(window).resize( updateProgressBars );
-
-    if (supportsTransitions())
-    {
-        runBarUpdate();    
-    }
-    
-}
-
-var barUpdateCount = 0;
-function runBarUpdate() {
-    barUpdateCount++;
-    if (barUpdateCount < 100)
-    {
-        requestAnimationFrame(runBarUpdate);
-        updateProgressBars();
-    }
-}
-
-bindProgressBarResize();
-initVerticalBars();
-var searchTerm = "", categoryFilter = "";
-
-function bindDefinitionSearchField()
-{
-
-    $(".js-definition-filter").keyup( function() {
-
-        var searchTerm = $(this).val().toLowerCase();
-
-        $(".definition-block").each( function() {
             var
-            definitionTerm = $(this).attr("data-definition-name").toLowerCase(),
+            $this = $(this),
+            $parent = $(this).parent(),
+            $first = $parent.find("ul.progress-list li:first a"),
+            $last = $parent.find("ul.progress-list li.current-step a");
+
+            $(this).css("width", $last.offset().left - $first.offset().left); 
+            $(this).css("left", $first.position().left + 2); 
+            $(this).css("top", $first.position().top); 
+
+        } );  
+
+        if ( $(".course-progress-node").length > 0 )
+        {
+            var nodes = self.getVerticalProgressPoints();
+
+            var
+            $first = nodes.first,
+            $upto = nodes.upto,
+            $last = nodes.last;
+            nodeWidth = $first.outerWidth() - 3;
+
+            var $doneBar = $(".vertical-progress-done");
+            $doneBar.css("height", $upto.offset().top - $first.offset().top);
+            $doneBar.css("left", $first.offset().left + nodeWidth / 2);
+            $doneBar.css("top", $first.offset().top + nodeWidth / 2);
+
+            var $toDoBar = $(".vertical-progress-todo");
+            $toDoBar.css("height", $last.offset().top - $upto.offset().top);
+            $toDoBar.css("left", $upto.offset().left + nodeWidth / 2);
+            $toDoBar.css("top", $upto.offset().top + nodeWidth / 2);
+        }
+    }
+
+
+    self.getVerticalProgressPoints = function()
+    {
+        var
+        $first = $(".course-progress-node.first"),
+        $upto = $(".course-progress-node.done:last"),
+        $last = $(".course-progress-node:last");
+
+        if ($upto.length == 0)
+        {
+            $upto = $first;
+        }
+
+        return {"first" : $first, "upto": $upto, "last": $last};
+    }
+
+
+    self.initVerticalBars = function()
+    {
+        if ( $(".course-progress-node").length > 0 )
+        {
+            $("body").prepend("<div class='vertical-progress-done'></div>");
+            $("body").prepend("<div class='vertical-progress-todo'></div>");
+
+            var $selector = $(".course-progress-node").not(".done").first().parent().next();
+
+            var href = $selector.find("a").attr("href");
+
+            $selector.find(".box").prepend("<a href='" + href + "' class='button create-button float-right lets-go'>Let's Go!</div>");
+        } 
+    }
+
+    self.bindProgressBarResize = function()
+    {
+        self.updateProgressBars();
+        window.setTimeout( self.updateProgressBars, 1000 );
+        $(window).resize( self.updateProgressBars );
+
+        // If we are running CSS animations, then we need to keep the progress bars up to date
+        if (supportsTransitions())
+        {
+            self.runBarUpdate();    
+        }
+        
+    }
+
+    self.barUpdateCount = 0;
+
+    self.runBarUpdate = function() {
+        self.barUpdateCount++;
+
+        // Only update 100 frames of animation
+        if (self.barUpdateCount < 100)
+        {
+            requestAnimationFrame(self.runBarUpdate);
+            self.updateProgressBars();
+        }
+    }
+}
+
+progress.bindProgressBarResize();
+progress.initVerticalBars();
+var search = new function()
+{
+    var self = this;
+    
+    self.searchTerm = "";
+    self.categoryFilter = "";
+
+    self.bindDefinitionSearchField = function()
+    {
+
+        $(".js-definition-filter").keyup( function() {
+
+            var searchTerm = $(this).val().toLowerCase();
+
+            $(".definition-block").each( function() {
+                var
+                definitionTerm = $(this).attr("data-definition-name").toLowerCase(),
+                show = false;
+
+                if ( definitionTerm.indexOf(searchTerm) >= 0 || searchTerm.indexOf(definitionTerm) >= 0 )
+                {
+                    show = true;
+                }
+
+                if (show)
+                {
+                    $(this).parent().show();
+                } else {
+                    $(this).parent().hide();
+                }
+
+            });
+
+                
+        });
+
+    }
+
+    self.bindCourseSearchField = function()
+    {
+
+        $(".js-course-filter").keyup( function() {
+
+            self.searchTerm = $(this).val().toLowerCase();
+
+            self.filterCourses(self.searchTerm, self.categoryFilter);
+
+            
+        });
+
+        $(".js-category-tag").click( function() {
+
+            if ($(this).attr("data-selected") != "true")
+            {
+                self.categoryFilter = $(this).attr("data-category").toLowerCase();
+
+                $(".js-category-tag").each( function() {
+                    $(this).css("background-color", $(this).attr("data-bg"));
+                    $(this).attr("data-selected", "false");
+                });
+
+                $(this).css("background-color", $(this).attr("data-bg-selected"));
+                $(this).attr("data-selected", "true");
+
+                
+            } else {
+                self.categoryFilter = "";
+                $(this).css("background-color", $(this).attr("data-bg"));
+                $(this).attr("data-selected", "false");
+            }
+
+            self.filterCourses(self.searchTerm, self.categoryFilter);
+
+        });
+
+    }
+
+    self.filterCourses = function(searchTerm, categoryFilter)
+    {
+
+        $(".course-block").each( function() {
+            var
+            categoryName = $(this).attr("data-category-name").toLowerCase(),
+            courseName = $(this).attr("data-course-name").toLowerCase(),
             show = false;
 
-            if ( definitionTerm.indexOf(searchTerm) >= 0 || searchTerm.indexOf(definitionTerm) >= 0 )
+            if (   courseName.indexOf(searchTerm) >= 0
+                || searchTerm.indexOf(courseName) >= 0
+                || categoryName.indexOf(searchTerm) >= 0
+                || searchTerm.indexOf(categoryName) >= 0)
             {
                 show = true;
+            }
+
+            if ( categoryName.indexOf(categoryFilter) == -1 )
+            {
+                show = false;
             }
 
             if (show)
@@ -695,217 +808,32 @@ function bindDefinitionSearchField()
             }
 
         });
-
-            
-    });
-
+    }
 }
 
-function bindCourseSearchField()
-{
-
-    $(".js-course-filter").keyup( function() {
-
-        searchTerm = $(this).val().toLowerCase();
-
-        filterCourses(searchTerm, categoryFilter);
-
-        
-    });
-
-    $(".js-category-tag").click( function() {
-
-        if ($(this).attr("data-selected") != "true")
-        {
-            categoryFilter = $(this).attr("data-category").toLowerCase();
-
-            $(".js-category-tag").each( function() {
-                $(this).css("background-color", $(this).attr("data-bg"));
-                $(this).attr("data-selected", "false");
-            });
-
-            $(this).css("background-color", $(this).attr("data-bg-selected"));
-            $(this).attr("data-selected", "true");
-
-            
-        } else {
-            categoryFilter = "";
-            $(this).css("background-color", $(this).attr("data-bg"));
-            $(this).attr("data-selected", "false");
-        }
-
-        filterCourses(searchTerm, categoryFilter);
-
-    });
-
-}
-
-function filterCourses(searchTerm, categoryFilter)
-{
-
-    $(".course-block").each( function() {
-        var
-        categoryName = $(this).attr("data-category-name").toLowerCase(),
-        courseName = $(this).attr("data-course-name").toLowerCase(),
-        show = false;
-
-        if (   courseName.indexOf(searchTerm) >= 0
-            || searchTerm.indexOf(courseName) >= 0
-            || categoryName.indexOf(searchTerm) >= 0
-            || searchTerm.indexOf(categoryName) >= 0)
-        {
-            show = true;
-        }
-
-        if ( categoryName.indexOf(categoryFilter) == -1 )
-        {
-            show = false;
-        }
-
-        if (show)
-        {
-            $(this).parent().show();
-        } else {
-            $(this).parent().hide();
-        }
-
-    });
-}
-
-bindCourseSearchField();
-bindDefinitionSearchField();
+search.bindCourseSearchField();
+search.bindDefinitionSearchField();
 // sharing-progress.js controls everything about the gallery sharing steps
 
-var $sharedImageForm = $("form#addSharedImageForm");
-
-function bindSharingImageForm()
+var lightbox = new function()
 {
-    $sharedImageForm.ajaxForm({
-        beforeSubmit:  function () {
-            $sharedImageForm.find(".errors").text("");  
-            $sharedImageForm.find('input[type="submit"]').attr("disabled", "disabled");
-        },
-        success: function (data) {
-            if (data.success)
-            {
-                if (data.refresh)
-                {
-                    location.reload(true);
-                }
-            } else {
-                appendErrors(data.errors, $sharedImageForm, ".errors");
-            }
+    var $sharedImageForm = $("form#addSharedImageForm");
+    var self = this;
 
-            $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
-        },
-        error: function (data) {
-            $sharedImageForm.find(".errors").append("Could not share image, try again?");
-            $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
-        }
-    });
-}
-
-bindSharingImageForm();
-
-
-function bindPageResize()
-{
-    updateProgressBars();
-    $(window).resize( updateLearnGrid );
-}
-
-function updateLearnGrid()
-{
-    $(".shared-image-holder").each( function () {
-        $(this).css("height", $(this).css("width"))
-    });
-
-    resizeLightboxImage();
-}
-
-bindPageResize();
-updateLearnGrid();
-
-var sharingLightboxId = "#sharing_lightbox";
-var $sharingLightbox = $(sharingLightboxId);
-
-$(".js-close-lightbox").click( function(e) {
-    hideLightbox();
-});
-
-$('html').click( function (e) {
-
-    if ( eventTargetDoesNotInclude(e, sharingLightboxId) && eventTargetDoesNotInclude(e, "#comment_frame") )
+    self.bindSharingImageForm = function()
     {
-        if (!$sharingLightbox.hasClass("animated") && $sharingLightbox.css("display") == "block")
-        {
-            hideLightbox();
-        }
-    }
-});
-
-function hideLightbox()
-{
-    animate("#sharing_lightbox", 'fadeOutUp', function () {
-        $("#sharing_lightbox").css("display", "none");
-    });
-
-    animate("#sharing_lightbox_overlay", 'fadeOutUpHalfOpacity', function () {
-        $("#sharing_lightbox_overlay").css("display", "none");
-    });
-}
-
-var $currentLightboxSource;
-
-$("img.lazy.shared-image").click(function () {
-
-    console.log("test");
-    showLightbox($(this));
-    animate("#sharing_lightbox_overlay", 'fadeInDownHalfOpacity', null);
-
-});
-
-function showLightbox($source)
-{
-
-    $currentLightboxSource = $source;
-
-    $("#sharing_lightbox").css("display", "block");
-    $("#sharing_lightbox_overlay").css("display", "block");
-
-    $("#sharing_lightbox img").attr("src", $source.attr("src"));
-    $("#sharing_lightbox .download-link").attr("href", $source.attr("src"));
-    $("#sharing_lightbox").attr("data-id", $source.attr("data-id"));
-    $("#sharing_lightbox .description p").text($source.attr("data-description"));
-
-    animate("#sharing_lightbox", 'fadeInDown', null);
-
-    resizeLightboxImage();
-    $("#sharing_lightbox img").off();
-    $("#sharing_lightbox img").load( resizeLightboxImage )
-}
-
-$("#shared_image_shared_image").change( function (e) {
-
-    // Only allow files less than 2Mb in size
-    if (this.files[0].size/1048576 > 2)
-    {
-        $sharedImageForm.find(".errors").append("This file is too large (bigger than 2MB), try compressing or resizing it.");
-    } else {
-        $sharedImageForm.ajaxSubmit(
-        {
-            url: '/upload-image/',
-            type: 'post',
+        $sharedImageForm.ajaxForm({
             beforeSubmit:  function () {
                 $sharedImageForm.find(".errors").text("");  
                 $sharedImageForm.find('input[type="submit"]').attr("disabled", "disabled");
             },
             success: function (data) {
-
                 if (data.success)
                 {
-                    $("#shared_image_url").val(data.file);
-                    $("#shared_image_preview").attr("src", data.file);
+                    if (data.refresh)
+                    {
+                        location.reload(true);
+                    }
                 } else {
                     appendErrors(data.errors, $sharedImageForm, ".errors");
                 }
@@ -916,89 +844,213 @@ $("#shared_image_shared_image").change( function (e) {
                 $sharedImageForm.find(".errors").append("Could not share image, try again?");
                 $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
             }
-        }
-    );
+        });
     }
 
-    
-});
 
-function resizeLightboxImage()
-{
-    $("#sharing_lightbox img").attr("style", null);
 
-    if ($("#sharing_lightbox img").height() > $("#sharing_lightbox .image-frame").height() )
+    self.bindPageResize = function()
     {
-        var ratio = $("#sharing_lightbox .image-frame").height() / $("#sharing_lightbox img").height();
-
-        $("#sharing_lightbox img").height( $("#sharing_lightbox .image-frame").height() );
-        $("#sharing_lightbox img").width( $("#sharing_lightbox img").width() * ratio );
+        self.updateLearnGrid();
+        $(window).resize( self.updateLearnGrid );
     }
 
-}
-
-document.onkeydown = function(evt) {
-    evt = evt || window.event;
-
-    // Ensure we only handle printable keys
-    var charCode = typeof evt.which == "number" ? evt.which : evt.keyCode;
-
-    if ($("#sharing_lightbox").is(':visible'))
+    self.updateLearnGrid = function()
     {
-        if (charCode == 37)
-        {
-            showPrevImage();
-        }
+        $(".shared-image-holder").each( function () {
+            $(this).css("height", $(this).css("width"))
+        });
 
-        if (charCode == 39)
-        {
-            showNextImage();
-        }
+        self.resizeLightboxImage();
     }
-};
 
-function showNextImage()
-{
-    var $next = $currentLightboxSource.parent().parent().next().find(".shared-image-holder img");
 
-    if ($next.length > 0) showLightbox($next);
+
+    var sharingLightboxId = "#sharing_lightbox";
+    var $sharingLightbox = $(sharingLightboxId);
+
+    $(".js-close-lightbox").click( function(e) {
+        self.hideLightbox();
+    });
+
+    $('html').click( function (e) {
+
+        if ( eventTargetDoesNotInclude(e, sharingLightboxId) && eventTargetDoesNotInclude(e, "#comment_frame") )
+        {
+            if (!$sharingLightbox.hasClass("animated") && $sharingLightbox.css("display") == "block")
+            {
+                self.hideLightbox();
+            }
+        }
+    });
+
+    self.hideLightbox = function()
+    {
+        animate("#sharing_lightbox", 'fadeOutUp', function () {
+            $("#sharing_lightbox").css("display", "none");
+        });
+
+        animate("#sharing_lightbox_overlay", 'fadeOutUpHalfOpacity', function () {
+            $("#sharing_lightbox_overlay").css("display", "none");
+        });
+    }
+
+    var $currentLightboxSource;
+
+    $("img.lazy.shared-image").click(function () {
+
+        self.showLightbox($(this));
+        animate("#sharing_lightbox_overlay", 'fadeInDownHalfOpacity', null);
+
+    });
+
+    self.showLightbox = function($source)
+    {
+
+        $currentLightboxSource = $source;
+
+        $("#sharing_lightbox").css("display", "block");
+        $("#sharing_lightbox_overlay").css("display", "block");
+
+        $("#sharing_lightbox img").attr("src", $source.attr("src"));
+        $("#sharing_lightbox .download-link").attr("href", $source.attr("src"));
+        $("#sharing_lightbox").attr("data-id", $source.attr("data-id"));
+        $("#sharing_lightbox .description p").text($source.attr("data-description"));
+
+        animate("#sharing_lightbox", 'fadeInDown', null);
+
+        self.resizeLightboxImage();
+        $("#sharing_lightbox img").off();
+        $("#sharing_lightbox img").load( self.resizeLightboxImage )
+    }
+
+    $("#shared_image_shared_image").change( function (e) {
+
+        // Only allow files less than 2Mb in size
+        if (this.files[0].size/1048576 > 2)
+        {
+            $sharedImageForm.find(".errors").append("This file is too large (bigger than 2MB), try compressing or resizing it.");
+        } else {
+            $sharedImageForm.ajaxSubmit(
+            {
+                url: '/upload-image/',
+                type: 'post',
+                beforeSubmit:  function () {
+                    $sharedImageForm.find(".errors").text("");  
+                    $sharedImageForm.find('input[type="submit"]').attr("disabled", "disabled");
+                },
+                success: function (data) {
+
+                    if (data.success)
+                    {
+                        $("#shared_image_url").val(data.file);
+                        $("#shared_image_preview").attr("src", data.file);
+                    } else {
+                        appendErrors(data.errors, $sharedImageForm, ".errors");
+                    }
+
+                    $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
+                },
+                error: function (data) {
+                    $sharedImageForm.find(".errors").append("Could not share image, try again?");
+                    $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
+                }
+            }
+        );
+        }
+
+        
+    });
+
+    self.resizeLightboxImage = function()
+    {
+        $("#sharing_lightbox img").attr("style", null);
+
+        if ($("#sharing_lightbox img").height() > $("#sharing_lightbox .image-frame").height() )
+        {
+            var ratio = $("#sharing_lightbox .image-frame").height() / $("#sharing_lightbox img").height();
+
+            $("#sharing_lightbox img").height( $("#sharing_lightbox .image-frame").height() );
+            $("#sharing_lightbox img").width( $("#sharing_lightbox img").width() * ratio );
+        }
+
+    }
+
+    document.onkeydown = function(evt) {
+        evt = evt || window.event;
+
+        // Ensure we only handle printable keys
+        var charCode = typeof evt.which == "number" ? evt.which : evt.keyCode;
+
+        if ($("#sharing_lightbox").is(':visible'))
+        {
+            if (charCode == 37)
+            {
+                self.showPrevImage();
+            }
+
+            if (charCode == 39)
+            {
+                self.showNextImage();
+            }
+        }
+    };
+
+    self.showNextImage = function()
+    {
+        var $next = $currentLightboxSource.parent().parent().next().find(".shared-image-holder img");
+
+        if ($next.length > 0) self.showLightbox($next);
+    }
+
+    self.showPrevImage = function()
+    {
+        var $prev = $currentLightboxSource.parent().parent().prev().find(".shared-image-holder img");
+
+        if ($prev.length > 0) self.showLightbox($prev);
+    }
+
 }
 
-function showPrevImage()
-{
-    var $prev = $currentLightboxSource.parent().parent().prev().find(".shared-image-holder img");
-
-    if ($prev.length > 0) showLightbox($prev);
-}
-
+lightbox.bindSharingImageForm();
+lightbox.bindPageResize();
+lightbox.updateLearnGrid();
 
 // slug-fields.js powers slugifying and lower-casing of fields into another field
 
-function bindSlugFields()
+var slug = new function()
 {
-    $(".js-slug").keyup( function() {
+    var self = this;
 
-        var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
+    self.bindSlugFields = function()
+    {
+        $(".js-slug").keyup( function() {
 
-        $(targetId).val( convertToSlug( $(this).val() ) );
+            var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
 
-    });
+            $(targetId).val( convertToSlug( $(this).val() ) );
+
+        });
+    }
+
+    
+
+    self.bindLowercaseFields = function()
+    {
+        $(".js-lowercase").keyup( function() {
+
+            var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
+
+            $(targetId).val( convertToLowercase( $(this).val() ) );
+
+        });
+    }
+
+    
 }
 
-bindSlugFields();
-
-function bindLowercaseFields()
-{
-    $(".js-lowercase").keyup( function() {
-
-        var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
-
-        $(targetId).val( convertToLowercase( $(this).val() ) );
-
-    });
-}
-
-bindLowercaseFields();
+slug.bindSlugFields();
+slug.bindLowercaseFields();
 // sortable-list.js powers the re-orderable lists for creating steps, lessons, etc.
 
 function bindSortableLists()

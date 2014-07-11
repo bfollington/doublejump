@@ -1,135 +1,24 @@
 // sharing-progress.js controls everything about the gallery sharing steps
 
-var $sharedImageForm = $("form#addSharedImageForm");
-
-function bindSharingImageForm()
+var lightbox = new function()
 {
-    $sharedImageForm.ajaxForm({
-        beforeSubmit:  function () {
-            $sharedImageForm.find(".errors").text("");  
-            $sharedImageForm.find('input[type="submit"]').attr("disabled", "disabled");
-        },
-        success: function (data) {
-            if (data.success)
-            {
-                if (data.refresh)
-                {
-                    location.reload(true);
-                }
-            } else {
-                appendErrors(data.errors, $sharedImageForm, ".errors");
-            }
+    var $sharedImageForm = $("form#addSharedImageForm");
+    var self = this;
 
-            $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
-        },
-        error: function (data) {
-            $sharedImageForm.find(".errors").append("Could not share image, try again?");
-            $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
-        }
-    });
-}
-
-bindSharingImageForm();
-
-
-function bindPageResize()
-{
-    updateProgressBars();
-    $(window).resize( updateLearnGrid );
-}
-
-function updateLearnGrid()
-{
-    $(".shared-image-holder").each( function () {
-        $(this).css("height", $(this).css("width"))
-    });
-
-    resizeLightboxImage();
-}
-
-bindPageResize();
-updateLearnGrid();
-
-var sharingLightboxId = "#sharing_lightbox";
-var $sharingLightbox = $(sharingLightboxId);
-
-$(".js-close-lightbox").click( function(e) {
-    hideLightbox();
-});
-
-$('html').click( function (e) {
-
-    if ( eventTargetDoesNotInclude(e, sharingLightboxId) && eventTargetDoesNotInclude(e, "#comment_frame") )
+    self.bindSharingImageForm = function()
     {
-        if (!$sharingLightbox.hasClass("animated") && $sharingLightbox.css("display") == "block")
-        {
-            hideLightbox();
-        }
-    }
-});
-
-function hideLightbox()
-{
-    animate("#sharing_lightbox", 'fadeOutUp', function () {
-        $("#sharing_lightbox").css("display", "none");
-    });
-
-    animate("#sharing_lightbox_overlay", 'fadeOutUpHalfOpacity', function () {
-        $("#sharing_lightbox_overlay").css("display", "none");
-    });
-}
-
-var $currentLightboxSource;
-
-$("img.lazy.shared-image").click(function () {
-
-    console.log("test");
-    showLightbox($(this));
-    animate("#sharing_lightbox_overlay", 'fadeInDownHalfOpacity', null);
-
-});
-
-function showLightbox($source)
-{
-
-    $currentLightboxSource = $source;
-
-    $("#sharing_lightbox").css("display", "block");
-    $("#sharing_lightbox_overlay").css("display", "block");
-
-    $("#sharing_lightbox img").attr("src", $source.attr("src"));
-    $("#sharing_lightbox .download-link").attr("href", $source.attr("src"));
-    $("#sharing_lightbox").attr("data-id", $source.attr("data-id"));
-    $("#sharing_lightbox .description p").text($source.attr("data-description"));
-
-    animate("#sharing_lightbox", 'fadeInDown', null);
-
-    resizeLightboxImage();
-    $("#sharing_lightbox img").off();
-    $("#sharing_lightbox img").load( resizeLightboxImage )
-}
-
-$("#shared_image_shared_image").change( function (e) {
-
-    // Only allow files less than 2Mb in size
-    if (this.files[0].size/1048576 > 2)
-    {
-        $sharedImageForm.find(".errors").append("This file is too large (bigger than 2MB), try compressing or resizing it.");
-    } else {
-        $sharedImageForm.ajaxSubmit(
-        {
-            url: '/upload-image/',
-            type: 'post',
+        $sharedImageForm.ajaxForm({
             beforeSubmit:  function () {
                 $sharedImageForm.find(".errors").text("");  
                 $sharedImageForm.find('input[type="submit"]').attr("disabled", "disabled");
             },
             success: function (data) {
-
                 if (data.success)
                 {
-                    $("#shared_image_url").val(data.file);
-                    $("#shared_image_preview").attr("src", data.file);
+                    if (data.refresh)
+                    {
+                        location.reload(true);
+                    }
                 } else {
                     appendErrors(data.errors, $sharedImageForm, ".errors");
                 }
@@ -140,58 +29,174 @@ $("#shared_image_shared_image").change( function (e) {
                 $sharedImageForm.find(".errors").append("Could not share image, try again?");
                 $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
             }
-        }
-    );
+        });
     }
 
-    
-});
 
-function resizeLightboxImage()
-{
-    $("#sharing_lightbox img").attr("style", null);
 
-    if ($("#sharing_lightbox img").height() > $("#sharing_lightbox .image-frame").height() )
+    self.bindPageResize = function()
     {
-        var ratio = $("#sharing_lightbox .image-frame").height() / $("#sharing_lightbox img").height();
-
-        $("#sharing_lightbox img").height( $("#sharing_lightbox .image-frame").height() );
-        $("#sharing_lightbox img").width( $("#sharing_lightbox img").width() * ratio );
+        self.updateLearnGrid();
+        $(window).resize( self.updateLearnGrid );
     }
 
-}
-
-document.onkeydown = function(evt) {
-    evt = evt || window.event;
-
-    // Ensure we only handle printable keys
-    var charCode = typeof evt.which == "number" ? evt.which : evt.keyCode;
-
-    if ($("#sharing_lightbox").is(':visible'))
+    self.updateLearnGrid = function()
     {
-        if (charCode == 37)
-        {
-            showPrevImage();
-        }
+        $(".shared-image-holder").each( function () {
+            $(this).css("height", $(this).css("width"))
+        });
 
-        if (charCode == 39)
-        {
-            showNextImage();
-        }
+        self.resizeLightboxImage();
     }
-};
 
-function showNextImage()
-{
-    var $next = $currentLightboxSource.parent().parent().next().find(".shared-image-holder img");
 
-    if ($next.length > 0) showLightbox($next);
+
+    var sharingLightboxId = "#sharing_lightbox";
+    var $sharingLightbox = $(sharingLightboxId);
+
+    $(".js-close-lightbox").click( function(e) {
+        self.hideLightbox();
+    });
+
+    $('html').click( function (e) {
+
+        if ( eventTargetDoesNotInclude(e, sharingLightboxId) && eventTargetDoesNotInclude(e, "#comment_frame") )
+        {
+            if (!$sharingLightbox.hasClass("animated") && $sharingLightbox.css("display") == "block")
+            {
+                self.hideLightbox();
+            }
+        }
+    });
+
+    self.hideLightbox = function()
+    {
+        animate("#sharing_lightbox", 'fadeOutUp', function () {
+            $("#sharing_lightbox").css("display", "none");
+        });
+
+        animate("#sharing_lightbox_overlay", 'fadeOutUpHalfOpacity', function () {
+            $("#sharing_lightbox_overlay").css("display", "none");
+        });
+    }
+
+    var $currentLightboxSource;
+
+    $("img.lazy.shared-image").click(function () {
+
+        self.showLightbox($(this));
+        animate("#sharing_lightbox_overlay", 'fadeInDownHalfOpacity', null);
+
+    });
+
+    self.showLightbox = function($source)
+    {
+
+        $currentLightboxSource = $source;
+
+        $("#sharing_lightbox").css("display", "block");
+        $("#sharing_lightbox_overlay").css("display", "block");
+
+        $("#sharing_lightbox img").attr("src", $source.attr("src"));
+        $("#sharing_lightbox .download-link").attr("href", $source.attr("src"));
+        $("#sharing_lightbox").attr("data-id", $source.attr("data-id"));
+        $("#sharing_lightbox .description p").text($source.attr("data-description"));
+
+        animate("#sharing_lightbox", 'fadeInDown', null);
+
+        self.resizeLightboxImage();
+        $("#sharing_lightbox img").off();
+        $("#sharing_lightbox img").load( self.resizeLightboxImage )
+    }
+
+    $("#shared_image_shared_image").change( function (e) {
+
+        // Only allow files less than 2Mb in size
+        if (this.files[0].size/1048576 > 2)
+        {
+            $sharedImageForm.find(".errors").append("This file is too large (bigger than 2MB), try compressing or resizing it.");
+        } else {
+            $sharedImageForm.ajaxSubmit(
+            {
+                url: '/upload-image/',
+                type: 'post',
+                beforeSubmit:  function () {
+                    $sharedImageForm.find(".errors").text("");  
+                    $sharedImageForm.find('input[type="submit"]').attr("disabled", "disabled");
+                },
+                success: function (data) {
+
+                    if (data.success)
+                    {
+                        $("#shared_image_url").val(data.file);
+                        $("#shared_image_preview").attr("src", data.file);
+                    } else {
+                        appendErrors(data.errors, $sharedImageForm, ".errors");
+                    }
+
+                    $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
+                },
+                error: function (data) {
+                    $sharedImageForm.find(".errors").append("Could not share image, try again?");
+                    $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
+                }
+            }
+        );
+        }
+
+        
+    });
+
+    self.resizeLightboxImage = function()
+    {
+        $("#sharing_lightbox img").attr("style", null);
+
+        if ($("#sharing_lightbox img").height() > $("#sharing_lightbox .image-frame").height() )
+        {
+            var ratio = $("#sharing_lightbox .image-frame").height() / $("#sharing_lightbox img").height();
+
+            $("#sharing_lightbox img").height( $("#sharing_lightbox .image-frame").height() );
+            $("#sharing_lightbox img").width( $("#sharing_lightbox img").width() * ratio );
+        }
+
+    }
+
+    document.onkeydown = function(evt) {
+        evt = evt || window.event;
+
+        // Ensure we only handle printable keys
+        var charCode = typeof evt.which == "number" ? evt.which : evt.keyCode;
+
+        if ($("#sharing_lightbox").is(':visible'))
+        {
+            if (charCode == 37)
+            {
+                self.showPrevImage();
+            }
+
+            if (charCode == 39)
+            {
+                self.showNextImage();
+            }
+        }
+    };
+
+    self.showNextImage = function()
+    {
+        var $next = $currentLightboxSource.parent().parent().next().find(".shared-image-holder img");
+
+        if ($next.length > 0) self.showLightbox($next);
+    }
+
+    self.showPrevImage = function()
+    {
+        var $prev = $currentLightboxSource.parent().parent().prev().find(".shared-image-holder img");
+
+        if ($prev.length > 0) self.showLightbox($prev);
+    }
+
 }
 
-function showPrevImage()
-{
-    var $prev = $currentLightboxSource.parent().parent().prev().find(".shared-image-holder img");
-
-    if ($prev.length > 0) showLightbox($prev);
-}
-
+lightbox.bindSharingImageForm();
+lightbox.bindPageResize();
+lightbox.updateLearnGrid();
