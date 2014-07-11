@@ -9,10 +9,10 @@
             p.category-labels
                 label Categories
                 br
-                span.category-tag.js-category-tag style="background-color: #aaa" data-category="" data-bg="#ccc" data-bg-selected="#aaa" All Categories 
+            span.category-tag.js-category-tag style="background-color: #aaa" data-category="" data-bg="#ccc" data-bg-selected="#aaa" All Categories 
 
-                - @categories.each do |category|
-                    = partial 'learn/elements/category', :object => category
+            - @categories.each do |category|
+                = partial 'learn/elements/category', :object => category
 
 .row.fadeInUp.animated
     .col-xs-12

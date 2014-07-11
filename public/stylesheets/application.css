@@ -1947,7 +1947,8 @@ img.plus-cursor {
   border-radius: 2px;
   margin: 0 2px;
   color: white;
-  cursor: pointer; }
+  cursor: pointer;
+  display: inline-block; }
 
 .lesson-height {
   height: 160px; }
@@ -2294,7 +2295,8 @@ div.tooltip-inner {
 
 code {
   background: none;
-  padding: 0; }
+  padding: 0;
+  display: inline; }
 
 #comment_frame, #upload_frame {
   position: absolute;
