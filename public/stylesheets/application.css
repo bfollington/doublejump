@@ -1948,7 +1948,8 @@ img.plus-cursor {
   margin: 0 2px;
   color: white;
   cursor: pointer;
-  display: inline-block; }
+  display: inline-block;
+  margin-bottom: 2px; }
 
 .lesson-height {
   height: 160px; }
