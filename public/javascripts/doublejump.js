@@ -646,7 +646,24 @@ function initVerticalBars()
 function bindProgressBarResize()
 {
     updateProgressBars();
+    window.setTimeout(updateProgressBars, 1000);
     $(window).resize( updateProgressBars );
+
+    if (supportsTransitions())
+    {
+        runBarUpdate();    
+    }
+    
+}
+
+var barUpdateCount = 0;
+function runBarUpdate() {
+    barUpdateCount++;
+    if (barUpdateCount < 100)
+    {
+        requestAnimationFrame(runBarUpdate);
+        updateProgressBars();
+    }
 }
 
 bindProgressBarResize();

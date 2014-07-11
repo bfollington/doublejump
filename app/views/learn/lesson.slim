@@ -1,4 +1,4 @@
-.row
+.row.fadeInUp.animated
     .col-md-12
             h3
                 = @lesson.title
@@ -16,7 +16,7 @@
     
 
 
-.row
+.row.fadeInUp.animated
     .col-md-9.col-xs-12
         - count = 0
         - @lesson.get_steps_in_order.each do |step|
@@ -38,7 +38,7 @@
                     - count += 1
 
                 .col-xs-10
-                    .box
+                    .box.fadeInUp.animated
                         h4
                             a href="/learn/#{@course.slug}/#{@lesson.slug}/#{step.slug}"
                                 = step.title

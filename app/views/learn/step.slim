@@ -2,7 +2,7 @@
 = render_js_template 'js-templates/_inserted_definition'
 
 .row.fadeInUp.animated
-    .col-lg-2.col-md-2.col-sm-2.col-xs-2.center-text
+    .col-lg-2.col-md-2.col-sm-2.col-xs-2.center-text.fadeInUp.animated
 
         - if !@lesson.get_prev_step(@step).nil?
             - prev_link = "/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_prev_step(@step).slug}#main_content"
@@ -41,7 +41,7 @@
                                 = partial 'learn/elements/progress_bar_step_link', :locals => {:step => step }
 
 
-    .col-lg-2.col-md-2.col-sm-2.col-xs-2.center-text
+    .col-lg-2.col-md-2.col-sm-2.col-xs-2.center-text.fadeInUp.animated
 
         - if !@lesson.get_next_step(@step).nil?
             - next_link = "/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_next_step(@step).slug}#main_content"
@@ -68,7 +68,7 @@
         .box
             - if current_account && current_account.has_completed_step?(@step)
                 p.notification.callout
-                    a.button.create-button.float-right.margin href="#{next_link}" Go To Next Step
+                    a.button.create-button.float-right.margin-left.margin-right href="#{next_link}" Go To Next Step
                     | You've completed this step before (maybe as part of another course), just thought you should know.
             h3 = @step.title
 
@@ -93,7 +93,7 @@
                 a.button.create-button href="/learn/#{@course.slug}/#{@lesson.slug}/finish"
                     | Finish This Lesson
 
-    .col-lg-3.col-md-3
+    .col-lg-3.col-md-3.fadeInUp.animated
 
         h4 Lesson Summary
 
