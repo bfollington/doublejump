@@ -6,6 +6,7 @@ class Lesson
   field :title, :type => String
   field :slug, :type => String
   field :description, :type => String
+  field :experience, :type => Integer
 
   validates_presence_of :title, :message => "PUT IN A TITLE!"
   validates_presence_of :slug, :message => "The slug gets filled in for you, just leave it there!"

@@ -8,21 +8,30 @@
         .row
             .col-lg-9
                 .box
-                    p
-                        = f.label :title, :caption => "Course Title"
-                        = f.text_field :title, :class => "js-slug form-control", :'data-object' => :course, :'data-target' => :slug
-                        = partial 'form_error', :collection => (errors_for @course, :title)
 
-                    p
-                        = f.label :slug, :caption => "Course Slug (For URL)"
-                        = f.text_field :slug, :class => "form-control"
-                        = partial 'form_error', :collection => (errors_for @course, :slug)
-
-
-                    p
-                        = f.label :image_url, :caption => "Background Image URL"
-                        = f.text_field :image_url, :class => "form-control"
-                        = partial 'form_error', :collection => (errors_for @course, :image_url)
+                    .row
+                        .col-sm-6
+                            p
+                                = f.label :title, :caption => "Course Title"
+                                = f.text_field :title, :class => "js-slug form-control", :'data-object' => :course, :'data-target' => :slug
+                                = partial 'form_error', :collection => (errors_for @course, :title)
+                        .col-sm-6
+                            p
+                                = f.label :slug, :caption => "Course Slug (For URL)"
+                                = f.text_field :slug, :class => "form-control"
+                                = partial 'form_error', :collection => (errors_for @course, :slug)
+                    .row
+                        .col-sm-6
+                            p
+                                = f.label :experience, :caption => "Course Experience"
+                                = f.number_field :experience, :class => "form-control"
+                                = partial 'form_error', :collection => (errors_for @course, :experience)
+                        .col-sm-6
+                            p
+                                = f.label :image_url, :caption => "Background Image URL"
+                                = f.text_field :image_url, :class => "form-control"
+                                = partial 'form_error', :collection => (errors_for @course, :image_url)
+                    
 
                     p
                         = f.label :category, :caption => "Category"
@@ -42,6 +51,7 @@
 
                     p
                         = f.label :title, :caption => "Lessons"
+                        br
                         = f.select(:lesson, :collection => @lessons, :fields => [:title, :id], :class => 'js-select2')
                         a.js-sortable-add-new data-read-selection-from='#course_lesson' data-target-list='#lessons' data-hidden-field-name='#{hidden_field_name}' href="#"
                             |  
@@ -59,6 +69,7 @@
 
                     p
                         = f.label :title, :caption => "Prerequisites"
+                        br
                         = f.select(:prerequisite, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
                         a.js-sortable-add-new data-read-selection-from='#course_prerequisite' data-target-list='#prerequisites' data-hidden-field-name='#{hidden_field_name}' href="#"
                             |  
@@ -76,6 +87,7 @@
 
                     p
                         = f.label :title, :caption => "Follow Ons"
+                        br
                         = f.select(:follow_on, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
                         a.js-sortable-add-new data-read-selection-from='#course_follow_on' data-target-list='#follow_ons' data-hidden-field-name='#{hidden_field_name}' href="#"
                             |  
@@ -93,6 +105,7 @@
 
                     p
                         = f.label :title, :caption => "Downloads"
+                        br
                         = f.select(:download, :collection => @downloads, :fields => [:title, :id], :class => 'js-select2')
                         a.js-sortable-add-new data-read-selection-from='#course_download' data-target-list='#downloads' data-hidden-field-name='#{hidden_field_name}' href="#" 
                             |  

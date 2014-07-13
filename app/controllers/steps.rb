@@ -17,6 +17,7 @@ LearnToGameDev::App.controllers :steps do
       :title => params[:step][:title],
       :body => process_body( params[:step][:body] ),
       :slug => params[:step][:slug],
+      :experience => params[:step][:experience],
       :account => current_account,
       :is_sharing_step => params[:step][:is_sharing_step]
     )
@@ -44,6 +45,7 @@ LearnToGameDev::App.controllers :steps do
 
     @step.title = params[:step][:title]
     @step.slug = params[:step][:slug]
+    @step.experience = params[:step][:experience]
     @step.account = current_account
     @step.is_sharing_step = params[:step][:is_sharing_step]
     @step.body = process_body( params[:step][:body] )

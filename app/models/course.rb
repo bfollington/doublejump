@@ -7,6 +7,7 @@ class Course
   field :slug, :type => String
   field :description, :type => String
   field :image_url, :type => String
+  field :experience, :type => Integer
 
   has_and_belongs_to_many :lessons
   has_and_belongs_to_many :downloads

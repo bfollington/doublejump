@@ -10,15 +10,23 @@
             .col-lg-9
                 .box
 
-                    p
-                        = f.label :title, :caption => "Lesson Title"
-                        = f.text_field :title, :class => "js-slug form-control", :'data-object' => :lesson, :'data-target' => :slug
-                        = partial 'form_error', :collection => (errors_for @lesson, :title)
+                    .row
+                        .col-sm-6
+                            p
+                                = f.label :title, :caption => "Lesson Title"
+                                = f.text_field :title, :class => "js-slug form-control", :'data-object' => :lesson, :'data-target' => :slug
+                                = partial 'form_error', :collection => (errors_for @lesson, :title)
+                        .col-sm-6
+                            p
+                                = f.label :slug, :caption => "Lesson Slug (For URL)"
+                                = f.text_field :slug, :class => 'form-control'
+                                = partial 'form_error', :collection => (errors_for @lesson, :slug)
+
 
                     p
-                        = f.label :slug, :caption => "Lesson Slug (For URL)"
-                        = f.text_field :slug, :class => 'form-control'
-                        = partial 'form_error', :collection => (errors_for @lesson, :slug)
+                        = f.label :experience, :caption => "Lesson Experience"
+                        = f.number_field :experience, :class => 'form-control'
+                        = partial 'form_error', :collection => (errors_for @lesson, :experience)
 
                     p
                         = f.label :description, :caption => "Lesson Description"
@@ -30,6 +38,8 @@
                     - hidden_field_name = 'lesson[steps][]'
 
                     p
+                        = f.label :step, :caption => "Steps"
+                        br
                         = f.select(:step, :collection => @steps, :fields => [:title, :id], :class => 'js-select2')
                         a.js-sortable-add-new data-read-selection-from='#lesson_step' data-target-list='#steps' data-hidden-field-name='#{hidden_field_name}' href="#" 
                             |  
@@ -45,6 +55,8 @@
                     - hidden_field_name = 'lesson[related_readings][]'
 
                     p
+                        = f.label :related_reading, :caption => "Related Readings"
+                        br
                         = f.select(:related_reading, :collection => @related_readings, :fields => [:title, :id], :class => 'js-select2')
                         a.js-sortable-add-new data-read-selection-from='#lesson_related_reading' data-target-list='#related_readings' data-hidden-field-name='#{hidden_field_name}' href="#" 
                             |  

@@ -5,10 +5,12 @@ class Account
   # Fields
   field :name,             :type => String
   field :surname,          :type => String
+  field :bio,              :type => String
   field :email,            :type => String
   field :crypted_password, :type => String
   field :role,             :type => String
   field :avatar,           :type => String
+  field :experience,       :type => Integer
 
   # Validations
   validates_presence_of     :email, :role, :name, :surname

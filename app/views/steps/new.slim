@@ -4,15 +4,22 @@
             .col-lg-12
                 .box
                 
-                    p
-                        = f.label :title, :caption => "Step Title"
-                        = f.text_field :title, :class => "js-slug form-control", :'data-object' => :step, :'data-target' => :slug
-                        = partial 'form_error', :collection => (errors_for @step, :title)
+                    .row
+                        .col-sm-6
+                            p
+                                = f.label :title, :caption => "Step Title"
+                                = f.text_field :title, :class => "js-slug form-control", :'data-object' => :step, :'data-target' => :slug
+                                = partial 'form_error', :collection => (errors_for @step, :title)
+                        .col-sm-6
+                            p
+                                = f.label :slug, :caption => "Step Slug (For URL)"
+                                = f.text_field :slug, :class => "form-control"
+                                = partial 'form_error', :collection => (errors_for @step, :slug)
 
                     p
-                        = f.label :slug, :caption => "Step Slug (For URL)"
-                        = f.text_field :slug, :class => "form-control"
-                        = partial 'form_error', :collection => (errors_for @step, :slug)
+                        = f.label :experience, :caption => "Step Experience"
+                        = f.number_field :experience, :class => "form-control"
+                        = partial 'form_error', :collection => (errors_for @step, :experience)
 
                     p
                         = f.label :is_sharing_step, :caption => "Is this a step to share progress? "
@@ -22,13 +29,13 @@
                         = f.label :body, :caption => "Step Content"
                         
                     p
-                        button.button.create-button.js-insert-definition Insert Definition
-                        button.button.create-button.js-insert-hideable.margin-left Insert Hideable Region
-                        button.button.create-button.js-insert-inline-definition.margin-left Insert Inline Definition
-                        button.button.create-button.js-insert-inline-tex.margin-left Insert Inline LaTeX
-                        button.button.create-button.js-insert-block-tex.margin-left Insert Block LaTeX
-                        button.button.create-button.js-insert-two-cols.margin-left Insert Two Columns
-                        button.button.create-button.js-insert-one-col.margin-left Insert One Column
+                        button.button.create-button.margin-bottom.js-insert-definition.margin-right Insert Definition
+                        button.button.create-button.margin-bottom.js-insert-hideable.margin-right Insert Hideable Region
+                        button.button.create-button.margin-bottom.js-insert-inline-definition.margin-right Insert Inline Definition
+                        button.button.create-button.margin-bottom.js-insert-inline-tex.margin-right Insert Inline LaTeX
+                        button.button.create-button.margin-bottom.js-insert-block-tex.margin-right Insert Block LaTeX
+                        button.button.create-button.margin-bottom.js-insert-two-cols.margin-right Insert Two Columns
+                        button.button.create-button.margin-bottom.js-insert-one-col.margin-right Insert One Column
                         #epiceditor
 
                     p
