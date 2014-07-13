@@ -67,6 +67,8 @@ LearnToGameDev::App.controllers :learn, :cache => true do
     fetch_course(params[:course])
     fetch_lesson(params[:lesson])
 
+    current_account.update_progress(@course, @lesson, @lesson.get_last_step)
+
     current_account.complete_step @lesson.get_last_step unless current_account.nil?
     current_account.complete_lesson @lesson unless current_account.nil?
 
@@ -170,6 +172,7 @@ def mark_prev_step_as_complete
 
   if prev_step && current_account
     current_account.complete_step prev_step
+    current_account.update_progress(@course, @lesson, prev_step)
   end
 end
 

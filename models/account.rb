@@ -31,6 +31,7 @@ class Account
   has_many :completed_steps
   has_many :completed_lessons
   has_many :completed_courses
+  has_many :started_courses
   has_many :shared_images
 
   # Callbacks
@@ -47,7 +48,20 @@ class Account
 
 
 
+  def update_progress(course, lesson, step)
 
+    started_course = StartedCourse.where(:course => course).first
+    if started_course.nil?
+      started_course = StartedCourse.new(:course => course, :lesson => lesson, :step => step, :account => self)
+      started_courses << started_course
+      save
+    else
+      started_course.lesson = lesson
+      started_course.step = step
+      started_course.save
+    end
+
+  end
 
   def complete_step(step)
 
@@ -72,6 +86,13 @@ class Account
   def complete_course(course)
 
     if !has_completed_course? course
+
+      started_course = StartedCourse.where(:course => course, :account => self).first
+
+      if !started_course.nil?
+        started_course.delete
+      end
+
       completed_course = CompletedCourse.new(:course => course, :account => self)
       completed_courses << completed_course
       save

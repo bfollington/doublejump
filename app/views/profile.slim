@@ -7,7 +7,19 @@
         = current_account.surname
 
     p.center-text
-        | description bio will go here
+        = current_account.bio
+
+    h4 Courses In Progress
+
+    .row
+        - current_account.started_courses.each do |started_course|
+            .col-md-4.col-sm-6.col-xs-12
+                = partial 'learn/elements/course_block', :object => started_course.course
+                p.text-center.no-margin
+                    a.resume href="/learn/#{started_course.course.slug}/#{started_course.lesson.slug}/#{started_course.step.slug}#main_content"
+                        i.fa.fa-play-circle
+                        |  Resume Course
+
 
     h4 Completed Courses
 
