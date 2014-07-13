@@ -21,15 +21,8 @@ html.no-js lang="en"
         = partial 'elements/old_browser'
 
         - if !current_account.nil? && current_account.role == "admin"
-            .admin-tools.box
-                    - if @course
-                            a href="/courses/make/#{@course.slug}" target="new" Edit Course
-                            br
-                    - if @lesson
-                            a href="/lessons/make/#{@lesson.slug}" target="new" Edit Lesson
-                            br
-                    - if @step
-                            a href="/steps/make/#{@step.slug}" target="new" Edit Step
+            = partial 'elements/admin_tools'
+
         .container-fluid
             = partial 'elements/doublejump_header_bar'
             - if @course

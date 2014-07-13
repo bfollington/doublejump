@@ -1,0 +1,10 @@
+.admin-tools
+    - if @course
+            a.round-icon.big.fadeInUp.animated rel="tooltip" data-placement="bottom" title="Edit Course" href="/courses/make/#{@course.slug}" target="new"
+                i.fa.fa-pencil-square-o
+    - if @lesson
+            a.round-icon.fadeInUp.animated rel="tooltip" data-placement="bottom" title="Edit Lesson" href="/lessons/make/#{@lesson.slug}" target="new"
+                i.fa.fa-pencil
+    - if @step
+            a.round-icon.small.fadeInUp.animated rel="tooltip" data-placement="bottom" title="Edit Step" href="/steps/make/#{@step.slug}" target="new"
+                i.fa.fa-file-text

@@ -1882,6 +1882,37 @@ footer.footer {
   padding: 0.8em;
   margin-bottom: 2em; }
 
+.round-icon {
+  border-radius: 1000px;
+  width: 40px;
+  padding: 5px;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+  height: 40px;
+  background: #E23434;
+  color: white;
+  text-align: center;
+  border-bottom: 2px solid #B32626;
+  font-size: 1.2em; }
+
+.round-icon:hover {
+  color: white; }
+
+.round-icon.big {
+  width: 48px;
+  height: 48px;
+  font-size: 1.5em;
+  background: #3480E2;
+  border-bottom: 2px solid #235492; }
+
+.round-icon.small {
+  width: 32px;
+  height: 32px;
+  font-size: 0.9em;
+  background-color: #34E278;
+  border-bottom: 2px solid #239951; }
+
 .banner-navigation .breadcrumb-holder {
   margin-bottom: 0px;
   background: none;
