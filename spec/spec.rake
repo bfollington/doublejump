@@ -13,6 +13,7 @@ begin
     end
   end
 
+  ENV["TESTING_DB"] = "" unless defined?(ENV["TESTING_DB"])
   desc "Run complete application spec suite"
   task 'spec' => spec_tasks.map { |f| "spec:#{f}" }
 rescue LoadError

@@ -16,7 +16,7 @@ task :deploy do
     puts "Running test suite now...".light_blue
     puts "==========================\n".light_blue
 
-    if (system "padrino rake spec") 
+    if (system "padrino rake spec TESTING_DB=DEPLOY") 
 
         puts 'Tests passed, deploying application'.green
         

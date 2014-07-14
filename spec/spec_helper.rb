@@ -11,7 +11,15 @@ RSpec.configure do |conf|
   # Reset the test DB before running any tests
   Mongoid::Sessions.default.collections.select {|c| c.name !~ /system/ }.each(&:drop)
 
-  system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/deploy_db_dump/*"
+  if ENV["TESTING_DB"] == "DEPLOY"
+    system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/deploy_db_dump/*"
+  elsif ENV["TESTING_DB"] == "MANUAL"
+    system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/manual_dump/*"
+  else
+    system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/development_db_dump/*"
+  end
+
+  
   #system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/manual_dump/*"
 
   if false
