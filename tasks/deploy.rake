@@ -9,7 +9,7 @@ task :deploy do
     puts "\n"
     puts "Running test suite now...".light_blue
     puts "==========================\n".light_blue
-    
+
     if (system "padrino rake spec") 
 
         puts 'Tests passed, deploying application'.green
@@ -20,6 +20,12 @@ task :deploy do
         
         system "heroku maintenance:on --app #{app}"
         
+        puts "\n"
+        puts "Take a database image..."
+        puts "==========================\n".light_blue
+
+        system "mongodump -h ds029328.mongolab.com:29328 -d doublejump -u doublejump -p MoBoFlo1010 -o ./deploy_db_dump"
+
         puts "\n"
         puts "Push commits...".light_blue
         puts "==========================\n".light_blue

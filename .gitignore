@@ -10,3 +10,5 @@ db/*.db
 *.sublime-project
 *.sublime-workspace
 node_modules/*
+dump
+dumps

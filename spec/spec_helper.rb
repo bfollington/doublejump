@@ -11,6 +11,9 @@ RSpec.configure do |conf|
   # Reset the test DB before running any tests
   Mongoid::Sessions.default.collections.select {|c| c.name !~ /system/ }.each(&:drop)
 
+  system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/deploy_db_dump/*"
+  #system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/manual_dump/*"
+
   if false
     Capybara.current_driver = :selenium
     Capybara.javascript_driver = :selenium
