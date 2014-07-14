@@ -1970,7 +1970,7 @@ img.plus-cursor {
   cursor: url("/images/plus_cursor.png") 25 25, auto; }
 
 .category-tag {
-  padding: 2px 5px;
+  padding: 2px 8px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   -ms-border-radius: 2px;
