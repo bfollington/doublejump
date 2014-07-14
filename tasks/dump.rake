@@ -121,8 +121,8 @@ end
 
 def drop_live_db()
     # we need to add a new user to replace the one we deleted in the dump
-    command_string = 'mongo --host ds029328.mongolab.com --port 29328 ' + db + ' -u ' + username + ' -p ' + password + ' --eval "db.dropDatabase(); db.addUser({user: \"' + username + '\", pwd: \"' + password + '\", roles: [\"readWrite\", \"dbAdmin\", \"userAdmin\"]})"'
-    puts command_string
+    command_string = 'echo "db.dropDatabase();\n db.addUser({user: \"' + username + '\", pwd: \"' + password + '\", roles: [\"readWrite\", \"dbAdmin\", \"userAdmin\"]});" | mongo --host ds029328.mongolab.com --port 29328 ' + db + ' -u ' + username + ' -p ' + password
+    #puts command_string
     system command_string
     puts "Dropped live db".green
 end
