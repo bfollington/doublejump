@@ -6,16 +6,36 @@ task :deploy do
 
     # TODO: run all tests here and only continue if they all pass
 
-    puts "Running test suite now...".blue
+    puts "\n"
+    puts "Running test suite now...".light_blue
+    puts "==========================\n".light_blue
+    
     if (system "padrino rake spec") 
+
         puts 'Tests passed, deploying application'.green
-        puts "Maintenance mode...".blue
+        
+        puts "\n"
+        puts "Maintenance mode...".light_blue
+        puts "==========================\n".light_blue
+        
         system "heroku maintenance:on --app #{app}"
-        puts "Push commits...".blue
+        
+        puts "\n"
+        puts "Push commits...".light_blue
+        puts "==========================\n".light_blue
+        
         system "git push #{remote} master"
-        puts "Run migrations...".blue
+        
+        puts "\n"
+        puts "Run migrations...".light_blue
+        puts "==========================\n".light_blue
+        
         system "heroku run rake migrate --app #{app}"
-        puts "Maintenance mode...".blue
+        
+        puts "\n"
+        puts "Maintenance mode...".light_blue
+        puts "==========================\n".light_blue
+        
         system "heroku maintenance:off --app #{app}"
         puts 'Deploy complete'.green
     else

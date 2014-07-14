@@ -38,6 +38,7 @@ task :migrate => :environment do
     end
 
     puts 'Now at: ' + 'version '.green + settings.version.to_s.green
+    puts 'Migration complete'.green
 end
 
 def current_version
