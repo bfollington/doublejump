@@ -222,6 +222,8 @@ module LearnToGameDev
 
       @account.save
 
+      session[:flash] = "Profile updated successfully."
+
       render "edit_profile", :layout => :learn
     end
 
