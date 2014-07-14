@@ -73,6 +73,11 @@ var progress = new function()
         } 
     }
 
+    self.initHorizontalBars = function()
+    {
+        $(".progress-list-wrapper").prepend("<div class='progress'></div>");
+    }
+
     self.bindProgressBarResize = function()
     {
         self.updateProgressBars();
@@ -101,5 +106,6 @@ var progress = new function()
     }
 }
 
+progress.initHorizontalBars();
 progress.bindProgressBarResize();
 progress.initVerticalBars();

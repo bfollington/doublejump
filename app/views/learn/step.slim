@@ -25,7 +25,6 @@
     .col-lg-8.col-md-8.col-sm-8.col-xs-8
         .box
             .progress-list-wrapper
-                .progress
                 ul.progress-list
                     - @lesson.get_steps_in_order.each do |step|
                         - if @lesson.get_step_index(step) < @lesson.get_step_index(@step)
