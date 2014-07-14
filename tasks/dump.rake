@@ -72,6 +72,7 @@ task :restore_development_db do
     puts "\n Are you sure you want to restore the development DB using the local ./dumps/development_db_dump? [y/N]".light_blue
     answer = STDIN.gets.chomp
     if answer == "y"
+        #system 'mongo learn_to_game_dev_development --eval "db.dropDatabase();"'
         restoreDevDb "./dumps/development_db_dump/*"
         puts "Restore complete".green
     else
@@ -88,7 +89,7 @@ end
 
 task :dump_dev_db do
 
-    system "mongodump -h localhost:27017 -d learn_to_game_dev_test -o ./dumps/development_db_dump"
+    system "mongodump -h localhost:27017 -d learn_to_game_dev_development -o ./dumps/development_db_dump"
     
 end
 

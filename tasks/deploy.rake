@@ -7,6 +7,12 @@ task :deploy do
     # TODO: run all tests here and only continue if they all pass
 
     puts "\n"
+    puts "Take a database image...".light_blue
+    puts "==========================\n".light_blue
+
+    system "mongodump -h ds029328.mongolab.com:29328 -d doublejump -u doublejump -p MoBoFlo1010 -o ./dumps/deploy_db_dump"
+
+    puts "\n"
     puts "Running test suite now...".light_blue
     puts "==========================\n".light_blue
 
@@ -19,12 +25,6 @@ task :deploy do
         puts "==========================\n".light_blue
         
         system "heroku maintenance:on --app #{app}"
-        
-        puts "\n"
-        puts "Take a database image..."
-        puts "==========================\n".light_blue
-
-        system "mongodump -h ds029328.mongolab.com:29328 -d doublejump -u doublejump -p MoBoFlo1010 -o ./deploy_db_dump"
 
         puts "\n"
         puts "Push commits...".light_blue
