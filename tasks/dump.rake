@@ -1,5 +1,6 @@
 require 'colorize'
 
+# Disable these tasks on heroku
 if ENV["DEBUG"] != 'false'
 
     task :restore_dump do

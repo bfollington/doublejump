@@ -6,8 +6,9 @@ def say_something(thing)
     puts "==========================\n".light_blue
 end
 
+# Disable these tasks on heroku
 if ENV["DEBUG"] != 'false'
-    
+
     task :deploy do
 
         app = "doublejump"
