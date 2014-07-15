@@ -6,45 +6,46 @@ def say_something(thing)
     puts "==========================\n".light_blue
 end
 
-task :deploy do
-    app = "doublejump"
-    remote = "git@heroku.com:#{app}.git"
-
-    # TODO: run all tests here and only continue if they all pass
-
-    say_something "Take a database image..."
-
-    system "mongodump -h ds029328.mongolab.com:29328 -d doublejump -u doublejump -p MoBoFlo1010 -o ./dumps/deploy_db_dump"
-
-    say_something "Run migrations locally..."
+if ENV["DEBUG"] != 'false'
     
-    system "padrino rake migrate"
+    task :deploy do
 
-    say_something "Running test suite now..."
+        app = "doublejump"
+        remote = "git@heroku.com:#{app}.git"
 
-    if (system "padrino rake spec TESTING_DB=DEPLOY") 
+        # TODO: run all tests here and only continue if they all pass
 
-        puts 'Tests passed, deploying application'.green
-        
-        say_something "Maintenance mode..."
-        
-        system "heroku maintenance:on --app #{app}"
+        say_something "Take a database image..."
 
-        say_something "Push commits..."
+        system "mongodump -h ds029328.mongolab.com:29328 -d doublejump -u doublejump -p MoBoFlo1010 -o ./dumps/deploy_db_dump"
+
+        say_something "Running test suite now..."
+
+        if (system "padrino rake spec TESTING_DB=DEPLOY") 
+
+            puts 'Tests passed, deploying application'.green
+            
+            say_something "Maintenance mode..."
+            
+            system "heroku maintenance:on --app #{app}"
+
+            say_something "Push commits..."
+            
+            system "git push #{remote} master"
+            
+            say_something "Run migrations remotely..."
+            
+            system "heroku run rake migrate --app #{app}"
+            
+            say_something "Maintenance mode..."
+            
+            system "heroku maintenance:off --app #{app}"
+            puts 'Deploy complete'.green
+        else
+            puts 'Tests failed, aborting deploy'.red
+        end
+
         
-        system "git push #{remote} master"
-        
-        say_something "Run migrations remotely..."
-        
-        system "heroku run rake migrate --app #{app}"
-        
-        say_something "Maintenance mode..."
-        
-        system "heroku maintenance:off --app #{app}"
-        puts 'Deploy complete'.green
-    else
-        puts 'Tests failed, aborting deploy'.red
     end
 
-    
 end
