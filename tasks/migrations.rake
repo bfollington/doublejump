@@ -14,6 +14,11 @@ end
 
 task :migrate => :environment do
 
+    do_migration
+    
+end
+
+def do_migration()
     settings = Settings.first
 
     if (settings.nil?)

@@ -2,25 +2,35 @@ RACK_ENV = 'test' unless defined?(RACK_ENV)
 require File.expand_path(File.dirname(__FILE__) + "/../config/boot")
 require 'capybara/rspec'
 require 'capybara/dsl'
- 
+
 Capybara.app = Padrino.application
 
 RSpec.configure do |conf|
   conf.include Rack::Test::Methods
 
-  # Reset the test DB before running any tests
-  Mongoid::Sessions.default.collections.select {|c| c.name !~ /system/ }.each(&:drop)
+  # The goal here is before a deploy, get the prod db and migrate it, then run all tests on it
+  # When run in dev mode, we get the dev db and migrate it, then run all tests on it
+  if (ENV["TESTING_DB"] != "FAST")
+    # Reset the test DB before running any tests
+    puts "-> Blanking DB"
+    Mongoid::Sessions.default.collections.select {|c| c.name !~ /system/ }.each(&:drop)
 
-  if ENV["TESTING_DB"] == "DEPLOY"
-    system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/deploy_db_dump/*"
-  elsif ENV["TESTING_DB"] == "MANUAL"
-    system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/manual_dump/*"
+    puts "-> Populating DB using: #{ENV["TESTING_DB"]}"
+    if ENV["TESTING_DB"] == "DEPLOY"
+      system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/deploy_db_dump/*"
+    elsif ENV["TESTING_DB"] == "MANUAL"
+      system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/manual_dump/*"
+    else
+      system "padrino rake dump_dev_db"
+      system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/development_db_dump/*"
+    end
+
+    # Perform any migrations that we don't have yet
+    puts "-> Migrating DB"
+    system "padrino rake migrate RACK_ENV=test"
   else
-    system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/development_db_dump/*"
+    puts "-> Skipping DB setup, run tests on current test db"
   end
-
-  
-  #system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/manual_dump/*"
 
   if false
     Capybara.current_driver = :selenium
