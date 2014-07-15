@@ -16,7 +16,7 @@ While working on the app, we will need three things:
 
 SCSS files are recompiled on page load (if needed) so, always refresh the page before trying to deploy something. (We should work on this process).
 
-    Note, many rake tasks are not available on heroku (i.e. heroku run rake <TASK>) because it could really mess things up. Only ever run heroku run rake migrate, and even then you shouldn't need to do that if you're deploying correctly.
+>Note, many rake tasks are not available on heroku (i.e. heroku run rake <TASK>) because it could really mess things up. Only ever run heroku run rake migrate, and even then you shouldn't need to do that if you're deploying correctly.
 
 # Deploying
 
