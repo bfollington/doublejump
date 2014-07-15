@@ -16,6 +16,7 @@ RSpec.configure do |conf|
     Mongoid::Sessions.default.collections.select {|c| c.name !~ /system/ }.each(&:drop)
 
     puts "-> Populating DB using: #{ENV["TESTING_DB"]}"
+    
     if ENV["TESTING_DB"] == "DEPLOY"
       system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/deploy_db_dump/*"
     elsif ENV["TESTING_DB"] == "MANUAL"

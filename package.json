@@ -1,0 +1,19 @@
+{
+  "name": "doublejump",
+  "version": "0.0.1",
+  "devDependencies": {
+    "gulp-rename": "~1.2.0",
+    "gulp-minify-css": "~0.3.6",
+    "gulp-ruby-sass": "~0.5.0",
+    "gulp-uglify": "~0.3.1",
+    "gulp-clean": "~0.3.1",
+    "gulp-livereload": "~2.1.0",
+    "gulp-notify": "~1.4.0",
+    "gulp-concat": "~2.2.0",
+    "gulp-cache": "~0.2.0",
+    "gulp-autoprefixer": "0.0.8",
+    "gulp-jshint": "~1.6.4",
+    "gulp-imagemin": "~0.6.1",
+    "gulp": "~3.8.5"
+  }
+}
