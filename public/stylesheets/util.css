@@ -26,6 +26,9 @@ ul.inline li {
 .margin-bottom {
   margin-bottom: 10px; }
 
+.no-margin-bottom {
+  margin-bottom: 0px; }
+
 .big-margin-bottom {
   margin-bottom: 20px; }
 
@@ -37,6 +40,9 @@ ul.inline li {
 
 .margin-top {
   margin-top: 30px; }
+
+.margin-bottom {
+  margin-bottom: 10px; }
 
 .nudge-right {
   margin-left: 5px; }
@@ -58,6 +64,9 @@ ul.inline li {
 
 .padding {
   padding: 0.5em; }
+
+.padding-bottom {
+  padding-bottom: 10px; }
 
 .float-right {
   float: right; }
@@ -81,3 +90,7 @@ ul.inline li {
   white-space: nowrap;
   border-radius: 4px;
   font-family: Menlo,Monaco,Consolas,"Courier New",monospace; }
+
+img.centered {
+  display: block;
+  margin: 0 auto; }

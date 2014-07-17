@@ -267,6 +267,9 @@ ul.inline li {
 .margin-bottom {
   margin-bottom: 10px; }
 
+.no-margin-bottom {
+  margin-bottom: 0px; }
+
 .big-margin-bottom {
   margin-bottom: 20px; }
 
@@ -278,6 +281,9 @@ ul.inline li {
 
 .margin-top {
   margin-top: 30px; }
+
+.margin-bottom {
+  margin-bottom: 10px; }
 
 .nudge-right {
   margin-left: 5px; }
@@ -299,6 +305,9 @@ ul.inline li {
 
 .padding {
   padding: 0.5em; }
+
+.padding-bottom {
+  padding-bottom: 10px; }
 
 .float-right {
   float: right; }
@@ -322,6 +331,10 @@ ul.inline li {
   white-space: nowrap;
   border-radius: 4px;
   font-family: Menlo,Monaco,Consolas,"Courier New",monospace; }
+
+img.centered {
+  display: block;
+  margin: 0 auto; }
 
 .header-bar {
   background-color: white; }
@@ -2296,6 +2309,11 @@ img.shared-image {
 .avatar {
   border-radius: 100000px; }
 
+.avatar.medium {
+  width: 128px;
+  height: 128px;
+  border: 1px solid #aaa; }
+
 .avatar.small {
   width: 55px;
   height: 55px;
@@ -2505,6 +2523,9 @@ small, .font-small {
 
 .extra-small {
   font-size: 0.6em; }
+
+.so-small {
+  font-size: 0.2em; }
 
 .js-template {
   display: none; }

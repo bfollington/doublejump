@@ -195,6 +195,7 @@ module LearnToGameDev
     #
 
     get :profile do
+      @yours = true
       render "profile", :layout => :learn
     end
 
