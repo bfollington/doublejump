@@ -239,6 +239,18 @@ span.MathJax {
 .MathJax_Display span {
   color: black !important; }
 
+input.form-control, textarea.form-control {
+  border: 0;
+  box-shadow: none;
+  border-radius: 0px;
+  background: none;
+  padding-left: 2px;
+  font-size: 1em;
+  border-bottom: 1px solid #ccc; }
+
+input.form-control:focus, textarea.form-control:focus {
+  box-shadow: none; }
+
 ul.inline {
   list-style: none; }
 

@@ -3,10 +3,10 @@ h3 Definitions
 .row.fadeInUp.animated
     .col-xs-12
         .box
-            h3 Search For A Definition
+            h3 Filter Definitions
             p
-                label for="definition_filter" Search
-                input.js-definition-filter.form-control name="definition_filter"
+                label for="definition_filter" Search For A Definition
+                input.js-definition-filter.form-control name="definition_filter" placeholder='"event", "update", "vertex" etc.'
             - if !current_account.nil? && current_account.role == "admin"
                 br
             p.center-text.no-margin

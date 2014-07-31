@@ -11,37 +11,47 @@
                     p
                         = f.label :name, :caption => "First Name"
                         = f.text_field :name, :class => "form-control"
-                        = partial 'form_error', :collection => (errors_for @account, :name)
+                        = partial 'form_error', :collection => (errors_for @account, :name), :placeholder => "Donald"
 
                     p
                         = f.label :surname, :caption => "Surname"
                         = f.text_field :surname, :class => "form-control"
-                        = partial 'form_error', :collection => (errors_for @account, :surname)
+                        = partial 'form_error', :collection => (errors_for @account, :surname), :placeholder => "Glover"
 
                     p
                         = f.label :email, :caption => "Email"
-                        = f.text_field :email, :class => "form-control", :placeholder => "hey@doublejump.com :)"
+                        = f.text_field :email, :class => "form-control", :placeholder => "me@website.com"
                         = partial 'form_error', :collection => (errors_for @account, :email)
+                        small  
+                            | You can change your email address at any time, which will change which address you sign in with. Try not to forget!
 
                     p
                         = f.label :bio, :caption => "Bio"
                         = f.text_area :bio, :class => "form-control"
                         = partial 'form_error', :collection => (errors_for @account, :bio)
+                        small  
+                            | This will show up on your profile (if it's set to public, that is), tell people about yourself! .
 
                     p
                         = f.label :avatar, :caption => "Avatar URL"
                         = f.text_field :avatar, :class => "form-control", :placeholder => "http://www.website.com/image.jpg"
                         = partial 'form_error', :collection => (errors_for @account, :avatar)
+                        small  
+                            | Put the address for any image you'd like to use for your avatar in here
 
                     p
                         = f.label :password, :caption => "Password"
                         = f.password_field :password, :class => "form-control"
                         = partial 'form_error', :collection => (errors_for @account, :password)
+                        small
+                            | Change your password, leave this box blank and nothing will change
 
                     p
                         = f.label :password_confirmation, :caption => "Password (Confirm)"
                         = f.password_field :password_confirmation, :class => "form-control"
                         = partial 'form_error', :collection => (errors_for @account, :password_confirmation)
+                        small
+                            | Type your password again, just to be sure
 
         .row
             .col-lg-12
