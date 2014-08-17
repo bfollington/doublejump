@@ -69,6 +69,24 @@
                                     - related_reading = RelatedReading.find( related_reading_id )
                                     = partial 'js-templates/lesson_list_entry', :locals => { :item_text => related_reading.title, :field_value => related_reading.id, :field_name => hidden_field_name}
 
+                .box
+                    - hidden_field_name = 'lesson[downloads][]'
+
+                    p
+                        = f.label :title, :caption => "Downloads"
+                        br
+                        = f.select(:download, :collection => @downloads, :fields => [:title, :id], :class => 'js-select2')
+                        a.js-sortable-add-new data-read-selection-from='#lesson_download' data-target-list='#downloads' data-hidden-field-name='#{hidden_field_name}' href="#" 
+                            |  
+                            i.fa.fa-plus-circle
+
+                    p
+                        ul#downloads.js-sortable
+                            - if @lesson
+                                - @lesson.download_ids.each do |download_id|
+                                    - download = Download.find( download_id )
+                                    = partial 'js-templates/lesson_list_entry', :locals => { :item_text => download.title, :field_value => download.id, :field_name => hidden_field_name}
+
         .row
             p.center-text
                 = f.submit "Save", :class => 'button create-button'

@@ -48,12 +48,6 @@
         - @course.prerequisites.each do |prerequisite|
             = partial 'learn/elements/course_block', :object => prerequisite
 
-        - if @course.downloads.length != 0
-            h4 Course Materials
-            .box
-                - @course.downloads.each do |download|
-                    = partial 'learn/elements/download', :object => download
-
         h4 Follow Ons
 
         - if @course.follow_ons.length == 0

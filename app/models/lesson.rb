@@ -14,6 +14,7 @@ class Lesson
   validates_uniqueness_of :title
   validates_uniqueness_of :slug
 
+  has_and_belongs_to_many :downloads
   has_and_belongs_to_many :courses
   has_and_belongs_to_many :steps
   belongs_to :account

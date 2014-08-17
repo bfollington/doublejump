@@ -72,7 +72,7 @@ LearnToGameDev::App.helpers do
     return !list.nil? && ( list.length > 0 )
   end
 
-  def interable_list(list)
+  def iterable_list(list)
 
     if !list.nil? && ( list.length > 0 )
       return list

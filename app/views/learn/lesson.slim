@@ -56,4 +56,10 @@
         - @lesson.related_readings.each do |related_reading|
             .box
                 = partial 'learn/elements/related_reading', :object => related_reading
+
+        - if @lesson.downloads.length != 0
+            h4 Lesson Materials
+            .box
+                - @lesson.downloads.each do |download|
+                    = partial 'learn/elements/download', :object => download
                 

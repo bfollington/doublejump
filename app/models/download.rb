@@ -10,7 +10,7 @@ class Download
   validates_presence_of :title, message: "Title is required!"
   validates_presence_of :link, message: "No point in making a download without a link..."
 
-  has_and_belongs_to_many :courses
+  has_and_belongs_to_many :lessons
 
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>

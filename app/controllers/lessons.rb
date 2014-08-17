@@ -15,12 +15,18 @@ LearnToGameDev::App.controllers :lessons do
 
     @lesson = Lesson.create( :title => params[:lesson][:title], :description => params[:lesson][:description], :slug => params[:lesson][:slug], :experience => params[:lesson][:experience], :account => current_account)
 
-    interable_list( params[:lesson][:steps] ).each do |step_id|
+    iterable_list( params[:lesson][:steps] ).each do |step_id|
       @lesson.steps.push( Step.find(step_id) )
     end
 
-    interable_list( params[:lesson][:related_readings] ).each do |related_reading_id|
+    iterable_list( params[:lesson][:related_readings] ).each do |related_reading_id|
       @lesson.related_readings.push( RelatedReading.find(related_reading_id) )
+    end
+
+    if list_exists(params[:lesson][:downloads])
+      params[:lesson][:downloads].each do |download_id|
+        @lesson.downloads.push( Download.find(download_id) )
+      end
     end
 
     if @lesson.valid?
@@ -49,12 +55,18 @@ LearnToGameDev::App.controllers :lessons do
     @lesson.steps = []
     @lesson.related_readings = []
 
-    interable_list( params[:lesson][:steps] ).each do |step_id|
+    iterable_list( params[:lesson][:steps] ).each do |step_id|
       @lesson.steps.push( Step.find(step_id) )
     end
 
-    interable_list( params[:lesson][:related_readings] ).each do |related_reading_id|
+    iterable_list( params[:lesson][:related_readings] ).each do |related_reading_id|
       @lesson.related_readings.push( RelatedReading.find(related_reading_id) )
+    end
+
+    if list_exists(params[:lesson][:downloads])
+      params[:lesson][:downloads].each do |download_id|
+        @lesson.downloads.push( Download.find(download_id) )
+      end
     end
 
     if @lesson.valid?
