@@ -4,6 +4,7 @@ LearnToGameDev::App.controllers :lessons do
 
   get :index do
     @lessons = Lesson.all
+    @downloads = Download.all
     render 'lessons/index'
   end
 
