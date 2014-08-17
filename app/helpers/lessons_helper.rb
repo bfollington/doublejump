@@ -4,6 +4,7 @@ LearnToGameDev::App.helpers do
   def new_lesson
     @steps = Step.all
     @related_readings = RelatedReading.all
+    @downloads = Download.all
 
     render 'lessons/new'
   end
