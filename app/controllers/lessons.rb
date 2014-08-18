@@ -15,19 +15,7 @@ LearnToGameDev::App.controllers :lessons do
 
     @lesson = Lesson.create( :title => params[:lesson][:title], :description => params[:lesson][:description], :slug => params[:lesson][:slug], :experience => params[:lesson][:experience], :account => current_account)
 
-    iterable_list( params[:lesson][:steps] ).each do |step_id|
-      @lesson.steps.push( Step.find(step_id) )
-    end
-
-    iterable_list( params[:lesson][:related_readings] ).each do |related_reading_id|
-      @lesson.related_readings.push( RelatedReading.find(related_reading_id) )
-    end
-
-    if list_exists(params[:lesson][:downloads])
-      params[:lesson][:downloads].each do |download_id|
-        @lesson.downloads.push( Download.find(download_id) )
-      end
-    end
+    populate_lists
 
     if @lesson.valid?
       @lesson.save
@@ -54,20 +42,9 @@ LearnToGameDev::App.controllers :lessons do
     @lesson.description = params[:lesson][:description]
     @lesson.steps = []
     @lesson.related_readings = []
+    @lesson.downloads = []
 
-    iterable_list( params[:lesson][:steps] ).each do |step_id|
-      @lesson.steps.push( Step.find(step_id) )
-    end
-
-    iterable_list( params[:lesson][:related_readings] ).each do |related_reading_id|
-      @lesson.related_readings.push( RelatedReading.find(related_reading_id) )
-    end
-
-    if list_exists(params[:lesson][:downloads])
-      params[:lesson][:downloads].each do |download_id|
-        @lesson.downloads.push( Download.find(download_id) )
-      end
-    end
+    populate_lists
 
     if @lesson.valid?
       @lesson.save
@@ -78,4 +55,24 @@ LearnToGameDev::App.controllers :lessons do
 
   end
 
+end
+
+def populate_lists()
+  @lesson.steps = []
+  @lesson.related_readings = []
+  @lesson.downloads = []
+
+  iterable_list( params[:lesson][:steps] ).each do |step_id|
+    @lesson.steps.push( Step.find(step_id) )
+  end
+
+  iterable_list( params[:lesson][:related_readings] ).each do |related_reading_id|
+    @lesson.related_readings.push( RelatedReading.find(related_reading_id) )
+  end
+
+  if list_exists(params[:lesson][:downloads])
+    params[:lesson][:downloads].each do |download_id|
+      @lesson.downloads.push( Download.find(download_id) )
+    end
+  end
 end
