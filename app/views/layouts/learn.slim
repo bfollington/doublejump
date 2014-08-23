@@ -15,6 +15,8 @@ html.no-js lang="en"
         = partial( local_or_live('includes/local_app_css', 'includes/live_app_css') )
         = yield_content :include_css
 
+        = partial 'includes/favicons'
+
         = partial 'includes/mixpanel'
     body
 
