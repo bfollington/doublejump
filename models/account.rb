@@ -46,6 +46,54 @@ class Account
   end
 
 
+  def levels()
+    {
+        0 => 0,
+        1 => 100,
+        2 => 200,
+        3 => 500,
+        4 => 1000,
+        5 => 2000
+    }
+  end
+
+  def get_level()
+
+    highest = 0
+
+    if (experience < levels[1])
+        return 0
+    end
+
+    levels.each do |key, xp|
+        highest = key
+        if (experience > xp)
+            return key 
+        end
+    end
+
+    return highest
+
+  end
+
+  def needed_xp()
+    current_level = get_level
+    needed_xp = levels[current_level + 1]
+
+    return needed_xp
+  end
+
+  def percent_of_level()
+    current_level = get_level
+    current_xp = experience
+    old_needed_xp = levels[current_level]
+    needed_xp = levels[current_level + 1]
+    if (needed_xp - old_needed_xp) != 0
+        percent = ((current_xp - old_needed_xp) * 1.0 / (needed_xp - old_needed_xp))*100
+    else
+        percent = 100
+    end
+  end
 
 
   def update_progress(course, lesson, step)

@@ -324,6 +324,14 @@ ul.inline li {
 .float-right {
   float: right; }
 
+.position-almost-right {
+  position: absolute;
+  right: 1em; }
+
+.position-right, .needed-xp {
+  position: absolute;
+  right: 0; }
+
 .float-left {
   float: left; }
 
@@ -2113,6 +2121,25 @@ ul.progress-list {
   margin-bottom: 0px;
   left: 16.5%;
   top: 1.5em; }
+
+.level-progress {
+  width: 100%;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+  border: 0px;
+  height: 0.5em;
+  background: #b7d1e0; }
+  .level-progress .current {
+    background: #4faee8;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    height: 0.5em; }
 
 .course-icon {
   width: 64px;

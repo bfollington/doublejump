@@ -182,3 +182,24 @@ ul.progress-list{
     left: 16.5%;
     top: 1.5em;
 }
+
+.level-progress
+{
+    width: 100%;
+    @include border-radius(2px);
+    border: 0px;
+    height: 0.5em;
+    background: $link-disabled;
+
+    .current
+    {
+        background: $link-color;
+        @include border-radius(2px);
+        height: 0.5em;
+    }
+}
+
+.needed-xp
+{
+    @extend .position-right;
+}

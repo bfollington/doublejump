@@ -1,4 +1,4 @@
-a.class.button.create-button.float-right href="/profile/edit" Edit Profile
+a.class.button.create-button.position-almost-right href="/profile/edit" Edit Profile
 
 .fadeInUp.animated
 
@@ -14,10 +14,16 @@ a.class.button.create-button.float-right href="/profile/edit" Edit Profile
             small.extra-small style="position: relative; top: 5px;"
                 | Hey! How's it going?
 
-    p.center-text
-        | Level information / current experience goes here: Level 5 (2000 XP)
-        br
-        | Progress bar underneath
+    p.center-text.no-margin
+        = "Level #{current_account.get_level}" 
+        .level-progress
+            .current style="width: #{current_account.percent_of_level}%;"
+            .current-xp
+                = current_account.experience
+                | XP
+        .needed-xp
+            = current_account.needed_xp
+            | XP
 
     p.center-text
         = current_account.bio

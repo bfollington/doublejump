@@ -71,6 +71,14 @@ ul.inline li {
 .float-right {
   float: right; }
 
+.position-almost-right {
+  position: absolute;
+  right: 1em; }
+
+.position-right {
+  position: absolute;
+  right: 0; }
+
 .float-left {
   float: left; }
 
