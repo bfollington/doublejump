@@ -43,4 +43,12 @@ end
 Padrino.after_load do
 end
 
+# Setup better_errors
+if Padrino.env == :development
+  require 'better_errors'
+  Padrino::Application.use BetterErrors::Middleware
+  BetterErrors.application_root = PADRINO_ROOT
+  BetterErrors.logger = Padrino.logger
+end
+
 Padrino.load!
