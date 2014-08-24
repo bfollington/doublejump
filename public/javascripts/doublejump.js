@@ -47,12 +47,12 @@ $( function() {
 
         if ( typeof $(this).attr("title") == "undefined")
         {
-            $(this).attr("title", $(this).attr("href"));
+            $(this).attr("title", $(this).attr("href").trunc(50));
         }
 
         $(this).attr("target", "new");
 
-        $(this).tooltip();
+        $(this).tooltip({placement: "top"});
 
     });
 
@@ -1196,6 +1196,11 @@ function showUploadFrame(id, $frame)
         }
     });
 }
+String.prototype.trunc = String.prototype.trunc ||
+    function(n) {
+        return this.length > n ? this.substr(0, n - 3)+'...' : this;
+    };
+
 function defined(variable)
 {
     return typeof window[variable] != "undefined";

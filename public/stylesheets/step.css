@@ -2,3 +2,6 @@
   max-width: 90%;
   display: block;
   margin: 0 auto; }
+
+.step-body a {
+  display: inline-block; }

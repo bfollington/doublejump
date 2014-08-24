@@ -55,3 +55,10 @@ gem 'rdiscount'
 
 # AWS
 gem 'aws-sdk'
+
+# Better Errors
+group :development do
+  gem "better_errors"
+  gem "binding_of_caller"
+end
+

@@ -47,12 +47,12 @@ $( function() {
 
         if ( typeof $(this).attr("title") == "undefined")
         {
-            $(this).attr("title", $(this).attr("href"));
+            $(this).attr("title", $(this).attr("href").trunc(50));
         }
 
         $(this).attr("target", "new");
 
-        $(this).tooltip();
+        $(this).tooltip({placement: "top"});
 
     });
 

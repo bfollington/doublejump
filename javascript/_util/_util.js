@@ -1,3 +1,8 @@
+String.prototype.trunc = String.prototype.trunc ||
+    function(n) {
+        return this.length > n ? this.substr(0, n - 3)+'...' : this;
+    };
+
 function defined(variable)
 {
     return typeof window[variable] != "undefined";

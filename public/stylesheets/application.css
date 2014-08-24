@@ -1962,13 +1962,15 @@ footer.footer {
 .step-body .zoom-wrapper {
   display: block;
   margin: 0 auto; }
+.step-body .comment {
+  position: relative; }
 .step-body .zoom-wrapper + .comment,
 .step-body pre + p .comment,
 .step-body .hideable-inner + p .comment,
 .step-body .callout.definition + p .comment,
 .step-body img.plus-cursor + .comment,
-.step-body div + p .comment,
-.step-body div + .comment,
+.step-body div:not(.tooltip) + p .comment,
+.step-body div:not(.tooltip) + .comment,
 .step-body .callout.info + p .comment {
   display: table;
   margin: 0 auto; }
@@ -2388,6 +2390,9 @@ code {
   display: block;
   margin: 0 auto; }
 
+.step-body a {
+  display: inline-block; }
+
 .js-inserted-definition {
   -webkit-animation-duration: 0.3s;
   -moz-animation-duration: 0.3s;
@@ -2403,6 +2408,9 @@ code {
 .callout.definition {
   background: #fcf8e3;
   border-left: 5px solid #ecd871;
+  margin-bottom: 0; }
+
+.callout.definition.js-inserted-definition {
   margin-bottom: 1em; }
 
 .admin-tools {

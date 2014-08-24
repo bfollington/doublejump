@@ -144,13 +144,18 @@
         margin: 0 auto;
     }
 
+    .comment
+    {
+        position: relative;
+    }
+
     .zoom-wrapper + .comment,
     pre + p .comment,
     .hideable-inner + p .comment,
     .callout.definition + p .comment,
     img.plus-cursor + .comment,
-    div + p .comment,
-    div + .comment,
+    div:not(.tooltip) + p .comment,
+    div:not(.tooltip) + .comment,
     .callout.info + p .comment
     {
         display: table;
