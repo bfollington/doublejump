@@ -35,6 +35,11 @@ var learn = new function()
                 threshold : 200,
                 load: self.lazyLoadHandler
             });
+        } else {
+            $(".step-body img").each( function()
+            {
+                $(this).attr("src", $(this).attr("data-original"));
+            });
         }
     }
 
