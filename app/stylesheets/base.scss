@@ -26,7 +26,7 @@ a:hover, .header-bar a:hover {
 
 .comment a
 {
-    color: #ccc;
+    color: #eee;
 }
 
 .comment a:hover
@@ -97,7 +97,7 @@ p, li {
     color: #444;
     @include border-radius(2px);
     padding: 1em;
-    margin-bottom: 0px;
+    margin-bottom: 1em;
 }
 
 .box .info

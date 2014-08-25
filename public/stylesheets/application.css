@@ -96,7 +96,7 @@ a:hover, .header-bar a:hover {
   cursor: pointer; }
 
 .comment a {
-  color: #ccc; }
+  color: #eee; }
 
 .comment a:hover {
   color: #0084d5; }
@@ -189,7 +189,7 @@ p, li {
   -o-border-radius: 2px;
   border-radius: 2px;
   padding: 1em;
-  margin-bottom: 0px; }
+  margin-bottom: 1em; }
 
 .box .info {
   background: #d9edf7;
@@ -1960,28 +1960,18 @@ footer.footer {
     -o-border-radius: 0px;
     border-radius: 0px; }
 
-.step-body img {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -o-border-radius: 2px;
-  border-radius: 2px;
-  min-width: 128px; }
-.step-body .zoom-wrapper {
-  display: block;
-  margin: 0 auto; }
-.step-body .comment {
-  position: relative; }
-.step-body .zoom-wrapper + .comment,
-.step-body pre + p .comment,
-.step-body .hideable-inner + p .comment,
-.step-body .callout.definition + p .comment,
-.step-body img.plus-cursor + .comment,
-.step-body div:not(.tooltip) + p .comment,
-.step-body div:not(.tooltip) + .comment,
-.step-body .callout.info + p .comment {
-  display: table;
-  margin: 0 auto; }
+.step-body {
+  padding-right: 0.3em; }
+  .step-body img {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    min-width: 128px; }
+  .step-body .zoom-wrapper {
+    display: block;
+    margin: 0 auto; }
 
 .completed {
   width: 12em;
@@ -2392,7 +2382,7 @@ code {
 #comment_frame, #upload_frame {
   position: absolute;
   padding: 15px;
-  border: 1px solid #ccc;
+  border-bottom: 2px solid #ccc;
   border-radius: 3px;
   display: none;
   background: white;
@@ -2411,6 +2401,18 @@ code {
 .comments-list {
   max-height: 320px;
   overflow-y: scroll; }
+
+.step-body .comment {
+  position: absolute;
+  right: 0.3em;
+  margin-top: -0.5em;
+  background: white;
+  padding-right: 0.3em;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px; }
 
 .step-body img {
   max-width: 90%;
@@ -2434,11 +2436,7 @@ code {
 
 .callout.definition {
   background: #fcf8e3;
-  border-left: 5px solid #ecd871;
-  margin-bottom: 0; }
-
-.callout.definition.js-inserted-definition {
-  margin-bottom: 1em; }
+  border-left: 5px solid #ecd871; }
 
 .admin-tools {
   position: fixed;

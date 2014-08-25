@@ -61,6 +61,11 @@ class Account
 
     highest = 0
 
+    # Initial experience value
+    if experience.nil?
+        experience = 0
+    end
+
     if (experience < levels[1])
         return 0
     end
@@ -84,6 +89,12 @@ class Account
   end
 
   def percent_of_level()
+
+    # Initial experience value
+    if experience.nil?
+        experience = 0
+    end
+
     current_level = get_level
     current_xp = experience
     old_needed_xp = levels[current_level]

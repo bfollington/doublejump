@@ -2,7 +2,7 @@
 {
     position: absolute;
     padding: 15px;
-    border: 1px solid #ccc;
+    border-bottom: 2px solid #ccc;
     border-radius: 3px;
 
     display: none;
@@ -25,5 +25,20 @@
 {
     max-height: 320px;
     overflow-y: scroll;
+}
+
+.step-body
+{
+    .comment
+    {
+        position: absolute;
+        right: 0.3em; 
+        margin-top: -0.5em;
+
+        background: white;
+        padding-right: 0.3em;
+
+        @include border-radius(2px);
+    }
 }
 

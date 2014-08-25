@@ -130,6 +130,8 @@
 .step-body
 {
 
+    padding-right: 0.3em;
+
     img
     {
         //border-bottom: 2px solid #aaa;
@@ -144,23 +146,23 @@
         margin: 0 auto;
     }
 
-    .comment
-    {
-        position: relative;
-    }
+    // .comment
+    // {
+    //     position: relative;
+    // }
 
-    .zoom-wrapper + .comment,
-    pre + p .comment,
-    .hideable-inner + p .comment,
-    .callout.definition + p .comment,
-    img.plus-cursor + .comment,
-    div:not(.tooltip) + p .comment,
-    div:not(.tooltip) + .comment,
-    .callout.info + p .comment
-    {
-        display: table;
-        margin: 0 auto;
-    }
+    // .zoom-wrapper + .comment,
+    // pre + p .comment,
+    // .hideable-inner + p .comment,
+    // .callout.definition + p .comment,
+    // img.plus-cursor + .comment,
+    // div:not(.tooltip) + p .comment,
+    // div:not(.tooltip) + .comment,
+    // .callout.info + p .comment
+    // {
+    //     display: table;
+    //     margin: 0 auto;
+    // }
 }
 
 .completed

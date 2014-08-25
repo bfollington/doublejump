@@ -17,6 +17,7 @@ var comments = new function()
             var $parent = $(this).parent().parent().parent().parent();
             // This will be a .hideable-inner in an edge case
             var $otherParent = $(this).parent().parent().parent();
+            var $sibling = $(this).prev();
 
             // Strip comments out of hideable sections, they shouldn't be there in the first place.
             if ($otherParent.is(".hideable-inner"))
@@ -24,6 +25,8 @@ var comments = new function()
                 $(this).remove();
                 return true;
             }
+
+            var blockElementComments = [];
 
             if ($parent.attr("id") != "sharing_lightbox")
             {
@@ -86,6 +89,21 @@ var comments = new function()
             } );
 
         } );
+
+        // Move comments after text to start of paragraph
+        $(".step-body :not(div) + p .comment").each( function () {
+
+            $(this).prependTo($(this).parent());
+        });
+
+        var $firstComment = $(".step-body .comment").first();
+        $firstComment.prependTo($firstComment.parent());
+
+        // Move comments after divs to be before them instead
+        $(".step-body div + p .comment").each( function () {
+
+            $(this).parent().insertBefore($(this).parent().prev());
+        });
 
         $('html').on( "touchstart, click", function (e) {
 
