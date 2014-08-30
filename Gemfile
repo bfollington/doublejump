@@ -31,6 +31,9 @@ gem 'moneta'
 # analytics
 gem 'newrelic_rpm'
 
+# billing
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+
 # Test requirements
 group :test do
 	gem 'rspec'

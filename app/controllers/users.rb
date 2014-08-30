@@ -1,5 +1,7 @@
 LearnToGameDev::App.controllers :users do
   
+    require "stripe"
+
     get :you do
         @yours = true
         @account = current_account
@@ -53,6 +55,28 @@ LearnToGameDev::App.controllers :users do
     post :account_settings, :map => '/users/you/account-settings' do
 
         @account = current_account
+
+        # Update the billing details for this account
+        if !@account.stripe_customer_id
+
+            Stripe.api_key = stripe_secret_key
+
+            # Get the credit card details submitted by the form
+            token = params[:stripeToken]
+
+            # Create a Customer
+            customer = Stripe::Customer.create(
+                :card => token,
+                :plan => "test_subscription",
+                :email => params[:account][:email]
+            )
+
+            @account.stripe_customer_id = customer.id
+
+        else
+            customer = Stripe::Customer.retrieve(@account.stripe_customer_id)
+            customer.card = params[:stripeToken]
+        end
 
         @account.name = params[:account][:name]
         @account.surname = params[:account][:surname]

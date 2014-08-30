@@ -13,6 +13,7 @@ class Account
   field :avatar,           :type => String
   field :experience,       :type => Integer, default: 0
   field :public_profile,   :type => Boolean, default: true
+  field :stripe_customer_id, :type => String
 
   # Validations
   validates_presence_of     :email, :role, :name, :surname, :username

@@ -22,6 +22,14 @@ LearnToGameDev::App.helpers do
 
   end
 
+  def stripe_publishable_key()
+    "pk_test_90Yk2QxvQRPpw2T5qEQtyvoP"
+  end
+
+  def stripe_secret_key()
+    "sk_test_gaalOSmbAPE4yDeFmawGMW2w"
+  end
+
   def darken_color(hex_color, amount=0.4)
     hex_color = hex_color.gsub('#','')
     rgb = hex_color.scan(/../).map {|color| color.hex}

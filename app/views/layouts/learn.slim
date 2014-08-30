@@ -54,3 +54,4 @@ html.no-js lang="en"
             = partial 'elements/footer'
 
     = partial( local_or_live('includes/local_app_js', 'includes/live_app_js') )
+    = yield_content :include_end_body
