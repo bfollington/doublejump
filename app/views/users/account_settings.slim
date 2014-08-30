@@ -1,0 +1,67 @@
+div.center-text
+    ol.breadcrumb
+        li 
+            a href="/users/you" You
+            li.active 
+                | Account Settings
+
+.create-account-form
+    = form_for :account, "", { :id => 'editAccountSettingsForm' } do |f|
+        / Fake fields to stop Chrome autofilling the users details in the settings form
+        input style="display:none" type="text" name="fakeusernameremembered"
+        input style="display:none" type="password" name="fakepasswordremembered"
+
+        .row
+            .col-lg-12
+                .box
+                    a.class.button.create-button.float-right.nudge-down href="/users/you" Back to Your Profile
+
+                    h2 Account Settings
+
+                    p Here you can change your billing information, as well as set up any preferences for how you'd like to use the website.
+
+                    h3 Billing Details
+
+                    .row
+                        .col-md-6
+                            p
+                                = f.label :name, :caption => "First Name"
+                                = f.text_field :name, :class => "form-control", :required => true
+                                = partial 'form_error', :collection => (errors_for @account, :name), :placeholder => "Donald"
+                        .col-md-6
+                            p
+                                = f.label :surname, :caption => "Surname"
+                                = f.text_field :surname, :class => "form-control", :required => true
+                                = partial 'form_error', :collection => (errors_for @account, :surname), :placeholder => "Glover"
+
+                    .row
+                        .col-xs-12
+                            p If you leave everything below here blank, your billing details will remain the same. We don't store your credit card information on our servers, for your safety.
+
+                    h3 Login and Contact Details
+
+                    p
+                        = f.label :email, :caption => "Email"
+                        = f.email_field :email, :class => "form-control", :placeholder => "me@website.com", :required => true
+                        = partial 'form_error', :collection => (errors_for @account, :email)
+                        small  
+                            | You can change your email address at any time, which will change which address you sign in with. Try not to forget!
+
+                    p
+                        = f.label :password, :caption => "Password"
+                        = f.password_field :password, :class => "form-control", :value => ""
+                        = partial 'form_error', :collection => (errors_for @account, :password)
+                        small
+                            | Change your password, leave this box blank and nothing will change.
+
+                    p
+                        = f.label :password_confirmation, :caption => "Password (Confirm)"
+                        = f.password_field :password_confirmation, :class => "form-control", :value => ""
+                        = partial 'form_error', :collection => (errors_for @account, :password_confirmation)
+                        small
+                            | Type your password again, just to be sure. Leave it blank if you left password blank too.
+
+        .row
+            .col-lg-12
+                p.center-text
+                    = f.submit "Save", :class => 'button create-button'

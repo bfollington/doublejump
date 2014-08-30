@@ -6,12 +6,12 @@
             = form_tag '/login', :class => 'login-form', :id => "login_form" do
                 p
                     = label_tag :email
-                    = text_field_tag :email, :value => params[:email], :class => "form-control", :placeholder => "me@website.com"
+                    = email_field_tag :email, :value => params[:email], :class => "form-control", :placeholder => "me@website.com", :required => true
                     small
                         | The email you signed up with
                 p
                     = label_tag :password
-                    = password_field_tag :password, :value => params[:password], :class => "form-control", :placeholder => "secret1234"
+                    = password_field_tag :password, :value => params[:password], :class => "form-control", :placeholder => "secret1234", :required => true
                     small
                         | The password you gave us, if you've forgotten it 
                         a href="/forgotten" 

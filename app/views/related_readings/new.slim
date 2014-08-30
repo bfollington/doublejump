@@ -10,7 +10,7 @@
 
                     p
                         = f.label :link, :caption => "Related Reading Link"
-                        = f.text_field :link, :class => "form-control"
+                        = f.url_field :link, :class => "form-control"
                         = partial 'form_error', :collection => (errors_for @related_reading, :link)
 
         .row

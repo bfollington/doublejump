@@ -282,6 +282,9 @@ ul.inline li {
 .no-margin-bottom {
   margin-bottom: 0px; }
 
+.no-margin-top {
+  margin-top: 0px; }
+
 .big-margin-bottom {
   margin-bottom: 20px; }
 

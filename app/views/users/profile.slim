@@ -1,37 +1,39 @@
-a.class.button.create-button.position-almost-right href="/profile/edit" Edit Profile
+- if @yours
+    a.class.button.create-button.position-almost-right href="/users/you/edit-profile" Edit Profile
+    a.class.button.create-button href="/users/you/account-settings" Account Settings
 
 .fadeInUp.animated
 
     
     h2.center-text.no-margin-bottom
-        img.avatar.medium.centered src="#{current_account.avatar}"
-        = current_account.name
+        img.avatar.medium.centered src="#{@account.avatar}"
+        = @account.name
         |  
-        = current_account.surname
-
-    - if @yours
-        p.center-text
-            small.extra-small style="position: relative; top: 5px;"
-                | Hey! How's it going?
+        = @account.surname
+    h5.center-text.no-margin-top
+        = "@" + @account.username
+        - if @yours
+            small
+                |  (Hey! How's it going?)
 
     p.center-text.no-margin
-        = "Level #{current_account.get_level}" 
+        = "Level #{@account.get_level}" 
         .level-progress
-            .current style="width: #{current_account.percent_of_level}%;"
+            .current style="width: #{@account.percent_of_level}%;"
             .current-xp
-                = current_account.experience
+                = @account.experience
                 | XP
         .needed-xp
-            = current_account.needed_xp
+            = @account.needed_xp
             | XP
 
     p.center-text
-        = current_account.bio
+        = @account.bio
 
     h4 Courses In Progress
 
     .row
-        - current_account.started_courses.each do |started_course|
+        - @account.started_courses.each do |started_course|
             .col-md-4.col-sm-6.col-xs-12
                 = partial 'learn/elements/course_block', :object => started_course.course
                 p.text-center.no-margin
@@ -43,6 +45,6 @@ a.class.button.create-button.position-almost-right href="/profile/edit" Edit Pro
     h4 Completed Courses
 
     .row
-        - current_account.completed_courses.each do |completed_course|
+        - @account.completed_courses.each do |completed_course|
             .col-md-4.col-sm-6.col-xs-12
                 = partial 'learn/elements/course_block', :object => completed_course.course
