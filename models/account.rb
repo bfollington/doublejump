@@ -7,13 +7,15 @@ class Account
   field :surname,          :type => String
   field :bio,              :type => String
   field :email,            :type => String
+  field :username,         :type => String
   field :crypted_password, :type => String
   field :role,             :type => String
   field :avatar,           :type => String
-  field :experience,       :type => Integer
+  field :experience,       :type => Integer, default: 0
+  field :public_profile,   :type => Boolean, default: true
 
   # Validations
-  validates_presence_of     :email, :role, :name, :surname
+  validates_presence_of     :email, :role, :name, :surname, :username
   validates_presence_of     :password,                   :if => :password_required
   validates_presence_of     :password_confirmation,      :if => :password_required
   validates_length_of       :password, :within => 4..40, :if => :password_required
@@ -22,6 +24,8 @@ class Account
   validates_uniqueness_of   :email,    :case_sensitive => false
   validates_format_of       :email,    :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   validates_format_of       :role,     :with => /[A-Za-z]/
+  validates_uniqueness_of   :username, :case_sensitive => false
+  validates_length_of       :username, :within => 1..40
 
   has_many :reported_comments
   has_many :comments
@@ -62,17 +66,17 @@ class Account
     highest = 0
 
     # Initial experience value
-    if experience.nil?
-        experience = 0
+    if self.experience.nil?
+        self.experience = 0
     end
 
-    if (experience < levels[1])
+    if (self.experience < levels[1])
         return 0
     end
 
     levels.each do |key, xp|
         highest = key
-        if (experience > xp)
+        if (self.experience > xp)
             return key 
         end
     end
@@ -90,13 +94,13 @@ class Account
 
   def percent_of_level()
 
-    # Initial experience value
-    if experience.nil?
-        experience = 0
+    # Initial self.experience value
+    if self.experience.nil?
+        self.experience = 0
     end
 
     current_level = get_level
-    current_xp = experience
+    current_xp = self.experience
     old_needed_xp = levels[current_level]
     needed_xp = levels[current_level + 1]
     if (needed_xp - old_needed_xp) != 0
