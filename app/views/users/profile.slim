@@ -11,7 +11,7 @@
         |  
         = @account.surname
     h5.center-text.no-margin-top
-        = "@" + (@account.username.nil?) ? "" : @account.username
+        = "@" + (if @account.username.nil? then "" else @account.username end)
         - if @yours
             small
                 |  (Hey! How's it going?)
