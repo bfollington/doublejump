@@ -59,7 +59,7 @@ module LearnToGameDev
 
     get :login do
       if current_account
-        redirect url(:profile)
+        redirect url("/users/you")
       else
         render 'login', :layout => :learn
       end
