@@ -12,6 +12,7 @@ source 'https://rubygems.org'
 
 #rack server
 gem 'unicorn'
+gem 'puma'
 
 # Project requirements
 gem 'rake'
