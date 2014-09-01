@@ -71,7 +71,7 @@ module LearnToGameDev
 
       if account
         set_current_account(account)
-        redirect url(:profile)
+        redirect url(:users, :you)
       else
         session[:flash] = "Invalid email/password combination."
         redirect url(:login)
