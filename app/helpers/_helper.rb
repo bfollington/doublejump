@@ -22,6 +22,10 @@ LearnToGameDev::App.helpers do
 
   end
 
+  def include_phaser()
+    javascript_include_tag( local_or_live('/local_required/phaser.min.js', '//cdnjs.cloudflare.com/ajax/libs/phaser/2.0.6/phaser.min.js') )
+  end
+
   def stripe_publishable_key()
     "pk_test_90Yk2QxvQRPpw2T5qEQtyvoP"
   end

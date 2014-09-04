@@ -1,0 +1,97 @@
+= include_phaser
+
+javascript:
+
+    function addTween(game, object)
+    {
+        return game.add.tween(object);
+    }
+
+    function addSprite(game, x, y, spriteName)
+    {
+        return game.add.sprite(x, y, spriteName);
+    }
+
+    function addText(game, x, y, text, style)
+    {
+        return game.add.text(x, y, text, style);
+    }
+
+    function defaultTextStyle()
+    {
+        return { font: "16px Nunito", fill: "#000000", align: "left" };
+    }
+
+    function DrawableRect(x, y, width, height)
+    {
+        var shape = new Phaser.Rectangle(x, y, width, height);
+        this.draw = function (game)
+        {
+            game.debug.geom(shape, "#ff0000", false);
+        };
+    }
+
+javascript:
+
+    function HelloPhaser()
+    {
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, 'helloPhaser', { preload: preload, create: create, update: update, render: render }, true);
+        game.shapes = [];
+
+        function preload () {
+
+            game.load.image('logo', '/phaser.png');
+
+        }
+
+        function testState ()
+        {
+
+        }
+
+        function create () {
+
+            game.state.add('testState', HelloPhaser.testState);
+
+            game.physics.startSystem(Phaser.Physics.ARCADE);
+
+            var logo = addSprite(game, game.world.centerX, game.world.centerY, 'logo');
+            logo.anchor.setTo(0.5, 0.5);
+
+            var t = addText(
+                game,
+                game.world.centerX,
+                0,
+                "Hello world!",
+                defaultTextStyle() );
+
+            addTween(game, t).to(
+                {y: 32},
+                500,
+                Phaser.Easing.Linear.None,
+                true
+            );
+
+        }
+
+        function update()
+        {
+
+        }
+
+        function render()
+        {
+            for (var i = 0; i < game.shapes.length; i++)
+            {
+                game.shapes[i].draw(game);
+            }
+        }
+    };
+
+    window.onload = function() {
+
+        HelloPhaser();
+
+    };
+
+#helloPhaser

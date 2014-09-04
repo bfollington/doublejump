@@ -1,0 +1,18 @@
+doctype 5
+
+html.no-js lang="en"
+
+    head
+
+        meta charset="utf-8"
+        meta name="viewport" content="width=device-width, initial-scale=1"
+
+        title Blanko
+
+        = partial 'includes/favicons'
+
+    body
+
+        = yield
+
+    = partial( local_or_live('includes/local_app_js', 'includes/live_app_js') )

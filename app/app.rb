@@ -53,6 +53,10 @@ module LearnToGameDev
       render 'notify', :layout => :landing
     end
 
+    get :interative, :map => '/interactive/:partial' do
+        render "interactive/" + params[:partial], :layout => :blank
+    end
+
     #
     # USER AUTHENTICATION
     #
