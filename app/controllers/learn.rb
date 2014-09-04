@@ -233,6 +233,8 @@ def process_macro(macro)
   elsif (name == "one-column")
     @content = RDiscount.new(params[0], :no_superscript).to_html
     render 'macros/one-column', :layout => false
+  elsif (name == "interactive")
+    render 'interactive/' + params[0], :layout => false
   elsif (name == "hideable")
     @item_text = RDiscount.new(params[1], :no_superscript).to_html
     @item_title = params[0]

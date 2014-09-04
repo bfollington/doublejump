@@ -2424,6 +2424,12 @@ code {
 
 .step-body a {
   display: inline-block; }
+.step-body .interactive {
+  width: 100%;
+  margin-bottom: 1em; }
+  .step-body .interactive canvas {
+    display: block;
+    margin: 0 auto; }
 
 .js-inserted-definition {
   -webkit-animation-duration: 0.3s;

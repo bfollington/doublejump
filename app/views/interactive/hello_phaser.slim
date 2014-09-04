@@ -1,4 +1,5 @@
-= include_phaser
+- content_for :include_js do
+    = include_phaser
 
 javascript:
 
@@ -22,12 +23,37 @@ javascript:
         return { font: "16px Nunito", fill: "#000000", align: "left" };
     }
 
+    function initShapeDrawing(game)
+    {
+        game.shapes = [];
+    }
+
+    function addShape(game, shape)
+    {
+        game.shapes.push(shape);
+    }
+
     function DrawableRect(x, y, width, height)
     {
-        var shape = new Phaser.Rectangle(x, y, width, height);
+        var top = new Phaser.Line(x, y, x + width, y);
+        var right = new Phaser.Line(x + width, y, x + width, y + height);
+        var bottom = new Phaser.Line(x, y + height, x + width, y + height);
+        var left = new Phaser.Line(x, y, x, y + height);
         this.draw = function (game)
         {
-            game.debug.geom(shape, "#ff0000", false);
+            game.debug.geom(top, "#000000", false);
+            game.debug.geom(right, "#000000", false);
+            game.debug.geom(bottom, "#000000", false);
+            game.debug.geom(left, "#000000", false);
+        };
+    }
+
+    function DrawableLine(x1, y1, x2, y2)
+    {
+        var shape = new Phaser.Line(x1, y1, x2, y2);
+        this.draw = function (game)
+        {
+            game.debug.geom(shape, "#000000", true);
         };
     }
 
@@ -35,48 +61,97 @@ javascript:
 
     function HelloPhaser()
     {
-        var game = new Phaser.Game(800, 600, Phaser.AUTO, 'helloPhaser', { preload: preload, create: create, update: update, render: render }, true);
-        game.shapes = [];
+        var game = new Phaser.Game(320, 320, Phaser.AUTO, 'helloPhaser', { preload: preload, create: create, update: update, render: render }, true, false);
+        var label, blobby, left, up, right, down, fullscreen;
 
         function preload () {
 
-            game.load.image('logo', '/phaser.png');
+            game.load.image('blobby', '/interactive/blobby.png');
+            game.load.image('left', '/interactive/left.png');
+            game.load.image('right', '/interactive/right.png');
+            game.load.image('up', '/interactive/up.png');
+            game.load.image('down', '/interactive/down.png');
+            game.load.image('fullscreen', '/interactive/fullscreen.png');
 
+            game.state.add('testState', HelloPhaser.testState);
         }
 
-        function testState ()
+        function moveUp()
         {
+            addTween(game, blobby).to({y: blobby.y - 32}, 100, Phaser.Easing.Linear.None, true);
+        }
 
+        function moveLeft()
+        {
+            addTween(game, blobby).to({x: blobby.x - 32}, 100, Phaser.Easing.Linear.None, true);
+        }
+
+        function moveRight()
+        {
+            addTween(game, blobby).to({x: blobby.x + 32}, 100, Phaser.Easing.Linear.None, true);
+        }
+
+        function moveDown()
+        {
+            addTween(game, blobby).to({y: blobby.y + 32}, 100, Phaser.Easing.Linear.None, true);
         }
 
         function create () {
 
-            game.state.add('testState', HelloPhaser.testState);
+            initShapeDrawing(game);
+            addShape(game, new DrawableLine( game.world.centerX, 0, game.world.centerX, game.world.height) );
+            addShape(game, new DrawableLine( 0, game.world.centerY, game.world.width, game.world.centerY) );
+
+            addText(game, game.world.centerX + 5, 0, "y", defaultTextStyle() );
+            addText(game, game.world.width - 10, game.world.centerY, "x", defaultTextStyle() );
+            addText(game, game.world.centerX - 15, game.world.centerY - 20, "O", defaultTextStyle() );
 
             game.physics.startSystem(Phaser.Physics.ARCADE);
 
-            var logo = addSprite(game, game.world.centerX, game.world.centerY, 'logo');
-            logo.anchor.setTo(0.5, 0.5);
+            blobby = addSprite(game, game.world.centerX, game.world.centerY, 'blobby');
+            up = addSprite(game, 0, 0, 'up');
+            left = addSprite(game, 0, 0, 'left');
+            right = addSprite(game, 0, 0, 'right');
+            down = addSprite(game, 0, 0, 'down');
 
-            var t = addText(
-                game,
-                game.world.centerX,
-                0,
-                "Hello world!",
-                defaultTextStyle() );
+            up.inputEnabled = true;
+            left.inputEnabled = true;
+            right.inputEnabled = true;
+            down.inputEnabled = true;
 
-            addTween(game, t).to(
-                {y: 32},
-                500,
-                Phaser.Easing.Linear.None,
-                true
-            );
+            up.events.onInputDown.add(moveUp, this);
+            left.events.onInputDown.add(moveLeft, this);
+            right.events.onInputDown.add(moveRight, this);
+            down.events.onInputDown.add(moveDown, this);
+
+            label = addText(game, 0, 0, "(0, 0)", defaultTextStyle() );
+
+            //addTween(game, t).to(
+            //    {y: 32},
+            //    500,
+            //    Phaser.Easing.Linear.None,
+            //    true
+            //);
 
         }
 
         function update()
         {
+            label.setText("(" + Math.round((blobby.x - game.world.centerX) / 32) + ", " + Math.round((blobby.y - game.world.centerY) / 32) + ")");
+            label.x = blobby.x + 32;
+            label.y = blobby.y + 22;
 
+            up.x = blobby.x;
+            up.y = blobby.y - 32;
+
+            down.x = blobby.x;
+            down.y = blobby.y + 32;
+
+            right.x = blobby.x + 32;
+            right.y = blobby.y;
+
+            left.x = blobby.x - 32;
+            left.y = blobby.y;
         }
 
         function render()
@@ -94,4 +169,5 @@ javascript:
 
     };
 
-#helloPhaser
+#helloPhaser.interactive
+.callout.notification Click on the arrows to move blobby around, you can see his coordinates (x, y) next to him.
