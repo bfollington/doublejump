@@ -10,6 +10,11 @@
         = partial 'form_error', :collection => (errors_for @account, :surname)
 
     %p
+        = f.label :username, :caption => "Username"
+        = f.text_field :username
+        = partial 'form_error', :collection => (errors_for @account, :username)
+
+    %p
         = f.label :email, :caption => "Email"
         = f.text_field :email
         = partial 'form_error', :collection => (errors_for @account, :email)

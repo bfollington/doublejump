@@ -105,7 +105,7 @@ module LearnToGameDev
         set_current_account(@account)
         redirect url(:profile)
       else
-        render 'register'
+        render 'register', :layout => :app
       end
     end
 
