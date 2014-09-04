@@ -103,7 +103,7 @@ module LearnToGameDev
       if (@account.valid?)
         @account.save
         set_current_account(@account)
-        redirect url(:profile)
+        redirect url(:users, :you)
       else
         render 'register', :layout => :app
       end

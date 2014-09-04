@@ -18,12 +18,12 @@ RSpec.configure do |conf|
     puts "-> Populating DB using: #{ENV["TESTING_DB"]}"
     
     if ENV["TESTING_DB"] == "DEPLOY"
-      system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/deploy_db_dump/*"
+      system "mongorestore --host localhost --port 27017 --db learn_to_game_dev_test dumps/deploy_db_dump"
     elsif ENV["TESTING_DB"] == "MANUAL"
-      system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/manual_dump/*"
+      system "mongorestore --host localhost --port 27017 --db learn_to_game_dev_test dumps/manual_dump"
     else
       system "padrino rake dump_dev_db"
-      system "mongorestore -h localhost:27017 -d learn_to_game_dev_test ./dumps/development_db_dump/*"
+      system "mongorestore --host localhost --port 27017 --db learn_to_game_dev_test dumps/development_db_dump/learn_to_game_dev_development"
     end
 
     # Perform any migrations that we don't have yet
