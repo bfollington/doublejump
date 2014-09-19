@@ -1,16 +1,14 @@
-class RelatedReading
+class Notification
   include Mongoid::Document
   include Mongoid::Timestamps # adds created_at and updated_at fields
 
   # field <name>, :type => <type>, :default => <value>
-  field :title, :type => String
-  field :link, :type => String
+  field :content, :type => String
+  field :action, :type => String
 
-  validates_format_of :link, with: /\A(https?|ftp):\/\/[^\s\/$\.\?#]+\.[^\s]+\z/, message: "Must be a valid URL"
-  validates_presence_of :title, message: "Title is required!"
-  validates_presence_of :link, message: "No point in making a reading without a link..."
+  validates_presence_of :content, message: "Notifications need content!"
 
-  has_and_belongs_to_many :lessons
+  embedded_in :account
 
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>

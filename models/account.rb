@@ -11,7 +11,7 @@ class Account
   field :crypted_password, :type => String
   field :role,             :type => String
   field :avatar,           :type => String
-  field :experience,       :type => Integer, default: 0
+  field :experience,       :type => Integer
   field :public_profile,   :type => Boolean, default: true
   field :stripe_customer_id, :type => String
 
@@ -38,6 +38,7 @@ class Account
   has_many :completed_courses
   has_many :started_courses
   has_many :shared_images
+  embeds_many :notifications
 
   # Callbacks
   before_save :encrypt_password, :if => :password_required
@@ -75,10 +76,11 @@ class Account
         return 0
     end
 
+    highest = 1
+
     levels.each do |key, xp|
-        highest = key
-        if (self.experience > xp)
-            return key 
+        if (self.experience >= xp)
+            highest = key
         end
     end
 
@@ -118,7 +120,7 @@ class Account
     if started_course.nil?
       started_course = StartedCourse.new(:course => course, :lesson => lesson, :step => step, :account => self)
       started_courses << started_course
-      save
+      save!
     else
       started_course.lesson = lesson
       started_course.step = step
@@ -127,41 +129,64 @@ class Account
 
   end
 
+  def send_notification(content, action=nil)
+    notifications << Notification.new(content: content, action: action)
+  end
+
+  # Returns true if level up occurred
+  def add_xp(xp)
+    old_level = get_level
+
+    self.experience = self.experience + xp
+
+    new_level = get_level
+
+    self.save!
+
+    if new_level != old_level
+        send_notification "You reached level #{new_level}! Awesome!"
+    end
+  end
+
   def complete_step(step)
 
     if !has_completed_step? step
-      completed_step = CompletedStep.new(:step => step, :account => self)
-      completed_steps << completed_step
-      save
+        completed_step = CompletedStep.new(:step => step, :account => self)
+        completed_steps << completed_step
+        save!
+
+        self.add_xp(step.experience)
     end
-    
   end
 
+  # Returns true if level up occurred
   def complete_lesson(lesson)
 
     if !has_completed_lesson? lesson
-      completed_lesson = CompletedLesson.new(:lesson => lesson, :account => self)
-      completed_lessons << completed_lesson
-      save
-    end
-    
+        completed_lesson = CompletedLesson.new(:lesson => lesson, :account => self)
+        completed_lessons << completed_lesson
+        save!
+        
+        self.add_xp(lesson.experience)
+    end 
   end
 
+  # Returns true if level up occurred
   def complete_course(course)
 
     if !has_completed_course? course
+        started_course = StartedCourse.where(:course => course, :account => self).first
 
-      started_course = StartedCourse.where(:course => course, :account => self).first
+        if !started_course.nil?
+            started_course.delete
+        end
 
-      if !started_course.nil?
-        started_course.delete
-      end
+        completed_course = CompletedCourse.new(:course => course, :account => self)
+        completed_courses << completed_course
+        save!
 
-      completed_course = CompletedCourse.new(:course => course, :account => self)
-      completed_courses << completed_course
-      save
+        self.add_xp(course.experience)
     end
-    
   end
 
   def has_completed_step?(step)

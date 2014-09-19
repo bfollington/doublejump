@@ -1,0 +1,47 @@
+.header-bar.logged-in
+    - if current_account.avatar
+        .doublejump-gap.center-text
+            a href="/users/you"
+                img.avatar.small src="#{current_account.avatar}"
+    - else
+        a.doublejump  href="/"
+
+    - if current_account.notifications.count > 0
+        .notifications.center-text
+            span.notifications-menu.dropdown
+                a.dropdown-toggle.notification-badge href="#" data-toggle="dropdown"
+                    = current_account.notifications.count
+
+                ul.dropdown-menu
+                    - current_account.notifications.each do |notification| 
+                        li data-id=notification.id
+                            a href="#{notification.action}"
+                                = notification.content
+                                button.remove-notification
+                                    i.fa.fa-times
+
+    div.center-text.padding
+        span.dropdown
+            a href="#" data-toggle="dropdown" class="dropdown-toggle"
+                = " " + current_account.name + " " + current_account.surname + " "
+                i.fa.fa-chevron-down
+
+            ul.dropdown-menu
+                li
+                    a href="/users/you" Dashboard
+                li
+                    a href="/users/you/edit-profile" Edit Profile
+                li
+                    a href="/users/you/account-settings" Account Settings
+                - if current_account.role == "admin"
+                    li
+                        a href="/admin" Padrino Admin
+                    li
+                        a href="/manage" Manage Content
+                li.divider
+                li
+                    a href="/destroy" Logout
+
+        div
+            small.extra-small
+                    | (that's you!)

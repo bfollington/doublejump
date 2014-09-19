@@ -31,3 +31,9 @@
 .fadeOutUpHalfOpacity {
   @include animation-name(fadeOutUpHalfOpacity);
 }
+
+@include keyframes(pulsing) {
+    0%   { background: $link-color; }
+    50%  { background: $link-disabled; }
+    100% { background: $link-color; }
+}

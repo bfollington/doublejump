@@ -619,6 +619,46 @@ var learn = new function()
 
 learn.setUpBannerImage();
 var loadingIndicator = '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
+// notifications.js
+
+var notifications = new function()
+{
+    var self = this;
+
+    self.bindRemoveLinks = function ()
+    {
+        $(".remove-notification").click( function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var $menu = $( this ).closest(".dropdown-menu");
+            console.log($menu);
+
+            var $li = $( this ).closest("li");
+
+            $.postWithCsrf("/notifications/remove/" + $li.attr("data-id"), {}, function (data) {
+                if (!data.success)
+                {
+                    console.error("Notification " + $li.attr("data-id") + " could not be removed.");
+                }
+            })
+
+            $li.remove();
+
+            // Decrement the number of remaining notifications
+            $( ".notification-badge" ).text(parseInt($( ".notification-badge" ).text()) - 1);
+
+            // Remove the whole menu if there are none left
+            if ($menu.children().length == 0)
+            {
+                $menu.remove();
+                $( ".notifications" ).remove();
+            }
+        });
+    };
+}
+
+notifications.bindRemoveLinks();
 // progress-bar.js powers the progress bar during a lesson
 
 var progress = new function()
@@ -1219,6 +1259,11 @@ function showUploadFrame(id, $frame)
         }
     });
 }
+$.postWithCsrf = function (url, data, success)
+{
+    data[$("meta[name=csrf-param]").attr("content")] = $("meta[name=csrf-token]").attr("content");
+    $.post(url, data, success);
+};
 String.prototype.trunc = String.prototype.trunc ||
     function(n) {
         return this.length > n ? this.substr(0, n - 3)+'...' : this;

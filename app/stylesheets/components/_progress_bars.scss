@@ -191,6 +191,9 @@ ul.progress-list{
     height: 0.5em;
     background: $link-disabled;
 
+    margin-top: 1em;
+    padding-bottom: 0.5em;
+
     .current
     {
         background: $link-color;

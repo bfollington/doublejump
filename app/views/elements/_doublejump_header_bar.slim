@@ -1,37 +1,6 @@
 .header
     - if current_account
-        .header-bar.logged-in
-            - if current_account.avatar
-                .doublejump-gap.center-text
-                    a href="/users/you"
-                        img.avatar.small src="#{current_account.avatar}"
-            - else
-                a.doublejump  href="/"
-            div.center-text.padding
-                span.dropdown
-                    a href="#" data-toggle="dropdown" class="dropdown-toggle"
-                        = " " + current_account.name + " " + current_account.surname + " "
-                        i.fa.fa-chevron-down
-
-                    ul.dropdown-menu
-                        li
-                            a href="/users/you" Dashboard
-                        li
-                            a href="/users/you/edit-profile" Edit Profile
-                        li
-                            a href="/users/you/account-settings" Account Settings
-                        - if current_account.role == "admin"
-                            li
-                                a href="/admin" Padrino Admin
-                            li
-                                a href="/manage" Manage Content
-                        li.divider
-                        li
-                            a href="/destroy" Logout
-
-                div
-                    small.extra-small
-                            | (that's you!)
+        = partial "elements/header_bar/user_account_header"
     - else
         .header-bar
             a.doublejump href="/"

@@ -9,7 +9,7 @@ LearnToGameDev::App.controllers :learn, :cache => true do
 
     @courses = Course.all
     @categories = Category.all
-
+    
     render 'learn/index'
   end
 

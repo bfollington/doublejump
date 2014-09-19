@@ -1,97 +1,106 @@
 /*
-Syntax error: Undefined mixin 'background-image-retina'.
-        on line 30 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss, in `background-image-retina'
-        from line 30 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss
+Syntax error: Undefined mixin 'border-radius'.
+        on line 81 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss, in `border-radius'
+        from line 81 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss
 
-25: {
-26:     padding: 1em;
-27: }
-28: 
-29: .doublejump-gap {
-30:     @include background-image-retina('/images/doublejump-gap', 'png', 203px, 28px);
-31:     width: 203px;
-32:     height: 48px;
-33:     margin: 0 auto;
-34:     background-repeat: no-repeat;
-35:     background-position: center;
+76:     ol.breadcrumb
+77:     {
+78:         margin-bottom: 0;
+79:         background: none;
+80:         padding: 0px;
+81:         @include border-radius(0px);
+82:     }
+83: 
+84: }
+85: 
+86: .step-body
 
 Backtrace:
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss:30:in `background-image-retina'
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss:30
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:98:in `block in with_mixin'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:98:in `with_mixin'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:318:in `visit_mixin'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:79:in `block in with_base'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:79:in `with_base'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `visit'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:389:in `block (2 levels) in visit_rule'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:389:in `map'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:389:in `block in visit_rule'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:387:in `visit_rule'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:79:in `block in with_base'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:79:in `with_base'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `visit'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:52:in `map'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:52:in `visit_children'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:161:in `block in visit_children'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:160:in `visit_children'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `block in visit'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:180:in `visit_root'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:151:in `visit'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:8:in `visit'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/root_node.rb:36:in `css_tree'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/root_node.rb:20:in `render'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/engine.rb:274:in `render'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/plugin/compiler.rb:414:in `update_stylesheet'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/plugin/compiler.rb:189:in `block in update_stylesheets'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/plugin/compiler.rb:186:in `each'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/plugin/compiler.rb:186:in `update_stylesheets'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/plugin.rb:82:in `update_stylesheets'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/plugin.rb:54:in `check_for_updates'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/plugin/rack.rb:51:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/better_errors-2.0.0/lib/better_errors/middleware.rb:84:in `protected_app_call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/better_errors-2.0.0/lib/better_errors/middleware.rb:79:in `better_errors_call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/better_errors-2.0.0/lib/better_errors/middleware.rb:57:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-protection-1.5.3/lib/rack/protection/xss_header.rb:18:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-protection-1.5.3/lib/rack/protection/json_csrf.rb:18:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-protection-1.5.3/lib/rack/protection/frame_options.rb:31:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-1.5.2/lib/rack/head.rb:11:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-1.5.2/lib/rack/methodoverride.rb:21:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/padrino-core-0.12.0/lib/padrino-core/reloader/rack.rb:22:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/padrino-core-0.12.0/lib/padrino-core/logger.rb:398:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sinatra-1.4.5/lib/sinatra/show_exceptions.rb:21:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-1.5.2/lib/rack/session/abstract/id.rb:225:in `context'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-1.5.2/lib/rack/session/abstract/id.rb:220:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sinatra-1.4.5/lib/sinatra/base.rb:2014:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sinatra-1.4.5/lib/sinatra/base.rb:1478:in `block in call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sinatra-1.4.5/lib/sinatra/base.rb:1788:in `synchronize'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sinatra-1.4.5/lib/sinatra/base.rb:1478:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/padrino-core-0.12.0/lib/padrino-core/router.rb:82:in `block in call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/padrino-core-0.12.0/lib/padrino-core/router.rb:75:in `each'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/padrino-core-0.12.0/lib/padrino-core/router.rb:75:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/rack-1.5.2/lib/rack/handler/webrick.rb:60:in `service'
-/Users/Ben/.rvm/rubies/ruby-2.0.0-p481/lib/ruby/2.0.0/webrick/httpserver.rb:138:in `service'
-/Users/Ben/.rvm/rubies/ruby-2.0.0-p481/lib/ruby/2.0.0/webrick/httpserver.rb:94:in `run'
-/Users/Ben/.rvm/rubies/ruby-2.0.0-p481/lib/ruby/2.0.0/webrick/server.rb:295:in `block in start_thread'
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss:81:in `border-radius'
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss:81
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:98:in `block in with_mixin'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:98:in `with_mixin'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:318:in `visit_mixin'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:79:in `block in with_base'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:79:in `with_base'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:389:in `block (2 levels) in visit_rule'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:389:in `map'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:389:in `block in visit_rule'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:387:in `visit_rule'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:79:in `block in with_base'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:79:in `with_base'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:389:in `block (2 levels) in visit_rule'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:389:in `map'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:389:in `block in visit_rule'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:387:in `visit_rule'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:79:in `block in with_base'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:79:in `with_base'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:52:in `map'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:161:in `block in visit_children'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:160:in `visit_children'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:180:in `visit_root'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:151:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/root_node.rb:36:in `css_tree'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/root_node.rb:20:in `render'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/engine.rb:274:in `render'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/plugin/compiler.rb:414:in `update_stylesheet'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/plugin/compiler.rb:189:in `block in update_stylesheets'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/plugin/compiler.rb:186:in `each'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/plugin/compiler.rb:186:in `update_stylesheets'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/plugin.rb:82:in `update_stylesheets'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/plugin.rb:54:in `check_for_updates'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/plugin/rack.rb:51:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.3/lib/rack/protection/xss_header.rb:18:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.3/lib/rack/protection/json_csrf.rb:18:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.3/lib/rack/protection/frame_options.rb:31:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/head.rb:11:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/methodoverride.rb:21:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.3/lib/padrino-core/reloader/rack.rb:22:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.3/lib/padrino-core/logger.rb:420:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.5/lib/sinatra/show_exceptions.rb:21:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/session/abstract/id.rb:225:in `context'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/session/abstract/id.rb:220:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.5/lib/sinatra/base.rb:2014:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.5/lib/sinatra/base.rb:1478:in `block in call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.5/lib/sinatra/base.rb:1788:in `synchronize'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.5/lib/sinatra/base.rb:1478:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.3/lib/padrino-core/router.rb:84:in `block in call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.3/lib/padrino-core/router.rb:75:in `each'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.3/lib/padrino-core/router.rb:75:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/puma-2.9.0/lib/puma/server.rb:490:in `handle_request'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/puma-2.9.0/lib/puma/server.rb:361:in `process_client'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/puma-2.9.0/lib/puma/server.rb:254:in `block in run'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/puma-2.9.0/lib/puma/thread_pool.rb:92:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/puma-2.9.0/lib/puma/thread_pool.rb:92:in `block in spawn_thread'
 */
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 30 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss, in `background-image-retina'\A         from line 30 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss\A \A 25: {\A 26:     padding: 1em;\A 27: }\A 28: \A 29: .doublejump-gap {\A 30:     @include background-image-retina('/images/doublejump-gap', 'png', 203px, 28px);\A 31:     width: 203px;\A 32:     height: 48px;\A 33:     margin: 0 auto;\A 34:     background-repeat: no-repeat;\A 35:     background-position: center;"; }
+  content: "Syntax error: Undefined mixin 'border-radius'.\A         on line 81 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss, in `border-radius'\A         from line 81 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/learn.scss\A \A 76:     ol.breadcrumb\A 77:     {\A 78:         margin-bottom: 0;\A 79:         background: none;\A 80:         padding: 0px;\A 81:         @include border-radius(0px);\A 82:     }\A 83: \A 84: }\A 85: \A 86: .step-body"; }

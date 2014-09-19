@@ -24,7 +24,7 @@ gem 'bcrypt-ruby', :require => 'bcrypt'
 gem 'sass'
 gem 'haml'
 gem 'slim'
-gem 'mongoid', '~>3.0.0'
+gem 'mongoid', '~>4.0.0'
 
 # Session management
 gem 'moneta'
@@ -44,7 +44,7 @@ group :test do
 end
 
 # Padrino Stable Gem
-gem 'padrino', '0.12.0'
+gem 'padrino', '0.12.3'
 
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'

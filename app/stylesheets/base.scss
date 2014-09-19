@@ -1,27 +1,23 @@
+a {
+    color: $link-color;
+    transition: .3s;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover, a:active, a:focus {
+    color: $link-hover-color;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .header a, .banner-navigation a {
     color: $header-link-color;
-    transition: .3s;
     font-weight: normal;
 }
 
 .header a:hover, .banner-navigation a:hover {
     color: $header-link-hover-color;
-}
-
-a, .header-bar a {
-    color: $link-color;
-    transition: .3s;
-
-    font-weight: bold;
-
-    text-decoration: none;
-}
-
-a:hover, .header-bar a:hover {
-    color: $link-hover-color;
-
-    text-decoration: none;
-    cursor: pointer;
 }
 
 .comment a
@@ -49,36 +45,7 @@ p, li {
     margin-left: 0.5em;
 }
 
-.create-button
-{
-    @include border-radius(10000px);
-    background-color: $link-color;
-    border: 0px;
-    padding: 5px 15px;
-    color: white;
-    display: inline-block;
-    text-align: center;
 
-    transition: .3s;
-}
-
-.create-button:hover
-{
-    background-color: $link-hover-color;
-    color: white;
-}
-
-.create-button:disabled, .create-button[disabled=disabled]
-{
-    background-color: $link-disabled;
-    @include animation(fading 2s infinite);
-}
-
-@include keyframes(fading) {
-    0%   { background: $link-color; }
-    50%  { background: $link-disabled; }
-    100% { background: $link-color; }
-}
 
 .errors 
 {

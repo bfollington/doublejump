@@ -1,24 +1,33 @@
 @import 'variables';
 @import 'mixins';
 @import 'animations';
+@import 'font-awesome/font-awesome';
+
 @import 'base';
 @import 'forms';
 @import 'util';
+
+@import 'components/header_bar';
+@import 'components/gradient_bar';
+@import 'components/button';
+@import 'components/course_block';
+@import 'components/progress_bars';
+
 @import 'landing-page';
 @import 'footer';
-@import 'font-awesome/font-awesome';
+
 @import 'learn';
-@import 'progress-bars';
-@import 'course-icons-and-colours';
 @import 'sharing-progress';
 @import 'images';
-@import 'override';
+
 @import 'comments';
 @import 'step';
 @import 'definitions';
 @import 'admin-tools';
 @import 'loading';
+
 @import 'fluidbox';
+@import 'override';
 
 a {
    outline: 0;

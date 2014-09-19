@@ -1,23 +1,23 @@
 /*
 Syntax error: Undefined mixin 'background-image-retina'.
-        on line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss, in `background-image-retina'
-        from line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss
+        on line 16 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss, in `background-image-retina'
+        from line 16 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss
 
-19:     padding-top: 0px;
-20:     padding-bottom: 20px;
-21: }
-22: 
-23: .controller-image {
-24:     @include background-image-retina('/images/controller', 'png', 334px, 384px);
-25:     width: 334px;
-26:     height: 384px;
-27:     margin: 0 auto;
-28:     background-repeat: no-repeat;
-29:     background-position: center;
+11:     padding-top: 0px;
+12:     padding-bottom: 20px;
+13: }
+14: 
+15: .controller-image {
+16:     @include background-image-retina('/images/controller', 'png', 334px, 384px);
+17:     width: 334px;
+18:     height: 384px;
+19:     margin: 0 auto;
+20:     background-repeat: no-repeat;
+21:     background-position: center;
 
 Backtrace:
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss:24:in `background-image-retina'
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss:24
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss:16:in `background-image-retina'
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss:16
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:98:in `block in with_mixin'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
@@ -71,8 +71,8 @@ Backtrace:
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-protection-1.5.3/lib/rack/protection/frame_options.rb:31:in `call'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/head.rb:11:in `call'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/methodoverride.rb:21:in `call'
-/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.0/lib/padrino-core/reloader/rack.rb:22:in `call'
-/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.0/lib/padrino-core/logger.rb:398:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.3/lib/padrino-core/reloader/rack.rb:22:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.3/lib/padrino-core/logger.rb:420:in `call'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.5/lib/sinatra/show_exceptions.rb:21:in `call'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/session/abstract/id.rb:225:in `context'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/session/abstract/id.rb:220:in `call'
@@ -80,15 +80,16 @@ Backtrace:
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.5/lib/sinatra/base.rb:1478:in `block in call'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.5/lib/sinatra/base.rb:1788:in `synchronize'
 /Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/sinatra-1.4.5/lib/sinatra/base.rb:1478:in `call'
-/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.0/lib/padrino-core/router.rb:82:in `block in call'
-/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.0/lib/padrino-core/router.rb:75:in `each'
-/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.0/lib/padrino-core/router.rb:75:in `call'
-/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/rack-1.5.2/lib/rack/handler/webrick.rb:60:in `service'
-/Users/Ben/.rvm/rubies/ruby-1.9.3-p484/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
-/Users/Ben/.rvm/rubies/ruby-1.9.3-p484/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
-/Users/Ben/.rvm/rubies/ruby-1.9.3-p484/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.3/lib/padrino-core/router.rb:84:in `block in call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.3/lib/padrino-core/router.rb:75:in `each'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/padrino-core-0.12.3/lib/padrino-core/router.rb:75:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/puma-2.9.0/lib/puma/server.rb:490:in `handle_request'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/puma-2.9.0/lib/puma/server.rb:361:in `process_client'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/puma-2.9.0/lib/puma/server.rb:254:in `block in run'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/puma-2.9.0/lib/puma/thread_pool.rb:92:in `call'
+/Users/Ben/.rvm/gems/ruby-1.9.3-p484/gems/puma-2.9.0/lib/puma/thread_pool.rb:92:in `block in spawn_thread'
 */
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss, in `background-image-retina'\A         from line 24 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss\A \A 19:     padding-top: 0px;\A 20:     padding-bottom: 20px;\A 21: }\A 22: \A 23: .controller-image {\A 24:     @include background-image-retina('/images/controller', 'png', 334px, 384px);\A 25:     width: 334px;\A 26:     height: 384px;\A 27:     margin: 0 auto;\A 28:     background-repeat: no-repeat;\A 29:     background-position: center;"; }
+  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 16 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss, in `background-image-retina'\A         from line 16 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss\A \A 11:     padding-top: 0px;\A 12:     padding-bottom: 20px;\A 13: }\A 14: \A 15: .controller-image {\A 16:     @include background-image-retina('/images/controller', 'png', 334px, 384px);\A 17:     width: 334px;\A 18:     height: 384px;\A 19:     margin: 0 auto;\A 20:     background-repeat: no-repeat;\A 21:     background-position: center;"; }

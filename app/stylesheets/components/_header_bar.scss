@@ -1,0 +1,66 @@
+.header-bar a {
+    color: $link-color;
+    font-weight: bold;
+}
+
+.header-bar a:hover {
+    color: $link-hover-color;
+}
+
+.header-bar {
+    background-color: white;
+}
+
+.header-bar.logged-in {
+    padding: 10px;
+}
+
+.doublejump-gap {
+    @include background-image-retina('/images/doublejump-gap', 'png', 203px, 28px);
+    width: 203px;
+    height: 48px;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 10px;
+}
+
+.notifications
+{
+    margin-bottom: -1em;
+}
+
+button.remove-notification
+{
+    background: none;
+    padding: 0;
+    border: none;
+    margin-left: 1em;
+    color: $link-color;
+}
+
+a.notification-badge {
+    position: relative;
+    left: 2em;
+    top: -1em;
+
+    @include border-radius(1000px);
+
+    border: 1px solid red;
+    display: inline-block;
+    font-size: 0.7em;
+
+    color: white;
+
+    background-color: red;
+    width: 1.5em;
+    height: 1.5em;
+
+    text-decoration: none;
+}
+
+a.notification-badge:hover
+{
+    color: red;
+    background-color: white;
+}

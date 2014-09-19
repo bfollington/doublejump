@@ -1,0 +1,24 @@
+.create-button
+{
+    @include border-radius(10000px);
+    background-color: $link-color;
+    border: 0px;
+    padding: 5px 15px;
+    color: white;
+    display: inline-block;
+    text-align: center;
+
+    transition: .3s;
+}
+
+.create-button:hover
+{
+    background-color: $link-hover-color;
+    color: white;
+}
+
+.create-button:disabled, .create-button[disabled=disabled]
+{
+    background-color: $link-disabled;
+    @include animation(pulsing 2s infinite);
+}
