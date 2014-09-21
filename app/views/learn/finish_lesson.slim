@@ -11,18 +11,24 @@
                 p
                     = "You just finished off #{@lesson.title}, nice work. Now what?" 
 
-                - next_lesson = @course.get_next_lesson(@lesson)
-                p.center-text
-                    a.button.create-button.margin-right href="/learn/#{@course.slug}#first_lesson"
-                        = "Course Overview"
-                    a.button.create-button href="/learn/#{@course.slug}/#{next_lesson.slug}"
-                        = "Next Lesson \"#{next_lesson.title}\""
-
             - else
                 p.center-text
                     img src="http://d2wkzz9b3028w4.cloudfront.net/finish_lesson.png"
                 p
                     = "That's the end of \"#{@course.title}\", good job. What's next?"
+
+- if !@completing_course
+
+    h4 Up Next
+
+    - next_lesson = @course.get_next_lesson(@lesson)
+
+    = partial 'learn/elements/lesson_block', :object => next_lesson
+
+    p.center-text
+        | or 
+        a.button.create-button.margin-right href="/learn/#{@course.slug}#first_lesson"
+            = "Course Overview"
 
 
 - if @completing_course
