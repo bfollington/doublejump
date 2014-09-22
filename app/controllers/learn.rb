@@ -90,7 +90,7 @@ LearnToGameDev::App.controllers :learn, :cache => true do
     fetch_lesson(params[:lesson])
     fetch_step(params[:step])
 
-    @body_edited = insert_comment_tags @step.body
+    @body_edited = insert_comment_tags @step.body, @step
     @body_edited = expand_macros @body_edited
     @body_edited = RDiscount.new(@body_edited, :no_superscript).to_html
     @body_edited = lazy_load_images @body_edited
@@ -179,9 +179,9 @@ end
 #
 # Marks up the body of the step with comment tags, replace _#num_ by a comment icon.
 #
-def insert_comment_tags(body)
+def insert_comment_tags(body, step)
   body.scan(Step.id_regex).each do |tag|
-    html_tag = "<span class='comment' data-group='#{tag[0][2..-3]}' id='comment_#{tag[0][2..-3]}'></span>"
+    html_tag = "<span class='comment' data-group='#{tag[0][2..-3]}' data-count='#{step.comments.where(group: tag[0][2..-3]).count}' id='comment_#{tag[0][2..-3]}'></span>"
 
     body = body.gsub(tag[0], html_tag)
   end

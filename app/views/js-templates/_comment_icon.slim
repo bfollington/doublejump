@@ -1,5 +1,15 @@
 - comment_count = comment_count || "{{#comment-count}}"
 
-a href='' title="View Comments"
-    i.fa.fa-comment
-    = comment_count
+- if comment_count.to_i > 0
+    - title = "View Comments"
+- else
+    - title = "Leave a comment!"
+
+a href='' title="#{title}"
+    - if comment_count.to_i <= 0
+        i.fa.fa-plus
+    - else
+        = comment_count
+        |  
+        i.fa.fa-comment
+

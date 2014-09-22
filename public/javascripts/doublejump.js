@@ -134,7 +134,7 @@ var comments = new function()
 
             if ($(this).closest(".shared-wrapper").length == 0)
             {
-                $(this).html(getTemplate("_comment_icon"));
+                $(this).html( format( getTemplate("_comment_icon"), {"comment-count": $(this).attr("data-count") }) );
             }
 
             $(this).find('a').on("touchstart, click", function (e) { 
