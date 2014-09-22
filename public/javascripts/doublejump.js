@@ -132,7 +132,7 @@ var comments = new function()
 
             var blockElementComments = [];
 
-            if ($parent.attr("id") != "sharing_lightbox")
+            if ($(this).closest(".shared-wrapper").length == 0)
             {
                 $(this).html(getTemplate("_comment_icon"));
             }

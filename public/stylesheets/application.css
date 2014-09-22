@@ -2368,6 +2368,10 @@ img.shared-image {
       width: 49%; } }
   .shared-wrapper .caption {
     padding: 0.2em; }
+    .shared-wrapper .caption .comment a {
+      color: #4faee8; }
+    .shared-wrapper .caption .comment a:hover {
+      color: #0084d5; }
 
 .action-list {
   list-style-type: none;

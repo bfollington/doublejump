@@ -102,6 +102,16 @@ img.shared-image
     .caption
     {
         padding: 0.2em;
+
+        .comment a
+        {
+            color: $link-color
+        }
+
+        .comment a:hover
+        {
+            color: $link-hover-color
+        }
     }
 }
 
