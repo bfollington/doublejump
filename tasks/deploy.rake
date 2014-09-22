@@ -6,6 +6,11 @@ def say_something(thing)
     puts "==========================\n".light_blue
 end
 
+task :up do
+    system "mongod &"
+    system "padrino s"
+end
+
 # Disable these tasks on heroku
 if ENV["DEBUG"] != 'false'
 
