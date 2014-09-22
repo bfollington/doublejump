@@ -114,7 +114,7 @@ var comments = new function()
         var id = "#comment_frame";
         var $frame = $(id);
 
-        $(".step-body .comment, #sharing_lightbox .comment").each( function() {
+        $(".step-body .comment, .shared-wrapper .comment").each( function() {
 
             var $comment = $(this);
             // Almost always the column content resides in
@@ -569,7 +569,7 @@ var learn = new function()
 {
     var self = this;
     
-    self.setUpBannerImage = function()
+    self.setup = function()
     {
         $(".banner-image").each( function() {
             var $this = $(this);
@@ -617,7 +617,7 @@ var learn = new function()
     }
 }
 
-learn.setUpBannerImage();
+learn.setup();
 var loadingIndicator = '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
 // notifications.js
 
@@ -916,7 +916,14 @@ var lightbox = new function()
         });
     }
 
-
+    self.bindImageClick = function ()
+    {
+        $("img.shared-image").lazyload(
+        {
+            threshold : 200,
+            load: learn.lazyLoadHandler
+        });
+    }
 
     self.bindPageResize = function()
     {
@@ -929,68 +936,6 @@ var lightbox = new function()
         $(".shared-image-holder").each( function () {
             $(this).css("height", $(this).css("width"))
         });
-
-        self.resizeLightboxImage();
-    }
-
-
-
-    var sharingLightboxId = "#sharing_lightbox";
-    var $sharingLightbox = $(sharingLightboxId);
-
-    $(".js-close-lightbox").click( function(e) {
-        self.hideLightbox();
-    });
-
-    $('html').click( function (e) {
-
-        if ( eventTargetDoesNotInclude(e, sharingLightboxId) && eventTargetDoesNotInclude(e, "#comment_frame") )
-        {
-            if (!$sharingLightbox.hasClass("animated") && $sharingLightbox.css("display") == "block")
-            {
-                self.hideLightbox();
-            }
-        }
-    });
-
-    self.hideLightbox = function()
-    {
-        animate("#sharing_lightbox", 'fadeOutUp', function () {
-            $("#sharing_lightbox").css("display", "none");
-        });
-
-        animate("#sharing_lightbox_overlay", 'fadeOutUpHalfOpacity', function () {
-            $("#sharing_lightbox_overlay").css("display", "none");
-        });
-    }
-
-    var $currentLightboxSource;
-
-    $("img.lazy.shared-image").click(function () {
-
-        self.showLightbox($(this));
-        animate("#sharing_lightbox_overlay", 'fadeInDownHalfOpacity', null);
-
-    });
-
-    self.showLightbox = function($source)
-    {
-
-        $currentLightboxSource = $source;
-
-        $("#sharing_lightbox").css("display", "block");
-        $("#sharing_lightbox_overlay").css("display", "block");
-
-        $("#sharing_lightbox img").attr("src", $source.attr("src"));
-        $("#sharing_lightbox .download-link").attr("href", $source.attr("src"));
-        $("#sharing_lightbox").attr("data-id", $source.attr("data-id"));
-        $("#sharing_lightbox .description p").text($source.attr("data-description"));
-
-        animate("#sharing_lightbox", 'fadeInDown', null);
-
-        self.resizeLightboxImage();
-        $("#sharing_lightbox img").off();
-        $("#sharing_lightbox img").load( self.resizeLightboxImage )
     }
 
     $("#shared_image_shared_image").change( function (e) {
@@ -1031,59 +976,13 @@ var lightbox = new function()
         
     });
 
-    self.resizeLightboxImage = function()
-    {
-        $("#sharing_lightbox img").attr("style", null);
 
-        if ($("#sharing_lightbox img").height() > $("#sharing_lightbox .image-frame").height() )
-        {
-            var ratio = $("#sharing_lightbox .image-frame").height() / $("#sharing_lightbox img").height();
-
-            $("#sharing_lightbox img").height( $("#sharing_lightbox .image-frame").height() );
-            $("#sharing_lightbox img").width( $("#sharing_lightbox img").width() * ratio );
-        }
-
-    }
-
-    document.onkeydown = function(evt) {
-        evt = evt || window.event;
-
-        // Ensure we only handle printable keys
-        var charCode = typeof evt.which == "number" ? evt.which : evt.keyCode;
-
-        if ($("#sharing_lightbox").is(':visible'))
-        {
-            if (charCode == 37)
-            {
-                self.showPrevImage();
-            }
-
-            if (charCode == 39)
-            {
-                self.showNextImage();
-            }
-        }
-    };
-
-    self.showNextImage = function()
-    {
-        var $next = $currentLightboxSource.parent().parent().next().find(".shared-image-holder img");
-
-        if ($next.length > 0) self.showLightbox($next);
-    }
-
-    self.showPrevImage = function()
-    {
-        var $prev = $currentLightboxSource.parent().parent().prev().find(".shared-image-holder img");
-
-        if ($prev.length > 0) self.showLightbox($prev);
-    }
 
 }
 
+lightbox.bindImageClick();
 lightbox.bindSharingImageForm();
 lightbox.bindPageResize();
-lightbox.updateLearnGrid();
 
 // slug-fields.js powers slugifying and lower-casing of fields into another field
 

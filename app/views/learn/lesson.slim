@@ -41,7 +41,13 @@
                     .box.fadeInUp.animated
                         h4
                             a href="/learn/#{@course.slug}/#{@lesson.slug}/#{step.slug}"
+
                                 = step.title
+
+                                - if step.is_sharing_step
+                                    small.margin-left
+                                        i.fa.fa-camera
+
                                 - if current_account && current_account.has_completed_step?(step)
                                     small.margin-left
                                         i.fa.fa-check-circle

@@ -1,7 +1,17 @@
 .shared-wrapper.box
     .shared-image-holder
-        img.shared-image.lazy data-original="#{shared_image.url}" data-id="#{shared_image.id}" data-description="#{shared_image.description}"
-    .caption
-        i.fa.fa-heart
-        |  
-        = shared_image.likes || 0
+        img.shared-image.lazy data-original="#{shared_image.url}" data-id="#{shared_image.id}" data-description="#{shared_image.description}" alt="#{shared_image.description}"
+    .caption.row.center-text
+        span.likes.col-xs-4
+            a.like-image href="#"
+                i.fa.fa-heart
+                |  
+            = shared_image.likes || 0
+
+        span.comment.no-margin.col-xs-4 data-group="1" id="comment_1"
+            a href="" title="Read the comments" rel="tooltip" data-placement="top" 
+                i class="fa fa-comment"
+
+        span.download.col-xs-4
+            a.download-link href="#{shared_image.url}" title="Download this image" rel="tooltip" data-placement="top" 
+                i.fa.fa-cloud-download

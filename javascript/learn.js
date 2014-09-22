@@ -4,7 +4,7 @@ var learn = new function()
 {
     var self = this;
     
-    self.setUpBannerImage = function()
+    self.setup = function()
     {
         $(".banner-image").each( function() {
             var $this = $(this);
@@ -52,4 +52,4 @@ var learn = new function()
     }
 }
 
-learn.setUpBannerImage();
+learn.setup();

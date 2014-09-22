@@ -10,7 +10,7 @@ var comments = new function()
         var id = "#comment_frame";
         var $frame = $(id);
 
-        $(".step-body .comment, #sharing_lightbox .comment").each( function() {
+        $(".step-body .comment, .shared-wrapper .comment").each( function() {
 
             var $comment = $(this);
             // Almost always the column content resides in
