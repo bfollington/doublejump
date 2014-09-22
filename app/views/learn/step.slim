@@ -1,74 +1,28 @@
 = render_js_template 'js-templates/_comment_icon'
 = render_js_template 'js-templates/_inserted_definition'
 
-.row.fadeInUp.animated
-    .col-lg-2.col-md-2.col-sm-2.col-xs-2.center-text.fadeInUp.animated
+- if !@lesson.get_next_step(@step).nil?
+    - next_link = "/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_next_step(@step).slug}#main_content"
+    - next_step_exists = true
+- else
+    - next_link = "/learn/#{@course.slug}/#{@lesson.slug}/finish"
+    - next_step_exists = false
 
-        - if !@lesson.get_prev_step(@step).nil?
-            - prev_link = "/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_prev_step(@step).slug}#main_content"
-            a.progress-navigation-link href="#{prev_link}"
-                span.visible-lg.visible-md
-                    i.fa.fa-arrow-left
-                    | &nbsp;Back
-                span.visible-sm.visible-xs
-                    i.fa.fa-arrow-left
-
-        - else
-            - prev_link = "/learn/#{@course.slug}/#{@lesson.slug}/"
-            a.progress-navigation-link href="#{prev_link}"
-                span.visible-lg.visible-md
-                    i.fa.fa-book
-                    | &nbsp;Lesson Overview
-                span.visible-sm.visible-xs
-                    i.fa.fa-book
-
-    .col-lg-8.col-md-8.col-sm-8.col-xs-8
-        .box
-            .progress-list-wrapper
-                ul.progress-list
-                    - @lesson.get_steps_in_order.each do |step|
-                        - if @lesson.get_step_index(step) < @lesson.get_step_index(@step)
-                            li
-                                = partial 'learn/elements/progress_bar_step_link', :locals => {:step => step }
-
-                        - elsif @lesson.get_step_index(step) == @lesson.get_step_index(@step)
-                            li.current-step
-                                = partial 'learn/elements/progress_bar_step_link', :locals => {:step => step }
-
-                        - else
-                            li.incomplete
-                                = partial 'learn/elements/progress_bar_step_link', :locals => {:step => step }
+- if !@lesson.get_prev_step(@step).nil?
+    - prev_link = "/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_prev_step(@step).slug}#main_content"
+    - prev_step_exists = true
+- else
+    - prev_link = "/learn/#{@course.slug}/#{@lesson.slug}/"
+    - prev_step_exists = false
 
 
-    .col-lg-2.col-md-2.col-sm-2.col-xs-2.center-text.fadeInUp.animated
-
-        - if !@lesson.get_next_step(@step).nil?
-            - next_link = "/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_next_step(@step).slug}#main_content"
-            a.progress-navigation-link href="#{next_link}"
-                span.visible-lg.visible-md
-                    | Next&nbsp;
-                    i.fa.fa-arrow-right
-                span.visible-sm.visible-xs
-                    i.fa.fa-arrow-right
-
-
-        - else
-            - next_link = "/learn/#{@course.slug}/#{@lesson.slug}/finish"
-            a.progress-navigation-link href="#{next_link}"
-                span.visible-lg.visible-md
-                    | Finish Lesson&nbsp;
-                    i.fa.fa-check
-                span.visible-sm.visible-xs
-                    i.fa.fa-check
-
+= partial "learn/elements/step_header", locals: {next_link: next_link, next_step_exists: next_step_exists, prev_link: prev_link, prev_step_exists: prev_step_exists}
                 
 .row.fadeInUp.animated
     .col-lg-9.col-md-9
         .box
             - if current_account && current_account.has_completed_step?(@step)
-                p.notification.callout
-                    a.button.create-button.float-right.margin-left.margin-right href="#{next_link}" Go To Next Step
-                    | You've completed this step before (maybe as part of another course), just thought you should know.
+                = partial 'elements/callouts/notification', locals: {next_link: next_link, link_text: "Go To Next Step", message_body: "You've completed this step before (maybe as part of another course), just thought you should know." }
             h3 = @step.title
 
             - if !@step.is_sharing_step
@@ -80,6 +34,8 @@
                 .sharing-step
                     | #{{@body_edited}}
                     = partial 'learn/elements/sharing_step' 
+
+                    #comment_frame  
 
         - if @step.is_sharing_step
             = partial 'learn/elements/shared_image', :collection => @sharing_steps
@@ -94,29 +50,7 @@
 
     .col-lg-3.col-md-3.fadeInUp.animated
 
-        h4 Lesson Summary
-
-        .box
-            h4 = @lesson.title
-            p
-                = @lesson.description
-
-        h4 Related Readings
-
-        - if @lesson.related_readings.length == 0
-            p There are no related readings for this lesson.
-
-        - @lesson.related_readings.each do |related_reading|
-            .box
-                = partial 'learn/elements/related_reading', :object => related_reading
-
-        - if @lesson.downloads.length != 0
-            h4 Lesson Materials
-            .box
-                - @lesson.downloads.each do |download|
-                    = partial 'learn/elements/download', :object => download
-
-= partial 'learn/elements/sharing_lightbox'
+        = partial "learn/elements/step_sidebar"
 
 - content_for :include_head do
     link rel="next" href="#{next_link}"
