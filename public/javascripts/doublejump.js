@@ -884,7 +884,7 @@ search.bindCourseSearchField();
 search.bindDefinitionSearchField();
 // sharing-progress.js controls everything about the gallery sharing steps
 
-var lightbox = new function()
+var sharing = new function()
 {
     var $sharedImageForm = $("form#addSharedImageForm");
     var self = this;
@@ -913,6 +913,23 @@ var lightbox = new function()
                 $sharedImageForm.find(".errors").append("Could not share image, try again?");
                 $sharedImageForm.find('input[type="submit"]').attr("disabled", false);
             }
+        });
+    }
+
+    self.bindLikeImage = function ()
+    {
+        $(".likes .like-image").click( function (e) {
+
+            var $me = $(this);
+            e.preventDefault();
+            $.get( $( this ).attr("href"),
+            function (data) {
+                if (data && data.success)
+                {
+                    $me.parent().find(".likes-count").text(data.like_count);
+                }
+            });
+
         });
     }
 
@@ -980,9 +997,10 @@ var lightbox = new function()
 
 }
 
-lightbox.bindImageClick();
-lightbox.bindSharingImageForm();
-lightbox.bindPageResize();
+sharing.bindImageClick();
+sharing.bindSharingImageForm();
+sharing.bindPageResize();
+sharing.bindLikeImage();
 
 // slug-fields.js powers slugifying and lower-casing of fields into another field
 
