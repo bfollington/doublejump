@@ -1,4 +1,4 @@
-LearnToGameDev::Admin.controllers :sessions do
+Doublejump::Admin.controllers :sessions do
   get :new do
     render "/sessions/new", nil, :layout => false
   end

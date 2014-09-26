@@ -1,4 +1,4 @@
-LearnToGameDev::Admin.controllers :steps do
+Doublejump::Admin.controllers :steps do
   get :index do
     @title = "Steps"
     @steps = Step.all

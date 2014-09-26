@@ -1,4 +1,4 @@
-LearnToGameDev::App.controllers :users do
+Doublejump::App.controllers :users do
   
     require "stripe"
 

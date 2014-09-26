@@ -1,4 +1,4 @@
-LearnToGameDev::App.controllers :'downloads' do
+Doublejump::App.controllers :'downloads' do
   
   layout :app
   

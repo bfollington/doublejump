@@ -1,4 +1,4 @@
-LearnToGameDev::App.controllers :comments do
+Doublejump::App.controllers :comments do
   
 
    #

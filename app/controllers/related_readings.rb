@@ -1,4 +1,4 @@
-LearnToGameDev::App.controllers :'related-readings' do
+Doublejump::App.controllers :'related-readings' do
   
   layout :app
   

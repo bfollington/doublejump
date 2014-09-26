@@ -1,4 +1,4 @@
-LearnToGameDev::App.controllers :steps do
+Doublejump::App.controllers :steps do
   
   layout :app
 

@@ -1,4 +1,4 @@
-LearnToGameDev::Admin.controllers :accounts do
+Doublejump::Admin.controllers :accounts do
   get :index do
     @title = "Accounts"
     @accounts = Account.all

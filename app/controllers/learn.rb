@@ -1,6 +1,6 @@
 require "rest_client"
 
-LearnToGameDev::App.controllers :learn, :cache => true do
+Doublejump::App.controllers :learn, :cache => true do
   
   layout :learn
   
@@ -32,10 +32,6 @@ LearnToGameDev::App.controllers :learn, :cache => true do
   end
 
 
-
-
-
-
   #
   # LESSONS
   #
@@ -51,9 +47,6 @@ LearnToGameDev::App.controllers :learn, :cache => true do
 
     render 'learn/lesson'
   end
-
-
-
 
 
 

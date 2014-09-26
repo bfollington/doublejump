@@ -1,4 +1,4 @@
-module LearnToGameDev
+module Doublejump
   class Admin < Padrino::Application
     register Padrino::Rendering
     register Padrino::Mailer

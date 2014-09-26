@@ -1,4 +1,4 @@
-LearnToGameDev::App.controllers :notifications do
+Doublejump::App.controllers :notifications do
   
   post :remove, :with => :id, :csrf_protection => false do
     notification = current_account.notifications.find(params[:id]).delete

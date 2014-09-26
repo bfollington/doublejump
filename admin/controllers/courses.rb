@@ -1,4 +1,4 @@
-LearnToGameDev::Admin.controllers :courses do
+Doublejump::Admin.controllers :courses do
   get :index do
     @title = "Courses"
     @courses = Course.all

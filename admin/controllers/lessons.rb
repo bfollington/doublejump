@@ -1,4 +1,4 @@
-LearnToGameDev::Admin.controllers :lessons do
+Doublejump::Admin.controllers :lessons do
   get :index do
     @title = "Lessons"
     @lessons = Lesson.all
