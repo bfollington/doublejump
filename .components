@@ -5,6 +5,6 @@
 :script: jquery
 :renderer: slim
 :stylesheet: scss
-:namespace: LearnToGameDev
+:namespace: Doublejump
 :migration_format: number
 :admin_renderer: slim
