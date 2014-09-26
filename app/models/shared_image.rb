@@ -15,6 +15,15 @@ class SharedImage
   belongs_to :step
   has_many :comments
 
+  def like!()
+    if self.likes.nil?
+        self.likes = 0
+    end
+
+    self.likes = self.likes + 1
+    save
+  end
+
   # You can define indexes on documents using the index macro:
   # index :field <, :unique => true>
 

@@ -51,6 +51,19 @@ class Account
     account && account.has_password?(password) ? account : nil
   end
 
+  def has_liked_shared_image?(shared_image)
+
+    if shared_image.is_a? String
+        image = SharedImage.find(shared_image)
+    else
+        image = shared_image
+    end
+
+    liked = LikedSharedImage.where(shared_image: image).first
+
+    return !liked.nil?
+
+  end
 
   def levels()
     {
