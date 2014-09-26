@@ -43,23 +43,6 @@
     @include background-image-retina('http://d2wkzz9b3028w4.cloudfront.net/Unity', 'png', 64px, 64px);
 }
 
-.read-more
-{
-    position: absolute;
-    bottom: 0.1em;
-    left: 0;
-    width: 100%;
-    text-align: center; 
-    margin: 0; padding: 20px 0; 
-
-    /* "transparent" only works here because == rgba(0,0,0,0) */ 
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(255, 255, 255, 0)),color-stop(1, white));
-    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0), white);
-    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0), white);
-    background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0), white);
-    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0), white);
-}
-
 .course-block
 {
     height: 100%;

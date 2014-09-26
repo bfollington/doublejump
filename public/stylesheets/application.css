@@ -1845,21 +1845,6 @@ a.notification-badge:hover {
       -o-background-size: 64px 64px;
       background-size: 64px 64px; } }
 
-.read-more {
-  position: absolute;
-  bottom: 0.1em;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  margin: 0;
-  padding: 20px 0;
-  /* "transparent" only works here because == rgba(0,0,0,0) */
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(255, 255, 255, 0)), color-stop(1, white));
-  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0), white);
-  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0), white);
-  background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0), white);
-  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0), white); }
-
 .course-block {
   height: 100%; }
   .course-block .box {
@@ -2002,6 +1987,24 @@ ul.progress-list {
     -o-border-radius: 2px;
     border-radius: 2px;
     height: 0.5em; }
+
+.lesson-block .box {
+  position: relative; }
+
+.read-more {
+  position: absolute;
+  bottom: 0.1em;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 20px 0;
+  /* "transparent" only works here because == rgba(0,0,0,0) */
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(255, 255, 255, 0)), color-stop(1, white));
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0), white);
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0), white);
+  background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0), white);
+  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0), white); }
 
 .gradient-block {
   background-image: -o-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
