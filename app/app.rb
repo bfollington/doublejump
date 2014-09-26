@@ -1,4 +1,4 @@
-module LearnToGameDev
+module Doublejump
   class App < Padrino::Application
     register ScssInitializer
     register Padrino::Rendering

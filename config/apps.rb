@@ -36,5 +36,5 @@ end
 
 # Mounts the core application for this project
 
-Padrino.mount("LearnToGameDev::Admin", :app_file => Padrino.root('admin/app.rb')).to("/admin")
-Padrino.mount('LearnToGameDev::App', :app_file => Padrino.root('app/app.rb')).to('/')
+Padrino.mount("Doublejump::Admin", :app_file => Padrino.root('admin/app.rb')).to("/admin")
+Padrino.mount('Doublejump::App', :app_file => Padrino.root('app/app.rb')).to('/')
