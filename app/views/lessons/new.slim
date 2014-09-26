@@ -33,6 +33,11 @@
                         = f.text_area :description, :class => 'form-control'
                         = partial 'form_error', :collection => (errors_for @lesson, :description)
 
+                    p
+                        = f.label :final_message, :caption => "Lesson Final Message"
+                        = f.text_area :final_message, :class => 'form-control'
+                        = partial 'form_error', :collection => (errors_for @lesson, :final_message)
+
             .col-lg-3
                 .box
                     - hidden_field_name = 'lesson[steps][]'

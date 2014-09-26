@@ -13,7 +13,14 @@ Doublejump::App.controllers :lessons do
 
   post :make do
 
-    @lesson = Lesson.create( :title => params[:lesson][:title], :description => params[:lesson][:description], :slug => params[:lesson][:slug], :experience => params[:lesson][:experience], :account => current_account)
+    @lesson = Lesson.create(
+        :title => params[:lesson][:title],
+        :description => params[:lesson][:description],
+        :final_message => params[:lesson][:final_message],
+        :slug => params[:lesson][:slug],
+        :experience => params[:lesson][:experience],
+        :account => current_account
+    )
 
     populate_lists
 
@@ -40,6 +47,7 @@ Doublejump::App.controllers :lessons do
     @lesson.experience = params[:lesson][:experience]
     @lesson.account = current_account
     @lesson.description = params[:lesson][:description]
+    @lesson.final_message = params[:lesson][:final_message]
     @lesson.steps = []
     @lesson.related_readings = []
     @lesson.downloads = []
