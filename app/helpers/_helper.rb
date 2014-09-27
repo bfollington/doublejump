@@ -63,6 +63,10 @@ Doublejump::App.helpers do
     return !current_account.nil?
   end
 
+  def can_see_learn_content?
+    return current_account.role == "admin" || current_account.role == "users"
+  end
+
   def aws_bucket()
     "voltic-test-bucket"
   end
