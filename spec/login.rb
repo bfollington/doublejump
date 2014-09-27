@@ -44,7 +44,7 @@ def logout
 
     visit '/destroy'
 
-    visit '/profile'
+    visit '/users/you'
 
     expect(page).to have_selector("#login_form")
 
