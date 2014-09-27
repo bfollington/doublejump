@@ -1,10 +1,16 @@
 Doublejump::App.controllers :notifications do
   
   post :remove, :with => :id, :csrf_protection => false do
-    notification = current_account.notifications.find(params[:id]).delete
 
     content_type :json
-    {:success => true}.to_json
+
+    if current_account.nil?
+        {:success => false}.to_json
+    else
+        notification = current_account.notifications.find(params[:id]).delete
+
+        {:success => true}.to_json
+    end
   end
   
 end

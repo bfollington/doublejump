@@ -77,6 +77,9 @@ Doublejump::App.controllers :learn, :cache => true do
 
     if !is_logged_in
       redirect '/login'
+    elsif !can_see_learn_content?
+        session[:flash] = "Your account is currently paused, please unpause to view any content."
+        redirect url_for(:users, :account_settings)
     end
 
     fetch_course(params[:course])

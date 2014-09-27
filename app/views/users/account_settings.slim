@@ -24,67 +24,105 @@ div.center-text
 
                     p Here you can change your billing information, as well as set up any preferences for how you'd like to use the website.
 
-                    h3 Billing Details
+                    section
+                        h3 
+                            i.fa.fa-money
+                            |  Billing Details
 
-                    .row
-                        .col-md-6
-                            p
-                                = f.label :name, :caption => "First Name"
-                                = f.text_field :name, :class => "form-control", :required => true
-                                = partial 'form_error', :collection => (errors_for @account, :name), :placeholder => "Donald"
-                        .col-md-6
-                            p
-                                = f.label :surname, :caption => "Surname"
-                                = f.text_field :surname, :class => "form-control", :required => true
-                                = partial 'form_error', :collection => (errors_for @account, :surname), :placeholder => "Glover"
+                        .row
+                            .col-md-6
+                                p
+                                    = f.label :name, :caption => "First Name"
+                                    = f.text_field :name, :class => "form-control", :required => true
+                                    = partial 'form_error', :collection => (errors_for @account, :name), :placeholder => "Donald"
+                            .col-md-6
+                                p
+                                    = f.label :surname, :caption => "Surname"
+                                    = f.text_field :surname, :class => "form-control", :required => true
+                                    = partial 'form_error', :collection => (errors_for @account, :surname), :placeholder => "Glover"
 
-                    .row
-                        .col-xs-12
-                            p If you leave everything below here blank, your billing details will remain the same. We don't store your credit card information on our servers, for your safety.
+                        .row
+                            .col-xs-12
+                                p If you leave everything below here blank, your billing details will remain the same. We don't store your credit card information on our servers, for your safety.
 
-                            h4 Credit Card Details
+                                h4 Credit Card Details
 
-                            span class="payment-errors"
+                                span class="payment-errors"
 
-                            p
-                                label Card Number 
-                                input type="text" id="cc_num" data-stripe="number" class="form-control"
+                                p
+                                    label Card Number 
+                                    input type="text" id="cc_num" data-stripe="number" class="form-control"
 
-                            .row
-                                .col-md-6
+                                .row
+                                    .col-md-6
+                                        p
+                                            label CVC
+                                            input type="text" id="cc_cvc" data-stripe="cvc" class="form-control"
+                                            small  
+                                                | Your verification number, it's usually on the back of your card and is 3 or 4 digits long.
+
+                                    .col-md-6
+                                        p
+                                            label Expiration
+                                            input type="text" id="cc_expire"  class="form-control" placeholder="MM/YYYY"
+                                            input type="text" id="cc_exp_month" style="display: none;" data-stripe="exp-month"
+                                            input type="text" id="cc_exp_year" style="display: none;" data-stripe="exp-year"
+
+                    section
+                        h3
+                            i.fa.fa-user
+                            |  Login and Contact Details
+
+                        p
+                            = f.label :email, :caption => "Email"
+                            = f.email_field :email, :class => "form-control", :placeholder => "me@website.com", :required => true
+                            = partial 'form_error', :collection => (errors_for @account, :email)
+                            small  
+                                | You can change your email address at any time, which will change which address you sign in with. Try not to forget!
+
+                        p
+                            = f.label :password, :caption => "Password"
+                            = f.password_field :password, :class => "form-control", :value => ""
+                            = partial 'form_error', :collection => (errors_for @account, :password)
+                            small
+                                | Change your password, leave this box blank and nothing will change.
+
+                        p
+                            = f.label :password_confirmation, :caption => "Password (Confirm)"
+                            = f.password_field :password_confirmation, :class => "form-control", :value => ""
+                            = partial 'form_error', :collection => (errors_for @account, :password_confirmation)
+                            small
+                                | Type your password again, just to be sure. Leave it blank if you left password blank too.
+
+                    section
+                        h3
+                            i.fa.fa-cogs
+                            |  Management
+
+                        .row
+                            .col-md-6
+                                p
+                                    = f.label :paused, :caption => "Pause Account?"
                                     p
-                                        label CVC
-                                        input type="text" id="cc_cvc" data-stripe="cvc" class="form-control"
-
-                                .col-md-6
+                                        - if current_account.paused?
+                                            - if current_account.can_be_unpaused?
+                                                a.button.create-button href="#{ url_for(:payment, :unpause_account) }" Unpause Account
+                                            - else
+                                                | Sorry, you'll need to update your billing info before we can let you unpause your account. You've been automatically paused after a payment failure.
+                                        - else
+                                            a.button.create-button href="#{ url_for(:payment, :pause_account) }" Pause Account
+                                        br
+                                        small  
+                                            | Pausing your account will prevent you from being billed at all, while it's paused you cannot access any learning material. You'll be able to get back here and unpause though. If your payment fails, your account will be automatically paused until you update your billing information or unpause it.
+                            
+                            .col-md-6
+                                p
+                                    = f.label :delete_account, :caption => "Delete Account?"
                                     p
-                                        label Expiration
-                                        input type="text" id="cc_expire"  class="form-control" placeholder="MM/YYYY"
-                                        input type="text" id="cc_exp_month" style="display: none;" data-stripe="exp-month"
-                                        input type="text" id="cc_exp_year" style="display: none;" data-stripe="exp-year"
-
-                    h3 Login and Contact Details
-
-                    p
-                        = f.label :email, :caption => "Email"
-                        = f.email_field :email, :class => "form-control", :placeholder => "me@website.com", :required => true
-                        = partial 'form_error', :collection => (errors_for @account, :email)
-                        small  
-                            | You can change your email address at any time, which will change which address you sign in with. Try not to forget!
-
-                    p
-                        = f.label :password, :caption => "Password"
-                        = f.password_field :password, :class => "form-control", :value => ""
-                        = partial 'form_error', :collection => (errors_for @account, :password)
-                        small
-                            | Change your password, leave this box blank and nothing will change.
-
-                    p
-                        = f.label :password_confirmation, :caption => "Password (Confirm)"
-                        = f.password_field :password_confirmation, :class => "form-control", :value => ""
-                        = partial 'form_error', :collection => (errors_for @account, :password_confirmation)
-                        small
-                            | Type your password again, just to be sure. Leave it blank if you left password blank too.
+                                        a.button.create-button Delete Account
+                                        br
+                                        small  
+                                            | Deleting your account is a big deal, and it's usually better to just pause it. If you really want to remove all your progress etc. from the site, you can do so using the above button. We'll be sad to see you go... 
 
         .row
             .col-lg-12

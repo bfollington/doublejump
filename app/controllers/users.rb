@@ -20,7 +20,7 @@ Doublejump::App.controllers :users do
     end
 
     get :edit_profile, :map => '/users/you/edit-profile' do
-
+        
         @account = current_account
 
         render "users/edit_profile", :layout => :learn

@@ -19,17 +19,26 @@ module Doublejump
     set :login_page, "/login" # determines the url login occurs
 
     access_control.roles_for :any do |role|
-      role.protect "/profile"
       role.protect "/courses/*"
       role.protect "/lessons/*"
       role.protect "/steps/*"
       role.protect "/related-readings/*"
       role.protect "/definitions/*"
+      role.protect "/users/you/*"
+      role.protect "/notifications/*"
+      role.protect "/payments/*"
+      role.protect "/categories/*"
+      role.protect "/comments/*"
+      role.protect "/downloads/*"
+      role.protect "/sharing/*"
     end
 
-    # now we add a role for users
+    access_control.roles_for :paused do |role|
+      role.allow "/users/you/*"
+    end
+
     access_control.roles_for :users do |role|
-      role.allow "/profile"
+      role.allow "/users/you/*"
     end
 
     access_control.roles_for :admin do |role|
@@ -37,6 +46,7 @@ module Doublejump
       role.allow "/courses/*"
       role.allow "/lessons/*"
       role.allow "/steps/*"
+      role.allow "/users/you/*"
     end
 
     enable :sessions

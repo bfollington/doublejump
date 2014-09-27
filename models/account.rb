@@ -13,6 +13,7 @@ class Account
   field :avatar,           :type => String
   field :experience,       :type => Integer
   field :public_profile,   :type => Boolean, default: true
+  field :paused_for_failed_payment,   :type => Boolean, default: true
   field :stripe_customer_id, :type => String
 
   # Validations
@@ -63,6 +64,37 @@ class Account
 
     return !liked.nil?
 
+  end
+
+  def pause!
+    if self.role == "users"
+        self.role = "paused"
+        self.paused_for_failed_payment = false
+
+        save
+        return true
+    end
+
+    return false
+  end
+
+  def paused?
+    return self.role == "paused"
+  end
+
+  def unpause!
+    if can_be_unpaused?
+        self.role = "users"
+
+        save
+        return true
+    end
+
+    return false
+  end
+
+  def can_be_unpaused?
+    return !self.paused_for_failed_payment
   end
 
   def levels()
