@@ -1,7 +1,16 @@
 .lesson-block
 {
+    position: relative;
+
     .box
     {
         position: relative;
+        transition: 0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+    }
+
+    &:hover .box
+    {
+        height: 200px;
+        width: 100%;
     }
 }

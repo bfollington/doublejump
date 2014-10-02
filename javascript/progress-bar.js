@@ -82,6 +82,12 @@ var progress = new function()
     {
         self.updateProgressBars();
         window.setTimeout( self.updateProgressBars, 1000 );
+
+        if ($(".course-progress-node").length > 0)
+        {
+            window.setInterval( self.updateProgressBars, 100 );
+        }
+
         $(window).resize( self.updateProgressBars );
 
         // If we are running CSS animations, then we need to keep the progress bars up to date

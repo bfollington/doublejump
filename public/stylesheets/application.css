@@ -1746,11 +1746,12 @@ a.notification-badge:hover {
   color: white;
   display: inline-block;
   text-align: center;
-  transition: .3s; }
+  transition: 0.3s, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
 
 .create-button:hover {
   background-color: #0084d5;
-  color: white; }
+  color: white;
+  transform: scale(1.1, 1.1); }
 
 .create-button:disabled, .create-button[disabled=disabled] {
   background-color: #b7d1e0;
@@ -1846,13 +1847,17 @@ a.notification-badge:hover {
       background-size: 64px 64px; } }
 
 .course-block {
-  height: 100%; }
+  height: 100%;
+  position: relative;
+  height: 13em; }
   .course-block .box {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     height: 10em;
     overflow-y: hidden;
-    position: relative; }
+    position: relative;
+    z-index: 99;
+    transition: height 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
   .course-block .course-icon {
     width: 100%;
     height: 32px;
@@ -1860,7 +1865,20 @@ a.notification-badge:hover {
     -moz-background-size: 24px 24px;
     -ms-background-size: 24px 24px;
     -o-background-size: 24px 24px;
-    background-size: 24px 24px; }
+    background-size: 24px 24px;
+    transition: 0.3s; }
+  .course-block:hover .box {
+    height: 20em;
+    position: absolute;
+    width: 100%;
+    z-index: 100; }
+  .course-block:hover .course-icon {
+    height: 48px;
+    -webkit-background-size: 32px 32px;
+    -moz-background-size: 32px 32px;
+    -ms-background-size: 32px 32px;
+    -o-background-size: 32px 32px;
+    background-size: 32px 32px; }
 
 .lesson-height {
   height: 160px; }
@@ -1877,7 +1895,7 @@ a.notification-badge:hover {
   .lesson-height .lesson-block {
     position: relative; }
   .lesson-height .read-more {
-    bottom: 0.1em; }
+    bottom: 0.01em; }
 
 .step-height {
   height: 64px; }
@@ -1988,8 +2006,14 @@ ul.progress-list {
     border-radius: 2px;
     height: 0.5em; }
 
-.lesson-block .box {
+.lesson-block {
   position: relative; }
+  .lesson-block .box {
+    position: relative;
+    transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+  .lesson-block:hover .box {
+    height: 200px;
+    width: 100%; }
 
 .read-more {
   position: absolute;

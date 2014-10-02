@@ -7,9 +7,9 @@
             a href="/learn/#{course_block.slug}" data-colour="#{course_block.category.colour}"
                 = course_block.title
                 - if current_account && current_account.has_completed_course?(course_block)
-                    small.margin-left.grey.lighter-font
+                    small.extra-small.margin-left.grey.lighter-font
                         i.fa.fa-check-circle
-                        |  Completed on #{current_account.get_completed_course(course_block).created_at.strftime("%A, %d %B, %Y")}
+                        |  #{current_account.get_completed_course(course_block).created_at.strftime("%A, %d %B, %Y")}
             br
             small
                 |  by 
