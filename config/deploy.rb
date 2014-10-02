@@ -1,6 +1,4 @@
-# Change these
-server '104.131.86.47', port: 1234, roles: [:web, :app, :db], primary: true
-
+set :scm, :git
 set :repo_url,        'git@bitbucket.org:benfollington/doublejump.git'
 set :application,     'doublejump'
 set :user,            'deploy'
