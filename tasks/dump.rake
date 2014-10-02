@@ -106,8 +106,8 @@ if ENV["DEBUG"] != 'false'
         puts "\n Are you sure you want to restore the production DB using the local ./dumps/manual_dump? [y/N]".light_blue
         answer = STDIN.gets.chomp
         if answer == "y"
-            drop_dev_db
-            restore_dev_db "./dumps/manual_dump/*"
+            drop_prod_db
+            restore_prod_db "./dumps/manual_dump/*"
             puts "Restore complete".green
         else
             return false # Abort the rake task
@@ -137,6 +137,10 @@ def drop_test_db()
     system 'mongo learn_to_game_dev_test --eval "db.dropDatabase();"'
 end
 
+def drop_prod_db()
+    system 'mongo learn_to_game_dev_production --eval "db.dropDatabase();"'
+end
+
 def drop_live_db()
     # we need to add a new user to replace the one we deleted in the dump
     command_string = 'echo "db.dropDatabase();\n db.addUser({user: \"' + username + '\", pwd: \"' + password + '\", roles: [\"readWrite\", \"dbAdmin\", \"userAdmin\"]});" | mongo --host ds029328.mongolab.com --port 29328 ' + db + ' -u ' + username + ' -p ' + password
@@ -163,6 +167,10 @@ end
 
 def restore_test_db(directoryString)
     system "mongorestore -h localhost:27017 -d learn_to_game_dev_test #{directoryString}"
+end
+
+def restore_prod_db(directoryString)
+    system "mongorestore -h localhost:27017 -d learn_to_game_dev_production #{directoryString}"
 end
 
 def restore_dev_db(directoryString)
