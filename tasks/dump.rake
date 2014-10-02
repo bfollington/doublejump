@@ -101,7 +101,7 @@ if ENV["DEBUG"] != 'false'
         
     end
 
-    task :populate_production_db do
+    task :populate do
 
         puts "\n Are you sure you want to restore the production DB using the local ./dumps/manual_dump? [y/N]".light_blue
         answer = STDIN.gets.chomp
