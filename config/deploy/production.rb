@@ -9,8 +9,6 @@ set :server_name, "doublejump.io"
 
 server '104.131.86.47', user: 'deploy', roles: %w{web app db}, primary: true
 
-set :deploy_to, "/home/#{fetch(:user)}/apps/#{fetch(:full_app_name)}"
-
 # dont try and infer something as important as environment from
 # stage name.
 set :rails_env, :production
