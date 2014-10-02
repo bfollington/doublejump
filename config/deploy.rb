@@ -12,9 +12,9 @@ set :stage,           :production
 set :deploy_via,      :remote_cache
 set :tmp_path,        "/home/#{fetch(:user)}/apps/#{fetch(:application)}/tmp"
 set :deploy_to,       "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
-set :puma_bind,       "unix://#{tmp_path}/sockets/#{fetch(:application)}-puma.sock"
-set :puma_state,      "#{tmp_path}/pids/puma.state"
-set :puma_pid,        "#{tmp_path}/pids/puma.pid"
+set :puma_bind,       "unix://#{fetch(:tmp_path)}/sockets/#{fetch(:application)}-puma.sock"
+set :puma_state,      "#{fetch(:tmp_path)}/pids/puma.state"
+set :puma_pid,        "#{fetch(:tmp_path)}/pids/puma.pid"
 set :puma_access_log, "#{release_path}/log/puma.error.log"
 set :puma_error_log,  "#{release_path}/log/puma.access.log"
 set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub) }
