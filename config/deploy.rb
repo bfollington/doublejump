@@ -1,10 +1,10 @@
 # Change these
 server '104.131.86.47', port: 1234, roles: [:web, :app, :db], primary: true
 
-set :repo_url,        'git@example.com:user/app.git'
-set :application,     'appname'
-set :user,            'username'
-set :puma_threads,    [4, 16]
+set :repo_url,        'git@bitbucket.org:benfollington/doublejump.git'
+set :application,     'doublejump'
+set :user,            'deploy'
+set :puma_threads,    [8, 16]
 set :puma_workers,    0
 
 # Don't change these unless you know what you're doing
@@ -74,7 +74,6 @@ namespace :deploy do
   end
 
   before :starting,     :check_revision
-  after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
 end
