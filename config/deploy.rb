@@ -16,11 +16,17 @@ set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
 set :puma_access_log, "#{release_path}/log/puma.error.log"
 set :puma_error_log,  "#{release_path}/log/puma.access.log"
-set :puma_conf,       "#{fetch(:deploy_to)}/current/config/puma.rb"
 set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub) }
 set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, false  # Change to true if using ActiveRecord
+
+set(:symlinks, [
+  {
+    source: "config/nginx.conf",
+    link: "/etc/nginx/sites-enabled/#{fetch(:full_app_name)}"
+  }
+])
 
 ## Defaults:
 # set :scm,           :git
@@ -57,6 +63,14 @@ namespace :deploy do
     end
   end
 
+  desc 'Symlink nginx config'
+  task :link do
+    on roles(:app) do
+      execute :sudo, "ln -nfs /home/#{fetch(:user)}/apps/#{fetch(:application)}/current/config/nginx.conf /etc/nginx/sites-enabled/#{fetch(:application)}"
+      execute :sudo, "service nginx restart"
+    end
+  end
+
   desc 'Initial Deploy'
   task :initial do
     on roles(:app) do
@@ -74,6 +88,7 @@ namespace :deploy do
 
   before :starting,     :check_revision
   after  :finishing,    :cleanup
+  after  :finishing,    "deploy:link"
   after  :finishing,    :restart
 end
 

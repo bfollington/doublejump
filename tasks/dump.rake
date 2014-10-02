@@ -101,6 +101,20 @@ if ENV["DEBUG"] != 'false'
         
     end
 
+    task :populate_production_db do
+
+        puts "\n Are you sure you want to restore the production DB using the local ./dumps/manual_dump? [y/N]".light_blue
+        answer = STDIN.gets.chomp
+        if answer == "y"
+            drop_dev_db
+            restore_dev_db "./dumps/manual_dump/*"
+            puts "Restore complete".green
+        else
+            return false # Abort the rake task
+        end
+        
+    end
+
     task :dump do
 
         system "mongodump -h ds029328.mongolab.com:29328 -d #{db} -u #{username} -p #{password} -o ./dumps/manual_dump"
