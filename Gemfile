@@ -60,3 +60,10 @@ gem 'rdiscount'
 # AWS
 gem 'aws-sdk'
 
+group :development do
+    gem 'capistrano',         require: false
+    gem 'capistrano-rvm',     require: false
+    gem 'capistrano-bundler', require: false
+    gem 'capistrano3-puma',   require: false
+end
+
