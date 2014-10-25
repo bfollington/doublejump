@@ -3,12 +3,12 @@
         nav.navigation
             .row
                 .col-xs-4
-                    a href="/"
+                    a.header-link href="/"
                         | Home
                 .col-xs-4
-                    a href="/learn" View Courses
+                    a.header-link href="/learn" View Courses
                 .col-xs-4
-                    a href="/login"
+                    a.header-link href="/login"
                         | Sign In
 
         h2.welcome-message Learn to make games
@@ -20,7 +20,112 @@
             a.call-to-action#get_started_banner href="/#mc_embed_signup"
                 | Tell Me When It's Ready
 
-        p.intro-small.center-text.font-small 
-            | See what 
-            a href="/learn" courses
+        p.intro-small.center-text.font-small
+            | See what&nbsp;
+            a.header-link href="/learn" courses
             |  we have so far
+
+        .row
+            .col-md-8.col-md-push-2
+                .box
+                    h3 What is Doublejump?
+
+                    img.float-right.image.medium.padding src="http://d2wkzz9b3028w4.cloudfront.net/home1.png"
+
+                    p
+                        | Doublejump is a brand new way to learn to make video games! We're creating a learning platform designed to let you learn at your own pace, learn what interests you most and find the information you need immediately. The best part is,
+                        strong &nbsp;no previous experience is required.
+
+            .col-md-8.col-md-push-2
+                .box
+                    h3 How does it work?
+
+                    img.float-left.image.medium.padding src="http://d2wkzz9b3028w4.cloudfront.net/home2.png"
+
+                    p Basically, Doublejump is divided up into courses that link together. You might start with learning the basics of a tool, then jump into a course on game design theory, then a course on sound and music in games and then maybe back to creating your own projects (with our guidance). It's all up to you!
+                    p We also have the definitions for key terms available, whatever course you're taking.
+
+                    a.button.create-button.wow.fadeInUp href="/learn/getting-started/getting-started/learning-doublejump" Take the 'Intro to Doublejump' Course
+
+            .col-md-8.col-md-push-2
+                .box
+                    h3 Can I Use It? Should I Use It?
+
+                    img.float-right.image.medium.padding src="http://d2wkzz9b3028w4.cloudfront.net/home3.png"
+
+                    p If you are a complete beginner with no programming experience, a programmer looking to learn about game creation or even a game developer looking to learn new tools and skills--we have courses for you.
+                    p Now is a better time than ever to be an indie game developer, with new indie-friendly consoles (<a href="http://us.playstation.com/develop/">PS4 & PS Vita</a>, <a href="http://www.xbox.com/id">Xbox One</a>), a massive audience and great tools; it can be a very rewarding career path, not just a hobby.
+
+                    a.button.create-button.wow.fadeInUp href="/learn" View Our Courses
+
+            .col-md-8.col-md-push-2
+                .box
+                    h3 Pick Your Tools
+
+                    img.float-left.image.medium.padding src="http://d2wkzz9b3028w4.cloudfront.net/home4.png"
+
+                    p
+                        | We aim to support many popular tools, at launch we're planning to have courses for both
+                        a href="https://www.yoyogames.com/studio" GameMaker
+                        |  and
+                        a href="https://unity3d.com/" Unity
+                        |  and are looking at expanding to:
+                        a href="https://www.scirra.com/" Construct 2
+                        | ,
+                        a href="http://www.stencyl.com/" Stencyl
+                        | ,
+                        a href="http://www.clickteam.com/clickteam-fusion-2-5" Fusion 2.5
+                        | ,
+                        a href="http://haxepunk.com/" HaxePunk
+                        | and
+                        a href="http://phaser.io/" PhaserJS
+                        | .
+                    p We are aimed at complete beginners, and these tools get the hard parts out of the way so you can get to actually making games.
+
+            .col-md-8.col-md-push-2
+                .box
+                    h3 Community Support
+
+                    img.float-right.image.medium.padding src="http://d2wkzz9b3028w4.cloudfront.net/home5.png"
+
+                    p Our tools support collaboration with your peers, every item you learn can be commented on and discussed!
+                    p You can post your unique twists on projects with others, and share the journey.
+                    p All of us--the course creators--are also around to answer your questions.
+
+
+
+        .row.wow.fadeInUp
+            .col-md-8
+                p
+                    | We're not quite ready for the public yet, but if you'd like to know when we're accepting members just sign up!
+            .col-md-4
+                .box
+                    #mc_embed_signup
+                        form#mc-embedded-subscribe-form.validate action="http://herokuapp.us8.list-manage.com/subscribe/post?u=f5faa80857bd8c037584c8df2&amp;id=d47a251cf0" method="post" name="mc-embedded-subscribe-form" novalidate="" target="_blank"
+                            h3 Let me know when it's ready!
+                            .indicates-required.float-right
+                                span.asterisk *
+                                | indicates required
+                            .mc-field-group
+                                p
+                                    label for="mce-EMAIL"
+                                        | Email Address
+                                        span.asterisk *
+                                    input#mce-EMAIL.required.email.form-control name="EMAIL" type="email" value=""
+                            .mc-field-group
+                                p
+                                    label for="mce-FNAME"  First Name
+                                    input#mce-FNAME.form-control name="FNAME" type="text" value=""
+                            .mc-field-group
+                                p
+                                    label for="mce-LNAME"  Last Name
+                                    input#mce-LNAME.form-control name="LNAME" type="text" value=""
+                            #mce-responses.clear
+                                #mce-error-response.response style="display:none"
+                                #mce-success-response.response style="display:none"
+                            /! real people should not fill this in and expect good things - do not remove this or risk form bot signups
+                            div style=("position: absolute; left: -5000px;")
+                                input name="b_f5faa80857bd8c037584c8df2_d47a251cf0" tabindex="-1" type="text" value=""
+                            .clear
+                                p.center-text
+                                    input#mc-embedded-subscribe.button.create-button.wow.fadeInUp name="subscribe" type="submit" value="Notify Me When It's Ready"

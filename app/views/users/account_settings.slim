@@ -1,12 +1,8 @@
-- content_for :include_js
-    = javascript_include_tag 'https://js.stripe.com/v2/'
-    = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.0.2/jquery.payment.min.js'
-
 div.center-text
     ol.breadcrumb
-        li 
+        li
             a href="/users/you" You
-            li.active 
+            li.active
                 | Account Settings
 
 .create-account-form
@@ -25,7 +21,7 @@ div.center-text
                     p Here you can change your billing information, as well as set up any preferences for how you'd like to use the website.
 
                     section
-                        h3 
+                        h3
                             i.fa.fa-money
                             |  Billing Details
 
@@ -47,26 +43,7 @@ div.center-text
 
                                 h4 Credit Card Details
 
-                                span class="payment-errors"
-
-                                p
-                                    label Card Number 
-                                    input type="text" id="cc_num" data-stripe="number" class="form-control"
-
-                                .row
-                                    .col-md-6
-                                        p
-                                            label CVC
-                                            input type="text" id="cc_cvc" data-stripe="cvc" class="form-control"
-                                            small  
-                                                | Your verification number, it's usually on the back of your card and is 3 or 4 digits long.
-
-                                    .col-md-6
-                                        p
-                                            label Expiration
-                                            input type="text" id="cc_expire"  class="form-control" placeholder="MM/YYYY"
-                                            input type="text" id="cc_exp_month" style="display: none;" data-stripe="exp-month"
-                                            input type="text" id="cc_exp_year" style="display: none;" data-stripe="exp-year"
+                                = partial "elements/payment_details"
 
                     section
                         h3
@@ -77,7 +54,7 @@ div.center-text
                             = f.label :email, :caption => "Email"
                             = f.email_field :email, :class => "form-control", :placeholder => "me@website.com", :required => true
                             = partial 'form_error', :collection => (errors_for @account, :email)
-                            small  
+                            small
                                 | You can change your email address at any time, which will change which address you sign in with. Try not to forget!
 
                         p
@@ -112,63 +89,19 @@ div.center-text
                                         - else
                                             a.button.create-button href="#{ url_for(:payment, :pause_account) }" Pause Account
                                         br
-                                        small  
+                                        small
                                             | Pausing your account will prevent you from being billed at all, while it's paused you cannot access any learning material. You'll be able to get back here and unpause though. If your payment fails, your account will be automatically paused until you update your billing information or unpause it.
-                            
+
                             .col-md-6
                                 p
                                     = f.label :delete_account, :caption => "Delete Account?"
                                     p
                                         a.button.create-button Delete Account
                                         br
-                                        small  
-                                            | Deleting your account is a big deal, and it's usually better to just pause it. If you really want to remove all your progress etc. from the site, you can do so using the above button. We'll be sad to see you go... 
+                                        small
+                                            | Deleting your account is a big deal, and it's usually better to just pause it. If you really want to remove all your progress etc. from the site, you can do so using the above button. We'll be sad to see you go...
 
         .row
             .col-lg-12
                 p.center-text
                     = f.submit "Save", :class => 'button create-button'
-
-- content_for :include_end_body
-    javascript:
-        Stripe.setPublishableKey('#{stripe_publishable_key}');
-
-        $('#cc_num').payment('formatCardNumber');
-        $('#cc_cvc').payment('formatCardCVC');
-        $('#cc_expire').payment('formatCardExpiry');
-
-        $("#cc_expire").keyup( function() {
-            var expiry = $(this).payment('cardExpiryVal');
-
-            $("#cc_exp_month").val(expiry.month);
-            $("#cc_exp_year").val(expiry.year);
-        });
-
-        $('#editAccountSettingsForm').submit(function(event) {
-            var $form = $(this);
-
-            // Disable the submit button to prevent repeated clicks
-            $form.find('button').prop('disabled', true);
-
-            Stripe.card.createToken($form, stripeResponseHandler);
-
-            // Prevent the form from submitting with the default action
-            return false;
-        });
-
-        function stripeResponseHandler(status, response) {
-            var $form = $('#editAccountSettingsForm');
-
-            if (response.error) {
-                // Show the errors on the form
-                $form.find('.payment-errors').text(response.error.message);
-                $form.find('button').prop('disabled', false);
-            } else {
-                // response contains id and card, which contains additional card details
-                var token = response.id;
-                // Insert the token into the form so it gets submitted to the server
-                $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-                // and submit
-                $form.get(0).submit();
-            }
-        };

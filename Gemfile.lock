@@ -25,6 +25,8 @@ GEM
     bcrypt (3.1.7)
     bcrypt-ruby (3.1.5)
       bcrypt (>= 3.1.3)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     bson (2.3.0)
     builder (3.2.2)
     capistrano (3.2.1)
@@ -50,6 +52,9 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     colorize (0.7.2)
     connection_pool (2.0.0)
+    debug_inspector (0.0.2)
+    did_you_mean (0.7.0)
+      binding_of_caller
     diff-lcs (1.2.5)
     ffi (1.9.3)
     haml (4.0.5)
@@ -189,6 +194,7 @@ DEPENDENCIES
   capistrano3-puma
   capybara
   colorize
+  did_you_mean
   haml
   moneta
   mongoid (~> 4.0.0)

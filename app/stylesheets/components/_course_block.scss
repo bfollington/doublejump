@@ -49,7 +49,7 @@
     position: relative;
     height: 13em;
 
-    
+
     .box
     {
         border-top-left-radius: 0;
@@ -68,7 +68,7 @@
         height: 32px;
         @include background-size(24px, 24px);
 
-        transition: 0.3s;
+        transition: 0.5s cubic-bezier(0.680, -0.550, 0.265, 1.550);
     }
 
     &:hover
@@ -76,7 +76,7 @@
 
 
         .box
-        {   
+        {
             height: 20em;
             position: absolute;
             width: 100%;
@@ -85,8 +85,8 @@
 
         .course-icon
         {
-            height: 48px;   
+            height: 48px;
             @include background-size(32px, 32px);
         }
-    }    
+    }
 }

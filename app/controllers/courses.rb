@@ -1,7 +1,7 @@
 Doublejump::App.controllers :courses do
-  
+
   layout :app
-  
+
   get :index do
     @courses = Course.all
     render 'courses/index'

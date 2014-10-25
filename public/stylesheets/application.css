@@ -1441,16 +1441,18 @@ a {
   font-weight: bold;
   text-decoration: none; }
 
-a:hover, a:active, a:focus {
+a:hover,
+a:active,
+a:focus {
   color: #0084d5;
   text-decoration: none;
   cursor: pointer; }
 
-.header a, .banner-navigation a {
+a.header-link, .banner-navigation a {
   color: #f6ff56;
   font-weight: normal; }
 
-.header a:hover, .banner-navigation a:hover {
+a.header-link:hover, .banner-navigation a:hover {
   color: #c0e7ff; }
 
 .comment a {
@@ -1866,7 +1868,7 @@ a.notification-badge:hover {
     -ms-background-size: 24px 24px;
     -o-background-size: 24px 24px;
     background-size: 24px 24px;
-    transition: 0.3s; }
+    transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
   .course-block:hover .box {
     height: 20em;
     position: absolute;
@@ -2432,6 +2434,9 @@ img.shared-image {
 
 .image.small {
   max-width: 128px; }
+
+.image.medium {
+  max-width: 256px; }
 
 .image.very-small {
   max-width: 64px; }
