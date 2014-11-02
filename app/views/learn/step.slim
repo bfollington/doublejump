@@ -1,4 +1,5 @@
 = render_js_template 'js-templates/_comment_icon'
+= render_js_template 'js-templates/_comment_icon_with_count'
 = render_js_template 'js-templates/_inserted_definition'
 
 - if !@lesson.get_next_step(@step).nil?
@@ -17,7 +18,7 @@
 
 
 = partial "learn/elements/step_header", locals: {next_link: next_link, next_step_exists: next_step_exists, prev_link: prev_link, prev_step_exists: prev_step_exists}
-                
+
 .row.fadeInUp.animated
     .col-lg-9.col-md-9
         .box
@@ -33,9 +34,9 @@
             - else
                 .sharing-step
                     | #{{@body_edited}}
-                    = partial 'learn/elements/sharing_step' 
+                    = partial 'learn/elements/sharing_step'
 
-                    #comment_frame  
+                    #comment_frame
 
         - if @step.is_sharing_step
             = partial 'learn/elements/shared_image', :collection => @sharing_steps

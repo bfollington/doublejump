@@ -1,15 +1,8 @@
 - comment_count = comment_count || "{{#comment-count}}"
 
 - if comment_count.to_i > 0
-    - title = "View Comments"
+    = partial "js-templates/comment_icon_with_count", :locals => { :comment_count => comment_count }
 - else
     - title = "Leave a comment!"
-
-a href='' title="#{title}"
-    - if comment_count.to_i <= 0
+    a href='' title="#{title}"
         i.fa.fa-plus
-    - else
-        = comment_count
-        |  
-        i.fa.fa-comment
-

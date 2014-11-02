@@ -3,7 +3,7 @@
 var comments = new function()
 {
     var self = this;
-    
+
     self.bindComments = function()
     {
 
@@ -30,10 +30,15 @@ var comments = new function()
 
             if ($(this).closest(".shared-wrapper").length == 0)
             {
-                $(this).html( format( getTemplate("_comment_icon"), {"comment-count": $(this).attr("data-count") }) );
+                if (parseInt($(this).attr("data-count")) > 0)
+                {
+                    $(this).html( format( getTemplate("_comment_icon_with_count"), {"comment-count": $(this).attr("data-count") }) );
+                } else {
+                    $(this).html( format( getTemplate("_comment_icon"), {"comment-count": $(this).attr("data-count") }) );
+                }
             }
 
-            $(this).find('a').on("touchstart, click", function (e) { 
+            $(this).find('a').on("touchstart, click", function (e) {
 
                 e.preventDefault();
 
@@ -44,7 +49,7 @@ var comments = new function()
                 {
 
                     $comment.append(loadingIndicator);
-                    
+
                     var url = "";
                     var offsetLeft, offsetTop;
 
@@ -66,7 +71,7 @@ var comments = new function()
 
                     $.ajax({
                         url: url,
-                        success: function (data) { 
+                        success: function (data) {
                             if (data.success)
                             {
                                 $frame.html(data.html);
@@ -83,8 +88,8 @@ var comments = new function()
                             $comment.children().last().remove();
                         }
                     });
-                    
-                }  
+
+                }
 
             } );
 
@@ -142,10 +147,10 @@ var comments = new function()
                 $frame.offset({ left: $comment.offset().left + offsetLeft, top: $comment.offset().top + offsetTop});
             }
 
-            
+
         }
 
-        
+
 
         animate(id, 'fadeInDown', null);
 
@@ -153,7 +158,7 @@ var comments = new function()
 
         $("form#Comment").ajaxForm({
             beforeSubmit:  function () {
-                $frame.find(".errors").text("");  
+                $frame.find(".errors").text("");
                 $("form#Comment").find('input[type="submit"]').attr("disabled", "disabled");
             },
             success: function (data) {
@@ -176,7 +181,7 @@ var comments = new function()
         {
             $frame.offset({top: $comment.offset().top - $frame.height() - 32});
         }
-        
+
 
         $(".js-close-comments").click( function(e) {
             e.preventDefault();

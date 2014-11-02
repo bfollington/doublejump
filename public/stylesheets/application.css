@@ -1459,7 +1459,8 @@ a.header-link:hover, .banner-navigation a:hover {
   color: #eee; }
 
 .comment a:hover {
-  color: #0084d5; }
+  color: #0084d5;
+  transform: scale(1.1, 1.1); }
 
 p, li {
   font-weight: lighter; }
