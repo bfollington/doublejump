@@ -27,31 +27,18 @@ if ENV["DEBUG"] != 'false'
 
         say_something "Running test suite now..."
 
-        if (system "padrino rake spec TESTING_DB=DEPLOY") 
+        if (system "padrino rake spec TESTING_DB=DEPLOY")
 
             puts 'Tests passed, deploying application'.green
-            
-            say_something "Maintenance mode..."
-            
-            system "heroku maintenance:on --app #{app}"
 
-            say_something "Push commits..."
-            
-            system "git push #{remote} master"
-            
-            say_something "Run migrations remotely..."
-            
-            system "heroku run rake migrate --app #{app}"
-            
-            say_something "Maintenance mode..."
-            
-            system "heroku maintenance:off --app #{app}"
+            system "cap production deploy"
+
             puts 'Deploy complete'.green
         else
             puts 'Tests failed, aborting deploy'.red
         end
 
-        
+
     end
 
 end
