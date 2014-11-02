@@ -149,14 +149,3 @@ img.plus-cursor
 {
     cursor: url('/images/plus_cursor.png') 25 25, auto;
 }
-
-.category-tag
-{
-    padding: 2px 8px;
-    @include border-radius(2px);
-    margin: 0 2px;
-    color: white;
-    cursor: pointer;
-    display: inline-block;
-    margin-bottom: 2px;
-}

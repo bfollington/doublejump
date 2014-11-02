@@ -59,7 +59,7 @@
         position: relative;
         z-index: 99;
 
-        transition: height 0.5s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+        transition: height 0.4s $bounce-easing;
     }
 
     .course-icon
@@ -68,7 +68,7 @@
         height: 32px;
         @include background-size(24px, 24px);
 
-        transition: 0.5s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+        transition: 0.4s $bounce-easing;
     }
 
     &:hover

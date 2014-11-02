@@ -33,6 +33,7 @@ html.no-js lang="en"
 
     = partial( local_or_live('includes/local_app_js', 'includes/live_app_js') )
     script src="#{local_or_live('/local_required/wow.min.js', '//cdnjs.cloudflare.com/ajax/libs/wow/0.1.6/wow.min.js')}"
+    = yield_content :include_end_body
     javascript:
         new WOW({offset: 50}).init();
         mixpanel.track("Landing page visited");

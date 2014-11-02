@@ -14,6 +14,7 @@
 @import 'components/progress_bars';
 @import 'components/lesson_block';
 @import 'components/read_more_gradient';
+@import 'components/category_tag';
 
 @import 'landing-page';
 @import 'footer';
@@ -46,15 +47,15 @@ html {
     font-family: $nunito-stack;
     background-color: #2F3348;
 
-    @media only screen and (min-width: $large-screen) { 
+    @media only screen and (min-width: $large-screen) {
         font-size: 20px;
     }
 
-    @media only screen and (max-width: $tablet) { 
+    @media only screen and (max-width: $tablet) {
         font-size: 16px;
     }
 
-    @media only screen and (max-width: $mobile) { 
+    @media only screen and (max-width: $mobile) {
         font-size: 14px;
     }
 }
@@ -102,7 +103,7 @@ body {
 
     max-width: 1920px;
 
-    @media only screen and (max-width: $mobile) { 
+    @media only screen and (max-width: $mobile) {
         padding-left: 5px;
         padding-right: 5px;
     }

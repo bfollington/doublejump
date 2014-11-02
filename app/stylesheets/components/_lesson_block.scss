@@ -5,7 +5,7 @@
     .box
     {
         position: relative;
-        transition: 0.3s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+        transition: 0.3s $bounce-easing;
     }
 
     &:hover .box

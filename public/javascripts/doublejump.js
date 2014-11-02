@@ -563,6 +563,23 @@ hideable.createHideableRegions();
 hideable.bindInsertRegionButton();
 
 
+var landing = new function ()
+{
+    this.init = function ()
+    {
+        $(".landing-page-tab").click( function(e) {
+            e.preventDefault();
+            var index = parseInt($(this).attr("data-target"));
+
+            console.log(index);
+            var $boxes = $(".landing-page-box");
+
+            $boxes.removeClass("visible");
+            $( $boxes[index] ).addClass("visible");
+        });
+    }
+}
+
 // learn.js modifies the learn page layout to inject images etc.
 
 var learn = new function()
