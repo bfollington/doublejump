@@ -68,10 +68,11 @@ namespace :deploy do
     on roles(:app) do
       execute :sudo, "ln -nfs /home/#{fetch(:user)}/apps/#{fetch(:application)}/current/config/nginx.conf /etc/nginx/sites-enabled/#{fetch(:application)}"
       execute :sudo, "service nginx restart"
-    end
+      execute "pwd"
+      execute "cd apps/doublejump/current"
 
-    run "cd #{deploy_to}/current"
-    run "rake migrate"
+      execute :rake, "rake migrate"
+    end
   end
 
   desc 'Initial Deploy'
