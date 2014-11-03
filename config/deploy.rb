@@ -71,9 +71,7 @@ namespace :deploy do
       execute "pwd"
       execute "cd apps/doublejump/current"
 
-      rake = fetch(:rake, 'rake')
-
-      execute "#{rake} migrate"
+      run "rake migrate"
     end
   end
 
