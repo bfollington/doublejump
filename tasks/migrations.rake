@@ -19,6 +19,9 @@ task :migrate => :environment do
 end
 
 def do_migration()
+
+    puts "Using: " + Mongoid.default_session.options[:database].to_s
+
     settings = Settings.first
 
     if (settings.nil?)
