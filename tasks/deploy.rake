@@ -28,8 +28,6 @@ if ENV["DEBUG"] != 'false'
 
             system "cap production deploy"
 
-            system "ssh deploy@104.131.86.47 ./run_migrations.sh"
-
             puts 'Deploy complete'.green
         else
             puts 'Tests failed, aborting deploy'.red

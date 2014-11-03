@@ -68,6 +68,8 @@ namespace :deploy do
     on roles(:app) do
       execute :sudo, "ln -nfs /home/#{fetch(:user)}/apps/#{fetch(:application)}/current/config/nginx.conf /etc/nginx/sites-enabled/#{fetch(:application)}"
       execute :sudo, "service nginx restart"
+
+      execute "./run_migrations.sh"
     end
   end
 
