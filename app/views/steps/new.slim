@@ -1,9 +1,13 @@
+- content_for :include_end_body
+    javascript:
+        editingStep.init();
+
 .create-step-form
     = form_for :step, "", { :id => 'addStepForm' } do |f|
         .row
             .col-lg-12
                 .box
-                
+
                     .row
                         .col-sm-6
                             p
@@ -27,7 +31,7 @@
 
                     p
                         = f.label :body, :caption => "Step Content"
-                        
+
                     p
                         button.button.create-button.margin-bottom.js-insert-definition.margin-right Insert Definition
                         button.button.create-button.margin-bottom.js-insert-hideable.margin-right Insert Hideable Region
@@ -37,6 +41,18 @@
                         button.button.create-button.margin-bottom.js-insert-two-cols.margin-right Insert Two Columns
                         button.button.create-button.margin-bottom.js-insert-one-col.margin-right Insert One Column
                         #epiceditor
+
+                - if @step
+                    - @step.contents.each do |content|
+                        .box
+                            = partial content.editing_partial
+
+                .box
+                    button.create-button.button.js-add-markdown-content
+                        i.fa.fa-file-text
+                        |  Add Markdown Content
+
+                .box
 
                     p
                         = f.text_area :body, :id => 'epiceditor-target', :class => "form-control"

@@ -16,7 +16,7 @@ class Step
   validates_uniqueness_of :slug
 
   has_and_belongs_to_many :lessons
-  has_many :comments
+  has_and_belongs_to_many :contents
   belongs_to :account
   has_many :completed_steps
   has_many :shared_images

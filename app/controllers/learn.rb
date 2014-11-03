@@ -1,15 +1,15 @@
 require "rest_client"
 
 Doublejump::App.controllers :learn, :cache => true do
-  
+
   layout :learn
-  
+
   get :index do
     expires_in 30
 
     @courses = Course.all
     @categories = Category.all
-    
+
     render 'learn/index'
   end
 
@@ -23,7 +23,7 @@ Doublejump::App.controllers :learn, :cache => true do
   #
 
   get :view_course, :map => '/learn/:course/' do
-    
+
     fetch_course(params[:course])
 
     puts @course.inspect
@@ -56,7 +56,7 @@ Doublejump::App.controllers :learn, :cache => true do
   #
 
   get :finish_lesson, :map => '/learn/:course/:lesson/finish' do
-    
+
     fetch_course(params[:course])
     fetch_lesson(params[:lesson])
 
@@ -86,11 +86,6 @@ Doublejump::App.controllers :learn, :cache => true do
     fetch_lesson(params[:lesson])
     fetch_step(params[:step])
 
-    @body_edited = insert_comment_tags @step.body, @step
-    @body_edited = expand_macros @body_edited
-    @body_edited = RDiscount.new(@body_edited, :no_superscript).to_html
-    @body_edited = lazy_load_images @body_edited
-
     mark_prev_step_as_complete
 
     if @step.is_sharing_step
@@ -110,7 +105,7 @@ Doublejump::App.controllers :learn, :cache => true do
 
 
   post :share_image, :map => '/learn/share-image/:step' do
-    
+
     fetch_step(params[:step])
 
     shared_image = SharedImage.new(
@@ -140,7 +135,7 @@ Doublejump::App.controllers :learn, :cache => true do
       end
 
     end
-    
+
 
     content_type :json
 
@@ -154,8 +149,8 @@ Doublejump::App.controllers :learn, :cache => true do
       {:success => false, :errors => errors.merge(shared_image.errors.messages)}.to_json
     end
 
-    
-    
+
+
   end
 
 end
@@ -172,88 +167,6 @@ def mark_prev_step_as_complete
   end
 end
 
-#
-# Marks up the body of the step with comment tags, replace _#num_ by a comment icon.
-#
-def insert_comment_tags(body, step)
-  body.scan(Step.id_regex).each do |tag|
-    html_tag = "<span class='comment' data-group='#{tag[0][2..-3]}' data-count='#{step.comments.where(group: tag[0][2..-3]).count}' id='comment_#{tag[0][2..-3]}'></span>"
-
-    body = body.gsub(tag[0], html_tag)
-  end
-
-  body
-end
-
-def lazy_load_images(body)
-  body.gsub("src=", "data-original=")
-end
-
-def expand_macros(body)
-
-  edited_body = body
-
-  body.scan(Step.macro_regex).each do |match|
-    puts "match 0: " + match[0]
-    edited_body.gsub!(match[0], process_macro(match))
-  end
-
-  edited_body
-
-end
-
-def process_macro(macro)
-
-  name =  macro[1]
-  params = macro[2].split(/\",\s*\"/)
-  params[0] = params[0][1..-1]
-  params[-1] = params[-1][0..-2]
-
-  puts macro.inspect
-  puts params.inspect
-
-  if (name == "definition")
-    @link_text = params[0]
-    @term = params[1].downcase
-
-    definition = Definition.where(:search_title => params[1].downcase).first
-    if definition.nil?
-      @invalid_term = true
-    end
-
-    render 'macros/definition', :layout => false
-  elsif (name == "two-columns")
-    @left = RDiscount.new(params[0], :no_superscript).to_html
-    @right = RDiscount.new(params[1], :no_superscript).to_html
-    render 'macros/two-columns', :layout => false
-  elsif (name == "one-column")
-    @content = RDiscount.new(params[0], :no_superscript).to_html
-    render 'macros/one-column', :layout => false
-  elsif (name == "interactive")
-    render 'interactive/' + params[0], :layout => false
-  elsif (name == "hideable")
-    @item_text = RDiscount.new(params[1], :no_superscript).to_html
-    @item_title = params[0]
-    render 'macros/hideable', :layout => false
-  elsif (name == "inline-definition")
-
-    definition = Definition.where(:search_title => params[0].downcase).first
-
-    if !definition.nil?
-      @definition = RDiscount.new(definition.body, :no_superscript).to_html
-      @definition_title = definition.title
-      @definition_id = definition.id
-      render 'macros/inline-definition', :layout => false
-    else
-      "Invalid Definition Term."
-    end
-
-    
-  else
-    macro[0]
-  end
-  
-end
 
 def fetch_course(slug)
   @course = Course.where(:slug => slug).first

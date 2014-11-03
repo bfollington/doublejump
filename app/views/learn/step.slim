@@ -28,12 +28,14 @@
 
             - if !@step.is_sharing_step
                 .step-body
-                    | #{{@body_edited}}
+                    - @step.contents.each do |content|
+                        | #{{content.get_final_html self}}
 
                     #comment_frame
             - else
                 .sharing-step
-                    | #{{@body_edited}}
+                    - @step.contents.each do |content|
+                        | #{{content.get_final_html self}}
                     = partial 'learn/elements/sharing_step'
 
                     #comment_frame

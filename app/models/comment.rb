@@ -13,7 +13,7 @@ class Comment
 
   belongs_to :account
   has_many :reported_comments
-  belongs_to :step
+  belongs_to :comment
   belongs_to :shared_image
 
 end

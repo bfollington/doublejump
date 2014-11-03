@@ -456,6 +456,18 @@ var definitions = new function()
 definitions.bindDefinitions();
 
 
+var editingStep = new function()
+{
+
+    this.init = function ()
+    {
+        $(".js-add-markdown-content").click( function(e) {
+            e.preventDefault();
+            console.log("Test");
+        });
+    }
+}
+
 // epiceditor-config.js configures the epic editor backend fields
 
 var editor;
