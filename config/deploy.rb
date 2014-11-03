@@ -70,7 +70,7 @@ namespace :deploy do
       execute :sudo, "service nginx restart"
       execute "pwd"
       execute "cd apps/doublejump/current"
-      execute "rake migrate"
+      execute "padrino rake migrate"
     end
   end
 
