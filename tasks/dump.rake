@@ -1,7 +1,5 @@
 require 'colorize'
 
-# Disable these tasks on heroku
-if ENV["DEBUG"] != 'false'
 
     task :restore_dump do
 
@@ -21,7 +19,7 @@ if ENV["DEBUG"] != 'false'
         else
             return false # Abort the rake task
         end
-        
+
     end
 
     task :restore_deploy_backup do
@@ -42,7 +40,7 @@ if ENV["DEBUG"] != 'false'
         else
             return false # Abort the rake task
         end
-        
+
     end
 
     task :populate_test_db do
@@ -51,12 +49,12 @@ if ENV["DEBUG"] != 'false'
         answer = STDIN.gets.chomp
         if answer == "y"
             drop_test_db
-            restore_test_db "./dumps/manual_dump/*"
+            restore_test_db "./dumps/manual_dump/latest_dump/*"
             puts "Restore complete".green
         else
             return false # Abort the rake task
         end
-        
+
     end
 
     task :populate_development_db_deploy do
@@ -70,7 +68,7 @@ if ENV["DEBUG"] != 'false'
         else
             return false # Abort the rake task
         end
-        
+
     end
 
     task :populate_development_db do
@@ -79,53 +77,51 @@ if ENV["DEBUG"] != 'false'
         answer = STDIN.gets.chomp
         if answer == "y"
             drop_dev_db
-            restore_dev_db "./dumps/manual_dump/*"
+            restore_dev_db "./dumps/manual_dump/latest_dump/*"
             puts "Restore complete".green
         else
             return false # Abort the rake task
         end
-        
+
     end
 
     task :restore_development_db do
 
-        puts "\n Are you sure you want to restore the development DB using the local ./dumps/development_db_dump? [y/N]".light_blue
-        answer = STDIN.gets.chomp
-        if answer == "y"
-            drop_dev_db
-            restore_dev_db "./dumps/development_db_dump/*"
-            puts "Restore complete".green
-        else
-            return false # Abort the rake task
-        end
-        
+    puts "\n Are you sure you want to restore the development DB using the local ./dumps/development_db_dump? [y/N]".light_blue
+    answer = STDIN.gets.chomp
+    if answer == "y"
+        drop_dev_db
+        restore_dev_db "./dumps/development_db_dump/*"
+        puts "Restore complete".green
+    else
+        return false # Abort the rake task
     end
 
-    task :populate do
+end
 
-        puts "\n Are you sure you want to restore the production DB using the local ./dumps/manual_dump? [y/N]".light_blue
-        answer = STDIN.gets.chomp
-        if answer == "y"
-            drop_prod_db
-            restore_prod_db "./dumps/manual_dump/*"
-            puts "Restore complete".green
-        else
-            return false # Abort the rake task
-        end
-        
+task :populate do
+
+    puts "\n Are you sure you want to restore the production DB using the local ./dumps/manual_dump? [y/N]".light_blue
+    answer = STDIN.gets.chomp
+    if answer == "y"
+        drop_prod_db
+        restore_prod_db "./dumps/manual_dump/latest_dump/*"
+        puts "Restore complete".green
+    else
+        return false # Abort the rake task
     end
 
-    task :dump do
+end
 
-        system "mongodump -h ds029328.mongolab.com:29328 -d #{db} -u #{username} -p #{password} -o ./dumps/manual_dump"
-        
-    end
+task :dump do
 
-    task :dump_dev_db do
+    system "./get_remote_dump.sh"
 
-        system "mongodump -h localhost:27017 -d learn_to_game_dev_development -o ./dumps/development_db_dump"
-        
-    end
+end
+
+task :dump_dev_db do
+
+    system "mongodump -h localhost:27017 -d learn_to_game_dev_development -o ./dumps/development_db_dump/latest_dump"
 
 end
 
@@ -159,7 +155,7 @@ end
 
 def password()
     'MoBoFlo1010'
-end 
+end
 
 def restore(directoryString)
     system "mongorestore -h ds029328.mongolab.com:29328 -d #{db} -u #{username} -p #{password} #{directoryString}"

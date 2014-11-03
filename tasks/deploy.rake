@@ -16,14 +16,9 @@ if ENV["DEBUG"] != 'false'
 
     task :deploy do
 
-        app = "doublejump"
-        remote = "git@heroku.com:#{app}.git"
-
-        # TODO: run all tests here and only continue if they all pass
-
         say_something "Take a database image..."
 
-        system "mongodump -h ds029328.mongolab.com:29328 -d doublejump -u doublejump -p MoBoFlo1010 -o ./dumps/deploy_db_dump"
+        system "./get_remote_dump.sh deploy_db_dump"
 
         say_something "Running test suite now..."
 

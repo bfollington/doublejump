@@ -15,7 +15,7 @@ end
 task :migrate => :environment do
 
     do_migration
-    
+
 end
 
 def do_migration()
@@ -31,7 +31,7 @@ def do_migration()
 
             begin
                 send('m_' + i.to_s)
-            rescue Exception => e 
+            rescue Exception => e
                 puts 'Migration m_' + i.to_s + ' failed'.red
                 puts e.backtrace.join("\n").red
             else
@@ -47,7 +47,7 @@ def do_migration()
 end
 
 def current_version
-    4
+    6
 end
 
 def m_1
@@ -76,5 +76,25 @@ def m_4
     Course.all.each do |course|
         course.experience = 2000
         course.save
+    end
+end
+
+def m_5
+    # Move the markdown body out of steps and into a markdown content block
+    Step.all.each do |step|
+        regex = /(\_\{[A-z0-9]+\}\_)+/
+        markdown = MarkdownContent.new(body: step.body.gsub(regex, ''))
+        step.contents << markdown
+        # step.unset(:body)
+        markdown.save
+        step.save
+    end
+end
+
+def m_6
+    # Delete the body field from all steps
+    Step.all.each do |step|
+        step.unset(:body)
+        step.save
     end
 end
