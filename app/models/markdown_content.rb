@@ -18,6 +18,11 @@ class MarkdownContent < Content
     end
 
 
+    def get_content
+        body
+    end
+
+
     def lazy_load_images(body)
         body.gsub("src=", "data-original=")
     end

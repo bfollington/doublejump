@@ -1,5 +1,41 @@
 require 'colorize'
 
+    task :export_markdown => :environment do
+
+        system "rm -rf markdown_export"
+        Dir.mkdir "markdown_export"
+
+        Course.all.each do |course|
+
+            course_title = course.slug.gsub(" ", "_").downcase
+
+            Dir.mkdir "markdown_export/" + course_title
+
+            course.lessons.each do |lesson|
+
+                lesson_title = lesson.slug.gsub(" ", "_").downcase
+
+                Dir.mkdir "markdown_export/" + course_title + "/" + lesson_title
+
+                lesson.steps.each do |step|
+
+                    step_title = step.slug.gsub(" ", "_").downcase
+
+                    Dir.mkdir "markdown_export/" + course_title + "/" + lesson_title + "/" + step_title
+
+                    step.contents.each_with_index do |content, index|
+
+                        File.write("markdown_export/" + course_title + "/" + lesson_title + "/" + step_title + "/" + index.to_s + ".md", content.get_content)
+
+                    end
+
+                end
+
+            end
+
+        end
+
+    end
 
     task :restore_dump do
 
