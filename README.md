@@ -24,10 +24,10 @@ A deploy can be triggered using `padrino rake deploy`, this runs through:
 
 - Dump the live db to ./dumps/deploy_db_dump
 - `padrino rake spec TESTING_DB=DEPLOY`
-- If tests pass, enable maintenance mode
-- Git push to heroku
-- Migrate the deployed db
-- Disable maintenance mode
+- If tests pass, continue
+- capistrano deploy to Digital Ocean
+
+You must manually run the migrations on the database for now.
 
 # Database
 
@@ -68,6 +68,10 @@ A deploy can be triggered using `padrino rake deploy`, this runs through:
 ### Restoring from Manual Backup
 
 ./dumps/manual_dump -> dev `padrino rake populate_development_db`
+
+# Backing up Everything
+
+For a markdown dump of the entire system, run `rake export_markdown`
 
 # Migrations
 
