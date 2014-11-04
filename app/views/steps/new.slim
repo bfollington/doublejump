@@ -2,11 +2,14 @@
     javascript:
         editingStep.init();
 
+= render_js_template 'js-templates/editing/_markdown'
+= render_js_template 'js-templates/editing/_code'
+
 .create-step-form
-    = form_for :step, "", { :id => 'addStepForm' } do |f|
-        .row
-            .col-lg-12
-                .box
+    .row
+        .col-lg-12
+            .box
+                = form_for :step, "", { :id => 'addStepForm' } do |f|
 
                     .row
                         .col-sm-6
@@ -40,27 +43,24 @@
                         button.button.create-button.margin-bottom.js-insert-block-tex.margin-right Insert Block LaTeX
                         button.button.create-button.margin-bottom.js-insert-two-cols.margin-right Insert Two Columns
                         button.button.create-button.margin-bottom.js-insert-one-col.margin-right Insert One Column
-                        #epiceditor
 
+                    button.create-button.button.js-upload-link Upload File
+
+                    p.center-text
+                        = f.submit "Save", :class => 'button create-button'
+
+            section.contents
                 - if @step
                     - @step.contents.each do |content|
-                        .box
-                            = partial content.editing_partial
+                        = partial content.editing_partial, :object => content
 
-                .box
-                    button.create-button.button.js-add-markdown-content
-                        i.fa.fa-file-text
-                        |  Add Markdown Content
+            .box
+                button.create-button.button.js-add-markdown-content
+                    i.fa.fa-file-text
+                    |  Add Markdown Content
 
-                .box
+                button.create-button.button.js-add-code-content
+                    i.fa.fa-code
+                    |  Add Code Content
 
-                    p
-                        = f.text_area :body, :id => 'epiceditor-target', :class => "form-control"
-                        = partial 'form_error', :collection => (errors_for @step, :body)
-
-                    p
-                        button.create-button.button.js-upload-link Upload File
-
-                p.center-text
-                    = f.submit "Save", :class => 'button create-button'
     #upload_frame

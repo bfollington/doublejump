@@ -11,6 +11,11 @@ task :up do
     system "padrino s"
 end
 
+task :down do
+    system "killall mongod"
+    system "killall padrino"
+end
+
 # Disable these tasks on heroku
 if ENV["DEBUG"] != 'false'
 

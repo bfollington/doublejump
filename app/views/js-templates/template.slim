@@ -1,2 +1,2 @@
-script.js-template id="#{@template.split('/')[1]}_template" type="text/html" hidden=true
-    = render @template, :layout => false
+script.js-template id="#{@template.split('/')[-1]}_template" type="text/html" hidden=true
+    = render @template, :layout => false, :locals => {js_template: true}

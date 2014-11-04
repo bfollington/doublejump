@@ -1,0 +1,19 @@
+- if defined? js_template
+    - content_body = ""
+    - content_language = ""
+    - id = ""
+- else
+    - content_body = code.body
+    - content_language = code.language
+    - id = code.id
+
+.box.code-content
+    = form_for :code_content, "/content/code/add" do |f|
+        input.id-field name="id" type="hidden" value="#{id}"
+        p
+            = f.text_field :language, :class => "form-control", :value => content_language
+            = f.text_area :body, :class => "form-control", :value => content_body
+            = partial 'form_error', :collection => (errors_for @content, :body)
+
+        p.center-text
+            = f.submit "Save", :class => 'button create-button'

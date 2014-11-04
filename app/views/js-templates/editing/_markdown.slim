@@ -1,0 +1,17 @@
+- if defined? js_template
+    - content_body = ""
+    - id = ""
+- else
+    - content_body = markdown.body
+    - id = markdown.id
+
+.box.markdown-content
+    input.id-field name="id" type="hidden" value="#{id}"
+    = form_for :markdown_content, "/content/markdown/add" do |f|
+        p
+            .epiceditor
+            = f.text_area :body, :class => "form-control epiceditor-target", :value => content_body
+            = partial 'form_error', :collection => (errors_for @content, :body)
+
+        p.center-text
+            = f.submit "Save", :class => 'button create-button'
