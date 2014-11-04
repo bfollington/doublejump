@@ -2052,6 +2052,12 @@ ul.progress-list {
   -ms-user-select: none;
   user-select: none; }
 
+.epiceditor-target {
+  display: none; }
+
+.code-input-area {
+  font-family: monospace; }
+
 .gradient-block {
   background-image: -o-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
   background-image: -moz-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);

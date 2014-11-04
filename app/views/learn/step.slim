@@ -24,21 +24,21 @@
         .box
             - if current_account && current_account.has_completed_step?(@step)
                 = partial 'elements/callouts/notification', locals: {next_link: next_link, link_text: "Go To Next Step", message_body: "You've completed this step before (maybe as part of another course), just thought you should know." }
-            h3 = @step.title
+        h3 = @step.title
 
-            - if !@step.is_sharing_step
-                .step-body
-                    - @step.contents.each do |content|
-                        | #{{content.get_final_html self}}
+        - if !@step.is_sharing_step
+            .step-body
+                - @step.contents.each do |content|
+                    | #{{content.get_final_html self}}
 
-                    #comment_frame
-            - else
-                .sharing-step
-                    - @step.contents.each do |content|
-                        | #{{content.get_final_html self}}
-                    = partial 'learn/elements/sharing_step'
+                #comment_frame
+        - else
+            .sharing-step
+                - @step.contents.each do |content|
+                    | #{{content.get_final_html self}}
+                = partial 'learn/elements/sharing_step'
 
-                    #comment_frame
+                #comment_frame
 
         - if @step.is_sharing_step
             = partial 'learn/elements/shared_image', :collection => @sharing_steps

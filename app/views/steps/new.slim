@@ -4,6 +4,7 @@
 
 = render_js_template 'js-templates/editing/_markdown'
 = render_js_template 'js-templates/editing/_code'
+= render_js_template 'js-templates/editing/_step_content_id_entry'
 
 .create-step-form
     .row
@@ -45,6 +46,9 @@
                         button.button.create-button.margin-bottom.js-insert-one-col.margin-right Insert One Column
 
                     button.create-button.button.js-upload-link Upload File
+
+                    .content-ids
+
 
                     p.center-text
                         = f.submit "Save", :class => 'button create-button'

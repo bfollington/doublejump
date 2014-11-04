@@ -7,12 +7,17 @@
     - content_language = code.language
     - id = code.id
 
-.box.code-content
+.box.code-content.content
+    h4
+        i.fa.fa-code.margin-right
+        | Code
     = form_for :code_content, "/content/code/add" do |f|
-        input.id-field name="id" type="hidden" value="#{id}"
+        = f.hidden_field :id, :value => id, :class => "id-field"
         p
+            = f.label :language, :caption => "Language"
             = f.text_field :language, :class => "form-control", :value => content_language
-            = f.text_area :body, :class => "form-control", :value => content_body
+            = f.label :body, :caption => "Code snippet"
+            = f.text_area :body, :class => "form-control code-input-area", :value => content_body
             = partial 'form_error', :collection => (errors_for @content, :body)
 
         p.center-text

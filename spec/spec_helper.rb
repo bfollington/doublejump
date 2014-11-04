@@ -23,7 +23,7 @@ RSpec.configure do |conf|
       system "mongorestore --host localhost --port 27017 --db learn_to_game_dev_test dumps/manual_dump/latest_dump/learn_to_game_dev_production"
     else
       system "padrino rake dump_dev_db"
-      system "mongorestore --host localhost --port 27017 --db learn_to_game_dev_test dumps/development_db_dump/latest_dump/learn_to_game_dev_production"
+      system "mongorestore --host localhost --port 27017 --db learn_to_game_dev_test dumps/development_db_dump/latest_dump/learn_to_game_dev_development"
     end
 
     # Perform any migrations that we don't have yet

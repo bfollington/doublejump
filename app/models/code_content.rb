@@ -10,7 +10,7 @@ class CodeContent < Content
     end
 
     def get_final_html(view)
-        render "learn/content_types/_code.slim", locals => {code: self}
+        view.render "learn/content_types/_code", :layout => false, :locals => {code: self}
     end
 
     def get_content
