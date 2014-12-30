@@ -1,0 +1,39 @@
+- content_for :include_end_body
+    javascript:
+        landing.init();
+
+.gradient-block
+
+        nav.navigation
+            .row
+                .col-xs-4
+                    a.header-link href="/" Home
+                .col-xs-4
+                    a.header-link href="/learn" View Courses
+                .col-xs-4
+                    a.header-link href="/login" Sign In
+
+        h2.welcome-message Learn to make games
+
+        h3.intro-blurb
+            | Learn at your own pace, and develop the skills and knowledge to become a game developer.
+
+        p.center-text.margin-top.small-margin-bottom
+            a.call-to-action#get_started_banner href="/#mc_embed_signup"
+                | Tell Me When It's Ready
+
+        p.intro-small.center-text.font-small
+            | See what&nbsp;
+            a.header-link href="/learn" courses
+            |  we have so far
+
+        = partial "landing_page/intro_tabs"
+        = partial "landing_page/intro_descriptions"
+
+        .row.wow.fadeInUp
+            .col-md-5.col-xs-push-1
+                p
+                    | We're not quite ready for the public yet, but if you'd like to know when we're accepting members just sign up!
+            .col-md-5.col-xs-push-1
+                .box
+                    = partial "landing_page/mailchimp_signup.slim"

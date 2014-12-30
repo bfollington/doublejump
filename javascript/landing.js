@@ -2,7 +2,7 @@ var landing = new function ()
 {
     this.init = function ()
     {
-        $(".landing-page-tab").click( function(e) {
+        $(".icon-button-tab").click( function(e) {
             e.preventDefault();
             var index = parseInt($(this).attr("data-target"));
 

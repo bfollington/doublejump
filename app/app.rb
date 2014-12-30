@@ -12,7 +12,7 @@ module Doublejump
     require 'securerandom'
 
     AWS.config(
-      :access_key_id => 'AKIAIAR5NTF4NPMT7ANQ', 
+      :access_key_id => 'AKIAIAR5NTF4NPMT7ANQ',
       :secret_access_key => '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'
     )
 
@@ -57,10 +57,10 @@ module Doublejump
 
     #
     # LANDING PAGE
-    # 
+    #
 
     get :index do
-      render 'notify', :layout => :landing
+      render 'landing_page/landing_page', :layout => :landing
     end
 
     get :interative, :map => '/interactive/:partial' do
@@ -150,11 +150,11 @@ module Doublejump
       filename = params[:shared_image][:filename]
       type = params[:shared_image][:type]
 
-      random_string = SecureRandom.hex + File.extname(filename)  
+      random_string = SecureRandom.hex + File.extname(filename)
 
       result = upload_public_file(tempfile, random_string, type)
       @file = result[:filename]
-      
+
       content_type :json
       {:file => result[:url], :success => true }.to_json
     end
@@ -186,7 +186,7 @@ module Doublejump
 
       result = upload_public_file(tempfile, random_string, type)
       @file = result[:filename]
-      
+
       content_type :json
       {:file => result[:url], :success => true }.to_json
     end
