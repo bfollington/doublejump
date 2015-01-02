@@ -1,7 +1,7 @@
 Doublejump::App.controllers :comments do
-  
 
-   #
+
+  #
   # COMMENTS
   #
 
@@ -12,7 +12,7 @@ Doublejump::App.controllers :comments do
     @comments = @step.comments.where(group: params[:group])
 
     content_type :json
-    {:html => render('learn/comments', :layout => false), :success => true }.to_json
+    {:html => render('ui/comments', :layout => false), :success => true }.to_json
   end
 
   post :submit_comment, :map => "/comments/submit/:slug/:group" do
@@ -28,7 +28,7 @@ Doublejump::App.controllers :comments do
       @comments = @step.comments.where(group: params[:group])
 
       content_type :json
-      {:html => render('learn/comments', :layout => false), :success => true }.to_json
+      {:html => render('ui/comments', :layout => false), :success => true }.to_json
     else
       content_type :json
       {:errors => comment.errors.messages, :success => false }.to_json
@@ -44,7 +44,7 @@ Doublejump::App.controllers :comments do
     @comments = @shared_image.comments
 
     content_type :json
-    {:html => render('learn/comments', :layout => false), :success => true }.to_json
+    {:html => render('ui/comments', :layout => false), :success => true }.to_json
   end
 
   post :submit_comment_on_image, :map => "/comments/image-submit/:image_id" do
@@ -59,7 +59,7 @@ Doublejump::App.controllers :comments do
       @comments = @shared_image.comments
 
       content_type :json
-      {:html => render('learn/comments', :layout => false), :success => true }.to_json
+      {:html => render('ui/comments', :layout => false), :success => true }.to_json
     else
       content_type :json
       {:errors => comment.errors.messages, :success => false }.to_json
@@ -101,6 +101,6 @@ Doublejump::App.controllers :comments do
     content_type :json
     {:success => true }.to_json
   end
-    
+
 
 end
