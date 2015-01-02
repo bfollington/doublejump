@@ -1,15 +1,13 @@
 - if @yours
-    a.class.button.create-button.position-almost-right href="/users/you/edit-profile" Edit Profile
-    a.class.button.create-button href="/users/you/account-settings" Account Settings
+    a.button.create-button.position-almost-right href="/users/you/edit-profile" Edit Profile
+    a.button.create-button href="/users/you/account-settings" Account Settings
 
 .fadeInUp.animated
 
-    
+
     h2.center-text.no-margin-bottom
         img.avatar.medium.centered src="#{@account.avatar}"
-        = @account.name
-        |  
-        = @account.surname
+        = @account.name + " " + @account.surname
     h5.center-text.no-margin-top
         = "@" + (if @account.username.nil? then "" else @account.username end)
         - if @yours
@@ -17,7 +15,7 @@
                 |  (Hey! How's it going?)
 
     p.center-text.no-margin
-        = "Level #{@account.get_level}" 
+        = "Level #{@account.get_level}"
         .level-progress
             .current style="width: #{@account.percent_of_level}%;"
             .current-xp
@@ -35,7 +33,7 @@
     .row
         - @account.started_courses.each do |started_course|
             .col-md-4.col-sm-6.col-xs-12
-                = partial 'learn/elements/course_block', :object => started_course.course
+                = ui_from_object 'ui/course_block', started_course.course
                 p.text-center.no-margin
                     a.resume href="/learn/#{started_course.course.slug}/#{started_course.lesson.slug}/#{started_course.step.slug}#main_content"
                         i.fa.fa-play-circle
@@ -47,4 +45,4 @@
     .row
         - @account.completed_courses.each do |completed_course|
             .col-md-4.col-sm-6.col-xs-12
-                = partial 'learn/elements/course_block', :object => completed_course.course
+                = ui_from_object 'ui/course_block', completed_course.course

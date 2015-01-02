@@ -9,7 +9,7 @@
             p.category-labels
                 label Categories
                 br
-            span.category-tag.js-category-tag style="background-color: #aaa" data-category="" data-bg="#ccc" data-bg-selected="#aaa" All Categories 
+            span.category-tag.js-category-tag style="background-color: #aaa" data-category="" data-bg="#ccc" data-bg-selected="#aaa" All Categories
 
             - @categories.each do |category|
                 = partial 'learn/elements/category', :object => category
@@ -19,4 +19,4 @@
         h3 Courses
     - @courses.each do |course|
         .col-lg-4.col-md-4.col-sm-6.col-xs-12
-            = partial 'learn/elements/course_block', :object => course
+            = ui_from_object 'ui/course_block', course

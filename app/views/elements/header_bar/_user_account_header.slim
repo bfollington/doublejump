@@ -13,7 +13,7 @@
                     = current_account.notifications.count
 
                 ul.dropdown-menu
-                    - current_account.notifications.each do |notification| 
+                    - current_account.notifications.each do |notification|
                         li data-id=notification.id
                             a href="#{notification.action}"
                                 = notification.content
@@ -21,26 +21,18 @@
                                     i.fa.fa-times
 
     div.center-text.padding
-        span.dropdown
-            a href="#" data-toggle="dropdown" class="dropdown-toggle"
-                = " " + current_account.name + " " + current_account.surname + " "
-                i.fa.fa-chevron-down
+        - params = { title: current_account.name + " " + current_account.surname, items: [] }
 
-            ul.dropdown-menu
-                li
-                    a href="/users/you" Dashboard
-                li
-                    a href="/users/you/edit-profile" Edit Profile
-                li
-                    a href="/users/you/account-settings" Account Settings
-                - if current_account.role == "admin"
-                    li
-                        a href="/admin" Padrino Admin
-                    li
-                        a href="/manage" Manage Content
-                li.divider
-                li
-                    a href="/destroy" Logout
+        - params[:items] << { title: 'Dashboard', link: '/users/you' }
+        - params[:items] << { title: 'Edit Profile', link: '/users/you/edit-profile' }
+        - params[:items] << { title: 'Account Settings', link: '/users/you/account-settings' }
+        - if current_account.role == "admin"
+            - params[:items] << {title: 'Padrino Admin', link: '/admin'}
+            - params[:items] << {title: 'Manage Content', link: '/manage'}
+        - params[:items] << { title: '-' }
+        - params[:items] << { title: 'Logout', link: '/destroy' }
+
+        = ui_element 'ui/dropdown', params
 
         div
             small.extra-small

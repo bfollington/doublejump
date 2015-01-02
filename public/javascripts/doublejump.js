@@ -359,13 +359,13 @@ var definitions = new function()
 
             $.ajax({
                 url: "/definitions/define/" + query,
-                success: function (data) {
+                success: function (data) { 
                     if (data != "null" && data != null)
                     {
                         $(".step-body .js-inserted-definition").remove();
 
                         var template = format(
-                                            getTemplate("_inserted_definition"),
+                                            getTemplate("_inserted_definition"), 
                                             {
                                                 "definition-title": data.title,
                                                 "definition-body": marked(data.body),
@@ -591,7 +591,7 @@ function appendErrors(errorsData, $form, errorsSelector)
             $form.find(errorsSelector).append(errorsData[i]);
             $form.find(errorsSelector).append("<br>");
         }
-
+        
         animate(errorsSelector, "fadeInUp");
     }
 }
@@ -621,7 +621,7 @@ var hideable = new function()
                 animateElement( content, "fadeInUp" );
             }
 
-
+            
         });
     }
 
@@ -642,29 +642,12 @@ hideable.createHideableRegions();
 hideable.bindInsertRegionButton();
 
 
-var landing = new function ()
-{
-    this.init = function ()
-    {
-        $(".icon-button-tab").click( function(e) {
-            e.preventDefault();
-            var index = parseInt($(this).attr("data-target"));
-
-            console.log(index);
-            var $boxes = $(".landing-page-box");
-
-            $boxes.removeClass("visible");
-            $( $boxes[index] ).addClass("visible");
-        });
-    }
-}
-
 // learn.js modifies the learn page layout to inject images etc.
 
 var learn = new function()
 {
     var self = this;
-
+    
     self.setup = function()
     {
         $(".banner-image").each( function() {
@@ -817,7 +800,7 @@ var progress = new function()
     var self = this;
     self.updateProgressBars = function()
     {
-        $(".progress-list-wrapper .progress").each(function() {
+        $(".progress-list-wrapper .progress").each(function() { 
 
             var
             $this = $(this),
@@ -825,11 +808,11 @@ var progress = new function()
             $first = $parent.find("ul.progress-list li:first a"),
             $last = $parent.find("ul.progress-list li.current-step a");
 
-            $(this).css("width", $last.offset().left - $first.offset().left);
-            $(this).css("left", $first.position().left + 2);
-            $(this).css("top", $first.position().top);
+            $(this).css("width", $last.offset().left - $first.offset().left); 
+            $(this).css("left", $first.position().left + 2); 
+            $(this).css("top", $first.position().top); 
 
-        } );
+        } );  
 
         if ( $(".course-progress-node").length > 0 )
         {
@@ -882,7 +865,7 @@ var progress = new function()
             var href = $selector.find("a").attr("href");
 
             $selector.find(".box").prepend("<a href='" + href + "' class='button create-button float-right lets-go'>Let's Go!</div>");
-        }
+        } 
     }
 
     self.initHorizontalBars = function()
@@ -905,9 +888,9 @@ var progress = new function()
         // If we are running CSS animations, then we need to keep the progress bars up to date
         if (supportsTransitions())
         {
-            self.runBarUpdate();
+            self.runBarUpdate();    
         }
-
+        
     }
 
     self.barUpdateCount = 0;
@@ -930,7 +913,7 @@ progress.initVerticalBars();
 var search = new function()
 {
     var self = this;
-
+    
     self.searchTerm = "";
     self.categoryFilter = "";
 
@@ -960,7 +943,7 @@ var search = new function()
 
             });
 
-
+                
         });
 
     }
@@ -974,7 +957,7 @@ var search = new function()
 
             self.filterCourses(self.searchTerm, self.categoryFilter);
 
-
+            
         });
 
         $(".js-category-tag").click( function() {
@@ -991,7 +974,7 @@ var search = new function()
                 $(this).css("background-color", $(this).attr("data-bg-selected"));
                 $(this).attr("data-selected", "true");
 
-
+                
             } else {
                 self.categoryFilter = "";
                 $(this).css("background-color", $(this).attr("data-bg"));
@@ -1050,7 +1033,7 @@ var sharing = new function()
     {
         $sharedImageForm.ajaxForm({
             beforeSubmit:  function () {
-                $sharedImageForm.find(".errors").text("");
+                $sharedImageForm.find(".errors").text("");  
                 $sharedImageForm.find('input[type="submit"]').attr("disabled", "disabled");
             },
             success: function (data) {
@@ -1124,7 +1107,7 @@ var sharing = new function()
                 url: '/upload-image/',
                 type: 'post',
                 beforeSubmit:  function () {
-                    $sharedImageForm.find(".errors").text("");
+                    $sharedImageForm.find(".errors").text("");  
                     $sharedImageForm.find('input[type="submit"]').attr("disabled", "disabled");
                 },
                 success: function (data) {
@@ -1147,7 +1130,7 @@ var sharing = new function()
         );
         }
 
-
+        
     });
 
 
@@ -1176,7 +1159,7 @@ var slug = new function()
         });
     }
 
-
+    
 
     self.bindLowercaseFields = function()
     {
@@ -1189,7 +1172,7 @@ var slug = new function()
         });
     }
 
-
+    
 }
 
 slug.bindSlugFields();
@@ -1203,9 +1186,9 @@ function bindSortableLists()
     {
 
         // Don't double up our event handlers
-        $(".js-sortable").off();
-        $(".js-sortable-delete-link").off();
-        $(".js-sortable-add-new").off();
+        $(".js-sortable").off();    
+        $(".js-sortable-delete-link").off();    
+        $(".js-sortable-add-new").off();    
 
 
         // Set up the list
@@ -1230,7 +1213,7 @@ function bindSortableLists()
             e.preventDefault();
 
             $targetList.append( format(
-                                        getTemplate("_lesson_list_entry"),
+                                        getTemplate("_lesson_list_entry"), 
                                         {
                                             "item-text": $readSelectionFrom.find('option:selected').text(),
                                             "field-name": hiddenField,
@@ -1254,7 +1237,7 @@ function bindUpload()
     var id = "#upload_frame";
     var $frame = $(id);
 
-    $(".js-upload-link").click( function (e) {
+    $(".js-upload-link").click( function (e) { 
 
         e.preventDefault();
 
@@ -1266,7 +1249,7 @@ function bindUpload()
 
             $.ajax({
                 url: "/upload/",
-                success: function (data) {
+                success: function (data) { 
                     if (data.success)
                     {
                         $frame.html(data.html);
@@ -1280,7 +1263,7 @@ function bindUpload()
                     showUploadFrame(id, $frame);
                 }
             });
-        }
+        }  
 
     } );
 
@@ -1307,8 +1290,8 @@ function showUploadFrame(id, $frame)
 
     $("form#Upload").ajaxForm({
         beforeSubmit:  function () {
-            $frame.find(".errors").text("");
-            $frame.find(".file").text("");
+            $frame.find(".errors").text("");  
+            $frame.find(".file").text("");  
             $("form#Upload").find('input[type="submit"]').attr("disabled", "disabled");
         },
         success: function (data) {
@@ -1493,7 +1476,7 @@ function animateElement($element, animation, completeCallback) {
         $element.attr("data-timeout-id", timeoutId);
 
         $element.off();
-        $element.one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend",
+        $element.one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", 
             function() {
                 $element.removeClass(animation);
                 $element.removeClass("animated");
@@ -1545,4 +1528,27 @@ function format(html, variables)
     }
 
     return html;
+}
+var iconTab = new function ()
+{
+    this.initialised = false;
+
+    this.init = function ()
+    {
+        if (!this.initialised)
+        {
+            $(".icon-button-tab").click( function(e) {
+                e.preventDefault();
+                var index = parseInt($(this).attr("data-target"));
+
+                console.debug(index);
+                var $boxes = $(".landing-page-box");
+
+                $boxes.removeClass("visible");
+                $( $boxes[index] ).addClass("visible");
+            });
+
+            this.initialised = true;
+        }
+    }
 }

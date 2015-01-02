@@ -4,3 +4,7 @@
 .col-md-1.col-md-push-3.col-xs-4.center-text
     button.icon-button-tab data-target="#{params[:target_panel]}" href="#" rel="tooltip" data-toggle="tooltip" data-placement="#{params[:tooltip_placement]}" title="#{params[:title]}"
         i.fa class="#{params[:icon_class]}"
+
+- content_for :include_end_body
+    javascript:
+        iconTab.init();

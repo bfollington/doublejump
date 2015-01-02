@@ -4,7 +4,7 @@
             = @course.title
             br
             small
-                |  by 
+                | by&nbsp;
                 = @course.account.name
                 img.avatar.very-small.margin-left.margin-right src="#{@course.account.avatar}"
                 = @course.account.surname
@@ -34,25 +34,22 @@
 
                     - count += 1
                 .col-xs-10
-                    = partial 'learn/elements/lesson_block', :object => lesson
+                    = ui_from_object 'ui/lesson_block', lesson
 
-        
 
-                
+
+
     .col-md-4.col-xs-12.fadeInUp.animated
 
         h4 Prerequisites
         - if @course.prerequisites.length == 0
             p There are no prerequisites for this course.
 
-        - @course.prerequisites.each do |prerequisite|
-            = partial 'learn/elements/course_block', :object => prerequisite
+        = ui_from_collection 'ui/course_block', @course.prerequisites
 
         h4 Follow Ons
 
         - if @course.follow_ons.length == 0
             p There are no follow ons for this course.
 
-        - @course.follow_ons.each do |follow_on|
-            = partial 'learn/elements/course_block', :object => follow_on
-
+        = ui_from_collection 'ui/course_block', @course.follow_ons

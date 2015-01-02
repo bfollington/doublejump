@@ -9,7 +9,7 @@ Doublejump::App.helpers do
   end
 
   def ui_from_collection(name, collection)
-    partial name, :object => collection
+    partial name, :collection => collection
   end
 
 end
