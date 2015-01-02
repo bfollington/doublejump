@@ -39,7 +39,7 @@ Doublejump::App.controllers :learn, :cache => true do
   get :view_lesson, :map => '/learn/:course/:lesson/' do
 
     fetch_course(params[:course])
-    fetch_lesson(params[:lesson])
+    fetch_lesson(@course, params[:lesson])
 
     if @course.nil? || @lesson.nil?
       halt 404
@@ -58,7 +58,7 @@ Doublejump::App.controllers :learn, :cache => true do
   get :finish_lesson, :map => '/learn/:course/:lesson/finish' do
 
     fetch_course(params[:course])
-    fetch_lesson(params[:lesson])
+    fetch_lesson(@course, params[:lesson])
 
     current_account.update_progress(@course, @lesson, @lesson.get_last_step)
 
@@ -83,8 +83,8 @@ Doublejump::App.controllers :learn, :cache => true do
     end
 
     fetch_course(params[:course])
-    fetch_lesson(params[:lesson])
-    fetch_step(params[:step])
+    fetch_lesson(@course, params[:lesson])
+    fetch_step(@course, @lesson, params[:step])
 
     mark_prev_step_as_complete
 
@@ -178,18 +178,18 @@ def fetch_course(slug)
   return @course
 end
 
-def fetch_lesson(slug)
-  @lesson = Lesson.where(:slug => slug).first
+def fetch_lesson(course, slug)
+  @lesson = course.lessons.where(:slug => slug).first
 
   if @lesson.nil?
     halt 404
   end
 
-  return @course
+  return @lesson
 end
 
-def fetch_step(slug)
-  @step = Step.where(:slug => slug).first
+def fetch_step(course, lesson, slug)
+  @step = lesson.steps.where(:slug => slug).first
 
   if @step.nil?
     halt 404
