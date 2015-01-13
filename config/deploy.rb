@@ -23,7 +23,7 @@ set :branch, 'master'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['log']
+set :shared_paths, ['log', 'tmp']
 
 # Optional settings:
 #   set :user, 'foobar'    # Username in the server to SSH to.
@@ -61,7 +61,6 @@ task :deploy => :environment do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
     invoke :'git:clone'
-    queue "mkdir -p /tmp/puma"
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     # invoke :'rails:db_migrate'
@@ -69,8 +68,8 @@ task :deploy => :environment do
     invoke :'deploy:cleanup'
 
     to :launch do
-      queue "mkdir -p #{deploy_to}/#{current_path}/tmp/puma"
-      queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
+      # queue "mkdir -p #{deploy_to}/#{current_path}/tmp/puma"
+      queue "touch #{deploy_to}/shared/tmp/restart.txt"
     end
   end
 end
