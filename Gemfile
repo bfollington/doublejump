@@ -61,10 +61,7 @@ gem 'rdiscount'
 gem 'aws-sdk'
 
 group :development do
-    gem 'capistrano',         require: false
-    gem 'capistrano-rvm',     require: false
-    gem 'capistrano-bundler', require: false
-    gem 'capistrano3-puma',   require: false
+    gem 'mina'
 end
 
 gem 'did_you_mean', group: [:development, :test]
