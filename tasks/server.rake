@@ -22,14 +22,17 @@ namespace :server do
     end
   end
 
-  task :restart do
+  task :restart, :e do |t, args|
+
+    args.with_defaults(:e => :production)
+
     pid = `cat tmp/puma/pid`
     pid = pid.strip
     if ( pid == "" )
       puts "No server instance running..."
     else
       system "pumactl -p #{pid} stop"
-      system "pumactl start"
+      system "pumactl start -e #{args[:e]}"
       puts "Puma restarted at pid #{pid}."
     end
   end

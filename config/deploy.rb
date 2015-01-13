@@ -68,8 +68,8 @@ task :deploy => :environment do
     invoke :'deploy:cleanup'
 
     to :launch do
-      # queue "mkdir -p #{deploy_to}/#{current_path}/tmp/puma"
-      queue "touch #{deploy_to}/shared/tmp/restart.txt"
+      queue "cd #{deploy_to}/#{current_path}"
+      queue "rake server:restart"
     end
   end
 end
