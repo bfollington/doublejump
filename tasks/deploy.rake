@@ -31,7 +31,7 @@ if ENV["DEBUG"] != 'false'
 
             puts 'Tests passed, deploying application'.green
 
-            system "cap production deploy"
+            system "mina deploy"
 
             puts 'Deploy complete'.green
         else
