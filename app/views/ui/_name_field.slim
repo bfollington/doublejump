@@ -1,0 +1,26 @@
+- params = {\
+    form: nil,\
+    model: nil,\
+    caption: "Your first name",\
+    field_name: :name,\
+    surname_caption: "Your surname",\
+    surname_field_name: :surname\
+}
+
+- params = params.merge(supplied_params)
+
+.row
+    .col-md-6
+        p
+            = params[:form].label params[:field_name], :caption => "First Name"
+            = params[:form].text_field params[:field_name], :class => "form-control", :required => true
+            = partial 'form_error', :collection => (errors_for params[:model], params[:field_name]), :placeholder => "Donald"
+            small
+                | #{params[:caption]}
+    .col-md-6
+        p
+            = params[:form].label params[:surname_field_name], :caption => "Surname"
+            = params[:form].text_field params[:surname_field_name], :class => "form-control", :required => true
+            = partial 'form_error', :collection => (errors_for params[:model], params[:surname_field_name]), :placeholder => "Glover"
+            small
+                | #{params[:surname_caption]}

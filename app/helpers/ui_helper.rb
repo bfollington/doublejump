@@ -1,6 +1,6 @@
 Doublejump::App.helpers do
 
-  def ui_element(name, params)
+  def ui_element(name, params={})
     partial name, :locals => { :supplied_params => params }
   end
 

@@ -4,43 +4,18 @@
     = form_for :account, "/register", { :id => 'register_form' } do |f|
         h3 Personal Details
 
-        .row
-            .col-md-6
-                p
-                    = f.label :name, :caption => "First Name"
-                    = f.text_field :name, :class => "form-control"
-                    = partial 'form_error', :collection => (errors_for @account, :name)
-
-            .col-md-6
-                p
-                    = f.label :surname, :caption => "Surname"
-                    = f.text_field :surname, :class => "form-control"
-                    = partial 'form_error', :collection => (errors_for @account, :surname)
+        = ui_element "ui/name_field", {form: f, model: @account, caption: "", surname_caption: ""}
 
         .row
             .col-md-6
-                p
-                    = f.label :email, :caption => "Email"
-                    = f.text_field :email, :class => "form-control"
-                    = partial 'form_error', :collection => (errors_for @account, :email)
+                = ui_element "ui/email_input", {form: f, model: @account, caption: ""}
             .col-md-6
                 p
                     = f.label :username, :caption => "Username"
                     = f.text_field :username, :class => "form-control"
                     = partial 'form_error', :collection => (errors_for @account, :username)
 
-        .row
-            .col-md-6
-                p
-                    = f.label :password, :caption => "Password"
-                    = f.password_field :password, :class => "form-control"
-                    = partial 'form_error', :collection => (errors_for @account, :password)
-
-            .col-md-6
-                p
-                    = f.label :password_confirmation, :caption => "Password (Confirm)"
-                    = f.password_field :password_confirmation, :class => "form-control"
-                    = partial 'form_error', :collection => (errors_for @account, :password_confirmation)
+        = ui_element "ui/password_input", {form: f, model: @account, confirmation: true, caption: "", confirmation_caption: ""}
 
 
         h3 Payment Details
@@ -48,7 +23,7 @@
             | We won't bill your card for 14 days after you sign up, use this time to decide if you'd like to be a member of doublejump.
 
         p
-            = partial "elements/payment_details"
+            = ui_element "ui/payment_details"
 
 
         p

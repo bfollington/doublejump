@@ -25,17 +25,7 @@ div.center-text
                             i.fa.fa-money
                             |  Billing Details
 
-                        .row
-                            .col-md-6
-                                p
-                                    = f.label :name, :caption => "First Name"
-                                    = f.text_field :name, :class => "form-control", :required => true
-                                    = partial 'form_error', :collection => (errors_for @account, :name), :placeholder => "Donald"
-                            .col-md-6
-                                p
-                                    = f.label :surname, :caption => "Surname"
-                                    = f.text_field :surname, :class => "form-control", :required => true
-                                    = partial 'form_error', :collection => (errors_for @account, :surname), :placeholder => "Glover"
+                        = ui_element "ui/name_field", {form: f, model: @account, caption: "", surname_caption: ""}
 
                         .row
                             .col-xs-12
@@ -43,33 +33,16 @@ div.center-text
 
                                 h4 Credit Card Details
 
-                                = partial "elements/payment_details"
+                                = ui_element "ui/payment_details"
 
                     section
                         h3
                             i.fa.fa-user
                             |  Login and Contact Details
 
-                        p
-                            = f.label :email, :caption => "Email"
-                            = f.email_field :email, :class => "form-control", :placeholder => "me@website.com", :required => true
-                            = partial 'form_error', :collection => (errors_for @account, :email)
-                            small
-                                | You can change your email address at any time, which will change which address you sign in with. Try not to forget!
+                        = ui_element "ui/email_input", {form: f, model: @account, caption: "You can change your email address at any time, which will change which address you sign in with. Try not to forget!"}
 
-                        p
-                            = f.label :password, :caption => "Password"
-                            = f.password_field :password, :class => "form-control", :value => ""
-                            = partial 'form_error', :collection => (errors_for @account, :password)
-                            small
-                                | Change your password, leave this box blank and nothing will change.
-
-                        p
-                            = f.label :password_confirmation, :caption => "Password (Confirm)"
-                            = f.password_field :password_confirmation, :class => "form-control", :value => ""
-                            = partial 'form_error', :collection => (errors_for @account, :password_confirmation)
-                            small
-                                | Type your password again, just to be sure. Leave it blank if you left password blank too.
+                        = ui_element "ui/password_input", {form: f, model: @account, caption: "Change your password, leave this box blank and nothing will change.", confirmation: true, confirmation_caption: "Type your password again, just to be sure. Leave it blank if you left password blank too." }
 
                     section
                         h3
