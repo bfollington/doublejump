@@ -1,7 +1,0 @@
-DEBUG=false
-LANG=en_US.UTF-8
-MONGO_URI=mongodb://localhost:27017/learn_to_game_dev_development
-NEW_RELIC_APP_NAME=doublejump
-NEW_RELIC_LICENSE_KEY=15c8699f526a450c387da7b8e8af4b26068eb97d
-NEW_RELIC_LOG=stdout
-RACK_ENV=production
