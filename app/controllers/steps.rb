@@ -40,6 +40,20 @@ Doublejump::App.controllers :steps do
 
     @step = Step.where( :slug => params[:slug] ).first
 
+    # remove old content type blocks that are orphaned
+    old_contents = @step.contents
+    to_delete = []
+    old_contents.each do |content|
+        if !params[:contents].include? content.id.to_s
+            puts "marking " + content.id
+            to_delete << content
+        end
+    end
+
+    to_delete.each do |content|
+        content.delete
+    end
+
     @step.contents = []
     params[:contents].each do |content|
         @step.contents << Content.where(id: content)

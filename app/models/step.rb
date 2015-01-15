@@ -5,13 +5,11 @@ class Step
   # field <name>, :type => <type>, :default => <value>
   field :title, :type => String
   field :slug, :type => String
-  field :body, :type => String
   field :is_sharing_step, :type => Boolean
   field :experience, :type => Integer, :default => 50
 
   validates_presence_of :title, :message => "Steps need titles too..."
   validates_presence_of :slug, :message => "The slug gets filled in for you, just leave it there!"
-  validates_presence_of :body, :message => "You can't have an empty step, that makes no sense."
   validates_uniqueness_of :title
   validates_uniqueness_of :slug
 
