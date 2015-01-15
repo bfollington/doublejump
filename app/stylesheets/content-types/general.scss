@@ -1,5 +1,10 @@
-.content.sortable-dragging
+.content.dragged, .content.minimised
 {
-    max-height: 128px;
+    max-height: 100px;
     overflow: hidden;
+}
+
+.content h4
+{
+    cursor: move;
 }

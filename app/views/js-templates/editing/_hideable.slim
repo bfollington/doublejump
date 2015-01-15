@@ -8,11 +8,8 @@
     - id = hideable.id
 
 .box.hideable-content.content
-    h4
-        i.fa.fa-file-text.margin-right
-        | Hideable
 
-    button.delete-button.float-right.js-delete-content Delete
+    = ui_element "ui/content_type_toolbar", { title: "Hideable", icon: "fa-file-text" }
 
     = form_for :hideable_content, "/content/hideable/add" do |f|
         = f.hidden_field :id, :value => id, :class => "id-field"

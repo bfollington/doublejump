@@ -8,11 +8,8 @@
     - id = code.id
 
 .box.code-content.content
-    h4
-        i.fa.fa-code.margin-right
-        | Code
 
-    button.delete-button.float-right.js-delete-content Delete
+    = ui_element "ui/content_type_toolbar", { title: "Code", icon: "fa-code" }
 
     = form_for :code_content, "/content/code/add" do |f|
         = f.hidden_field :id, :value => id, :class => "id-field"

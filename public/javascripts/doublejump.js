@@ -561,6 +561,12 @@ var editingStep = new function()
             self.rebuildIdList();
         });
 
+        $(".js-minimise-content").click( function (e) {
+            e.preventDefault();
+
+            $(this).closest(".content").toggleClass("minimised");
+        });
+
         $(".js-add-markdown-content").click( function(e) {
             e.preventDefault();
             self.addContentSection("_markdown");

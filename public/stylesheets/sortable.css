@@ -1,21 +1,21 @@
 /*
 Syntax error: Undefined variable: "$sortable-placeholder-line-color".
-        on line 17 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sortable.scss
+        on line 14 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sortable.scss
 
-12: }
-13: 
-14: .js-sortable li.placeholder {
-15:   position: relative;
-16:   list-style-type: none;
-17:   border-top: 1px dashed $sortable-placeholder-line-color;
-18:   padding: 5px;
-19:   margin: 5px;
-20:   /** More li styles **\/
-21: }
-22: 
+9: }
+10: 
+11: .js-sortable li.placeholder {
+12:   position: relative;
+13:   list-style-type: none;
+14:   border-top: 1px dashed $sortable-placeholder-line-color;
+15:   padding: 5px;
+16:   margin: 5px;
+17:   /** More li styles **\/
+18: }
+19: 
 
 Backtrace:
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sortable.scss:17
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sortable.scss:14
 /Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/script/tree/node.rb:50:in `perform'
 /Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/script/tree/list_literal.rb:62:in `block in _perform'
@@ -92,4 +92,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$sortable-placeholder-line-color\".\A         on line 17 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sortable.scss\A \A 12: }\A 13: \A 14: .js-sortable li.placeholder {\A 15:   position: relative;\A 16:   list-style-type: none;\A 17:   border-top: 1px dashed $sortable-placeholder-line-color;\A 18:   padding: 5px;\A 19:   margin: 5px;\A 20:   /** More li styles **/\A 21: }\A 22: "; }
+  content: "Syntax error: Undefined variable: \"$sortable-placeholder-line-color\".\A         on line 14 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/sortable.scss\A \A 9: }\A 10: \A 11: .js-sortable li.placeholder {\A 12:   position: relative;\A 13:   list-style-type: none;\A 14:   border-top: 1px dashed $sortable-placeholder-line-color;\A 15:   padding: 5px;\A 16:   margin: 5px;\A 17:   /** More li styles **/\A 18: }\A 19: "; }

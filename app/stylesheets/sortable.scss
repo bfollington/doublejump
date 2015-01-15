@@ -6,9 +6,6 @@ body.dragging, body.dragging * {
   position: absolute;
   opacity: 0.5;
   z-index: 2000;
-
-  max-height: 128px;
-  overflow: hidden;
 }
 
 .js-sortable li.placeholder {
