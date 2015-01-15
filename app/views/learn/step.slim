@@ -28,13 +28,13 @@
 
         - if !@step.is_sharing_step
             .step-body
-                - @step.contents.each do |content|
+                - @step.get_contents_in_order.each do |content|
                     | #{{content.get_final_html self}}
 
                 #comment_frame
         - else
             .sharing-step
-                - @step.contents.each do |content|
+                - @step.get_contents_in_order.each do |content|
                     | #{{content.get_final_html self}}
                 = partial 'learn/elements/sharing_step'
 

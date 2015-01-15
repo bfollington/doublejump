@@ -21,6 +21,13 @@ Doublejump::App.controllers :contents do
 
   end
 
+  post :add_math, :map => "/content/math/add" do
+
+    content_type :json
+    create_content(params, MathContent, :math_content)
+
+  end
+
 end
 
 def create_content(params, model_class, array_key)

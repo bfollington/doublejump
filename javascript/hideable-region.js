@@ -6,25 +6,30 @@ var hideable = new function()
     self.createHideableRegions = function()
     {
         $(".hideable-inner").each( function () {
-            $(this).find(".content").hide();
+
+            var $contentBlock = $(this).closest(".content-block");
+            var $content = $contentBlock.next();
+
+            $content.css("visibility", "hidden");
         });
 
         $(".js-toggle-hideable").click( function(e) {
             e.preventDefault();
 
-            var content = $(this).parent().find(".content");
+            var $contentBlock = $(this).closest(".content-block");
+            var $content = $contentBlock.next();
 
-            if (isVisible(content))
+            if (isVisible($content))
             {
                 $(this).text("Expand");
-                animateElement( content, "fadeOutDown", function ($elem) { $elem.hide(); } );
+                animateElement( $content, "fadeOutLeftBig", function ($elem) { $elem.css("visibility", "hidden"); } );
             } else {
                 $(this).text("Hide");
-                content.css("display", "block");
-                animateElement( content, "fadeInUp" );
+                $content.css("visibility", "visible");
+                animateElement( $content, "fadeInLeftBig" );
             }
 
-            
+
         });
     }
 

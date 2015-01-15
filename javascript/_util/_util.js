@@ -41,7 +41,7 @@ function supportsTransitions() {
 
 function isVisible($elem)
 {
-    if ($elem.css("display") != "none" && $elem.css("display") != "hidden")
+    if ($elem.css("display") != "none" && $elem.css("visibility") != "hidden")
     {
         return true;
     } else {

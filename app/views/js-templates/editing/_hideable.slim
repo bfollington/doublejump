@@ -1,19 +1,21 @@
 - if defined? js_template
     - item_title = ""
-    - item_text = ""
     - id = ""
 - else
     - item_title = hideable.title
-    - item_text = hideable.text
     - id = hideable.id
 
-.box.hideable-content.content
+.box.hideable-content.content.affects-next-content
 
     = ui_element "ui/content_type_toolbar", { title: "Hideable", icon: "fa-file-text" }
 
     = form_for :hideable_content, "/content/hideable/add" do |f|
         = f.hidden_field :id, :value => id, :class => "id-field"
         p
-            = f.text_field :title, :class => "form-control", :value => item_title
-            = f.text_area :text, :class => "form-control", :'data-editor' => "markdown", :value => item_text
+            = f.label :title, :caption => "Title"
+            = f.text_area :title, :class => "form-control", :'data-editor' => "markdown", :value => item_title
             = partial 'form_error', :collection => (errors_for @content, :text)
+
+        p
+            | The next content block placed after this will act as the hideable content.
+

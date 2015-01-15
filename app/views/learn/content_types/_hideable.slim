@@ -1,7 +1,5 @@
-.box
+.content-block
     .hideable-inner.callout
         a.button.create-button.margin-left.js-toggle-hideable.float-right href="" Expand
         h4.inline.title
-            | #{{hideable.title}}
-        .content
-            | #{{hideable.text}}
+            #{{RDiscount.new(hideable.title, :no_superscript).to_html}}

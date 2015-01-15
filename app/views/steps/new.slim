@@ -1,7 +1,7 @@
 - content_for :include_end_body
     javascript:
         editingStep.init();
-        aceUtil.convertTextAreasOnClick();
+        aceUtil.convertTextAreas();
         sortable.bindSortableLists({afterDrag: editingStep.rebuildIdList, itemSelector: ".content", handle: 'h4'});
 
         $(".js-save-step").click( function (e)
@@ -21,6 +21,7 @@
 = render_js_template 'js-templates/editing/_markdown'
 = render_js_template 'js-templates/editing/_code'
 = render_js_template 'js-templates/editing/_hideable'
+= render_js_template 'js-templates/editing/_math'
 = render_js_template 'js-templates/editing/_step_content_id_entry'
 
 .create-step-form
@@ -54,11 +55,7 @@
                         = f.label :body, :caption => "Step Content"
 
                     p
-                        button.button.create-button.margin-bottom.js-insert-definition.margin-right Insert Definition
-                        button.button.create-button.margin-bottom.js-insert-hideable.margin-right Insert Hideable Region
                         button.button.create-button.margin-bottom.js-insert-inline-definition.margin-right Insert Inline Definition
-                        button.button.create-button.margin-bottom.js-insert-inline-tex.margin-right Insert Inline LaTeX
-                        button.button.create-button.margin-bottom.js-insert-block-tex.margin-right Insert Block LaTeX
                         button.button.create-button.margin-bottom.js-insert-two-cols.margin-right Insert Two Columns
                         button.button.create-button.margin-bottom.js-insert-one-col.margin-right Insert One Column
 
@@ -68,7 +65,7 @@
 
             section.contents.js-sortable
                 - if @step
-                    - @step.contents.each do |content|
+                    - @step.get_contents_in_order.each do |content|
                         = partial content.editing_partial, :object => content
 
             .box
@@ -83,5 +80,9 @@
                 button.create-button.button.js-add-hideable-content
                     i.fa.fa-code
                     |  Add Hideable Content
+
+                button.create-button.button.js-add-math-content
+                    i.fa.fa-code
+                    |  Add Math Content
 
     #upload_frame

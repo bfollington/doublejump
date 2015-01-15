@@ -55,8 +55,8 @@ Doublejump::App.controllers :steps do
     end
 
     @step.contents = []
-    params[:contents].each do |content|
-        @step.contents << Content.where(id: content)
+    params[:contents].each do |id|
+        @step.contents << Content.find(id)
     end
 
     @step.update_attributes(params[:step])

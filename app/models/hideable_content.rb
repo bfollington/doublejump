@@ -1,10 +1,8 @@
 class HideableContent < Content
 
     field :title, :type => String
-    field :text, :type => String
 
     validates_presence_of :title
-    validates_presence_of :text
 
     def editing_partial
         "js-templates/editing/hideable"

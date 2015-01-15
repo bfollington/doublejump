@@ -1,16 +1,22 @@
 var aceUtil = new function()
 {
-    this.convertTextAreasOnClick = function() {
+    this.convertTextAreas = function() {
 
         $('[data-editor]').each(function () {
             var el = $(this);
+
+            if (el.prev().is(".ace_editor"))
+            {
+                console.log("Already an ace editor");
+                return;
+            }
 
             var mode = el.data('editor');
 
             var editDiv = $('<div>', {
                 position: 'absolute',
                 width: el.width(),
-                height: Math.max(256, el[0].scrollHeight),
+                height: Math.max(64, el[0].scrollHeight),
                 'class': el.attr('class')
             }).insertBefore(el);
 

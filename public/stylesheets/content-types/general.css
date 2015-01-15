@@ -1,6 +1,98 @@
-.content.dragged, .content.minimised {
-  max-height: 100px;
-  overflow: hidden; }
+/*
+Syntax error: Undefined variable: "$link-color".
+        on line 16 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/content-types/general.scss
 
-.content h4 {
-  cursor: move; }
+11: 
+12: .box.affects-next-content
+13: {
+14: 
+15:     margin-bottom: 0;
+16:     border-bottom: 2px dashed $link-color;
+17: 
+18:     & + .content
+19:     {
+20:         margin-top: 0;
+21:     }
+
+Backtrace:
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/content-types/general.scss:16
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/script/tree/variable.rb:49:in `_perform'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/script/tree/node.rb:50:in `perform'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/script/tree/list_literal.rb:62:in `block in _perform'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/script/tree/list_literal.rb:62:in `map'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/script/tree/list_literal.rb:62:in `_perform'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/script/tree/node.rb:50:in `perform'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:366:in `visit_prop'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/stack.rb:79:in `block in with_base'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/stack.rb:79:in `with_base'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `visit'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:389:in `block (2 levels) in visit_rule'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:389:in `map'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:389:in `block in visit_rule'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:387:in `visit_rule'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/stack.rb:79:in `block in with_base'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/stack.rb:79:in `with_base'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `visit'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:52:in `map'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:161:in `block in visit_children'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:173:in `with_environment'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:160:in `visit_children'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:180:in `visit_root'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:151:in `visit'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/root_node.rb:36:in `css_tree'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/tree/root_node.rb:20:in `render'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/engine.rb:274:in `render'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/plugin/compiler.rb:414:in `update_stylesheet'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/plugin/compiler.rb:189:in `block in update_stylesheets'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/plugin/compiler.rb:186:in `each'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/plugin/compiler.rb:186:in `update_stylesheets'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/plugin.rb:82:in `update_stylesheets'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/plugin.rb:54:in `check_for_updates'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sass-3.3.7/lib/sass/plugin/rack.rb:51:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/newrelic_rpm-3.8.1.221/lib/new_relic/rack/error_collector.rb:55:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/newrelic_rpm-3.8.1.221/lib/new_relic/rack/browser_monitoring.rb:27:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/newrelic_rpm-3.8.1.221/lib/new_relic/rack/agent_hooks.rb:32:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/rack-protection-1.5.3/lib/rack/protection/xss_header.rb:18:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/rack-protection-1.5.3/lib/rack/protection/json_csrf.rb:18:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/rack-protection-1.5.3/lib/rack/protection/frame_options.rb:31:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/rack-1.5.2/lib/rack/head.rb:11:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/rack-1.5.2/lib/rack/methodoverride.rb:21:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/padrino-core-0.12.3/lib/padrino-core/reloader/rack.rb:22:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/padrino-core-0.12.3/lib/padrino-core/logger.rb:420:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sinatra-1.4.5/lib/sinatra/show_exceptions.rb:21:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/rack-1.5.2/lib/rack/session/abstract/id.rb:225:in `context'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/rack-1.5.2/lib/rack/session/abstract/id.rb:220:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sinatra-1.4.5/lib/sinatra/base.rb:2014:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sinatra-1.4.5/lib/sinatra/base.rb:1478:in `block in call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sinatra-1.4.5/lib/sinatra/base.rb:1788:in `synchronize'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/sinatra-1.4.5/lib/sinatra/base.rb:1478:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/padrino-core-0.12.3/lib/padrino-core/router.rb:84:in `block in call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/padrino-core-0.12.3/lib/padrino-core/router.rb:75:in `each'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/padrino-core-0.12.3/lib/padrino-core/router.rb:75:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/puma-2.9.0/lib/puma/server.rb:490:in `handle_request'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/puma-2.9.0/lib/puma/server.rb:361:in `process_client'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/puma-2.9.0/lib/puma/server.rb:254:in `block in run'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/puma-2.9.0/lib/puma/thread_pool.rb:92:in `call'
+/Users/Ben/.rvm/rubies/ruby-1.9.3-p550/lib/ruby/gems/1.9.1/gems/puma-2.9.0/lib/puma/thread_pool.rb:92:in `block in spawn_thread'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined variable: \"$link-color\".\A         on line 16 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/content-types/general.scss\A \A 11: \A 12: .box.affects-next-content\A 13: {\A 14: \A 15:     margin-bottom: 0;\A 16:     border-bottom: 2px dashed $link-color;\A 17: \A 18:     & + .content\A 19:     {\A 20:         margin-top: 0;\A 21:     }"; }

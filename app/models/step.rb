@@ -21,6 +21,16 @@ class Step
 
   index({ slug: 1 }, { unique: true, name: "slug_index" })
 
+  def get_contents_in_order
+    result = []
+
+    content_ids.each do |content_id|
+      result << Content.find(content_id)
+    end
+
+    result
+  end
+
   def self.id_regex
     /(\_\{[A-z0-9]+\}\_)+/
   end

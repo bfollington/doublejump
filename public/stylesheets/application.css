@@ -2088,6 +2088,12 @@ ul.progress-list {
 .content h4 {
   cursor: move; }
 
+.box.affects-next-content {
+  margin-bottom: 0;
+  border-bottom: 2px dashed #4faee8; }
+  .box.affects-next-content + .content {
+    margin-top: 0; }
+
 .gradient-block {
   background-image: -o-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
   background-image: -moz-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);

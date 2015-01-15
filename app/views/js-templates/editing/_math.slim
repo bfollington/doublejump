@@ -1,0 +1,25 @@
+- if defined? js_template
+    - content_body = ""
+    - content_before = ""
+    - content_after = ""
+    - id = ""
+- else
+    - content_body = math.body
+    - content_before = math.before
+    - content_after = math.after
+    - id = math.id
+
+.box.math-content.content
+
+    = ui_element "ui/content_type_toolbar", { title: "Math", icon: "fa-code" }
+
+    = form_for :math_content, "/content/math/add" do |f|
+        = f.hidden_field :id, :value => id, :class => "id-field"
+        p
+            = f.label :before, :caption => "Before"
+            = f.text_area :before, :class => "form-control", :'data-editor' => "markdown", :value => content_before
+            = f.label :body, :caption => "TeX source"
+            = f.text_area :body, :class => "form-control", :'data-editor' => "latex", :value => content_body
+            = f.label :after, :caption => "After"
+            = f.text_area :after, :class => "form-control", :'data-editor' => "markdown", :value => content_after
+            = partial 'form_error', :collection => (errors_for @content, :body)

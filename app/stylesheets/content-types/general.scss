@@ -8,3 +8,15 @@
 {
     cursor: move;
 }
+
+.box.affects-next-content
+{
+
+    margin-bottom: 0;
+    border-bottom: 2px dashed $link-color;
+
+    & + .content
+    {
+        margin-top: 0;
+    }
+}

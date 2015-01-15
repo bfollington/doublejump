@@ -54,6 +54,8 @@ var editingStep = new function()
         $(".contents").append(template);
 
         self.bindAjaxForms();
+        aceUtil.convertTextAreas();
+        self.bindToolbarButtons();
     }
 
     this.codeLanguageChange = function()
@@ -65,12 +67,9 @@ var editingStep = new function()
         });
     }
 
-    this.init = function ()
+    this.bindToolbarButtons = function()
     {
-        self.bindAjaxForms();
-        self.codeLanguageChange();
-        self.rebuildIdList();
-
+        $(".js-delete-content").off("click");
         $(".js-delete-content").click( function (e) {
             e.preventDefault();
             var confirmation = confirm("Are you sure you want to remove this content block?");
@@ -82,11 +81,20 @@ var editingStep = new function()
             }
         });
 
+        $(".js-minimise-content").off("click");
         $(".js-minimise-content").click( function (e) {
             e.preventDefault();
 
             $(this).closest(".content").toggleClass("minimised");
         });
+    }
+
+    this.init = function ()
+    {
+        self.bindAjaxForms();
+        self.codeLanguageChange();
+        self.rebuildIdList();
+        self.bindToolbarButtons();
 
         $(".js-add-markdown-content").click( function(e) {
             e.preventDefault();
@@ -101,6 +109,11 @@ var editingStep = new function()
         $(".js-add-hideable-content").click( function(e) {
             e.preventDefault();
             self.addContentSection("_hideable");
+        });
+
+        $(".js-add-math-content").click( function(e) {
+            e.preventDefault();
+            self.addContentSection("_math");
         });
 
     }

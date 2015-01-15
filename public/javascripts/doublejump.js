@@ -1,16 +1,22 @@
 var aceUtil = new function()
 {
-    this.convertTextAreasOnClick = function() {
+    this.convertTextAreas = function() {
 
         $('[data-editor]').each(function () {
             var el = $(this);
+
+            if (el.prev().is(".ace_editor"))
+            {
+                console.log("Already an ace editor");
+                return;
+            }
 
             var mode = el.data('editor');
 
             var editDiv = $('<div>', {
                 position: 'absolute',
                 width: el.width(),
-                height: Math.max(256, el[0].scrollHeight),
+                height: Math.max(64, el[0].scrollHeight),
                 'class': el.attr('class')
             }).insertBefore(el);
 
@@ -567,6 +573,8 @@ var editingStep = new function()
         $(".contents").append(template);
 
         self.bindAjaxForms();
+        aceUtil.convertTextAreas();
+        self.bindToolbarButtons();
     }
 
     this.codeLanguageChange = function()
@@ -578,12 +586,9 @@ var editingStep = new function()
         });
     }
 
-    this.init = function ()
+    this.bindToolbarButtons = function()
     {
-        self.bindAjaxForms();
-        self.codeLanguageChange();
-        self.rebuildIdList();
-
+        $(".js-delete-content").off("click");
         $(".js-delete-content").click( function (e) {
             e.preventDefault();
             var confirmation = confirm("Are you sure you want to remove this content block?");
@@ -595,11 +600,20 @@ var editingStep = new function()
             }
         });
 
+        $(".js-minimise-content").off("click");
         $(".js-minimise-content").click( function (e) {
             e.preventDefault();
 
             $(this).closest(".content").toggleClass("minimised");
         });
+    }
+
+    this.init = function ()
+    {
+        self.bindAjaxForms();
+        self.codeLanguageChange();
+        self.rebuildIdList();
+        self.bindToolbarButtons();
 
         $(".js-add-markdown-content").click( function(e) {
             e.preventDefault();
@@ -614,6 +628,11 @@ var editingStep = new function()
         $(".js-add-hideable-content").click( function(e) {
             e.preventDefault();
             self.addContentSection("_hideable");
+        });
+
+        $(".js-add-math-content").click( function(e) {
+            e.preventDefault();
+            self.addContentSection("_math");
         });
 
     }
@@ -724,25 +743,30 @@ var hideable = new function()
     self.createHideableRegions = function()
     {
         $(".hideable-inner").each( function () {
-            $(this).find(".content").hide();
+
+            var $contentBlock = $(this).closest(".content-block");
+            var $content = $contentBlock.next();
+
+            $content.css("visibility", "hidden");
         });
 
         $(".js-toggle-hideable").click( function(e) {
             e.preventDefault();
 
-            var content = $(this).parent().find(".content");
+            var $contentBlock = $(this).closest(".content-block");
+            var $content = $contentBlock.next();
 
-            if (isVisible(content))
+            if (isVisible($content))
             {
                 $(this).text("Expand");
-                animateElement( content, "fadeOutDown", function ($elem) { $elem.hide(); } );
+                animateElement( $content, "fadeOutLeftBig", function ($elem) { $elem.css("visibility", "hidden"); } );
             } else {
                 $(this).text("Hide");
-                content.css("display", "block");
-                animateElement( content, "fadeInUp" );
+                $content.css("visibility", "visible");
+                animateElement( $content, "fadeInLeftBig" );
             }
 
-            
+
         });
     }
 
@@ -1497,7 +1521,7 @@ function supportsTransitions() {
 
 function isVisible($elem)
 {
-    if ($elem.css("display") != "none" && $elem.css("display") != "hidden")
+    if ($elem.css("display") != "none" && $elem.css("visibility") != "hidden")
     {
         return true;
     } else {
