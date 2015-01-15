@@ -17,6 +17,12 @@ Doublejump::App.controllers :contents do
 end
 
 def create_content(params, model_class, array_key)
+
+    # Catch empty id errors
+    if params[array_key].has_key?("id") && params[array_key][:id].empty?
+        params[array_key].delete("id")
+    end
+
     if params[array_key].has_key?("id")
         content = model_class.find(params[array_key][:id])
         content.update_attributes(params[array_key])

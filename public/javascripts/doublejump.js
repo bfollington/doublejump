@@ -10,7 +10,7 @@ var aceUtil = new function()
             var editDiv = $('<div>', {
                 position: 'absolute',
                 width: el.width(),
-                height: el[0].scrollHeight,
+                height: Math.max(256, el[0].scrollHeight),
                 'class': el.attr('class')
             }).insertBefore(el);
 
