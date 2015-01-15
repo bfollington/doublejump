@@ -3,7 +3,7 @@
 var learn = new function()
 {
     var self = this;
-    
+
     self.setup = function()
     {
         $(".banner-image").each( function() {

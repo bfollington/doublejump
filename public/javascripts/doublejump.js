@@ -388,6 +388,18 @@ comments.bindComments();
 var definitions = new function()
 {
     var self = this;
+
+    self.convertDefinitionLinks = function()
+    {
+        $('a[href^="define:"]').each( function () {
+            $(this).attr("rel", "definition");
+
+            var query = $(this).attr("href").replace("define:", "");
+
+            $(this).attr("data-query", query);
+        });
+    }
+
     self.bindDefinitions = function()
     {
         $("a[rel='definition']").click( function(e) {
@@ -401,13 +413,13 @@ var definitions = new function()
 
             $.ajax({
                 url: "/definitions/define/" + query,
-                success: function (data) { 
+                success: function (data) {
                     if (data != "null" && data != null)
                     {
                         $(".step-body .js-inserted-definition").remove();
 
                         var template = format(
-                                            getTemplate("_inserted_definition"), 
+                                            getTemplate("_inserted_definition"),
                                             {
                                                 "definition-title": data.title,
                                                 "definition-body": marked(data.body),
@@ -495,6 +507,7 @@ var definitions = new function()
     }
 }
 
+definitions.convertDefinitionLinks();
 definitions.bindDefinitions();
 
 
@@ -688,7 +701,7 @@ hideable.bindInsertRegionButton();
 var learn = new function()
 {
     var self = this;
-    
+
     self.setup = function()
     {
         $(".banner-image").each( function() {
@@ -738,6 +751,7 @@ var learn = new function()
 }
 
 learn.setup();
+
 var loadingIndicator = '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
 // notifications.js
 
