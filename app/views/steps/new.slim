@@ -1,6 +1,16 @@
 - content_for :include_end_body
     javascript:
         editingStep.init();
+        aceUtil.convertTextAreasOnClick();
+
+        $(".code-input-language").change( function () {
+            var editor = ace.edit($(this).siblings(".ace_editor")[0]);
+            console.log(editor);
+            editor.getSession().setMode("ace/mode/" + $(this).val());
+        });
+
+- content_for :include_js
+    = partial 'includes/ace'
 
 = render_js_template 'js-templates/editing/_markdown'
 = render_js_template 'js-templates/editing/_code'

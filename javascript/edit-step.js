@@ -47,7 +47,7 @@ var editingStep = new function()
     {
         $(".content form").off();
         $(".content form").ajaxForm({
-            beforeSubmit:  function () {
+            beforeSubmit:  function (data, $form, options) {
 
             },
             success: function (data, text, xhr, $form) {

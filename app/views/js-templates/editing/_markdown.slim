@@ -12,8 +12,8 @@
     = form_for :markdown_content, "/content/markdown/add" do |f|
         = f.hidden_field :id, :value => id, :class => "id-field"
         p
-            .epiceditor
-            = f.text_area :body, :class => "form-control epiceditor-target", :value => content_body
+            / .epiceditor
+            = f.text_area :body, :class => "form-control", :'data-editor' => "markdown", :value => content_body
             = partial 'form_error', :collection => (errors_for @content, :body)
 
         p.center-text

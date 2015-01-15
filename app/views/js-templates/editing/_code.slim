@@ -15,9 +15,9 @@
         = f.hidden_field :id, :value => id, :class => "id-field"
         p
             = f.label :language, :caption => "Language"
-            = f.text_field :language, :class => "form-control", :value => content_language
+            = f.select :language, :class => "form-control code-input-language", :options => ['markdown', 'javascript', 'ruby', 'c', 'scss'], :value => content_language
             = f.label :body, :caption => "Code snippet"
-            = f.text_area :body, :class => "form-control code-input-area", :value => content_body
+            = f.text_area :body, :class => "form-control code-input-area", :'data-editor' => content_language, :value => content_body
             = partial 'form_error', :collection => (errors_for @content, :body)
 
         p.center-text

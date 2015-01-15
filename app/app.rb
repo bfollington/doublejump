@@ -94,6 +94,10 @@ module Doublejump
 
 
 
+    get :blank do
+      render 'register', :layout => :blank
+    end
+
 
 
     #
