@@ -1,0 +1,17 @@
+- if defined? js_template
+    - content_term = ""
+    - id = ""
+- else
+    - content_term = definition.term
+    - id = definition.id
+
+.box.definition-content.content
+
+    = ui_element "ui/content_type_toolbar", { title: "Definition", icon: "fa-code" }
+
+    = form_for :definition_content, "/content/definition/add" do |f|
+        = f.hidden_field :id, :value => id, :class => "id-field"
+        p
+            = f.label :term, :caption => "Definition Term"
+            = f.text_field :term, :class => "form-control", :value => content_term
+            = partial 'form_error', :collection => (errors_for @content, :body)

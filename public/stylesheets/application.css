@@ -1480,7 +1480,7 @@ p, li {
 #epiceditor {
   height: 320px; }
 
-.box .callout {
+.callout {
   color: #444;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -1490,16 +1490,16 @@ p, li {
   padding: 1em;
   margin-bottom: 1em; }
 
-.box .info {
+.callout.info {
   background: #d9edf7;
   border-left: 5px solid #428bca;
   color: #555; }
 
-.box .notification {
+.callout.notification {
   background: #f8f8f8;
   border-left: 5px solid #dbdbdb; }
 
-.box .hideable-inner.callout {
+.callout.hideable-inner {
   background: #f8f8f8;
   border-left: 5px solid #dbdbdb; }
 
@@ -2093,6 +2093,12 @@ ul.progress-list {
   border-bottom: 2px dashed #4faee8; }
   .box.affects-next-content + .content {
     margin-top: 0; }
+
+.box.affects-next-two-contents + .content {
+  margin-bottom: 0;
+  border-bottom: 2px dashed #4faee8; }
+.box.affects-next-two-contents + .content + .content {
+  margin-top: 0; }
 
 .gradient-block {
   background-image: -o-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);

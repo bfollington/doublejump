@@ -62,7 +62,7 @@ p, li {
     height: 320px;
 }
 
-.box .callout
+.callout
 {
     color: #444;
     @include border-radius(2px);
@@ -70,7 +70,7 @@ p, li {
     margin-bottom: 1em;
 }
 
-.box .info
+.callout.info
 {
     background: $info-colour;
     border-left: 5px solid $info-bar-colour;
@@ -78,13 +78,13 @@ p, li {
     color: #555;
 }
 
-.box .notification
+.callout.notification
 {
     background: $notification-colour;
     border-left: 5px solid $notification-bar-colour;
 }
 
-.box .hideable-inner.callout
+.callout.hideable-inner
 {
     background: $hideable-colour;
     border-left: 5px solid $hideable-bar-colour;

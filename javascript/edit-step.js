@@ -116,6 +116,16 @@ var editingStep = new function()
             self.addContentSection("_math");
         });
 
+        $(".js-add-definition-content").click( function(e) {
+            e.preventDefault();
+            self.addContentSection("_definition");
+        });
+
+        $(".js-add-two-cols-content").click( function(e) {
+            e.preventDefault();
+            self.addContentSection("_two_cols");
+        });
+
     }
 
     this.bindAjaxForms = function ()

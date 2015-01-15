@@ -22,6 +22,8 @@
 = render_js_template 'js-templates/editing/_code'
 = render_js_template 'js-templates/editing/_hideable'
 = render_js_template 'js-templates/editing/_math'
+= render_js_template 'js-templates/editing/_definition'
+= render_js_template 'js-templates/editing/_two_cols'
 = render_js_template 'js-templates/editing/_step_content_id_entry'
 
 .create-step-form
@@ -42,22 +44,16 @@
                                 = f.text_field :slug, :class => "form-control"
                                 = partial 'form_error', :collection => (errors_for @step, :slug)
 
-                    p
-                        = f.label :experience, :caption => "Step Experience"
-                        = f.number_field :experience, :class => "form-control"
-                        = partial 'form_error', :collection => (errors_for @step, :experience)
-
-                    p
-                        = f.label :is_sharing_step, :caption => "Is this a step to share progress? "
-                            = f.check_box :is_sharing_step
-
-                    p
-                        = f.label :body, :caption => "Step Content"
-
-                    p
-                        button.button.create-button.margin-bottom.js-insert-inline-definition.margin-right Insert Inline Definition
-                        button.button.create-button.margin-bottom.js-insert-two-cols.margin-right Insert Two Columns
-                        button.button.create-button.margin-bottom.js-insert-one-col.margin-right Insert One Column
+                    .row
+                        .col-sm-6
+                            p
+                                = f.label :experience, :caption => "Step Experience"
+                                = f.number_field :experience, :class => "form-control"
+                                = partial 'form_error', :collection => (errors_for @step, :experience)
+                        .col-sm-6
+                            p
+                                = f.label :is_sharing_step, :caption => "Is this a step to share progress? "
+                                    = f.check_box :is_sharing_step
 
                     button.create-button.button.js-upload-link Upload File
 
@@ -75,14 +71,23 @@
 
                 button.create-button.button.js-add-code-content
                     i.fa.fa-code
-                    |  Add Code Content
+                    |  Add Code Snippet
 
                 button.create-button.button.js-add-hideable-content
                     i.fa.fa-code
-                    |  Add Hideable Content
+                    |  Add Hideable Region
 
                 button.create-button.button.js-add-math-content
                     i.fa.fa-code
                     |  Add Math Content
+
+                button.create-button.button.js-add-definition-content
+                    i.fa.fa-code
+                    |  Add Block Definition
+
+                button.create-button.button.js-add-two-cols-content
+                    i.fa.fa-code
+                    |  Add Two Columns
+
 
     #upload_frame

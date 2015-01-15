@@ -1,0 +1,7 @@
+.definition.callout
+    - if is_admin
+        a.js-close-inserted-definition.float-right href="/definitions/make/#{definition.id}" title="Edit Definition" target="new"
+            i.fa.fa-edit
+    h4
+        = definition.get_definition.title
+    | #{{RDiscount.new(definition.get_definition.body, :no_superscript).to_html}}

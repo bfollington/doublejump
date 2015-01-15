@@ -28,6 +28,21 @@ Doublejump::App.controllers :contents do
 
   end
 
+  post :add_definition, :map => "/content/definition/add" do
+
+    content_type :json
+    create_content(params, DefinitionContent, :definition_content)
+
+  end
+
+  post :add_two_cols, :map => "/content/two_cols/add" do
+
+    content_type :json
+    create_content(params, TwoColsContent, :two_cols_content)
+
+  end
+
+
 end
 
 def create_content(params, model_class, array_key)

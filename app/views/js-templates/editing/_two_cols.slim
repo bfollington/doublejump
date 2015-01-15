@@ -1,0 +1,15 @@
+- if defined? js_template
+    - id = ""
+- else
+    - id = two_cols.id
+
+.box.two-cols-content.content.affects-next-content.affects-next-two-contents
+
+    = ui_element "ui/content_type_toolbar", { title: "Two Columns", icon: "fa-file-text" }
+
+    = form_for :two_cols_content, "/content/two_cols/add" do |f|
+        = f.hidden_field :id, :value => id, :class => "id-field"
+
+        p
+            | The next two content blocks placed after this, will appear as columns next to one another.
+
