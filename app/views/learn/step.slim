@@ -21,8 +21,8 @@
 
 .row.fadeInUp.animated
     .col-lg-9.col-md-9
-        .box
-            - if current_account && current_account.has_completed_step?(@step)
+        - if current_account && current_account.has_completed_step?(@step)
+            .box
                 = partial 'elements/callouts/notification', locals: {next_link: next_link, link_text: "Go To Next Step", message_body: "You've completed this step before (maybe as part of another course), just thought you should know." }
         h3 = @step.title
 
