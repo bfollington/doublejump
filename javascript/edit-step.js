@@ -43,9 +43,13 @@ var editingStep = new function()
 
         $(".js-delete-content").click( function (e) {
             e.preventDefault();
+            var confirmation = confirm("Are you sure you want to remove this content block?");
 
-            $(this).closest(".content").remove();
-            self.rebuildIdList();
+            if (confirmation)
+            {
+                $(this).closest(".content").remove();
+                self.rebuildIdList();
+            }
         });
 
         $(".js-minimise-content").click( function (e) {

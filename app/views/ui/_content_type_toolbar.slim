@@ -1,8 +1,10 @@
 - params = { title: "", icon: "fa-file-text" }
 - params = params.merge(supplied_params)
 
-button.delete-button.float-right.js-delete-content Delete
-button.create-button.float-right.js-minimise-content Minimise
+button.delete-button.float-right.js-delete-content
+    i.fa.fa-times
+button.create-button.float-right.js-minimise-content
+    i.fa.fa-minus
 
 h4
     i.fa.margin-right class="#{params[:icon]}"
