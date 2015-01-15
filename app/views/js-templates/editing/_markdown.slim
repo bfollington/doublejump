@@ -9,6 +9,9 @@
     h4
         i.fa.fa-file-text.margin-right
         | Markdown
+
+    button.delete-button.float-right.js-delete-content Delete
+
     = form_for :markdown_content, "/content/markdown/add" do |f|
         = f.hidden_field :id, :value => id, :class => "id-field"
         p

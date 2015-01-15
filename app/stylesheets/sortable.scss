@@ -1,0 +1,26 @@
+body.dragging, body.dragging * {
+  cursor: move !important;
+}
+
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+
+  max-height: 128px;
+  overflow: hidden;
+}
+
+.js-sortable li.placeholder {
+  position: relative;
+  list-style-type: none;
+  border-top: 1px dashed $sortable-placeholder-line-color;
+  padding: 5px;
+  margin: 5px;
+  /** More li styles **/
+}
+
+.js-sortable li.placeholder:before {
+  position: absolute;
+  /** Define arrowhead **/
+}

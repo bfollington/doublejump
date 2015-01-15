@@ -11,6 +11,9 @@
     h4
         i.fa.fa-code.margin-right
         | Code
+
+    button.delete-button.float-right.js-delete-content Delete
+
     = form_for :code_content, "/content/code/add" do |f|
         = f.hidden_field :id, :value => id, :class => "id-field"
         p

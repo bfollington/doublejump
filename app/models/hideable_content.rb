@@ -1,0 +1,22 @@
+class HideableContent < Content
+
+    field :title, :type => String
+    field :text, :type => String
+
+    validates_presence_of :title
+    validates_presence_of :text
+
+    def editing_partial
+        "js-templates/editing/hideable"
+    end
+
+    def get_final_html(view)
+        view.render "learn/content_types/_hideable", :layout => false, :locals => {hideable: self}
+    end
+
+    def get_content
+        text
+    end
+
+end
+

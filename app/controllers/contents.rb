@@ -14,6 +14,13 @@ Doublejump::App.controllers :contents do
 
   end
 
+  post :add_hideable, :map => "/content/hideable/add" do
+
+    content_type :json
+    create_content(params, HideableContent, :hideable_content)
+
+  end
+
 end
 
 def create_content(params, model_class, array_key)

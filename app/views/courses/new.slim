@@ -1,6 +1,10 @@
 - content_for :include_js do
     = javascript_include_tag 'jquery.sortable.min'
 
+- content_for :include_end_body
+    javascript:
+        sortable.bindSortableLists();
+
 = render_js_template 'js-templates/_lesson_list_entry'
 
 .create-course-form
@@ -31,7 +35,7 @@
                                 = f.label :image_url, :caption => "Background Image URL"
                                 = f.text_field :image_url, :class => "form-control"
                                 = partial 'form_error', :collection => (errors_for @course, :image_url)
-                    
+
 
                     p
                         = f.label :category, :caption => "Category"
@@ -54,7 +58,7 @@
                         br
                         = f.select(:lesson, :collection => @lessons, :fields => [:title, :id], :class => 'js-select2')
                         a.js-sortable-add-new data-read-selection-from='#course_lesson' data-target-list='#lessons' data-hidden-field-name='#{hidden_field_name}' href="#"
-                            |  
+                            |
                             i.fa.fa-plus-circle
 
                     p
@@ -72,7 +76,7 @@
                         br
                         = f.select(:prerequisite, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
                         a.js-sortable-add-new data-read-selection-from='#course_prerequisite' data-target-list='#prerequisites' data-hidden-field-name='#{hidden_field_name}' href="#"
-                            |  
+                            |
                             i.fa.fa-plus-circle
 
                     p
@@ -90,7 +94,7 @@
                         br
                         = f.select(:follow_on, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
                         a.js-sortable-add-new data-read-selection-from='#course_follow_on' data-target-list='#follow_ons' data-hidden-field-name='#{hidden_field_name}' href="#"
-                            |  
+                            |
                             i.fa.fa-plus-circle
 
                     p

@@ -1,0 +1,25 @@
+- if defined? js_template
+    - item_title = ""
+    - item_text = ""
+    - id = ""
+- else
+    - item_title = hideable.title
+    - item_text = hideable.text
+    - id = hideable.id
+
+.box.hideable-content.content
+    h4
+        i.fa.fa-file-text.margin-right
+        | Hideable
+
+    button.delete-button.float-right.js-delete-content Delete
+
+    = form_for :hideable_content, "/content/hideable/add" do |f|
+        = f.hidden_field :id, :value => id, :class => "id-field"
+        p
+            = f.text_field :title, :class => "form-control", :value => item_title
+            = f.text_area :text, :class => "form-control", :'data-editor' => "markdown", :value => item_text
+            = partial 'form_error', :collection => (errors_for @content, :text)
+
+        p.center-text
+            = f.submit "Save", :class => 'button create-button'

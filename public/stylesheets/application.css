@@ -1737,7 +1737,7 @@ a.notification-badge:hover {
 .gradient-block {
   padding: 1em; }
 
-.create-button {
+.generic-button, .create-button, .delete-button {
   -webkit-border-radius: 10000px;
   -moz-border-radius: 10000px;
   -ms-border-radius: 10000px;
@@ -1751,12 +1751,26 @@ a.notification-badge:hover {
   text-align: center;
   transition: 0.3s, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
 
-.create-button:hover {
+.generic-button:hover, .create-button:hover, .delete-button:hover {
   background-color: #0084d5;
   color: white;
   transform: scale(1.1, 1.1); }
 
 .create-button:disabled, .create-button[disabled=disabled] {
+  background-color: #b7d1e0;
+  -webkit-animation: pulsing 2s infinite;
+  -moz-animation: pulsing 2s infinite;
+  -ms-animation: pulsing 2s infinite;
+  -o-animation: pulsing 2s infinite;
+  animation: pulsing 2s infinite; }
+
+.delete-button {
+  background-color: red; }
+
+.delete-button:hover {
+  background-color: #aa0000; }
+
+.delete-button:disabled, .delete-button[disabled=disabled] {
   background-color: #b7d1e0;
   -webkit-animation: pulsing 2s infinite;
   -moz-animation: pulsing 2s infinite;
@@ -2064,6 +2078,13 @@ ul.progress-list {
 .markdown-content textarea {
   font-size: 12px; }
 
+.code-content textarea {
+  font-size: 12px; }
+
+.content.sortable-dragging {
+  max-height: 128px;
+  overflow: hidden; }
+
 .gradient-block {
   background-image: -o-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
   background-image: -moz-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
@@ -2264,6 +2285,28 @@ footer.footer {
   .footer-link-list li a {
     font-weight: lighter;
     color: white; }
+
+body.dragging, body.dragging * {
+  cursor: move !important; }
+
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+  max-height: 128px;
+  overflow: hidden; }
+
+.js-sortable li.placeholder {
+  position: relative;
+  list-style-type: none;
+  border-top: 1px dashed #999999;
+  padding: 5px;
+  margin: 5px;
+  /** More li styles **/ }
+
+.js-sortable li.placeholder:before {
+  position: absolute;
+  /** Define arrowhead **/ }
 
 .banner-image {
   background-size: cover;

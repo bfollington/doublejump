@@ -1,4 +1,4 @@
-.create-button
+.generic-button
 {
     @include border-radius(10000px);
     background-color: $link-color;
@@ -11,7 +11,7 @@
     transition: 0.3s, transform 0.3s $bounce-easing;
 }
 
-.create-button:hover
+.generic-button:hover
 {
     background-color: $link-hover-color;
     color: white;
@@ -19,7 +19,37 @@
     transform: scale(1.1, 1.1);
 }
 
+.create-button
+{
+    @extend .generic-button;
+}
+
+.create-button:hover
+{
+    @extend .generic-button:hover;
+}
+
 .create-button:disabled, .create-button[disabled=disabled]
+{
+    background-color: $link-disabled;
+    @include animation(pulsing 2s infinite);
+}
+
+.delete-button
+{
+    @extend .generic-button;
+
+    background-color: $delete-button;
+}
+
+.delete-button:hover
+{
+    @extend .generic-button:hover;
+
+    background-color: $delete-button-hover;
+}
+
+.delete-button:disabled, .delete-button[disabled=disabled]
 {
     background-color: $link-disabled;
     @include animation(pulsing 2s infinite);

@@ -6,6 +6,7 @@ var editingStep = new function()
     this.rebuildIdList = function()
     {
         // Clear the existing data
+        console.log("Rebulding id list");
         $(".content-ids").html("");
 
         $(".contents .content .id-field").each( function () {
@@ -16,28 +17,50 @@ var editingStep = new function()
         });
     }
 
+    this.addContentSection = function(template)
+    {
+        var template = getTemplate(template);
+
+        $(".contents").append(template);
+
+        self.bindAjaxForms();
+    }
+
+    this.codeLanguageChange = function()
+    {
+        $(".code-input-language").change( function () {
+            var editor = ace.edit($(this).siblings(".ace_editor")[0]);
+            console.log(editor);
+            editor.getSession().setMode("ace/mode/" + $(this).val());
+        });
+    }
+
     this.init = function ()
     {
         self.bindAjaxForms();
+        self.codeLanguageChange();
+        self.rebuildIdList();
+
+        $(".js-delete-content").click( function (e) {
+            e.preventDefault();
+
+            $(this).closest(".content").remove();
+            self.rebuildIdList();
+        });
 
         $(".js-add-markdown-content").click( function(e) {
             e.preventDefault();
-            console.log("Test");
-
-            var template = getTemplate("_markdown");
-
-            $(".contents").append(template);
-
-            self.bindAjaxForms();
+            self.addContentSection("_markdown");
         });
 
         $(".js-add-code-content").click( function(e) {
             e.preventDefault();
+            self.addContentSection("_code");
+        });
 
-            var template = getTemplate("_code");
-
-            $(".contents").append(template);
-            self.bindAjaxForms();
+        $(".js-add-hideable-content").click( function(e) {
+            e.preventDefault();
+            self.addContentSection("_hideable");
         });
 
     }

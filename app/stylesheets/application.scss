@@ -20,9 +20,13 @@
 @import 'components/ace_editor';
 
 @import 'content-types/markdown';
+@import 'content-types/code';
+@import 'content-types/general';
 
 @import 'landing-page';
 @import 'footer';
+
+@import 'sortable';
 
 @import 'learn';
 @import 'sharing-progress';

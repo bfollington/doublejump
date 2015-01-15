@@ -2,18 +2,15 @@
     javascript:
         editingStep.init();
         aceUtil.convertTextAreasOnClick();
-
-        $(".code-input-language").change( function () {
-            var editor = ace.edit($(this).siblings(".ace_editor")[0]);
-            console.log(editor);
-            editor.getSession().setMode("ace/mode/" + $(this).val());
-        });
+        sortable.bindSortableLists({afterDrag: editingStep.rebuildIdList, itemSelector: ".content", handle: 'h4'});
 
 - content_for :include_js
     = partial 'includes/ace'
+    = javascript_include_tag 'jquery.sortable.min'
 
 = render_js_template 'js-templates/editing/_markdown'
 = render_js_template 'js-templates/editing/_code'
+= render_js_template 'js-templates/editing/_hideable'
 = render_js_template 'js-templates/editing/_step_content_id_entry'
 
 .create-step-form
@@ -63,7 +60,7 @@
                     p.center-text
                         = f.submit "Save", :class => 'button create-button'
 
-            section.contents
+            section.contents.js-sortable
                 - if @step
                     - @step.contents.each do |content|
                         = partial content.editing_partial, :object => content
@@ -76,5 +73,9 @@
                 button.create-button.button.js-add-code-content
                     i.fa.fa-code
                     |  Add Code Content
+
+                button.create-button.button.js-add-hideable-content
+                    i.fa.fa-code
+                    |  Add Hideable Content
 
     #upload_frame

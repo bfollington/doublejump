@@ -1,6 +1,10 @@
 - content_for :include_js do
     = javascript_include_tag 'jquery.sortable.min'
 
+- content_for :include_end_body
+    javascript:
+        sortable.bindSortableLists();
+
 = render_js_template 'js-templates/_lesson_list_entry'
 
 .create-lesson-form
@@ -46,8 +50,8 @@
                         = f.label :step, :caption => "Steps"
                         br
                         = f.select(:step, :collection => @steps, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#lesson_step' data-target-list='#steps' data-hidden-field-name='#{hidden_field_name}' href="#" 
-                            |  
+                        a.js-sortable-add-new data-read-selection-from='#lesson_step' data-target-list='#steps' data-hidden-field-name='#{hidden_field_name}' href="#"
+                            |
                             i.fa.fa-plus-circle
 
                     p
@@ -63,8 +67,8 @@
                         = f.label :related_reading, :caption => "Related Readings"
                         br
                         = f.select(:related_reading, :collection => @related_readings, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#lesson_related_reading' data-target-list='#related_readings' data-hidden-field-name='#{hidden_field_name}' href="#" 
-                            |  
+                        a.js-sortable-add-new data-read-selection-from='#lesson_related_reading' data-target-list='#related_readings' data-hidden-field-name='#{hidden_field_name}' href="#"
+                            |
                             i.fa.fa-plus-circle
 
                     p
@@ -81,8 +85,8 @@
                         = f.label :title, :caption => "Downloads"
                         br
                         = f.select(:download, :collection => @downloads, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#lesson_download' data-target-list='#downloads' data-hidden-field-name='#{hidden_field_name}' href="#" 
-                            |  
+                        a.js-sortable-add-new data-read-selection-from='#lesson_download' data-target-list='#downloads' data-hidden-field-name='#{hidden_field_name}' href="#"
+                            |
                             i.fa.fa-plus-circle
 
                     p
@@ -95,4 +99,4 @@
         .row
             p.center-text
                 = f.submit "Save", :class => 'button create-button'
-            
+

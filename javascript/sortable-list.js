@@ -1,52 +1,62 @@
 // sortable-list.js powers the re-orderable lists for creating steps, lessons, etc.
 
-function bindSortableLists()
+var sortable = new function()
 {
+    var self = this;
 
-    if (jQuery().sortable)
+    this.bindSortableLists = function(opts)
     {
 
-        // Don't double up our event handlers
-        $(".js-sortable").off();    
-        $(".js-sortable-delete-link").off();    
-        $(".js-sortable-add-new").off();    
+        if (jQuery().sortable)
+        {
+
+            // Don't double up our event handlers
+            $(".js-sortable").off();
+            $(".js-sortable-delete-link").off();
+            $(".js-sortable-add-new").off();
+
+            opts.onDrop = function($item, container, _super, event)
+            {
+                $item.removeClass("dragged").removeAttr("style");
+                $("body").removeClass("dragging");
+                opts.afterDrag();
+            }
 
 
-        // Set up the list
-        $(".js-sortable").sortable();
+            // Set up the list
+            $(".js-sortable").sortable(opts);
 
 
-        // Bind our delete links
-        $(".js-sortable-delete-link").bind('click', function(e) {
-            e.preventDefault();
-            $(this).parent().remove();
-        });
+            // Bind our delete links
+            $(".js-sortable-delete-link").bind('click', function(e) {
+                e.preventDefault();
+                $(this).parent().remove();
+            });
 
-        // Add a new row to the list
-        $(".js-sortable-add-new").click( function(e) {
+            // Add a new row to the list
+            $(".js-sortable-add-new").click( function(e) {
 
 
 
-            var $readSelectionFrom = $( $(this).attr("data-read-selection-from") ),
-                hiddenField = $(this).attr("data-hidden-field-name"),
-                $targetList = $( $(this).attr("data-target-list") );
+                var $readSelectionFrom = $( $(this).attr("data-read-selection-from") ),
+                    hiddenField = $(this).attr("data-hidden-field-name"),
+                    $targetList = $( $(this).attr("data-target-list") );
 
-            e.preventDefault();
+                e.preventDefault();
 
-            $targetList.append( format(
-                                        getTemplate("_lesson_list_entry"), 
-                                        {
-                                            "item-text": $readSelectionFrom.find('option:selected').text(),
-                                            "field-name": hiddenField,
-                                            "field-value": $readSelectionFrom.val(),
-                                        }
-                                    )
-                                );
+                $targetList.append( format(
+                                            getTemplate("_lesson_list_entry"),
+                                            {
+                                                "item-text": $readSelectionFrom.find('option:selected').text(),
+                                                "field-name": hiddenField,
+                                                "field-value": $readSelectionFrom.val(),
+                                            }
+                                        )
+                                    );
 
-            bindSortableLists();
-        });
+                self.bindSortableLists(opts);
+            });
 
+        }
     }
 }
-
-bindSortableLists();
