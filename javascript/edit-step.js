@@ -28,7 +28,6 @@ var editingStep = new function()
 
             $(".contents").append(template);
 
-            bindEpicEditorField($(".contents .markdown-content .epiceditor-target").last());
             self.bindAjaxForms();
         });
 
