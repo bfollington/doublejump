@@ -17,6 +17,3 @@
             = f.text_field :title, :class => "form-control", :value => item_title
             = f.text_area :text, :class => "form-control", :'data-editor' => "markdown", :value => item_text
             = partial 'form_error', :collection => (errors_for @content, :text)
-
-        p.center-text
-            = f.submit "Save", :class => 'button create-button'

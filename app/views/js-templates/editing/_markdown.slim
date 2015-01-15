@@ -15,6 +15,3 @@
             / .epiceditor
             = f.text_area :body, :class => "form-control", :'data-editor' => "markdown", :value => content_body
             = partial 'form_error', :collection => (errors_for @content, :body)
-
-        p.center-text
-            = f.submit "Save", :class => 'button create-button'

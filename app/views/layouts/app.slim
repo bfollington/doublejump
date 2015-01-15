@@ -23,6 +23,8 @@ html.no-js lang="en"
     body
 
         = partial 'elements/old_browser'
+        .admin-tools
+            = yield_content :admin_tools
 
         .container-fluid
             = partial 'elements/doublejump_header_bar'

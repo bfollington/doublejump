@@ -2605,7 +2605,7 @@ img.fit-width {
 
 .admin-tools {
   position: fixed;
-  bottom: 10px;
+  top: 10px;
   right: 10px;
   padding: 5px;
   z-index: 100; }

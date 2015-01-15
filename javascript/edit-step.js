@@ -2,6 +2,36 @@ var editingStep = new function()
 {
 
     var self = this;
+    this.countSubmits = 0;
+
+    this.beginSubmits = function()
+    {
+        self.countSubmits = 0;
+
+        $(".content form").submit();
+    }
+
+    this.contentSubmissionDone = function()
+    {
+        self.countSubmits += 1;
+
+        console.log(self.countSubmits,  $(".content form").length);
+        if (self.countSubmits == $(".content form").length)
+        {
+            self.finishedSubmissions();
+        }
+    }
+
+    this.contentSubmissionError = function()
+    {
+        console.error("Submission of one content block failed.");
+        self.countSubmits = 0;
+    }
+
+    this.finishedSubmissions = function()
+    {
+        $("#addStepForm").submit();
+    }
 
     this.rebuildIdList = function()
     {
@@ -87,10 +117,14 @@ var editingStep = new function()
                 {
                     $form.find(".id-field").val(data.id);
                     self.rebuildIdList();
+                    self.contentSubmissionDone();
+                } else {
+                    self.contentSubmissionError();
                 }
             },
             error: function (data) {
                 console.error(":(");
+                self.contentSubmissionError();
             }
         });
     }

@@ -19,6 +19,3 @@
             = f.label :body, :caption => "Code snippet"
             = f.text_area :body, :class => "form-control code-input-area", :'data-editor' => content_language, :value => content_body
             = partial 'form_error', :collection => (errors_for @content, :body)
-
-        p.center-text
-            = f.submit "Save", :class => 'button create-button'

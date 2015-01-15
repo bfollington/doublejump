@@ -1,0 +1,5 @@
+- params = { size: "", title: "", href: "", selector: "", icon: "fa-pencil-square-o" }
+- params = params.merge(supplied_params)
+
+a.round-icon.fadeInUp.animated class="#{params[:size]} #{params[:selector]}" rel="tooltip" data-placement="bottom" title="#{params[:title]}" href="#{params[:href]}" target="new"
+    i.fa class="#{params[:icon]}"
