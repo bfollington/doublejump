@@ -6,6 +6,12 @@ var sortable = new function()
 
     this.bindSortableLists = function(opts)
     {
+        console.log("HELO");
+        if (opts == null)
+        {
+            opts = {};
+            opts.afterDrag = function() {};
+        }
 
         if (jQuery().sortable)
         {
@@ -19,7 +25,7 @@ var sortable = new function()
             {
                 $item.removeClass("dragged").removeAttr("style");
                 $("body").removeClass("dragging");
-                opts.afterDrag();
+                if (opts.afterDrag) opts.afterDrag();
             }
 
 
@@ -54,7 +60,7 @@ var sortable = new function()
                                         )
                                     );
 
-                self.bindSortableLists(opts);
+                // self.bindSortableLists(opts);
             });
 
         }

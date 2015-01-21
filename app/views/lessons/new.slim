@@ -3,7 +3,7 @@
 
 - content_for :include_end_body
     javascript:
-        sortable.bindSortableLists();
+        sortable.bindSortableLists({itemSelector: "li"});
 
 = render_js_template 'js-templates/_lesson_list_entry'
 
