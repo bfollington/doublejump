@@ -8,7 +8,8 @@ body.dragging, body.dragging * {
   z-index: 2000;
 }
 
-.js-sortable li.placeholder {
+.js-sortable li.placeholder,
+.js-sortable-blocks li.placeholder {
   position: relative;
   list-style-type: none;
   border-top: 1px dashed $sortable-placeholder-line-color;
@@ -17,7 +18,24 @@ body.dragging, body.dragging * {
   /** More li styles **/
 }
 
-.js-sortable li.placeholder:before {
+.js-sortable li.placeholder:before,
+.js-sortable-blocks li.placeholder:before {
   position: absolute;
   /** Define arrowhead **/
+}
+
+.step-list .active
+{
+    color: $landing-page-heading-color;
+}
+
+a.js-sortable-delete-link
+{
+  margin-left: 10px;
+  color: $bright-red;
+
+  &:hover
+  {
+    color: $medium-red;
+  }
 }

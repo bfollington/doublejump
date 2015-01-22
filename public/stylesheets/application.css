@@ -1658,6 +1658,9 @@ img.centered {
   display: block;
   margin: 0 auto; }
 
+.fixed-position {
+  position: fixed; }
+
 .header-bar a {
   color: #4faee8;
   font-weight: bold; }
@@ -2309,7 +2312,8 @@ body.dragging, body.dragging * {
   opacity: 0.5;
   z-index: 2000; }
 
-.js-sortable li.placeholder {
+.js-sortable li.placeholder,
+.js-sortable-blocks li.placeholder {
   position: relative;
   list-style-type: none;
   border-top: 1px dashed #999999;
@@ -2317,9 +2321,19 @@ body.dragging, body.dragging * {
   margin: 5px;
   /** More li styles **/ }
 
-.js-sortable li.placeholder:before {
+.js-sortable li.placeholder:before,
+.js-sortable-blocks li.placeholder:before {
   position: absolute;
   /** Define arrowhead **/ }
+
+.step-list .active {
+  color: #697a7d; }
+
+a.js-sortable-delete-link {
+  margin-left: 10px;
+  color: red; }
+  a.js-sortable-delete-link:hover {
+    color: #aa0000; }
 
 .banner-image {
   background-size: cover;

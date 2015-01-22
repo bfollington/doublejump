@@ -1,5 +1,5 @@
 Doublejump::App.controllers :lessons do
-    
+
   layout :app
 
   get :index do
@@ -33,6 +33,20 @@ Doublejump::App.controllers :lessons do
 
   end
 
+  post :update_order, :with => :lesson_id do
+
+    lesson = Lesson.find(params[:lesson_id])
+
+    lesson.steps = []
+
+    iterable_list( params[:lesson][:steps] ).each do |step_id|
+      lesson.steps.push( Step.find(step_id) )
+    end
+
+    content_type :json
+    {success: true, message: "I'll do it later."}.to_json
+  end
+
   get :make, :with => :slug do
     @lesson = Lesson.where( :slug => params[:slug]).first
     new_lesson
@@ -56,9 +70,23 @@ Doublejump::App.controllers :lessons do
 
     if @lesson.valid?
       @lesson.save
-      render 'lessons/new_success'
+
+      if is_ajax?
+        content_type :json
+        {:success => true }.to_json
+      else
+        render 'lessons/new_success'
+      end
+
     else
-      new_lesson
+
+      if is_ajax?
+        content_type :json
+        {:success => false }.to_json
+      else
+        new_lesson
+      end
+
     end
 
   end

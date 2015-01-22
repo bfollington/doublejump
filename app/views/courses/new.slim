@@ -6,11 +6,65 @@
         sortable.bindSortableLists();
 
 
-= render_js_template 'js-templates/_lesson_list_entry'
+= render_js_template 'js-templates/_sortable_content_list_entry'
 
 .create-course-form
     = form_for :course, "", { :id => 'addCourseForm' } do |f|
         .row
+            .col-lg-3
+                .box
+                    - hidden_field_name = 'course[lessons][]'
+
+                    p
+                        = f.label :title, :caption => "Lessons"
+                        br
+                        = f.select(:lesson, :collection => @lessons, :fields => [:title, :id], :class => 'js-select2')
+                        a.js-sortable-add-new data-read-selection-from='#course_lesson' data-target-list='#lessons' data-hidden-field-name='#{hidden_field_name}' href="#"
+                            |
+                            i.fa.fa-plus-circle
+
+                    p
+                        ul#lessons.js-sortable
+                            - if @course
+                                - @course.lesson_ids.each do |lesson_id|
+                                    - lesson = Lesson.find( lesson_id )
+                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => lesson.title, :field_value => lesson.id, :field_name => hidden_field_name}
+
+                .box
+                    - hidden_field_name = 'course[prerequisites][]'
+
+                    p
+                        = f.label :title, :caption => "Prerequisites"
+                        br
+                        = f.select(:prerequisite, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
+                        a.js-sortable-add-new data-read-selection-from='#course_prerequisite' data-target-list='#prerequisites' data-hidden-field-name='#{hidden_field_name}' href="#"
+                            |
+                            i.fa.fa-plus-circle
+
+                    p
+                        ul#prerequisites.js-sortable
+                            - if @course
+                                - @course.prerequisite_ids.each do |prereq_id|
+                                    - prereq = Course.find( prereq_id )
+                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => prereq.title, :field_value => prereq.id, :field_name => hidden_field_name}
+
+                .box
+                    - hidden_field_name = 'course[follow_ons][]'
+
+                    p
+                        = f.label :title, :caption => "Follow Ons"
+                        br
+                        = f.select(:follow_on, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
+                        a.js-sortable-add-new data-read-selection-from='#course_follow_on' data-target-list='#follow_ons' data-hidden-field-name='#{hidden_field_name}' href="#"
+                            |
+                            i.fa.fa-plus-circle
+
+                    p
+                        ul#follow_ons.js-sortable
+                            - if @course
+                                - @course.follow_on_ids.each do |follow_on_id|
+                                    - follow_on = Course.find( follow_on_id )
+                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => follow_on.title, :field_value => follow_on.id, :field_name => hidden_field_name}
             .col-lg-9
                 .box
 
@@ -49,61 +103,6 @@
                         = f.label :description, :caption => "Course Description"
                         = f.text_area :description, :class => "form-control"
                         = partial 'form_error', :collection => (errors_for @course, :description)
-
-            .col-lg-3
-                .box
-                    - hidden_field_name = 'course[lessons][]'
-
-                    p
-                        = f.label :title, :caption => "Lessons"
-                        br
-                        = f.select(:lesson, :collection => @lessons, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#course_lesson' data-target-list='#lessons' data-hidden-field-name='#{hidden_field_name}' href="#"
-                            |
-                            i.fa.fa-plus-circle
-
-                    p
-                        ul#lessons.js-sortable
-                            - if @course
-                                - @course.lesson_ids.each do |lesson_id|
-                                    - lesson = Lesson.find( lesson_id )
-                                    = partial 'js-templates/lesson_list_entry', :locals => { :item_text => lesson.title, :field_value => lesson.id, :field_name => hidden_field_name}
-
-                .box
-                    - hidden_field_name = 'course[prerequisites][]'
-
-                    p
-                        = f.label :title, :caption => "Prerequisites"
-                        br
-                        = f.select(:prerequisite, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#course_prerequisite' data-target-list='#prerequisites' data-hidden-field-name='#{hidden_field_name}' href="#"
-                            |
-                            i.fa.fa-plus-circle
-
-                    p
-                        ul#prerequisites.js-sortable
-                            - if @course
-                                - @course.prerequisite_ids.each do |prereq_id|
-                                    - prereq = Course.find( prereq_id )
-                                    = partial 'js-templates/lesson_list_entry', :locals => { :item_text => prereq.title, :field_value => prereq.id, :field_name => hidden_field_name}
-
-                .box
-                    - hidden_field_name = 'course[follow_ons][]'
-
-                    p
-                        = f.label :title, :caption => "Follow Ons"
-                        br
-                        = f.select(:follow_on, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#course_follow_on' data-target-list='#follow_ons' data-hidden-field-name='#{hidden_field_name}' href="#"
-                            |
-                            i.fa.fa-plus-circle
-
-                    p
-                        ul#follow_ons.js-sortable
-                            - if @course
-                                - @course.follow_on_ids.each do |follow_on_id|
-                                    - follow_on = Course.find( follow_on_id )
-                                    = partial 'js-templates/lesson_list_entry', :locals => { :item_text => follow_on.title, :field_value => follow_on.id, :field_name => hidden_field_name}
 
         .row
             .col-lg-12

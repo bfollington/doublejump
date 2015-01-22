@@ -4,31 +4,59 @@
 - content_for :include_end_body
     javascript:
         sortable.bindSortableLists({itemSelector: "li"});
+        editor.ajaxForm("#addLessonForm");
+
+        $(".js-save-lesson").click( function(e) { e.preventDefault(); $("#addLessonForm").submit(); } );
+
+- content_for :admin_tools
+    = ui_element "ui/floating_button", { size: "big", title: "Save Lesson", selector: "js-save-lesson", icon: "fa-save"}
 
 = render_js_template 'js-templates/_sortable_content_list_entry'
 
 .create-lesson-form
 
-    = form_for :lesson, "", { :id => 'addLessonForm' } do |f|
+    = form_for :lesson, url_for(:lessons, :make, @lesson.slug), { :id => 'addLessonForm' } do |f|
         .row
             .col-lg-3
                 .box
-                    - hidden_field_name = 'lesson[steps][]'
+                    a href="#{ url_for(:editor, :course, @course.id) }"
+                        h3 = @course.title
+                    a href="#{ url_for(:editor, :lesson, @course.id, @lesson.id) }"
+                        h4 = @lesson.title
+
+                    = partial 'editor/step_list', :locals => {form: f, hidden_field_name: 'lesson[steps][]'}
+
+            .col-lg-9
+                .box
+
+                    .row
+                        .col-sm-6
+                            p
+                                = f.label :title, :caption => "Lesson Title"
+                                = f.text_field :title, :class => "js-slug form-control", :'data-object' => :lesson, :'data-target' => :slug
+                                = partial 'form_error', :collection => (errors_for @lesson, :title)
+                        .col-sm-6
+                            p
+                                = f.label :slug, :caption => "Lesson Slug (For URL)"
+                                = f.text_field :slug, :class => 'form-control'
+                                = partial 'form_error', :collection => (errors_for @lesson, :slug)
+
 
                     p
-                        = f.label :step, :caption => "Steps"
-                        br
-                        = f.select(:step, :collection => @steps, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#lesson_step' data-target-list='#steps' data-hidden-field-name='#{hidden_field_name}' href="#"
-                            |
-                            i.fa.fa-plus-circle
+                        = f.label :experience, :caption => "Lesson Experience"
+                        = f.number_field :experience, :class => 'form-control'
+                        = partial 'form_error', :collection => (errors_for @lesson, :experience)
 
                     p
-                        ul#steps.js-sortable
-                            - if @lesson
-                                - @lesson.step_ids.each do |step_id|
-                                    - step = Step.find( step_id )
-                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => step.title, :field_value => step.id, :field_name => hidden_field_name}
+                        = f.label :description, :caption => "Lesson Description"
+                        = f.text_area :description, :class => 'form-control'
+                        = partial 'form_error', :collection => (errors_for @lesson, :description)
+
+                    p
+                        = f.label :final_message, :caption => "Lesson Final Message"
+                        = f.text_area :final_message, :class => 'form-control'
+                        = partial 'form_error', :collection => (errors_for @lesson, :final_message)
+
                 .box
                     - hidden_field_name = 'lesson[related_readings][]'
 
@@ -64,36 +92,6 @@
                                 - @lesson.download_ids.each do |download_id|
                                     - download = Download.find( download_id )
                                     = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => download.title, :field_value => download.id, :field_name => hidden_field_name}
-            .col-lg-9
-                .box
-
-                    .row
-                        .col-sm-6
-                            p
-                                = f.label :title, :caption => "Lesson Title"
-                                = f.text_field :title, :class => "js-slug form-control", :'data-object' => :lesson, :'data-target' => :slug
-                                = partial 'form_error', :collection => (errors_for @lesson, :title)
-                        .col-sm-6
-                            p
-                                = f.label :slug, :caption => "Lesson Slug (For URL)"
-                                = f.text_field :slug, :class => 'form-control'
-                                = partial 'form_error', :collection => (errors_for @lesson, :slug)
-
-
-                    p
-                        = f.label :experience, :caption => "Lesson Experience"
-                        = f.number_field :experience, :class => 'form-control'
-                        = partial 'form_error', :collection => (errors_for @lesson, :experience)
-
-                    p
-                        = f.label :description, :caption => "Lesson Description"
-                        = f.text_area :description, :class => 'form-control'
-                        = partial 'form_error', :collection => (errors_for @lesson, :description)
-
-                    p
-                        = f.label :final_message, :caption => "Lesson Final Message"
-                        = f.text_area :final_message, :class => 'form-control'
-                        = partial 'form_error', :collection => (errors_for @lesson, :final_message)
 
 
         .row

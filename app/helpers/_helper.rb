@@ -22,6 +22,10 @@ Doublejump::App.helpers do
 
   end
 
+  def is_ajax?
+    request.xhr?
+  end
+
   def include_phaser()
     javascript_include_tag( local_or_live('/local_required/phaser.min.js', '//cdnjs.cloudflare.com/ajax/libs/phaser/2.0.6/phaser.min.js') )
   end
@@ -42,7 +46,7 @@ Doublejump::App.helpers do
     rgb[2] = (rgb[2].to_i * amount).round
     "#%02x%02x%02x" % rgb
   end
-    
+
   # Amount should be a decimal between 0 and 1. Higher means lighter
   def lighten_color(hex_color, amount=0.6)
     hex_color = hex_color.gsub('#','')
@@ -102,7 +106,7 @@ Doublejump::App.helpers do
     content_type :json
     return {:errors => [error], :success => false }.to_json
   end
-  
+
   def upload_public_file(tempfile, filename, content_type)
 
     bucket_name = 'voltic-test-bucket'

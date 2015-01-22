@@ -1,0 +1,14 @@
+p
+    ul#steps.js-sortable.step-list
+        - if @lesson
+            - @lesson.step_ids.each do |step_id|
+                - step = Step.find( step_id )
+                - active = false
+                - if @step
+                    - active = step_id == @step.id
+                = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => step.title, :field_value => step.id, :field_name => hidden_field_name, :url => url_for(:editor, :step, @course.id, @lesson.id, step_id), :active => active}
+p
+    = form.select(:step, :collection => @steps, :fields => [:title, :id], :class => 'js-select2')
+    a.js-sortable-add-new data-read-selection-from='#lesson_step' data-target-list='#steps' data-hidden-field-name='#{hidden_field_name}' href="#"
+        |
+        i.fa.fa-plus-circle

@@ -84,8 +84,21 @@ def save_course
     end
 
     @course.save
-    render 'courses/new_success'
+
+    if is_ajax?
+      content_type :json
+      {:success => true }.to_json
+    else
+      render 'courses/new_success'
+    end
   else
-    render 'courses/new'
+
+    if is_ajax?
+      content_type :json
+      {:success => false }.to_json
+    else
+      render 'courses/new'
+    end
+
   end
 end

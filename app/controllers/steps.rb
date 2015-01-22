@@ -64,10 +64,21 @@ Doublejump::App.controllers :steps do
     if @step.valid?
       @step.save
       session[:flash] = "Step saved successfully!"
-      render 'steps/new'
+
+      if is_ajax?
+        content_type :json
+        {:success => true }.to_json
+      else
+        render 'steps/new'
+      end
+
     else
-      puts @step.errors.full_messages.inspect
-      render 'steps/new'
+      if is_ajax?
+        content_type :json
+        {:success => false }.to_json
+      else
+        render 'steps/new'
+      end
     end
 
   end

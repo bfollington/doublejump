@@ -4,8 +4,20 @@ var sortable = new function()
 {
     var self = this;
 
-    this.bindSortableLists = function(opts)
+    this.bindDeleteLinks = function()
     {
+        // Bind our delete links
+        $(".js-sortable-delete-link").off();
+        $(".js-sortable-delete-link").bind('click', function(e) {
+            e.preventDefault();
+            $(this).parent().remove();
+        });
+    }
+
+    this.bindSortableLists = function(opts, selector)
+    {
+        selector = typeof selector !== 'undefined' ? selector : '.js-sortable';
+
         console.log("HELO");
         if (opts == null)
         {
@@ -17,8 +29,7 @@ var sortable = new function()
         {
 
             // Don't double up our event handlers
-            $(".js-sortable").off();
-            $(".js-sortable-delete-link").off();
+            $(selector).off();
             $(".js-sortable-add-new").off();
 
             opts.onDrop = function($item, container, _super, event)
@@ -30,14 +41,10 @@ var sortable = new function()
 
 
             // Set up the list
-            $(".js-sortable").sortable(opts);
+            $(selector).sortable(opts);
 
 
-            // Bind our delete links
-            $(".js-sortable-delete-link").bind('click', function(e) {
-                e.preventDefault();
-                $(this).parent().remove();
-            });
+            self.bindDeleteLinks();
 
             // Add a new row to the list
             $(".js-sortable-add-new").click( function(e) {
@@ -51,7 +58,7 @@ var sortable = new function()
                 e.preventDefault();
 
                 $targetList.append( format(
-                                            getTemplate("_lesson_list_entry"),
+                                            getTemplate("_sortable_content_list_entry"),
                                             {
                                                 "item-text": $readSelectionFrom.find('option:selected').text(),
                                                 "field-name": hiddenField,
@@ -60,7 +67,7 @@ var sortable = new function()
                                         )
                                     );
 
-                // self.bindSortableLists(opts);
+                self.bindDeleteLinks();
             });
 
         }

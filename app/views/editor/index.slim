@@ -1,0 +1,17 @@
+- content_for :include_js do
+    = javascript_include_tag 'jquery.sortable.min'
+
+- content_for :include_end_body
+    javascript:
+        sortable.bindSortableLists({itemSelector: "li"});
+
+ul
+    - @courses.each do |course|
+        li
+            = course.title
+            ul.js-sortable
+                - course.get_lessons_in_order.each do |lesson|
+                    li
+                        a href="#{ url_for(:editor, :lesson, course.id, lesson.id) }" = lesson.title
+                a.add-new-lesson Add
+    a.add-new-course Add
