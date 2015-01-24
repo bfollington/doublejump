@@ -1,0 +1,6 @@
+.js-templates
+
+    - Dir.glob("./app/views/js-templates/**/*").reject {|fn| File.directory?(fn) }.each do |file|
+        - name = file.gsub("./app/views/js-templates/", "").gsub(".slim", "")
+        - if name != "_all" and name != "template"
+            = render_js_template 'js-templates/' + name

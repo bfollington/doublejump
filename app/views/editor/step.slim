@@ -2,8 +2,9 @@
     javascript:
         editingStep.init();
         aceUtil.convertTextAreas();
+
         sortable.bindSortableLists({afterDrag: editingStep.rebuildIdList, itemSelector: ".content", handle: 'h4'}, '.js-sortable-blocks');
-        sortable.bindSortableLists({itemSelector: "li"});
+
         editor.ajaxForm("#updateStepOrderForm");
         editor.ajaxForm("#addStepForm");
 
@@ -21,6 +22,8 @@
 
 - content_for :admin_tools
     = ui_element "ui/floating_button", { size: "big", title: "Save Step", selector: "js-save-step", icon: "fa-save"}
+
+= render_js_template 'js-templates/backbone/_sortable_content_list_entry_backbone'
 
 = render_js_template 'js-templates/editing/_markdown'
 = render_js_template 'js-templates/editing/_code'

@@ -3,7 +3,6 @@
 
 - content_for :include_end_body
     javascript:
-        sortable.bindSortableLists({itemSelector: "li"});
         editor.ajaxForm("#addLessonForm");
 
         $(".js-save-lesson").click( function(e) { e.preventDefault(); $("#addLessonForm").submit(); } );
@@ -11,7 +10,7 @@
 - content_for :admin_tools
     = ui_element "ui/floating_button", { size: "big", title: "Save Lesson", selector: "js-save-lesson", icon: "fa-save"}
 
-= render_js_template 'js-templates/_sortable_content_list_entry'
+= render_js_template 'js-templates/backbone/_sortable_content_list_entry_backbone'
 
 .create-lesson-form
 
@@ -57,41 +56,50 @@
                         = f.text_area :final_message, :class => 'form-control'
                         = partial 'form_error', :collection => (errors_for @lesson, :final_message)
 
-                .box
-                    - hidden_field_name = 'lesson[related_readings][]'
+                .box#related_readings_sortable_list
+                    - content_for :include_end_body
+                        - query = (find_from_id_list RelatedReading, @lesson.related_reading_ids).to_json
+                        javascript:
+
+                            new SortableItemListView({
+                                el: $("#related_readings_sortable_list"),
+                                hiddenFieldName: 'lesson[related_readings][]',
+                                targetList: '#related_readings',
+                                collection: new SortableItemCollection(#{{ query }})
+                            });
 
                     p
                         = f.label :related_reading, :caption => "Related Readings"
                         br
                         = f.select(:related_reading, :collection => @related_readings, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#lesson_related_reading' data-target-list='#related_readings' data-hidden-field-name='#{hidden_field_name}' href="#"
-                            |
+                        a.js-sortable-add-new href="#"
                             i.fa.fa-plus-circle
 
                     p
                         ul#related_readings.js-sortable
-                            - if @lesson
-                                - @lesson.related_reading_ids.each do |related_reading_id|
-                                    - related_reading = RelatedReading.find( related_reading_id )
-                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => related_reading.title, :field_value => related_reading.id, :field_name => hidden_field_name}
 
-                .box
-                    - hidden_field_name = 'lesson[downloads][]'
+                .box#downloads_sortable_list
+                    - content_for :include_end_body
+                        - query = (find_from_id_list Download, @lesson.download_ids).to_json
+                        javascript:
+
+                            new SortableItemListView({
+                                el: $("#downloads_sortable_list"),
+                                hiddenFieldName: 'lesson[downloads][]',
+                                targetList: '#downloads',
+                                collection: new SortableItemCollection(#{{ query }})
+                            });
 
                     p
                         = f.label :title, :caption => "Downloads"
                         br
                         = f.select(:download, :collection => @downloads, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#lesson_download' data-target-list='#downloads' data-hidden-field-name='#{hidden_field_name}' href="#"
-                            |
+
+                        a.js-sortable-add-new href="#"
                             i.fa.fa-plus-circle
 
                     p
                         ul#downloads.js-sortable
-                            - if @lesson
-                                - @lesson.download_ids.each do |download_id|
-                                    - download = Download.find( download_id )
-                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => download.title, :field_value => download.id, :field_name => hidden_field_name}
 
 
         .row

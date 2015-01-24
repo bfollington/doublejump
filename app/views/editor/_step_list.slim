@@ -1,14 +1,39 @@
-p
-    ul#steps.js-sortable.step-list
-        - if @lesson
-            - @lesson.step_ids.each do |step_id|
-                - step = Step.find( step_id )
-                - active = false
-                - if @step
-                    - active = step_id == @step.id
-                = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => step.title, :field_value => step.id, :field_name => hidden_field_name, :url => url_for(:editor, :step, @course.id, @lesson.id, step_id), :active => active}
-p
-    = form.select(:step, :collection => @steps, :fields => [:title, :id], :class => 'js-select2')
-    a.js-sortable-add-new data-read-selection-from='#lesson_step' data-target-list='#steps' data-hidden-field-name='#{hidden_field_name}' href="#"
-        |
-        i.fa.fa-plus-circle
+- content_for :include_end_body
+    - query = (find_from_id_list Step, @lesson.step_ids, [:id, :title]).to_json
+    javascript:
+
+        var collection = new SortableItemCollection();
+        var urlBase = "#{{ url_for(:editor, :step, @course.id, @lesson.id, "") }}";
+        var currentStep = "#{{ @step ? @step.id : '#' }}";
+
+        _.each(#{{ query }}, function(model)
+        {
+            var model = new SortableItem({
+                id: model["_id"]["$oid"],
+                title: model.title,
+                link: urlBase + model["_id"]["$oid"]
+            });
+
+            if (model.get("id") == currentStep)
+            {
+                model.set({cssClass: "active"});
+            }
+
+            collection.add(model);
+        });
+
+        new SortableItemListView({
+            el: $("#steps_sortable_list"),
+            hiddenFieldName: 'lesson[steps][]',
+            targetList: '#steps',
+            collection: collection
+        });
+
+#steps_sortable_list
+    p
+        ul#steps.js-sortable.step-list
+
+    p
+        = form.select(:step, :collection => @steps, :fields => [:title, :id], :class => 'js-select2')
+        a.js-sortable-add-new href="#"
+            i.fa.fa-plus-circle
