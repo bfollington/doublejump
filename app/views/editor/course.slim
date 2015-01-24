@@ -3,7 +3,6 @@
 
 - content_for :include_end_body
     javascript:
-        sortable.bindSortableLists();
         new AjaxFormView({el: $("#addCourseForm"), refreshPage: true});
 
         $(".js-save-course").click( function(e) { e.preventDefault(); $("#addCourseForm").submit(); } );
@@ -12,29 +11,50 @@
     = ui_element "ui/floating_button", { size: "big", title: "Save Course", selector: "js-save-course", icon: "fa-save"}
 
 
-= render_js_template 'js-templates/_sortable_content_list_entry'
+= render_js_template 'js-templates/backbone/_sortable_content_list_entry_backbone'
 
 .create-course-form
     = form_for :course, url_for(:courses, :make, @course.slug), { :id => 'addCourseForm' } do |f|
         .row
             .col-lg-3
-                .box
-                    - hidden_field_name = 'course[lessons][]'
+                .box#lessons_sortable_list
+                    - content_for :include_end_body
+                        - query = (find_from_id_list Lesson, @course.lesson_ids).to_json
+                        javascript:
+
+                            //course.slim
+                            var lessonCollection = new SortableItemCollection();
+                            var urlBase = "#{{ url_for(:editor, :lesson, @course.id, "") }}";
+
+                            _.each(#{{ query }}, function(model)
+                            {
+                                var model = new SortableItem({
+                                    id: model["_id"]["$oid"],
+                                    title: model.title,
+                                    link: urlBase + model["_id"]["$oid"]
+                                });
+
+                                lessonCollection.add(model);
+                            });
+
+                            new SortableItemListView({
+                                el: $("#lessons_sortable_list"),
+                                hiddenFieldName: 'course[lessons][]',
+                                targetList: '#lessons',
+                                collection: lessonCollection
+                            });
 
                     a href="#{ url_for(:editor, :course, @course.id) }"
                         h3 = @course.title
 
                     p
                         ul#lessons.js-sortable
-                            - if @course
-                                - @course.lesson_ids.each do |lesson_id|
-                                    - lesson = Lesson.find( lesson_id )
-                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => lesson.title, :field_value => lesson.id, :field_name => hidden_field_name, :url => url_for(:editor, :lesson, @course.id, lesson_id)}
 
                     p
+                        = f.label :lesson, :caption => "Lessons"
+                        br
                         = f.select(:lesson, :collection => @lessons, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#course_lesson' data-target-list='#lessons' data-hidden-field-name='#{hidden_field_name}' href="#"
-                            |
+                        a.js-sortable-add-new href="#"
                             i.fa.fa-plus-circle
             .col-lg-9
                 .box
@@ -75,41 +95,57 @@
                         = f.text_area :description, :class => "form-control"
                         = partial 'form_error', :collection => (errors_for @course, :description)
 
-                .box
-                    - hidden_field_name = 'course[prerequisites][]'
+                .box#prerequisites_sortable_list
+                    - content_for :include_end_body
+                        - query = (find_from_id_list Course, @course.prerequisite_ids).to_json
+                        javascript:
+
+                            //course.slim
+                            new SortableItemListView({
+                                el: $("#prerequisites_sortable_list"),
+                                hiddenFieldName: 'course[prerequisites][]',
+                                targetList: '#prerequisites',
+                                collection: new SortableItemCollection(#{{ query }})
+                            });
+
+                    a href="#{ url_for(:editor, :course, @course.id) }"
+                        h3 = @course.title
 
                     p
-                        = f.label :title, :caption => "Prerequisites"
+                        = f.label :prerequisite, :caption => "Prerequisites"
                         br
                         = f.select(:prerequisite, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#course_prerequisite' data-target-list='#prerequisites' data-hidden-field-name='#{hidden_field_name}' href="#"
-                            |
+                        a.js-sortable-add-new href="#"
                             i.fa.fa-plus-circle
 
                     p
                         ul#prerequisites.js-sortable
-                            - if @course
-                                - @course.prerequisite_ids.each do |prereq_id|
-                                    - prereq = Course.find( prereq_id )
-                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => prereq.title, :field_value => prereq.id, :field_name => hidden_field_name}
 
-                .box
-                    - hidden_field_name = 'course[follow_ons][]'
+                .box#follow_ons_sortable_list
+                    - content_for :include_end_body
+                        - query = (find_from_id_list Course, @course.follow_on_ids).to_json
+                        javascript:
+
+                            //course.slim
+                            new SortableItemListView({
+                                el: $("#follow_ons_sortable_list"),
+                                hiddenFieldName: 'course[follow_ons][]',
+                                targetList: '#follow_ons',
+                                collection: new SortableItemCollection(#{{ query }})
+                            });
+
+                    a href="#{ url_for(:editor, :course, @course.id) }"
+                        h3 = @course.title
 
                     p
-                        = f.label :title, :caption => "Follow Ons"
+                        = f.label :follow_on, :caption => "Follow Ons"
                         br
                         = f.select(:follow_on, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new data-read-selection-from='#course_follow_on' data-target-list='#follow_ons' data-hidden-field-name='#{hidden_field_name}' href="#"
-                            |
+                        a.js-sortable-add-new href="#"
                             i.fa.fa-plus-circle
 
                     p
                         ul#follow_ons.js-sortable
-                            - if @course
-                                - @course.follow_on_ids.each do |follow_on_id|
-                                    - follow_on = Course.find( follow_on_id )
-                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => follow_on.title, :field_value => follow_on.id, :field_name => hidden_field_name}
 
 
         .row

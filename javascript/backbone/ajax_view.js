@@ -27,7 +27,7 @@ var AjaxFormView = Backbone.View.extend({
         this.refreshPage = false;
         if (opts.refreshPage)
         {
-            this.refreshPage = refreshPage;
+            this.refreshPage = opts.refreshPage;
         }
     },
 
@@ -40,8 +40,12 @@ var AjaxFormView = Backbone.View.extend({
     {
         if (data.success)
         {
-            console.log("Form submission returned success, refreshing page...");
-            if (this.refreshPage) window.location.reload();
+            console.log("Form submission returned success");
+            if (this.refreshPage)
+            {
+                console.log("Refreshing page.");
+                window.location.reload();
+            }
         } else {
             console.error("Form submission returned failure");
         }

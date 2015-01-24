@@ -42,9 +42,9 @@
         .col-xs-12
             a.button.create-button href="#{ url_for(:editor, :index) }" Main Editor
 
-            a.button.create-button.float-right href="#{ url_for(:courses, :make, @course.slug) }" Course Settings
+            a.button.create-button.float-right href="#{ url_for(:editor, :course, @course.id) }" Course Settings
 
-            a.button.create-button.float-right href="#{ url_for(:lessons, :make, @lesson.slug) }" Lesson Settings
+            a.button.create-button.float-right href="#{ url_for(:editor, :lesson, @course.id, @lesson.id) }" Lesson Settings
     .row
         .col-lg-3
             .box
