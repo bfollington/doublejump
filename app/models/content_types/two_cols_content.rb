@@ -1,7 +1,7 @@
 class TwoColsContent < Content
 
     def editing_partial
-        "js-templates/editing/two_cols"
+        "js-templates/backbone/editing/two_cols"
     end
 
     def get_final_html(view)

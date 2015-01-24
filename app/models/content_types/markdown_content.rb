@@ -5,7 +5,7 @@ class MarkdownContent < Content
     validates_presence_of :body, :message => "You can't have an empty content block, that makes no sense."
 
     def editing_partial
-        "js-templates/editing/markdown"
+        "js-templates/backbone/editing/markdown"
     end
 
     # Legacy support for all macros used in steps originally

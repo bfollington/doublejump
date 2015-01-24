@@ -1,8 +1,16 @@
 var aceUtil = new function()
 {
-    this.convertTextAreas = function() {
+    this.convertTextAreas = function(selector) {
 
-        $('[data-editor]').each(function () {
+        var $el;
+
+        if (typeof selector == "string") {
+            $el = $(selector);
+        } else {
+            $el = selector;
+        }
+
+        $el.find('[data-editor]').each(function () {
             var el = $(this);
 
             if (el.prev().is(".ace_editor"))
@@ -516,189 +524,6 @@ var definitions = new function()
 definitions.convertDefinitionLinks();
 definitions.bindDefinitions();
 
-
-var editingStep = new function()
-{
-
-    var self = this;
-    this.countSubmits = 0;
-
-    this.beginSubmits = function()
-    {
-        self.countSubmits = 0;
-
-        $(".content form").submit();
-    }
-
-    this.contentSubmissionDone = function()
-    {
-        self.countSubmits += 1;
-
-        console.log(self.countSubmits,  $(".content form").length);
-        if (self.countSubmits == $(".content form").length)
-        {
-            self.finishedSubmissions();
-        }
-    }
-
-    this.contentSubmissionError = function()
-    {
-        console.error("Submission of one content block failed.");
-        self.countSubmits = 0;
-    }
-
-    this.finishedSubmissions = function()
-    {
-        $("#addStepForm").submit();
-    }
-
-    this.rebuildIdList = function()
-    {
-        // Clear the existing data
-        console.log("Rebulding id list");
-        $(".content-ids").html("");
-
-        $(".contents .content .id-field").each( function () {
-
-            var template = format( getTemplate("_step_content_id_entry"), {"id": $(this).val() });
-            $(".content-ids").append(template);
-
-        });
-    }
-
-    this.addContentSection = function(template)
-    {
-        var template = getTemplate(template);
-
-        $(".contents").append(template);
-
-        self.bindAjaxForms();
-        aceUtil.convertTextAreas();
-        self.bindToolbarButtons();
-    }
-
-    this.codeLanguageChange = function()
-    {
-        $(".code-input-language").change( function () {
-            var editor = ace.edit($(this).siblings(".ace_editor")[0]);
-            console.log(editor);
-            editor.getSession().setMode("ace/mode/" + $(this).val());
-        });
-    }
-
-    this.bindToolbarButtons = function()
-    {
-        $(".js-delete-content").off("click");
-        $(".js-delete-content").click( function (e) {
-            e.preventDefault();
-            var confirmation = confirm("Are you sure you want to remove this content block?");
-
-            if (confirmation)
-            {
-                $(this).closest(".content").remove();
-                self.rebuildIdList();
-            }
-        });
-
-        $(".js-minimise-content").off("click");
-        $(".js-minimise-content").click( function (e) {
-            e.preventDefault();
-
-            $(this).closest(".content").toggleClass("minimised");
-        });
-    }
-
-    this.init = function ()
-    {
-        self.bindAjaxForms();
-        self.codeLanguageChange();
-        self.rebuildIdList();
-        self.bindToolbarButtons();
-
-        $(".js-add-markdown-content").click( function(e) {
-            e.preventDefault();
-            self.addContentSection("_markdown");
-        });
-
-        $(".js-add-code-content").click( function(e) {
-            e.preventDefault();
-            self.addContentSection("_code");
-        });
-
-        $(".js-add-hideable-content").click( function(e) {
-            e.preventDefault();
-            self.addContentSection("_hideable");
-        });
-
-        $(".js-add-math-content").click( function(e) {
-            e.preventDefault();
-            self.addContentSection("_math");
-        });
-
-        $(".js-add-definition-content").click( function(e) {
-            e.preventDefault();
-            self.addContentSection("_definition");
-        });
-
-        $(".js-add-two-cols-content").click( function(e) {
-            e.preventDefault();
-            self.addContentSection("_two_cols");
-        });
-
-    }
-
-    this.bindAjaxForms = function ()
-    {
-        $(".content form").off();
-        $(".content form").ajaxForm({
-            beforeSubmit:  function (data, $form, options) {
-
-            },
-            success: function (data, text, xhr, $form) {
-                if (data.success)
-                {
-                    $form.find(".id-field").val(data.id);
-                    self.rebuildIdList();
-                    self.contentSubmissionDone();
-                } else {
-                    self.contentSubmissionError();
-                }
-            },
-            error: function (data) {
-                console.error(":(");
-                self.contentSubmissionError();
-            }
-        });
-    }
-}
-
-var editor = new function()
-{
-
-    var self = this;
-
-    this.ajaxForm = function(selector)
-    {
-        $(selector).ajaxForm({
-            beforeSubmit:  function (data, $form, options) {
-
-            },
-            success: function (data, text, xhr, $form) {
-                if (data.success)
-                {
-                    console.log("Form submission returned success, refreshing page...");
-                    window.location.reload();
-                } else {
-                    console.error("Form submission returned failure");
-                }
-            },
-            error: function (data) {
-                console.error("Form submission failed");
-            }
-        });
-    }
-
-}
 
 // epiceditor-config.js configures the epic editor backend fields
 
@@ -1377,6 +1202,18 @@ var sortable = new function()
         });
     }
 
+    this.sortable = function($el, opts)
+    {
+        opts.onDrop = function($item, container, _super, event)
+        {
+            $item.removeClass("dragged").removeAttr("style");
+            $("body").removeClass("dragging");
+            if (opts.afterDrag) opts.afterDrag(event);
+        }
+
+        $el.sortable(opts);
+    }
+
     this.bindSortableLists = function(opts, selector)
     {
         selector = typeof selector !== 'undefined' ? selector : '.js-sortable';
@@ -1758,6 +1595,77 @@ function format(html, variables)
 
     return html;
 }
+var AjaxFormView = Backbone.View.extend({
+    initialize: function(opts)
+    {
+        this.ajaxForm();
+
+        if (opts.success)
+        {
+            this.success = opts.success;
+        } else {
+            this.success = this.defaultSuccess;
+        }
+
+        if (opts.failure)
+        {
+            this.failure = opts.failure;
+        } else {
+            this.failure = this.defaultFailure;
+        }
+
+        if (opts.beforeSubmit)
+        {
+            this.beforeSubmit = opts.beforeSubmit;
+        } else {
+            this.beforeSubmit = this.defaultBeforeSubmit;
+        }
+
+        this.refreshPage = false;
+        if (opts.refreshPage)
+        {
+            this.refreshPage = refreshPage;
+        }
+    },
+
+    defaultBeforeSubmit: function(data, $form, options)
+    {
+
+    },
+
+    defaultSuccess: function(data, text, xhr, $form)
+    {
+        if (data.success)
+        {
+            console.log("Form submission returned success, refreshing page...");
+            if (this.refreshPage) window.location.reload();
+        } else {
+            console.error("Form submission returned failure");
+        }
+    },
+
+    defaultFailure: function(data, text, xhr, $form)
+    {
+        console.error("Form submission failed");
+    },
+
+    ajaxForm: function()
+    {
+        var that = this;
+        this.$el.ajaxForm({
+            beforeSubmit:  function (data, $form, options) {
+                that.beforeSubmit(data, $form, options);
+            },
+            success: function (data, text, xhr, $form) {
+                that.success(data, text, xhr, $form);
+            },
+            error: function (data, text, xhr, $form) {
+                that.failure(data, text, xhr, $form);
+            }
+        });
+    }
+});
+
 _.templateSettings = {
     interpolate: /\%\%=(.+?)\%\%/g,
     escape: /\%\%-(.+?)\%\%/g,
@@ -1892,4 +1800,179 @@ var SortableItemListView = Backbone.View.extend({
 
         this.render();
     },
+});
+
+var ComposeStepView = Backbone.View.extend({
+    initialize: function(opts)
+    {
+        console.log("INIT");
+        this.rebuildIdList();
+        this.countSubmits = 0;
+        sortable.sortable(this.$el.find(".js-sortable-blocks"), {afterDrag: this.rebuildIdList, itemSelector: ".content", handle: 'h4'});
+        this.ajaxForm();
+    },
+
+    events: {
+        "click .js-add-content": "addContent"
+    },
+
+    beginSubmits: function()
+    {
+        this.countSubmits = 0;
+        this.$el.find(".content form").submit();
+    },
+
+    ajaxForm: function()
+    {
+        this.$el.ajaxForm({
+            beforeSubmit:  function (data, $form, options) {
+
+            },
+            success: function (data, text, xhr, $form) {
+                if (data.success)
+                {
+                    console.log("Form submission returned success, refreshing page...");
+                    window.location.reload();
+                } else {
+                    console.error("Form submission returned failure");
+                }
+            },
+            error: function (data) {
+                console.error("Form submission failed");
+            }
+        });
+    },
+
+    addContent: function(e)
+    {
+        var $button = $(e.target);
+        var templateName = $button.attr("data-content");
+
+        var view = new ComposeStepContentView({
+            template: _.template( $("#" + templateName + "_template").html() ),
+            parent: this
+        });
+
+        this.$el.find(".contents").append(view.render().el);
+        view.convertTextArea();
+        view.ajaxForm();
+    },
+
+    rebuildIdList: function()
+    {
+        // Clear the existing data
+        console.log("Rebulding id list");
+        $(".content-ids").html("");
+
+        $(".contents .content .id-field").each( function () {
+
+            var compile = _.template( $("#_step_content_id_entry_template").html() );
+            var template = compile({"id": $(this).val() });
+
+            $(".content-ids").append(template);
+
+        });
+    },
+
+    contentSubmissionDone: function()
+    {
+        this.countSubmits += 1;
+
+        if (this.countSubmits == this.$el.find(".content form").length)
+        {
+            this.finishedSubmissions();
+        }
+    },
+
+    contentSubmissionError: function()
+    {
+        console.error("Submission of one content block failed.");
+        this.countSubmits = 0;
+    },
+
+    finishedSubmissions: function()
+    {
+        this.$el.find("#addStepForm").submit();
+    }
+});
+
+var ComposeStepContentView = Backbone.View.extend({
+    initialize: function(opts)
+    {
+        this.template = opts.template;
+        this.parent = opts.parent;
+        this.convertTextArea();
+        this.ajaxForm();
+    },
+
+    events: {
+        "click .js-delete-content": "deleteSelf",
+        "click .js-minimise-content": "minimiseSelf",
+        "change .code-input-language": "codeLanguageChange"
+    },
+
+    convertTextArea: function()
+    {
+        aceUtil.convertTextAreas(this.$el);
+    },
+
+    ajaxForm: function()
+    {
+        var that = this;
+
+        this.$el.find("form").ajaxForm({
+            beforeSubmit:  function (data, $form, options) {
+
+            },
+            success: function (data, text, xhr, $form) {
+                if (data.success)
+                {
+                    $form.find(".id-field").val(data.id);
+                    that.parent.rebuildIdList();
+                    that.parent.contentSubmissionDone();
+                } else {
+                    that.parent.contentSubmissionError();
+                }
+            },
+            error: function (data) {
+                console.error(":(");
+                that.parent.contentSubmissionError();
+            }
+        });
+    },
+
+    render: function()
+    {
+        var html = this.template({});
+        this.setElement(html);
+
+        return this;
+    },
+
+    deleteSelf: function(e)
+    {
+        e.preventDefault();
+        var confirmation = confirm("Are you sure you want to remove this content block?");
+
+        if (confirmation)
+        {
+            // parent.rebuildIdList();
+            this.remove();
+        }
+    },
+
+    minimiseSelf: function(e)
+    {
+        e.preventDefault();
+        this.$el.toggleClass("minimised");
+    },
+
+    codeLanguageChange: function(e)
+    {
+        var $el = $(e.target);
+
+        var editor = ace.edit($el.siblings(".ace_editor")[0]);
+        console.log(editor);
+        editor.getSession().setMode("ace/mode/" + $el.val());
+    }
 });

@@ -2,6 +2,7 @@
     - query = (find_from_id_list Step, @lesson.step_ids, [:id, :title]).to_json
     javascript:
 
+        //_step_list.slim
         var collection = new SortableItemCollection();
         var urlBase = "#{{ url_for(:editor, :step, @course.id, @lesson.id, "") }}";
         var currentStep = "#{{ @step ? @step.id : '#' }}";

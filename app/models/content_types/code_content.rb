@@ -6,7 +6,7 @@ class CodeContent < Content
     validates_presence_of :body, :message => "You can't have an empty content block, that makes no sense."
 
     def editing_partial
-        "js-templates/editing/code"
+        "js-templates/backbone/editing/code"
     end
 
     def get_final_html(view)

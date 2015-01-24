@@ -3,7 +3,8 @@
 
 - content_for :include_end_body
     javascript:
-        editor.ajaxForm("#addLessonForm");
+        //lesson.slim
+        new AjaxFormView({el: $("#addLessonForm"), refreshPage: true});
 
         $(".js-save-lesson").click( function(e) { e.preventDefault(); $("#addLessonForm").submit(); } );
 
@@ -56,53 +57,55 @@
                         = f.text_area :final_message, :class => 'form-control'
                         = partial 'form_error', :collection => (errors_for @lesson, :final_message)
 
-                .box#related_readings_sortable_list
-                    - content_for :include_end_body
-                        - query = (find_from_id_list RelatedReading, @lesson.related_reading_ids).to_json
-                        javascript:
+                .row
 
-                            new SortableItemListView({
-                                el: $("#related_readings_sortable_list"),
-                                hiddenFieldName: 'lesson[related_readings][]',
-                                targetList: '#related_readings',
-                                collection: new SortableItemCollection(#{{ query }})
-                            });
+                    .col-md-6
+                        .box#related_readings_sortable_list
+                            - content_for :include_end_body
+                                - query = (find_from_id_list RelatedReading, @lesson.related_reading_ids).to_json
+                                javascript:
 
-                    p
-                        = f.label :related_reading, :caption => "Related Readings"
-                        br
-                        = f.select(:related_reading, :collection => @related_readings, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new href="#"
-                            i.fa.fa-plus-circle
+                                    //lesson.slim
+                                    new SortableItemListView({
+                                        el: $("#related_readings_sortable_list"),
+                                        hiddenFieldName: 'lesson[related_readings][]',
+                                        targetList: '#related_readings',
+                                        collection: new SortableItemCollection(#{{ query }})
+                                    });
 
-                    p
-                        ul#related_readings.js-sortable
+                            p
+                                = f.label :related_reading, :caption => "Related Readings"
+                                br
+                                = f.select(:related_reading, :collection => @related_readings, :fields => [:title, :id], :class => 'js-select2')
+                                a.js-sortable-add-new href="#"
+                                    i.fa.fa-plus-circle
 
-                .box#downloads_sortable_list
-                    - content_for :include_end_body
-                        - query = (find_from_id_list Download, @lesson.download_ids).to_json
-                        javascript:
+                            p
+                                ul#related_readings.js-sortable
 
-                            new SortableItemListView({
-                                el: $("#downloads_sortable_list"),
-                                hiddenFieldName: 'lesson[downloads][]',
-                                targetList: '#downloads',
-                                collection: new SortableItemCollection(#{{ query }})
-                            });
+                    .col-md-6
 
-                    p
-                        = f.label :title, :caption => "Downloads"
-                        br
-                        = f.select(:download, :collection => @downloads, :fields => [:title, :id], :class => 'js-select2')
+                        .box#downloads_sortable_list
+                            - content_for :include_end_body
+                                - query = (find_from_id_list Download, @lesson.download_ids).to_json
+                                javascript:
 
-                        a.js-sortable-add-new href="#"
-                            i.fa.fa-plus-circle
+                                    //lesson.slim
+                                    new SortableItemListView({
+                                        el: $("#downloads_sortable_list"),
+                                        hiddenFieldName: 'lesson[downloads][]',
+                                        targetList: '#downloads',
+                                        collection: new SortableItemCollection(#{{ query }})
+                                    });
 
-                    p
-                        ul#downloads.js-sortable
+                            p
+                                = f.label :title, :caption => "Downloads"
+                                br
+                                = f.select(:download, :collection => @downloads, :fields => [:title, :id], :class => 'js-select2')
 
+                                a.js-sortable-add-new href="#"
+                                    i.fa.fa-plus-circle
 
-        .row
-            p.center-text
-                = f.submit "Save", :class => 'button create-button'
+                            p
+                                ul#downloads.js-sortable
 

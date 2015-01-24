@@ -4,7 +4,7 @@
 - content_for :include_end_body
     javascript:
         sortable.bindSortableLists();
-        editor.ajaxForm("#addCourseForm");
+        new AjaxFormView({el: $("#addCourseForm"), refreshPage: true});
 
         $(".js-save-course").click( function(e) { e.preventDefault(); $("#addCourseForm").submit(); } );
 

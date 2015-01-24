@@ -14,6 +14,18 @@ var sortable = new function()
         });
     }
 
+    this.sortable = function($el, opts)
+    {
+        opts.onDrop = function($item, container, _super, event)
+        {
+            $item.removeClass("dragged").removeAttr("style");
+            $("body").removeClass("dragging");
+            if (opts.afterDrag) opts.afterDrag(event);
+        }
+
+        $el.sortable(opts);
+    }
+
     this.bindSortableLists = function(opts, selector)
     {
         selector = typeof selector !== 'undefined' ? selector : '.js-sortable';

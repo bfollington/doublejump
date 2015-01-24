@@ -1,8 +1,16 @@
 var aceUtil = new function()
 {
-    this.convertTextAreas = function() {
+    this.convertTextAreas = function(selector) {
 
-        $('[data-editor]').each(function () {
+        var $el;
+
+        if (typeof selector == "string") {
+            $el = $(selector);
+        } else {
+            $el = selector;
+        }
+
+        $el.find('[data-editor]').each(function () {
             var el = $(this);
 
             if (el.prev().is(".ace_editor"))
