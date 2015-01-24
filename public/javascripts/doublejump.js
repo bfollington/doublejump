@@ -1729,7 +1729,8 @@ var ComposeStepView = Backbone.View.extend({
             success: function (data, text, xhr, $form) {
                 if (data.success)
                 {
-                    console.log("Form submission returned success");
+                    console.log("Form submission returned success, refreshing page...");
+                    window.location.reload();
                 } else {
                     console.error("Form submission returned failure");
                 }
