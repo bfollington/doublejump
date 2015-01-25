@@ -15,7 +15,17 @@ var slug = new function()
         });
     }
 
-    
+    self.slugify = function(el, slugEl)
+    {
+        $el = $(el);
+        $slugEl = $(slugEl);
+
+        $el.keyup( function() {
+
+            $slugEl.val( convertToSlug( $(this).val() ) );
+
+        });
+    }
 
     self.bindLowercaseFields = function()
     {
@@ -28,7 +38,7 @@ var slug = new function()
         });
     }
 
-    
+
 }
 
 slug.bindSlugFields();

@@ -7,9 +7,9 @@
         var urlBase = "#{{ url_for(:editor, :step, @course.id, @lesson.id, "") }}";
         var currentStep = "#{{ @step ? @step.id : '#' }}";
 
-        window.doublejump.stepListForCurrentLesson = #{{ query }};
+        var data = #{{ query }};
 
-        _.each(window.doublejump.stepListForCurrentLesson, function(model)
+        _.each(data, function(model)
         {
             var model = new SortableItem({
                 id: model["_id"]["$oid"],
@@ -25,7 +25,9 @@
             collection.add(model);
         });
 
-        new SortableItemListView({
+        window.doublejump.stepListForCurrentLesson = collection;
+
+        window.doublejump.stepListView = new SortableItemListView({
             el: $("#steps_sortable_list"),
             hiddenFieldName: 'lesson[steps][]',
             targetList: '#steps',

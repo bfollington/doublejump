@@ -20,8 +20,7 @@ var SortableItemView = Backbone.View.extend({
     deleteSelf: function(e)
     {
         e.preventDefault();
-
-        this.remove();
+        this.model.collection.remove(this.model);
     }
 });
 
@@ -34,8 +33,9 @@ var SortableItemListView = Backbone.View.extend({
         this.$targetList = this.$el.find(opts.targetList);
         this.views = [];
 
-        console.log(this);
         this.render();
+
+        this.collection.on('reset add remove', this.render, this);
     },
 
     events: {
@@ -44,6 +44,8 @@ var SortableItemListView = Backbone.View.extend({
 
     render: function()
     {
+        console.log("RENDERING");
+
         _.each(this.views, function(view)
         {
             view.remove();
@@ -72,10 +74,6 @@ var SortableItemListView = Backbone.View.extend({
             "id": this.$readSelectionFrom.val()
         });
 
-        console.log(model);
-
         this.collection.add( model );
-
-        this.render();
     },
 });

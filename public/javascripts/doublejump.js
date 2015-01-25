@@ -1170,7 +1170,17 @@ var slug = new function()
         });
     }
 
-    
+    self.slugify = function(el, slugEl)
+    {
+        $el = $(el);
+        $slugEl = $(slugEl);
+
+        $el.keyup( function() {
+
+            $slugEl.val( convertToSlug( $(this).val() ) );
+
+        });
+    }
 
     self.bindLowercaseFields = function()
     {
@@ -1183,11 +1193,12 @@ var slug = new function()
         });
     }
 
-    
+
 }
 
 slug.bindSlugFields();
 slug.bindLowercaseFields();
+
 // sortable-list.js powers the re-orderable lists for creating steps, lessons, etc.
 
 var sortable = new function()
@@ -1672,6 +1683,15 @@ var AjaxFormView = Backbone.View.extend({
     }
 });
 
+Backbone.superOf = function(clazz)
+{
+    return clazz.constructor.__super__;
+}
+
+Backbone.extendEvents = function(view) {
+    view.events = _.extend({}, Backbone.superOf(view).events, view.events);
+}
+
 _.templateSettings = {
     interpolate: /\%\%=(.+?)\%\%/g,
     escape: /\%\%-(.+?)\%\%/g,
@@ -1701,6 +1721,88 @@ var iconTab = new function ()
         }
     }
 }
+
+var ModalView = Backbone.View.extend({
+    initialize: function(opts)
+    {
+        this.template = opts.template;
+    },
+
+    events: {
+        "hidden.bs.modal": "modalHidden"
+    },
+
+    render: function()
+    {
+        var html = this.template({});
+        this.setElement(html);
+        this.afterRender();
+        return this;
+    },
+
+    afterRender: function()
+    {
+
+    },
+
+    modalHidden: function(e)
+    {
+        // When the modal fades out, we remove it from the DOM
+        console.log("HIDDEN");
+        this.remove();
+    },
+
+    showModal: function()
+    {
+        this.$el.modal({});
+    }
+});
+
+var NewStepModalView = ModalView.extend({
+
+    initialize: function(opts)
+    {
+        Backbone.superOf(this).initialize(opts);
+        Backbone.extendEvents(this);
+
+        if (opts.el)
+        {
+            this.ajaxForm();
+        }
+    },
+
+    ajaxForm: function()
+    {
+        this.ajax = new AjaxFormView({
+            el: this.$el.find("#addStepForm"),
+            success: function(data, text, xhr, $form)
+            {
+                var collection = window.doublejump.stepListForCurrentLesson;
+                var view = window.doublejump.stepListView;
+                collection.add(new SortableItem({
+                    id: data.id,
+                    title: data.title,
+                    field_name: view.hiddenFieldName
+                }));
+            }
+        });
+    },
+
+    events: {
+        "click .modal-header": "clickHeader"
+    },
+
+    afterRender: function()
+    {
+        this.ajaxForm();
+        slug.slugify( this.$el.find("input[name=title]"), this.$el.find("input[name=slug]") );
+    },
+
+    clickHeader: function(e)
+    {
+        console.log("Test");
+    }
+});
 
 
 var SortableItem = Backbone.Model.extend({
@@ -1748,8 +1850,7 @@ var SortableItemView = Backbone.View.extend({
     deleteSelf: function(e)
     {
         e.preventDefault();
-
-        this.remove();
+        this.model.collection.remove(this.model);
     }
 });
 
@@ -1762,8 +1863,9 @@ var SortableItemListView = Backbone.View.extend({
         this.$targetList = this.$el.find(opts.targetList);
         this.views = [];
 
-        console.log(this);
         this.render();
+
+        this.collection.on('reset add remove', this.render, this);
     },
 
     events: {
@@ -1772,6 +1874,8 @@ var SortableItemListView = Backbone.View.extend({
 
     render: function()
     {
+        console.log("RENDERING");
+
         _.each(this.views, function(view)
         {
             view.remove();
@@ -1800,11 +1904,7 @@ var SortableItemListView = Backbone.View.extend({
             "id": this.$readSelectionFrom.val()
         });
 
-        console.log(model);
-
         this.collection.add( model );
-
-        this.render();
     },
 });
 

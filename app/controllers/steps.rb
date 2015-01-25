@@ -29,6 +29,26 @@ Doublejump::App.controllers :steps do
 
   end
 
+  post :add_new_to_lesson, :map => "/steps/new/lesson/:lesson_id" do
+    content_type :json
+
+    puts params.inspect
+    lesson = Lesson.find(params[:lesson_id])
+    step = Step.new(title: params[:title], slug: params[:slug])
+
+    if step.valid?
+
+      step.save
+      lesson.steps << step
+      lesson.save
+
+      {success: true, id: step.id.to_s, title: step.title}.to_json
+    else
+      {success: false}.to_json
+    end
+
+  end
+
   get :make, :with => :slug do
 
     @step = Step.where( :slug => params[:slug] ).first
