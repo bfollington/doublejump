@@ -1741,9 +1741,9 @@ Pillar.Templates = {
     compileTemplate: function($template)
     {
         var $html = $template.clone();
-        var $elems = $html.find("[data-link]").toArray();
+        var $elems = $html.find("[data-pillar]").toArray();
 
-        if (typeof $html.attr("data-link") != "undefined")
+        if (typeof $html.attr("data-pillar") != "undefined")
         {
             $elems.unshift($html);
         }
@@ -1751,7 +1751,7 @@ Pillar.Templates = {
         _.each($elems, function(elem)
         {
             var $el = $(elem);
-            var links = $el.attr("data-link");
+            var links = $el.attr("data-pillar");
             var toLink = links.split(",");
 
             $.each(toLink, function(index, property)
@@ -1784,8 +1784,8 @@ Pillar.Templates = {
                 }
             });
 
-            $el.removeAttr("data-link");
-            $el.attr("data-linked", "true");
+            $el.removeAttr("data-pillar");
+            $el.attr("data-pillar-set", "true");
         });
 
         var finalString = $html.clone().wrap("<div/>").parent().html();
