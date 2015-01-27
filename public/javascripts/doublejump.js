@@ -1710,8 +1710,7 @@ Pillar.Templates = {
 
     get: function(name)
     {
-        var templates = this.templates;
-        return function() { return templates[name] };
+        return this.templates[name];
     },
 
     smartRegister: function(name)
@@ -1789,7 +1788,32 @@ Pillar.Templates = {
             $el.attr("data-linked", "true");
         });
 
-        return $html.clone().wrap("<div/>").parent().html();
+        var finalString = $html.clone().wrap("<div/>").parent().html();
+
+        var reNoGroup = /\{\{[^}}]+\}\}/g;
+        var re = /\{\{([^}}]+)\}\}/g;
+        var parts = finalString.split(reNoGroup);
+        var matches = finalString.match(re);
+
+        var f = function (attrs)
+        {
+            var sBuild = [];
+            // console.log(parts);
+            for (var i = 0; i < parts.length; i++)
+            {
+                sBuild.push(parts[i]);
+                if (i < matches.length)
+                {
+                    var cleanMatchName = matches[i].replace("{{", "").replace("}}", "");
+                    // console.log(matches[i], Pillar.Templates.evalIfFunction(attrs, cleanMatchName));
+                    sBuild.push(Pillar.Templates.evalIfFunction(attrs, cleanMatchName));
+                }
+            }
+
+            return sBuild.join("")
+        }
+
+        return f;
     },
 
     template: function(html)
@@ -1797,14 +1821,9 @@ Pillar.Templates = {
         return this.compileTemplate($(html));
     },
 
-    renderTemplate: function(html, attrs)
+    renderTemplate: function(template, attrs)
     {
-        var regexp = /\{\{([^}}]+)\}\}/g;
-        var replaced = html.replace(regexp, function($0, $1) {
-            return Pillar.Templates.evalIfFunction(attrs, $1);
-        });
-
-        return replaced;
+        return template(attrs);
     }
 }
 
@@ -2064,7 +2083,7 @@ var SortableItemView = Pillar.View.extend({
 
     draw: function(opts)
     {
-        var $html = this.renderTemplate(this.template(), this.model);
+        var $html = this.renderTemplate(this.template, this.model);
         this.setElement($html);
     },
 
@@ -2099,10 +2118,14 @@ var SortableItemListView = Pillar.CollectionView.extend({
 
     drawCollection: function(model)
     {
+        var t0 = performance.now();
         model.set({field_name: this.hiddenFieldName})
         var itemView = new SortableItemView({model: model});
         this.views.push( itemView );
         this.$targetList.append(itemView.render().el);
+
+        var t1 = performance.now();
+        console.log("Call to drawCollection took " + (t1 - t0) + " milliseconds.");
     },
 
     addEntry: function(e)
