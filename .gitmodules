@@ -1,0 +1,3 @@
+[submodule "javascript/pillar"]
+	path = javascript/pillar
+	url = https://github.com/bfollington/pillar.git

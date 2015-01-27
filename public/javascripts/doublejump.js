@@ -1683,6 +1683,12 @@ var AjaxFormView = Backbone.View.extend({
     }
 });
 
+_.templateSettings = {
+    interpolate: /\%\%=(.+?)\%\%/g,
+    escape: /\%\%-(.+?)\%\%/g,
+    evaluate: /\%\%(.+?)\%\%/g,
+};
+
 Pillar = {} || Pillar;
 
 Pillar.superOf = function(clazz)
@@ -1809,12 +1815,6 @@ Pillar.ExtendedTextView = Pillar.TestView.extend({
         console.log("Child INIT");
     }
 });
-
-_.templateSettings = {
-    interpolate: /\%\%=(.+?)\%\%/g,
-    escape: /\%\%-(.+?)\%\%/g,
-    evaluate: /\%\%(.+?)\%\%/g,
-};
 
 var iconTab = new function ()
 {
