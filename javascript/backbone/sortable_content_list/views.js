@@ -3,6 +3,7 @@ var SortableItemView = Pillar.View.extend({
     init: function(opts)
     {
         this.params = opts.params;
+        this.model.on("change", this.render, this);
     },
 
     events: {
@@ -13,8 +14,8 @@ var SortableItemView = Pillar.View.extend({
 
     draw: function(opts)
     {
-        var $html = this.renderTemplate(this.template, this.model);
-        this.setElement($html);
+        var html = this.renderTemplate(this.template, this.model);
+        this.replaceElement(html);
     },
 
     deleteSelf: function(e)
@@ -48,14 +49,11 @@ var SortableItemListView = Pillar.CollectionView.extend({
 
     drawCollection: function(model)
     {
-        var t0 = performance.now();
+        console.log()
         model.set({field_name: this.hiddenFieldName})
         var itemView = new SortableItemView({model: model});
         this.views.push( itemView );
         this.$targetList.append(itemView.render().el);
-
-        var t1 = performance.now();
-        console.log("Call to drawCollection took " + (t1 - t0) + " milliseconds.");
     },
 
     addEntry: function(e)
