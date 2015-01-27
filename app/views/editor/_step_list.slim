@@ -39,7 +39,6 @@
         ul#steps.js-sortable.step-list
             = ui_element "ui/loading_spinner"
 
-
     p
         = form.select(:step, :collection => @steps, :fields => [:title, :id], :class => 'js-select2')
         a.js-sortable-add-new href="#"

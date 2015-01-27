@@ -141,3 +141,14 @@ span.MathJax
     color: black !important;
 }
 
+[data-visible="false"],
+[data-hidden="true"]
+{
+    display: auto;
+}
+
+[data-visible="true"],
+[data-hidden="false"]
+{
+    display: none;
+}

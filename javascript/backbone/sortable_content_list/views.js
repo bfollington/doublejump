@@ -1,3 +1,4 @@
+
 var SortableItemView = Pillar.View.extend({
     init: function(opts)
     {
@@ -8,14 +9,12 @@ var SortableItemView = Pillar.View.extend({
         "click .js-sortable-delete-link": "deleteSelf"
     },
 
-    template: _template( $("#_sortable_content_list_entry_backbone_new_syntax_template").html() ),
+    template: Pillar.Templates.get("sortable_content_list_entry_backbone"),
 
-    // Should cache a processed string and then regexp replace that, rather than evaluating DOM over and over
     draw: function(opts)
     {
-        var $html = compileTemplate(this.template, this.model);
+        var $html = this.renderTemplate(this.template(), this.model);
         this.setElement($html);
-        console.log(this.$el);
     },
 
     deleteSelf: function(e)
@@ -49,14 +48,10 @@ var SortableItemListView = Pillar.CollectionView.extend({
 
     drawCollection: function(model)
     {
-        var t0 = performance.now();
         model.set({field_name: this.hiddenFieldName})
         var itemView = new SortableItemView({model: model});
         this.views.push( itemView );
         this.$targetList.append(itemView.render().el);
-
-        var t1 = performance.now();
-        console.log("Call to drawCollection took " + (t1 - t0) + " milliseconds.");
     },
 
     addEntry: function(e)

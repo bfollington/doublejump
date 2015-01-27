@@ -1,4 +1,3 @@
-
 var SortableItem = Backbone.Model.extend({
     defaults: {
         title: "",
@@ -10,7 +9,7 @@ var SortableItem = Backbone.Model.extend({
 
     isActive: function()
     {
-        return this.get("cssClass") == "active";
+        return (this.get("cssClass") == "active");
     },
 
     initialize: function(attrs, opts)

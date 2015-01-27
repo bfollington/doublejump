@@ -1538,6 +1538,14 @@ span.MathJax {
 .MathJax_Display span {
   color: black !important; }
 
+[data-visible="false"],
+[data-hidden="true"] {
+  display: auto; }
+
+[data-visible="true"],
+[data-hidden="false"] {
+  display: none; }
+
 input.form-control, textarea.form-control {
   border: 0;
   box-shadow: none;
