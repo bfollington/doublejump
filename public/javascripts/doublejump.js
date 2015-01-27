@@ -1683,14 +1683,132 @@ var AjaxFormView = Backbone.View.extend({
     }
 });
 
-Backbone.superOf = function(clazz)
+Pillar = {} || Pillar;
+
+Pillar.superOf = function(clazz)
 {
     return clazz.constructor.__super__;
 }
 
-Backbone.extendEvents = function(view) {
-    view.events = _.extend({}, Backbone.superOf(view).events, view.events);
+Pillar.extendEvents = function(view) {
+    view.events = _.extend({}, Pillar.superOf(view).events, view.events);
 }
+
+Pillar.View = Backbone.View.extend({
+    initialize: function(opts)
+    {
+        Pillar.superOf(this).initialize(opts);
+        Pillar.extendEvents(this);
+
+        if (opts)
+        {
+            if ("template" in opts)
+            {
+                this.template = opts.template;
+            }
+        }
+
+        this.init(opts);
+    },
+
+    _super: function()
+    {
+        return Pillar.superOf(this).initialize(opts);
+    },
+
+    // init is called up the extension stack the way one might expect
+    init: function(opts)
+    {
+
+    },
+
+    // Render is wrapped to always return this, and provide easy hookins for before and
+    // after drawing
+    render: function()
+    {
+        this.beforeDraw();
+        this.draw();
+        this.afterDraw();
+        return this;
+    },
+
+    draw: function() {},
+    beforeDraw: function() {},
+    afterDraw: function() {}
+});
+
+Pillar.CollectionView = Pillar.View.extend({
+    init: function(opts)
+    {
+        this.views = [];
+    },
+
+    // Remove all existing views from the collection view,
+    // since we are about to redraw all of the child views.
+    beforeDraw: function()
+    {
+        _.each(this.views, function(view)
+        {
+            view.remove();
+        });
+
+        this.views = [];
+    },
+
+    // Iterate over all models in the collection, drawing each individual model.
+    // Shortcut for manually looping over the models.
+    // If more control is needed, override draw and this will not be called.
+    drawCollection: function(model)
+    {
+
+    },
+
+    draw: function()
+    {
+        this.collection.each(this.drawCollection, this);
+    }
+});
+
+Pillar.BaseTestView = Pillar.View.extend({
+
+    init: function(opts)
+    {
+        console.log("Base INIT");
+    },
+
+    events: {
+        "click": "helloWorld"
+    },
+
+    helloWorld: function(e)
+    {
+        console.log("Hello World");
+    }
+});
+
+Pillar.TestView = BaseTestView.extend({
+
+    init: function(opts)
+    {
+        console.log("INIT");
+    },
+
+    events: {
+        "click .all": "whatUp"
+    },
+
+    whatUp: function(e)
+    {
+        console.log("What Up!");
+    }
+});
+
+Pillar.ExtendedTextView = TestView.extend({
+    init: function(opts)
+    {
+        console.log("Child INIT");
+    }
+});
 
 _.templateSettings = {
     interpolate: /\%\%=(.+?)\%\%/g,
@@ -1722,27 +1840,20 @@ var iconTab = new function ()
     }
 }
 
-var ModalView = Backbone.View.extend({
-    initialize: function(opts)
+var ModalView = Pillar.View.extend({
+    init: function(opts)
     {
-        this.template = opts.template;
+
     },
 
     events: {
         "hidden.bs.modal": "modalHidden"
     },
 
-    render: function()
+    draw: function()
     {
         var html = this.template({});
         this.setElement(html);
-        this.afterRender();
-        return this;
-    },
-
-    afterRender: function()
-    {
-
     },
 
     modalHidden: function(e)
@@ -1760,11 +1871,8 @@ var ModalView = Backbone.View.extend({
 
 var NewStepModalView = ModalView.extend({
 
-    initialize: function(opts)
+    init: function(opts)
     {
-        Backbone.superOf(this).initialize(opts);
-        Backbone.extendEvents(this);
-
         if (opts.el)
         {
             this.ajaxForm();
@@ -1788,19 +1896,10 @@ var NewStepModalView = ModalView.extend({
         });
     },
 
-    events: {
-        "click .modal-header": "clickHeader"
-    },
-
-    afterRender: function()
+    afterDraw: function()
     {
         this.ajaxForm();
         slug.slugify( this.$el.find("input[name=title]"), this.$el.find("input[name=slug]") );
-    },
-
-    clickHeader: function(e)
-    {
-        console.log("Test");
     }
 });
 
@@ -1828,8 +1927,8 @@ var SortableItemCollection = Backbone.Collection.extend({
   model: SortableItem
 });
 
-var SortableItemView = Backbone.View.extend({
-    initialize: function(opts)
+var SortableItemView = Pillar.View.extend({
+    init: function(opts)
     {
         this.params = opts.params;
     },
@@ -1840,11 +1939,10 @@ var SortableItemView = Backbone.View.extend({
 
     template: _.template( $("#_sortable_content_list_entry_backbone_template").html() ),
 
-    render: function(opts)
+    draw: function(opts)
     {
         var html = this.template(this.model.toJSON());
         this.setElement(html);
-        return this;
     },
 
     deleteSelf: function(e)
@@ -1854,43 +1952,29 @@ var SortableItemView = Backbone.View.extend({
     }
 });
 
-var SortableItemListView = Backbone.View.extend({
-    initialize: function(opts) {
+var SortableItemListView = Pillar.CollectionView.extend({
+    init: function(opts) {
         this.$el.find(".js-sortable").sortable({});
 
         this.$readSelectionFrom = $(this.el).find(".js-select2");
         this.hiddenFieldName = opts.hiddenFieldName;
         this.$targetList = this.$el.find(opts.targetList);
-        this.views = [];
-
-        this.render();
 
         this.collection.on('reset add remove', this.render, this);
+
+        this.render();
     },
 
     events: {
         "click .js-sortable-add-new": "addEntry",
     },
 
-    render: function()
+    drawCollection: function(model)
     {
-        console.log("RENDERING");
-
-        _.each(this.views, function(view)
-        {
-            view.remove();
-        });
-
-        this.views = [];
-
-        this.collection.each( function(model) {
-            model.set({field_name: this.hiddenFieldName})
-            var itemView = new SortableItemView({model: model});
-            this.views.push( itemView );
-            this.$targetList.append(itemView.render().el);
-        }, this);
-
-        return this;
+        model.set({field_name: this.hiddenFieldName})
+        var itemView = new SortableItemView({model: model});
+        this.views.push( itemView );
+        this.$targetList.append(itemView.render().el);
     },
 
     addEntry: function(e)
@@ -1908,8 +1992,8 @@ var SortableItemListView = Backbone.View.extend({
     },
 });
 
-var ComposeStepView = Backbone.View.extend({
-    initialize: function(opts)
+var ComposeStepView = Pillar.View.extend({
+    init: function(opts)
     {
         console.log("INIT");
         this.rebuildIdList();
@@ -2002,10 +2086,9 @@ var ComposeStepView = Backbone.View.extend({
     }
 });
 
-var ComposeStepContentView = Backbone.View.extend({
-    initialize: function(opts)
+var ComposeStepContentView = Pillar.View.extend({
+    init: function(opts)
     {
-        this.template = opts.template;
         this.parent = opts.parent;
         this.convertTextArea();
         this.ajaxForm();
@@ -2047,12 +2130,10 @@ var ComposeStepContentView = Backbone.View.extend({
         });
     },
 
-    render: function()
+    draw: function()
     {
         var html = this.template({});
         this.setElement(html);
-
-        return this;
     },
 
     deleteSelf: function(e)

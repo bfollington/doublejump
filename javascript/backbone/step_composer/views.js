@@ -1,5 +1,5 @@
-var ComposeStepView = Backbone.View.extend({
-    initialize: function(opts)
+var ComposeStepView = Pillar.View.extend({
+    init: function(opts)
     {
         console.log("INIT");
         this.rebuildIdList();
@@ -92,10 +92,9 @@ var ComposeStepView = Backbone.View.extend({
     }
 });
 
-var ComposeStepContentView = Backbone.View.extend({
-    initialize: function(opts)
+var ComposeStepContentView = Pillar.View.extend({
+    init: function(opts)
     {
-        this.template = opts.template;
         this.parent = opts.parent;
         this.convertTextArea();
         this.ajaxForm();
@@ -137,12 +136,10 @@ var ComposeStepContentView = Backbone.View.extend({
         });
     },
 
-    render: function()
+    draw: function()
     {
         var html = this.template({});
         this.setElement(html);
-
-        return this;
     },
 
     deleteSelf: function(e)

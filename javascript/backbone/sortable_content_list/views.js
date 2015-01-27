@@ -1,5 +1,5 @@
-var SortableItemView = Backbone.View.extend({
-    initialize: function(opts)
+var SortableItemView = Pillar.View.extend({
+    init: function(opts)
     {
         this.params = opts.params;
     },
@@ -10,11 +10,10 @@ var SortableItemView = Backbone.View.extend({
 
     template: _.template( $("#_sortable_content_list_entry_backbone_template").html() ),
 
-    render: function(opts)
+    draw: function(opts)
     {
         var html = this.template(this.model.toJSON());
         this.setElement(html);
-        return this;
     },
 
     deleteSelf: function(e)
@@ -24,43 +23,29 @@ var SortableItemView = Backbone.View.extend({
     }
 });
 
-var SortableItemListView = Backbone.View.extend({
-    initialize: function(opts) {
+var SortableItemListView = Pillar.CollectionView.extend({
+    init: function(opts) {
         this.$el.find(".js-sortable").sortable({});
 
         this.$readSelectionFrom = $(this.el).find(".js-select2");
         this.hiddenFieldName = opts.hiddenFieldName;
         this.$targetList = this.$el.find(opts.targetList);
-        this.views = [];
-
-        this.render();
 
         this.collection.on('reset add remove', this.render, this);
+
+        this.render();
     },
 
     events: {
         "click .js-sortable-add-new": "addEntry",
     },
 
-    render: function()
+    drawCollection: function(model)
     {
-        console.log("RENDERING");
-
-        _.each(this.views, function(view)
-        {
-            view.remove();
-        });
-
-        this.views = [];
-
-        this.collection.each( function(model) {
-            model.set({field_name: this.hiddenFieldName})
-            var itemView = new SortableItemView({model: model});
-            this.views.push( itemView );
-            this.$targetList.append(itemView.render().el);
-        }, this);
-
-        return this;
+        model.set({field_name: this.hiddenFieldName})
+        var itemView = new SortableItemView({model: model});
+        this.views.push( itemView );
+        this.$targetList.append(itemView.render().el);
     },
 
     addEntry: function(e)

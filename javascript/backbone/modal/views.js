@@ -1,24 +1,17 @@
-var ModalView = Backbone.View.extend({
-    initialize: function(opts)
+var ModalView = Pillar.View.extend({
+    init: function(opts)
     {
-        this.template = opts.template;
+
     },
 
     events: {
         "hidden.bs.modal": "modalHidden"
     },
 
-    render: function()
+    draw: function()
     {
         var html = this.template({});
         this.setElement(html);
-        this.afterRender();
-        return this;
-    },
-
-    afterRender: function()
-    {
-
     },
 
     modalHidden: function(e)
@@ -36,11 +29,8 @@ var ModalView = Backbone.View.extend({
 
 var NewStepModalView = ModalView.extend({
 
-    initialize: function(opts)
+    init: function(opts)
     {
-        Backbone.superOf(this).initialize(opts);
-        Backbone.extendEvents(this);
-
         if (opts.el)
         {
             this.ajaxForm();
@@ -64,18 +54,9 @@ var NewStepModalView = ModalView.extend({
         });
     },
 
-    events: {
-        "click .modal-header": "clickHeader"
-    },
-
-    afterRender: function()
+    afterDraw: function()
     {
         this.ajaxForm();
         slug.slugify( this.$el.find("input[name=title]"), this.$el.find("input[name=slug]") );
-    },
-
-    clickHeader: function(e)
-    {
-        console.log("Test");
     }
 });
