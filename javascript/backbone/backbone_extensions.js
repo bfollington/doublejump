@@ -101,7 +101,7 @@ Pillar.BaseTestView = Pillar.View.extend({
     }
 });
 
-Pillar.TestView = BaseTestView.extend({
+Pillar.TestView = Pillar.BaseTestView.extend({
 
     init: function(opts)
     {
@@ -118,7 +118,7 @@ Pillar.TestView = BaseTestView.extend({
     }
 });
 
-Pillar.ExtendedTextView = TestView.extend({
+Pillar.ExtendedTextView = Pillar.TestView.extend({
     init: function(opts)
     {
         console.log("Child INIT");
