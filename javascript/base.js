@@ -79,3 +79,89 @@ $( function() {
     }
 
 });
+
+function evalIfFunction(obj, attr)
+{
+    if (typeof obj[attr] == "function")
+    {
+        return obj[attr]();
+    } else if (typeof obj.get(attr) == "string")
+    {
+        return obj.get(attr);
+    } else {
+        return "";
+    }
+}
+
+function compileTemplate($template, attrs)
+{
+    var $html = $template.clone();
+    var $elems = $html.find("[data-link]").toArray();
+
+    if (typeof $html.attr("data-link") != "undefined")
+    {
+        $elems.unshift($html);
+    }
+
+    _.each($elems, function(elem)
+    {
+        var $el = $(elem);
+        var links = $el.attr("data-link");
+        var toLink = links.split(",");
+
+        $.each(toLink, function(index, property)
+        {
+            var trimmed = property.trim();
+            var splitTerm = trimmed.split("<-");
+            var attr = splitTerm[0];
+            var valueName = splitTerm[1];
+
+            var specialAttrs = {
+                "extraClass": function($el) {
+                    $el.addClass(evalIfFunction(attrs, valueName));
+                },
+                "hide": function($el) {
+                    if (evalIfFunction(attrs, valueName))
+                    {
+                        $el.hide();
+                    }
+                },
+                "show": function($el) {
+                    if (!evalIfFunction(attrs, valueName))
+                    {
+                        $el.hide();
+                    }
+                },
+                "text": function($el) {
+                    $el.text(evalIfFunction(attrs, valueName));
+                },
+                "html": function($el) {
+                    $el.html(evalIfFunction(attrs, valueName));
+                }
+            };
+
+
+
+            if (attr in specialAttrs)
+            {
+                specialAttrs[attr]($el);
+            } else {
+                if (evalIfFunction(attrs, valueName) != null)
+                {
+                    $el.attr(attr, evalIfFunction(attrs, valueName));
+                }
+
+            }
+        });
+
+        $el.removeAttr("data-link");
+        $el.attr("data-linked", "true");
+    });
+
+    return $html.clone().wrap("<div/>").parent().html();
+}
+
+function _template(html)
+{
+    return $(html);
+}

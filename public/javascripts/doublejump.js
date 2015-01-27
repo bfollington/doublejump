@@ -136,6 +136,92 @@ $( function() {
 
 });
 
+function evalIfFunction(obj, attr)
+{
+    if (typeof obj[attr] == "function")
+    {
+        return obj[attr]();
+    } else if (typeof obj.get(attr) == "string")
+    {
+        return obj.get(attr);
+    } else {
+        return "";
+    }
+}
+
+function compileTemplate($template, attrs)
+{
+    var $html = $template.clone();
+    var $elems = $html.find("[data-link]").toArray();
+
+    if (typeof $html.attr("data-link") != "undefined")
+    {
+        $elems.unshift($html);
+    }
+
+    _.each($elems, function(elem)
+    {
+        var $el = $(elem);
+        var links = $el.attr("data-link");
+        var toLink = links.split(",");
+
+        $.each(toLink, function(index, property)
+        {
+            var trimmed = property.trim();
+            var splitTerm = trimmed.split("<-");
+            var attr = splitTerm[0];
+            var valueName = splitTerm[1];
+
+            var specialAttrs = {
+                "extraClass": function($el) {
+                    $el.addClass(evalIfFunction(attrs, valueName));
+                },
+                "hide": function($el) {
+                    if (evalIfFunction(attrs, valueName))
+                    {
+                        $el.hide();
+                    }
+                },
+                "show": function($el) {
+                    if (!evalIfFunction(attrs, valueName))
+                    {
+                        $el.hide();
+                    }
+                },
+                "text": function($el) {
+                    $el.text(evalIfFunction(attrs, valueName));
+                },
+                "html": function($el) {
+                    $el.html(evalIfFunction(attrs, valueName));
+                }
+            };
+
+
+
+            if (attr in specialAttrs)
+            {
+                specialAttrs[attr]($el);
+            } else {
+                if (evalIfFunction(attrs, valueName) != null)
+                {
+                    $el.attr(attr, evalIfFunction(attrs, valueName));
+                }
+
+            }
+        });
+
+        $el.removeAttr("data-link");
+        $el.attr("data-linked", "true");
+    });
+
+    return $html.clone().wrap("<div/>").parent().html();
+}
+
+function _template(html)
+{
+    return $(html);
+}
+
 // bootstrap-mod.js alters some bootstrap UI animations
 
 function boostrapMods()
@@ -1913,6 +1999,11 @@ var SortableItem = Backbone.Model.extend({
         cssClass: ""
     },
 
+    isActive: function()
+    {
+        return this.get("cssClass") == "active";
+    },
+
     initialize: function(attrs, opts)
     {
         // Use a Mongo Id if we don't have one already
@@ -1937,12 +2028,14 @@ var SortableItemView = Pillar.View.extend({
         "click .js-sortable-delete-link": "deleteSelf"
     },
 
-    template: _.template( $("#_sortable_content_list_entry_backbone_template").html() ),
+    template: _template( $("#_sortable_content_list_entry_backbone_new_syntax_template").html() ),
 
+    // Should cache a processed string and then regexp replace that, rather than evaluating DOM over and over
     draw: function(opts)
     {
-        var html = this.template(this.model.toJSON());
-        this.setElement(html);
+        var $html = compileTemplate(this.template, this.model);
+        this.setElement($html);
+        console.log(this.$el);
     },
 
     deleteSelf: function(e)
@@ -1969,12 +2062,21 @@ var SortableItemListView = Pillar.CollectionView.extend({
         "click .js-sortable-add-new": "addEntry",
     },
 
+    afterDraw: function()
+    {
+        this.$el.find(".loading").remove();
+    },
+
     drawCollection: function(model)
     {
+        var t0 = performance.now();
         model.set({field_name: this.hiddenFieldName})
         var itemView = new SortableItemView({model: model});
         this.views.push( itemView );
         this.$targetList.append(itemView.render().el);
+
+        var t1 = performance.now();
+        console.log("Call to drawCollection took " + (t1 - t0) + " milliseconds.");
     },
 
     addEntry: function(e)

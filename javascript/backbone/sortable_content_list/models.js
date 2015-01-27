@@ -8,6 +8,11 @@ var SortableItem = Backbone.Model.extend({
         cssClass: ""
     },
 
+    isActive: function()
+    {
+        return this.get("cssClass") == "active";
+    },
+
     initialize: function(attrs, opts)
     {
         // Use a Mongo Id if we don't have one already
