@@ -1723,7 +1723,10 @@ Pillar.Templates = {
         if (typeof obj[attr] == "function")
         {
             return obj[attr]();
-        } else if (typeof obj.get(attr) == "string")
+        } else if (typeof obj[attr] != "undefined")
+        {
+            return obj[attr];
+        } else if (typeof obj.get(attr) != "undefined")
         {
             return obj.get(attr);
         } else {
@@ -1785,7 +1788,7 @@ Pillar.Templates = {
             });
 
             $el.removeAttr("data-pillar");
-            $el.attr("data-pillar-set", "true");
+            $el.attr("data-pillar-rendered", true);
         });
 
         var finalString = $html.clone().wrap("<div/>").parent().html();
