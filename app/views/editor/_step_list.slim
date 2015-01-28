@@ -11,16 +11,20 @@
 
         _.each(data, function(model)
         {
-            var model = new SortableItem({
-                id: model["_id"]["$oid"],
-                title: model.title,
-                link: urlBase + model["_id"]["$oid"]
-            });
+            var id = model["_id"]["$oid"];
+            var active = false;
 
-            if (model.get("id") == currentStep)
+            if (id == currentStep)
             {
-                model.set({cssClass: "active"});
+                active = true;
             }
+
+            var model = new SortableItem({
+                id: id,
+                title: model.title,
+                link: urlBase + id,
+                active: active
+            });
 
             collection.add(model);
         });

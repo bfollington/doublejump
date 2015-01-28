@@ -30,12 +30,9 @@ var comments = new function()
 
             if ($(this).closest(".shared-wrapper").length == 0)
             {
-                if (parseInt($(this).attr("data-count")) > 0)
-                {
-                    $(this).html( format( getTemplate("_comment_icon_with_count"), {"comment-count": $(this).attr("data-count") }) );
-                } else {
-                    $(this).html( format( getTemplate("_comment_icon"), {"comment-count": $(this).attr("data-count") }) );
-                }
+                var data = {count: $(this).attr("data-count")};
+
+                $(this).html( Mustache.render(templateHtml("comment_icon"), data) );
             }
 
             $(this).find('a').on("touchstart, click", function (e) {

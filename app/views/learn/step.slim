@@ -1,5 +1,4 @@
-= render_js_template 'js-templates/_comment_icon'
-= render_js_template 'js-templates/_comment_icon_with_count'
+= ui_uses 'js-templates/_comment_icon'
 = ui_uses 'js-templates/_inserted_definition'
 
 - if !@lesson.get_next_step(@step).nil?

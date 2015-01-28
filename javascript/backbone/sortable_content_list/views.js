@@ -3,17 +3,24 @@ var SortableItemView = Pillar.View.extend({
     init: function(opts)
     {
         this.params = opts.params;
-        //this.model.on("change", this.render, this);
+        this.model.on("change", this.render, this);
     },
 
     events: {
         "click .js-sortable-delete-link": "deleteSelf"
     },
 
-    template: $("[data-template=sortable_content_list_entry_backbone_mustache]").html(),
+    template: templateHtml("sortable_content_list_entry"),
+
+    cssClass: function()
+    {
+        return this.model.get("active") ? "active" : "";
+    },
 
     draw: function(opts)
     {
+        var data = this.model.toJSON();
+        data.cssClass = this.cssClass();
         var html = Mustache.render(this.template, this.model.toJSON());
         this.replaceElement(html);
     },

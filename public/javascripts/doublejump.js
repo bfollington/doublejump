@@ -192,12 +192,9 @@ var comments = new function()
 
             if ($(this).closest(".shared-wrapper").length == 0)
             {
-                if (parseInt($(this).attr("data-count")) > 0)
-                {
-                    $(this).html( format( getTemplate("_comment_icon_with_count"), {"comment-count": $(this).attr("data-count") }) );
-                } else {
-                    $(this).html( format( getTemplate("_comment_icon"), {"comment-count": $(this).attr("data-count") }) );
-                }
+                var data = {count: $(this).attr("data-count")};
+
+                $(this).html( Mustache.render(templateHtml("comment_icon"), data) );
             }
 
             $(this).find('a').on("touchstart, click", function (e) {
@@ -1960,14 +1957,6 @@ Pillar.ExtendedTextView = Pillar.TestView.extend({
     }
 });
 
-
-// jQuery helper
-$("script.js-template").each( function() {
-    var niceName = $(this).attr("id").replace("_template", "").replace("_", "");
-    Pillar.Templates.smartRegister(niceName);
-});
-
-
 var iconTab = new function ()
 {
     this.initialised = false;
@@ -2064,11 +2053,6 @@ var SortableItem = Backbone.Model.extend({
         cssClass: ""
     },
 
-    isActive: function()
-    {
-        return (this.get("cssClass") == "active");
-    },
-
     initialize: function(attrs, opts)
     {
         // Use a Mongo Id if we don't have one already
@@ -2088,17 +2072,24 @@ var SortableItemView = Pillar.View.extend({
     init: function(opts)
     {
         this.params = opts.params;
-        //this.model.on("change", this.render, this);
+        this.model.on("change", this.render, this);
     },
 
     events: {
         "click .js-sortable-delete-link": "deleteSelf"
     },
 
-    template: $("[data-template=sortable_content_list_entry_backbone_mustache]").html(),
+    template: templateHtml("sortable_content_list_entry"),
+
+    cssClass: function()
+    {
+        return this.model.get("active") ? "active" : "";
+    },
 
     draw: function(opts)
     {
+        var data = this.model.toJSON();
+        data.cssClass = this.cssClass();
         var html = Mustache.render(this.template, this.model.toJSON());
         this.replaceElement(html);
     },
