@@ -24,6 +24,7 @@ gem 'bcrypt-ruby', :require => 'bcrypt'
 gem 'sass'
 gem 'haml'
 gem 'slim'
+gem 'mustache'
 gem 'mongoid', '~>4.0.0'
 
 # Session management
@@ -63,6 +64,3 @@ gem 'aws-sdk'
 group :development do
     gem 'mina'
 end
-
-gem 'did_you_mean', group: [:development, :test]
-
