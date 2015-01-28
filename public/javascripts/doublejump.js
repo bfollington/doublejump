@@ -1726,7 +1726,7 @@ Pillar.Templates = {
         } else if (typeof obj[attr] != "undefined")
         {
             return obj[attr];
-        } else if (typeof obj.get(attr) != "undefined")
+        } else if (typeof obj.get == "function" && typeof obj.get(attr) != "undefined")
         {
             return obj.get(attr);
         } else {
@@ -2083,7 +2083,7 @@ var SortableItemView = Pillar.View.extend({
     init: function(opts)
     {
         this.params = opts.params;
-        this.model.on("change", this.render, this);
+        //this.model.on("change", this.render, this);
     },
 
     events: {

@@ -3,7 +3,7 @@ var SortableItemView = Pillar.View.extend({
     init: function(opts)
     {
         this.params = opts.params;
-        this.model.on("change", this.render, this);
+        //this.model.on("change", this.render, this);
     },
 
     events: {
