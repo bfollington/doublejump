@@ -10,6 +10,7 @@ module Doublejump
     require 'rubygems'
     require 'aws-sdk'
     require 'securerandom'
+    require 'mustache'
 
     AWS.config(
       :access_key_id => 'AKIAIAR5NTF4NPMT7ANQ',
@@ -70,6 +71,10 @@ module Doublejump
     #
     # USER AUTHENTICATION
     #
+
+    get :template do
+      ui_mustache 'js-templates/backbone/sortable_content_list_entry_backbone_mustache', {active: true, title: "Hello", link: "http://google.com", id: "123", field_name: "FIELD"}
+    end
 
     get :login do
       if current_account

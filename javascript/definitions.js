@@ -33,16 +33,15 @@ var definitions = new function()
                     {
                         $(".step-body .js-inserted-definition").remove();
 
-                        var template = format(
-                                            getTemplate("_inserted_definition"),
-                                            {
-                                                "definition-title": data.title,
-                                                "definition-body": marked(data.body),
-                                                "definition-id": data._id
-                                            }
-                                        );
+                        var model = {
+                            title: data.title,
+                            body: marked(data.body),
+                            id: data._id["$oid"]
+                        };
 
-                        $definition.parent().after(template);
+                        var html = Mustache.render(templateHtml("inserted_definition"), model);
+
+                        $definition.parent().after(html);
                         animate($definition.parent().next(), "fadeInUp");
 
                         if (mathjax) MathJax.Hub.Queue(["Typeset", MathJax.Hub, $definition.parent().next()[0]]);

@@ -20,6 +20,8 @@ html.no-js lang="en"
 
         = partial 'includes/mixpanel'
     body
+        section.js-templates
+            = yield_content :html_templates
 
         = partial 'elements/old_browser'
 

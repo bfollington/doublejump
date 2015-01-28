@@ -85,7 +85,7 @@ Doublejump::App.helpers do
 
   def render_js_template(name)
     @template = name
-    render 'js-templates/template', :layout => false
+    partial 'js-templates/template', :layout => false
   end
 
   def list_exists(list)

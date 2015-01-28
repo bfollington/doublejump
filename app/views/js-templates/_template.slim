@@ -1,0 +1,8 @@
+- name = @template.split('/')[-1]
+- if name.start_with?("_")
+    - no_underscore = name[1..-1]
+- else
+    - no_underscore = name
+
+script.js-template id="#{name}_template" data-template="#{no_underscore}" type="text/template" hidden=true
+    = render @template, :layout => false, :locals => {js_template: true}

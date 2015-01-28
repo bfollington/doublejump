@@ -434,16 +434,15 @@ var definitions = new function()
                     {
                         $(".step-body .js-inserted-definition").remove();
 
-                        var template = format(
-                                            getTemplate("_inserted_definition"),
-                                            {
-                                                "definition-title": data.title,
-                                                "definition-body": marked(data.body),
-                                                "definition-id": data._id
-                                            }
-                                        );
+                        var model = {
+                            title: data.title,
+                            body: marked(data.body),
+                            id: data._id["$oid"]
+                        };
 
-                        $definition.parent().after(template);
+                        var html = Mustache.render(templateHtml("inserted_definition"), model);
+
+                        $definition.parent().after(html);
                         animate($definition.parent().next(), "fadeInUp");
 
                         if (mathjax) MathJax.Hub.Queue(["Typeset", MathJax.Hub, $definition.parent().next()[0]]);
@@ -1597,6 +1596,11 @@ function getTemplate(name)
     return $("#" + name + "_template").html();
 }
 
+function templateHtml(name)
+{
+    return $("[data-template=" + name + "]").html();
+}
+
 function format(html, variables)
 {
     for (var k in variables)
@@ -1608,6 +1612,7 @@ function format(html, variables)
 
     return html;
 }
+
 var AjaxFormView = Backbone.View.extend({
     initialize: function(opts)
     {
@@ -2090,11 +2095,11 @@ var SortableItemView = Pillar.View.extend({
         "click .js-sortable-delete-link": "deleteSelf"
     },
 
-    template: Pillar.Templates.get("sortable_content_list_entry_backbone"),
+    template: $("[data-template=sortable_content_list_entry_backbone_mustache]").html(),
 
     draw: function(opts)
     {
-        var html = this.renderTemplate(this.template, this.model);
+        var html = Mustache.render(this.template, this.model.toJSON());
         this.replaceElement(html);
     },
 

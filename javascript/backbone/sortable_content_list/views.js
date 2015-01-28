@@ -10,11 +10,11 @@ var SortableItemView = Pillar.View.extend({
         "click .js-sortable-delete-link": "deleteSelf"
     },
 
-    template: Pillar.Templates.get("sortable_content_list_entry_backbone"),
+    template: $("[data-template=sortable_content_list_entry_backbone_mustache]").html(),
 
     draw: function(opts)
     {
-        var html = this.renderTemplate(this.template, this.model);
+        var html = Mustache.render(this.template, this.model.toJSON());
         this.replaceElement(html);
     },
 
