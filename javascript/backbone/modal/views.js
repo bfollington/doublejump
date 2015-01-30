@@ -21,6 +21,11 @@ var ModalView = Pillar.View.extend({
         this.remove();
     },
 
+    hideModal: function()
+    {
+        this.$el.modal('hide');
+    },
+
     showModal: function()
     {
         this.$el.modal({});
@@ -37,19 +42,34 @@ var NewStepModalView = ModalView.extend({
         }
     },
 
+    template: templateHtml("new_step_modal"),
+
+    draw: function()
+    {
+        this.defaultDraw();
+    },
+
     ajaxForm: function()
     {
+        var that = this;
         this.ajax = new AjaxFormView({
             el: this.$el.find("#addStepForm"),
             success: function(data, text, xhr, $form)
             {
-                var collection = window.doublejump.stepListForCurrentLesson;
-                var view = window.doublejump.stepListView;
-                collection.add(new SortableItem({
-                    id: data.id,
-                    title: data.title,
-                    field_name: view.hiddenFieldName
-                }));
+                if (data.success)
+                {
+                    var collection = window.doublejump.stepListForCurrentLesson;
+                    var view = window.doublejump.stepListView;
+                    collection.add(new SortableItem({
+                        id: data.id,
+                        title: data.title,
+                        field_name: view.hiddenFieldName
+                    }));
+                    that.hideModal();
+                } else {
+                    console.error("Errors: ", data.errors);
+                }
+
             }
         });
     },

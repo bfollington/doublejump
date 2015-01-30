@@ -1869,6 +1869,17 @@ Pillar.View = Backbone.View.extend({
         $oldEl.replaceWith(this.$el);
     },
 
+    defaultDraw: function()
+    {
+        var data = {};
+        if (this.model)
+        {
+            data = this.model.toJSON();
+        }
+        var html = Mustache.render(this.template, data);
+        this.replaceElement(html);
+    },
+
     renderTemplate: Pillar.Templates.renderTemplate,
 
     _super: function()
@@ -1994,6 +2005,89 @@ var iconTab = new function ()
     }
 }
 
+var ModalView = Pillar.View.extend({
+    init: function(opts)
+    {
+
+    },
+
+    events: {
+        "hidden.bs.modal": "modalHidden"
+    },
+
+    draw: function()
+    {
+        var html = this.template({});
+        this.setElement(html);
+    },
+
+    modalHidden: function(e)
+    {
+        // When the modal fades out, we remove it from the DOM
+        console.log("HIDDEN");
+        this.remove();
+    },
+
+    hideModal: function()
+    {
+        this.$el.modal('hide');
+    },
+
+    showModal: function()
+    {
+        this.$el.modal({});
+    }
+});
+
+var NewStepModalView = ModalView.extend({
+
+    init: function(opts)
+    {
+        if (opts.el)
+        {
+            this.ajaxForm();
+        }
+    },
+
+    template: templateHtml("new_step_modal"),
+
+    draw: function()
+    {
+        this.defaultDraw();
+    },
+
+    ajaxForm: function()
+    {
+        var that = this;
+        this.ajax = new AjaxFormView({
+            el: this.$el.find("#addStepForm"),
+            success: function(data, text, xhr, $form)
+            {
+                if (data.success)
+                {
+                    var collection = window.doublejump.stepListForCurrentLesson;
+                    var view = window.doublejump.stepListView;
+                    collection.add(new SortableItem({
+                        id: data.id,
+                        title: data.title,
+                        field_name: view.hiddenFieldName
+                    }));
+                    that.hideModal();
+                } else {
+                    console.error("Errors: ", data.errors);
+                }
+
+            }
+        });
+    },
+
+    afterDraw: function()
+    {
+        this.ajaxForm();
+        slug.slugify( this.$el.find("input[name=title]"), this.$el.find("input[name=slug]") );
+    }
+});
+
 var SortableItem = Backbone.Model.extend({
     defaults: {
         title: "",
@@ -2062,6 +2156,7 @@ var SortableItemListView = Pillar.CollectionView.extend({
 
     events: {
         "click .js-sortable-add-new": "addEntry",
+        "click .js-sortable-create-new": "newStepModal",
     },
 
     afterDraw: function()
@@ -2078,6 +2173,15 @@ var SortableItemListView = Pillar.CollectionView.extend({
         this.$targetList.append(itemView.render().el);
     },
 
+    newStepModal: function(e)
+    {
+        e.preventDefault();
+
+        var view = new NewStepModalView({});
+        $("body").append(view.render().el);
+        view.showModal();
+    },
+
     addEntry: function(e)
     {
         e.preventDefault();
@@ -2091,69 +2195,6 @@ var SortableItemListView = Pillar.CollectionView.extend({
 
         this.collection.add( model );
     },
-});
-
-var ModalView = Pillar.View.extend({
-    init: function(opts)
-    {
-
-    },
-
-    events: {
-        "hidden.bs.modal": "modalHidden"
-    },
-
-    draw: function()
-    {
-        var html = this.template({});
-        this.setElement(html);
-    },
-
-    modalHidden: function(e)
-    {
-        // When the modal fades out, we remove it from the DOM
-        console.log("HIDDEN");
-        this.remove();
-    },
-
-    showModal: function()
-    {
-        this.$el.modal({});
-    }
-});
-
-var NewStepModalView = ModalView.extend({
-
-    init: function(opts)
-    {
-        if (opts.el)
-        {
-            this.ajaxForm();
-        }
-    },
-
-    ajaxForm: function()
-    {
-        this.ajax = new AjaxFormView({
-            el: this.$el.find("#addStepForm"),
-            success: function(data, text, xhr, $form)
-            {
-                var collection = window.doublejump.stepListForCurrentLesson;
-                var view = window.doublejump.stepListView;
-                collection.add(new SortableItem({
-                    id: data.id,
-                    title: data.title,
-                    field_name: view.hiddenFieldName
-                }));
-            }
-        });
-    },
-
-    afterDraw: function()
-    {
-        this.ajaxForm();
-        slug.slugify( this.$el.find("input[name=title]"), this.$el.find("input[name=slug]") );
-    }
 });
 
 var ComposeStepView = Pillar.View.extend({

@@ -44,7 +44,7 @@ Doublejump::App.controllers :steps do
 
       {success: true, id: step.id.to_s, title: step.title}.to_json
     else
-      {success: false}.to_json
+      {success: false, errors: step.errors.full_messages}.to_json
     end
 
   end

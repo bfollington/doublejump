@@ -47,6 +47,7 @@ var SortableItemListView = Pillar.CollectionView.extend({
 
     events: {
         "click .js-sortable-add-new": "addEntry",
+        "click .js-sortable-create-new": "newStepModal",
     },
 
     afterDraw: function()
@@ -61,6 +62,15 @@ var SortableItemListView = Pillar.CollectionView.extend({
         var itemView = new SortableItemView({model: model});
         this.views.push( itemView );
         this.$targetList.append(itemView.render().el);
+    },
+
+    newStepModal: function(e)
+    {
+        e.preventDefault();
+
+        var view = new NewStepModalView({});
+        $("body").append(view.render().el);
+        view.showModal();
     },
 
     addEntry: function(e)
