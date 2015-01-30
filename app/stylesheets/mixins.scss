@@ -9,8 +9,8 @@
   only screen and (     -o-min-device-pixel-ratio: 2/1),
   only screen and (        min-device-pixel-ratio: 2),
   only screen and (                min-resolution: 192dpi),
-  only screen and (                min-resolution: 2dppx) { 
-    
+  only screen and (                min-resolution: 2dppx) {
+
     background-image: url($file + '@2x.' + $type);
     -webkit-background-size: $width $height;
     -moz-background-size: $width $height;
@@ -74,7 +74,7 @@
 
 @mixin keyframes($name) {
   @-webkit-keyframes #{$name} {
-    @content; 
+    @content;
   }
   @-moz-keyframes #{$name} {
     @content;
@@ -84,5 +84,13 @@
   }
   @keyframes #{$name} {
     @content;
-  } 
+  }
+}
+
+@mixin transform($transforms) {
+     -moz-transform: $transforms;
+       -o-transform: $transforms;
+      -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+          transform: $transforms;
 }

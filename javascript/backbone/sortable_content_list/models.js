@@ -9,11 +9,7 @@ var SortableItem = Backbone.Model.extend({
 
     initialize: function(attrs, opts)
     {
-        // Use a Mongo Id if we don't have one already
-        if (!attrs.id && attrs["_id"]["$oid"])
-        {
-            this.set({id: attrs["_id"]["$oid"]});
-        }
+        this.set({id: getId(attrs)});
     }
 });
 

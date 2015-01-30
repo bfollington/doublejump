@@ -21,12 +21,14 @@ html.no-js lang="en"
 
         = partial 'includes/mixpanel'
     body
+
         section.js-templates
             = yield_content :html_templates
 
         = partial 'elements/old_browser'
         .admin-tools
-            = yield_content :admin_tools
+            .icon-wrapper
+                = yield_content :admin_tools
 
         .container-fluid
             = partial 'elements/doublejump_header_bar'
@@ -46,3 +48,4 @@ html.no-js lang="en"
         script src="#{ local_or_live( '/local_required/select2.min.js', '//cdnjs.cloudflare.com/ajax/libs/select2/3.4.8/select2.min.js') }"
     .include-end-body
         = yield_content :include_end_body
+

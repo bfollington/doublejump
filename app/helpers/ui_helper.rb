@@ -1,5 +1,13 @@
 Doublejump::App.helpers do
 
+  def content_for_once( section, widget_id, &block )
+      @included_widgets ||= []
+      unless @included_widgets.include?(widget_id)
+          @included_widgets << widget_id
+          content_for(section, &block)
+      end
+  end
+
   def ui_element(name, params={})
     partial name, :locals => { :supplied_params => params }
   end

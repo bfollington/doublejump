@@ -1,7 +1,7 @@
 // base.js binds UI stuff and initialises some important bits
 
 var mathjax = false;
-window.doublejump = {};
+window.doublejump = window.doublejump || {};
 
 $( function() {
 

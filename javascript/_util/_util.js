@@ -1,7 +1,20 @@
+// Shim for String.trunc()
 String.prototype.trunc = String.prototype.trunc ||
     function(n) {
         return this.length > n ? this.substr(0, n - 3)+'...' : this;
     };
+
+// Extract a mongoId from a model
+function getId(attrs)
+{
+    // Use a Mongo Id if we don't have one already
+    if (!attrs.id && attrs["_id"]["$oid"])
+    {
+        return attrs["_id"]["$oid"];
+    } else {
+        return attrs.id;
+    }
+}
 
 function defined(variable)
 {
