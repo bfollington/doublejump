@@ -1,28 +1,32 @@
 /*
-Syntax error: Undefined mixin 'background-image-retina'.
-        on line 16 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss, in `background-image-retina'
-        from line 16 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss
+Syntax error: Undefined variable: "$bounce-easing".
+        on line 55 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/components.scss
 
-11:     padding-top: 0px;
-12:     padding-bottom: 20px;
-13: }
-14: 
-15: .controller-image {
-16:     @include background-image-retina('/images/controller', 'png', 334px, 384px);
-17:     width: 334px;
-18:     height: 384px;
-19:     margin: 0 auto;
-20:     background-repeat: no-repeat;
-21:     background-position: center;
+50:     border-bottom: 2px solid #239951;
+51: }
+52: 
+53: .admin-tools
+54: {
+55:     transition: 0.3s, transform 0.3s $bounce-easing;
+56: 
+57:     &:hover
+58:     {
+59:         @include transform( scale(1.1, 1.1) );
+60:     }
 
 Backtrace:
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss:16:in `background-image-retina'
-/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss:16
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:320:in `block in visit_mixin'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:98:in `block in with_mixin'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:121:in `with_frame'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:98:in `with_mixin'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:318:in `visit_mixin'
+/Users/Ben/Projects/Ruby/doublejump/app/stylesheets/components.scss:55
+/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/script/tree/variable.rb:49:in `_perform'
+/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/script/tree/node.rb:50:in `perform'
+/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/script/tree/list_literal.rb:62:in `block in _perform'
+/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/script/tree/list_literal.rb:62:in `map'
+/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/script/tree/list_literal.rb:62:in `_perform'
+/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/script/tree/node.rb:50:in `perform'
+/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/script/tree/list_literal.rb:62:in `block in _perform'
+/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/script/tree/list_literal.rb:62:in `map'
+/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/script/tree/list_literal.rb:62:in `_perform'
+/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/script/tree/node.rb:50:in `perform'
+/Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:366:in `visit_prop'
 /Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/base.rb:36:in `visit'
 /Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/tree/visitors/perform.rb:152:in `block in visit'
 /Users/Ben/.rvm/gems/ruby-2.0.0-p481/gems/sass-3.3.7/lib/sass/stack.rb:79:in `block in with_base'
@@ -92,4 +96,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'background-image-retina'.\A         on line 16 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss, in `background-image-retina'\A         from line 16 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/landing-page.scss\A \A 11:     padding-top: 0px;\A 12:     padding-bottom: 20px;\A 13: }\A 14: \A 15: .controller-image {\A 16:     @include background-image-retina('/images/controller', 'png', 334px, 384px);\A 17:     width: 334px;\A 18:     height: 384px;\A 19:     margin: 0 auto;\A 20:     background-repeat: no-repeat;\A 21:     background-position: center;"; }
+  content: "Syntax error: Undefined variable: \"$bounce-easing\".\A         on line 55 of /Users/Ben/Projects/Ruby/doublejump/app/stylesheets/components.scss\A \A 50:     border-bottom: 2px solid #239951;\A 51: }\A 52: \A 53: .admin-tools\A 54: {\A 55:     transition: 0.3s, transform 0.3s $bounce-easing;\A 56: \A 57:     &:hover\A 58:     {\A 59:         @include transform( scale(1.1, 1.1) );\A 60:     }"; }

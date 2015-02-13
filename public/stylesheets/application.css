@@ -1789,125 +1789,6 @@ a.notification-badge:hover {
   -o-animation: pulsing 2s infinite;
   animation: pulsing 2s infinite; }
 
-.course-icon {
-  width: 64px;
-  height: 64px;
-  margin-left: auto;
-  margin-right: auto;
-  background-position: center;
-  background-repeat: no-repeat; }
-
-.math-icon {
-  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Math.png"); }
-  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-    .math-icon {
-      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Math@2x.png");
-      -webkit-background-size: 64px 64px;
-      -moz-background-size: 64px 64px;
-      -ms-background-size: 64px 64px;
-      -o-background-size: 64px 64px;
-      background-size: 64px 64px; } }
-
-.gamemaker-icon {
-  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/GameMaker.png"); }
-  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-    .gamemaker-icon {
-      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/GameMaker@2x.png");
-      -webkit-background-size: 64px 64px;
-      -moz-background-size: 64px 64px;
-      -ms-background-size: 64px 64px;
-      -o-background-size: 64px 64px;
-      background-size: 64px 64px; } }
-
-.doublejump-icon {
-  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Doublejump.png"); }
-  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-    .doublejump-icon {
-      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Doublejump@2x.png");
-      -webkit-background-size: 64px 64px;
-      -moz-background-size: 64px 64px;
-      -ms-background-size: 64px 64px;
-      -o-background-size: 64px 64px;
-      background-size: 64px 64px; } }
-
-.design-icon {
-  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Design.png"); }
-  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-    .design-icon {
-      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Design@2x.png");
-      -webkit-background-size: 64px 64px;
-      -moz-background-size: 64px 64px;
-      -ms-background-size: 64px 64px;
-      -o-background-size: 64px 64px;
-      background-size: 64px 64px; } }
-
-.management-icon {
-  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Management.png"); }
-  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-    .management-icon {
-      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Management@2x.png");
-      -webkit-background-size: 64px 64px;
-      -moz-background-size: 64px 64px;
-      -ms-background-size: 64px 64px;
-      -o-background-size: 64px 64px;
-      background-size: 64px 64px; } }
-
-.assets-icon {
-  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Assets.png"); }
-  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-    .assets-icon {
-      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Assets@2x.png");
-      -webkit-background-size: 64px 64px;
-      -moz-background-size: 64px 64px;
-      -ms-background-size: 64px 64px;
-      -o-background-size: 64px 64px;
-      background-size: 64px 64px; } }
-
-.unity-icon {
-  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Unity.png"); }
-  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-    .unity-icon {
-      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Unity@2x.png");
-      -webkit-background-size: 64px 64px;
-      -moz-background-size: 64px 64px;
-      -ms-background-size: 64px 64px;
-      -o-background-size: 64px 64px;
-      background-size: 64px 64px; } }
-
-.course-block {
-  height: 100%;
-  position: relative;
-  height: 13em; }
-  .course-block .box {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    height: 10em;
-    overflow-y: hidden;
-    position: relative;
-    z-index: 99;
-    transition: height 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-  .course-block .course-icon {
-    width: 100%;
-    height: 32px;
-    -webkit-background-size: 24px 24px;
-    -moz-background-size: 24px 24px;
-    -ms-background-size: 24px 24px;
-    -o-background-size: 24px 24px;
-    background-size: 24px 24px;
-    transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-  .course-block:hover .box {
-    height: 20em;
-    position: absolute;
-    width: 100%;
-    z-index: 100; }
-  .course-block:hover .course-icon {
-    height: 48px;
-    -webkit-background-size: 32px 32px;
-    -moz-background-size: 32px 32px;
-    -ms-background-size: 32px 32px;
-    -o-background-size: 32px 32px;
-    background-size: 32px 32px; }
-
 .lesson-height {
   height: 160px; }
   .lesson-height h1, .lesson-height h2, .lesson-height h3, .lesson-height h4, .lesson-height h5 {
@@ -2034,15 +1915,6 @@ ul.progress-list {
     border-radius: 2px;
     height: 0.5em; }
 
-.lesson-block {
-  position: relative; }
-  .lesson-block .box {
-    position: relative;
-    transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-  .lesson-block:hover .box {
-    height: 200px;
-    width: 100%; }
-
 .read-more {
   position: absolute;
   bottom: 0.1em;
@@ -2057,6 +1929,62 @@ ul.progress-list {
   background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0), white);
   background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0), white);
   background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0), white); }
+
+.epiceditor-target {
+  display: none; }
+
+.code-input-area {
+  font-family: monospace; }
+
+.code_editor {
+  height: 256px; }
+
+.admin-tools {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 5px;
+  z-index: 100; }
+
+.round-icon {
+  border-radius: 1000px;
+  width: 40px;
+  padding: 5px;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+  height: 40px;
+  background: #E23434;
+  color: white;
+  text-align: center;
+  border-bottom: 2px solid #B32626;
+  font-size: 1.2em; }
+
+.round-icon:hover {
+  color: white; }
+
+.round-icon.big {
+  width: 48px;
+  height: 48px;
+  font-size: 1.5em;
+  background: #3480E2;
+  border-bottom: 2px solid #235492; }
+
+.round-icon.small {
+  width: 32px;
+  height: 32px;
+  font-size: 0.9em;
+  background-color: #34E278;
+  border-bottom: 2px solid #239951; }
+
+.admin-tools {
+  transition: 0.3s, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+  .admin-tools:hover {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1); }
 
 .category-tag {
   padding: 2px 8px;
@@ -2077,15 +2005,233 @@ ul.progress-list {
   -ms-user-select: none;
   user-select: none; }
 
-.epiceditor-target {
-  display: none; }
+#comment_frame, #upload_frame {
+  position: absolute;
+  padding: 15px;
+  border-bottom: 2px solid #ccc;
+  border-radius: 3px;
+  display: none;
+  background: white;
+  width: 19em;
+  max-width: 100%;
+  -webkit-animation-duration: 0.3s;
+  -moz-animation-duration: 0.3s;
+  -ms-animation-duration: 0.3s;
+  -o-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  z-index: 10000; }
 
-.code-input-area {
-  font-family: monospace; }
+#sharing_lightbox, #upload_frame {
+  position: fixed; }
 
-.code_editor {
-  height: 256px; }
+.comments-list {
+  max-height: 320px;
+  overflow-y: scroll; }
 
+.step-body .comment {
+  position: absolute;
+  right: 0.3em;
+  margin-top: -0.5em;
+  background: white;
+  padding-right: 0.3em;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px; }
+
+.course-icon {
+  width: 64px;
+  height: 64px;
+  margin-left: auto;
+  margin-right: auto;
+  background-position: center;
+  background-repeat: no-repeat; }
+
+.math-icon {
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Math.png"); }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .math-icon {
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Math@2x.png");
+      -webkit-background-size: 64px 64px;
+      -moz-background-size: 64px 64px;
+      -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
+      background-size: 64px 64px; } }
+
+.gamemaker-icon {
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/GameMaker.png"); }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .gamemaker-icon {
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/GameMaker@2x.png");
+      -webkit-background-size: 64px 64px;
+      -moz-background-size: 64px 64px;
+      -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
+      background-size: 64px 64px; } }
+
+.doublejump-icon {
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Doublejump.png"); }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .doublejump-icon {
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Doublejump@2x.png");
+      -webkit-background-size: 64px 64px;
+      -moz-background-size: 64px 64px;
+      -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
+      background-size: 64px 64px; } }
+
+.design-icon {
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Design.png"); }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .design-icon {
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Design@2x.png");
+      -webkit-background-size: 64px 64px;
+      -moz-background-size: 64px 64px;
+      -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
+      background-size: 64px 64px; } }
+
+.management-icon {
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Management.png"); }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .management-icon {
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Management@2x.png");
+      -webkit-background-size: 64px 64px;
+      -moz-background-size: 64px 64px;
+      -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
+      background-size: 64px 64px; } }
+
+.assets-icon {
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Assets.png"); }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .assets-icon {
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Assets@2x.png");
+      -webkit-background-size: 64px 64px;
+      -moz-background-size: 64px 64px;
+      -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
+      background-size: 64px 64px; } }
+
+.unity-icon {
+  background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Unity.png"); }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .unity-icon {
+      background-image: url("http://d2wkzz9b3028w4.cloudfront.net/Unity@2x.png");
+      -webkit-background-size: 64px 64px;
+      -moz-background-size: 64px 64px;
+      -ms-background-size: 64px 64px;
+      -o-background-size: 64px 64px;
+      background-size: 64px 64px; } }
+
+.course-block {
+  height: 100%;
+  position: relative;
+  height: 13em; }
+  .course-block .box {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    height: 10em;
+    overflow-y: hidden;
+    position: relative;
+    z-index: 99;
+    transition: height 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+  .course-block .course-icon {
+    width: 100%;
+    height: 32px;
+    -webkit-background-size: 24px 24px;
+    -moz-background-size: 24px 24px;
+    -ms-background-size: 24px 24px;
+    -o-background-size: 24px 24px;
+    background-size: 24px 24px;
+    transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+  .course-block:hover .box {
+    height: 20em;
+    position: absolute;
+    width: 100%;
+    z-index: 100; }
+  .course-block:hover .course-icon {
+    height: 48px;
+    -webkit-background-size: 32px 32px;
+    -moz-background-size: 32px 32px;
+    -ms-background-size: 32px 32px;
+    -o-background-size: 32px 32px;
+    background-size: 32px 32px; }
+
+.icon-button-tab {
+  color: #f6ff56;
+  font-size: 2em;
+  transform: scale(0.8, 0.8);
+  background: none;
+  border: none;
+  transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+  .icon-button-tab:hover {
+    color: #c0e7ff;
+    transform: scale(1, 1); }
+  .icon-button-tab:visited {
+    color: #f6ff56;
+    transform: scale(0.8, 0.8); }
+  .icon-button-tab:focus {
+    outline: none; }
+
+.lesson-block {
+  position: relative; }
+  .lesson-block .box {
+    position: relative;
+    transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+  .lesson-block:hover .box {
+    height: 200px;
+    width: 100%; }
+
+.spinner {
+  display: inline-block;
+  width: 28px; }
+
+.spinner > div {
+  width: 4px;
+  height: 4px;
+  margin-left: 1px;
+  background-color: #666;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+  animation: bouncedelay 1.4s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both; }
+
+.spinner.loading {
+  width: 56px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block; }
+  .spinner.loading > div {
+    width: 8px;
+    height: 8px; }
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s; }
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s; }
+
+@-webkit-keyframes bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0); }
+
+  40% {
+    -webkit-transform: scale(1); } }
+@keyframes bouncedelay {
+  0%, 80%, 100% {
+    transform: scale(0);
+    -webkit-transform: scale(0); }
+
+  40% {
+    transform: scale(1);
+    -webkit-transform: scale(1); } }
 .markdown-content textarea {
   font-size: 12px; }
 
@@ -2249,22 +2395,6 @@ p.intro-small {
     transform: scale(1, 1); }
     .landing-page-box.visible .box {
       display: block; }
-
-.icon-button-tab {
-  color: #f6ff56;
-  font-size: 2em;
-  transform: scale(0.8, 0.8);
-  background: none;
-  border: none;
-  transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-  .icon-button-tab:hover {
-    color: #c0e7ff;
-    transform: scale(1, 1); }
-  .icon-button-tab:visited {
-    color: #f6ff56;
-    transform: scale(0.8, 0.8); }
-  .icon-button-tab:focus {
-    outline: none; }
 
 footer.footer {
   background-color: #444;
@@ -2541,41 +2671,6 @@ img.fit-width {
   max-width: 90%;
   padding: 5%; }
 
-#comment_frame, #upload_frame {
-  position: absolute;
-  padding: 15px;
-  border-bottom: 2px solid #ccc;
-  border-radius: 3px;
-  display: none;
-  background: white;
-  width: 19em;
-  max-width: 100%;
-  -webkit-animation-duration: 0.3s;
-  -moz-animation-duration: 0.3s;
-  -ms-animation-duration: 0.3s;
-  -o-animation-duration: 0.3s;
-  animation-duration: 0.3s;
-  z-index: 10000; }
-
-#sharing_lightbox, #upload_frame {
-  position: fixed; }
-
-.comments-list {
-  max-height: 320px;
-  overflow-y: scroll; }
-
-.step-body .comment {
-  position: absolute;
-  right: 0.3em;
-  margin-top: -0.5em;
-  background: white;
-  padding-right: 0.3em;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -o-border-radius: 2px;
-  border-radius: 2px; }
-
 .step-body img {
   max-width: 90%;
   display: block;
@@ -2606,101 +2701,6 @@ img.fit-width {
   background: #fcf8e3;
   border-left: 5px solid #ecd871; }
 
-.admin-tools {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  padding: 5px;
-  z-index: 100; }
-
-.round-icon {
-  border-radius: 1000px;
-  width: 40px;
-  padding: 5px;
-  display: inline-block;
-  margin-left: 5px;
-  margin-right: 5px;
-  height: 40px;
-  background: #E23434;
-  color: white;
-  text-align: center;
-  border-bottom: 2px solid #B32626;
-  font-size: 1.2em; }
-
-.round-icon:hover {
-  color: white; }
-
-.round-icon.big {
-  width: 48px;
-  height: 48px;
-  font-size: 1.5em;
-  background: #3480E2;
-  border-bottom: 2px solid #235492; }
-
-.round-icon.small {
-  width: 32px;
-  height: 32px;
-  font-size: 0.9em;
-  background-color: #34E278;
-  border-bottom: 2px solid #239951; }
-
-.admin-tools {
-  transition: 0.3s, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-  .admin-tools:hover {
-    -moz-transform: scale(1.1, 1.1);
-    -o-transform: scale(1.1, 1.1);
-    -ms-transform: scale(1.1, 1.1);
-    -webkit-transform: scale(1.1, 1.1);
-    transform: scale(1.1, 1.1); }
-
-.spinner {
-  display: inline-block;
-  width: 28px; }
-
-.spinner > div {
-  width: 4px;
-  height: 4px;
-  margin-left: 1px;
-  background-color: #666;
-  border-radius: 100%;
-  display: inline-block;
-  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
-  animation: bouncedelay 1.4s infinite ease-in-out;
-  /* Prevent first frame from flickering when animation starts */
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both; }
-
-.spinner.loading {
-  width: 56px;
-  margin-left: auto;
-  margin-right: auto;
-  display: block; }
-  .spinner.loading > div {
-    width: 8px;
-    height: 8px; }
-
-.spinner .bounce1 {
-  -webkit-animation-delay: -0.32s;
-  animation-delay: -0.32s; }
-
-.spinner .bounce2 {
-  -webkit-animation-delay: -0.16s;
-  animation-delay: -0.16s; }
-
-@-webkit-keyframes bouncedelay {
-  0%, 80%, 100% {
-    -webkit-transform: scale(0); }
-
-  40% {
-    -webkit-transform: scale(1); } }
-@keyframes bouncedelay {
-  0%, 80%, 100% {
-    transform: scale(0);
-    -webkit-transform: scale(0); }
-
-  40% {
-    transform: scale(1);
-    -webkit-transform: scale(1); } }
 .fluidbox {
   outline: none; }
 

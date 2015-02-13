@@ -10,14 +10,14 @@
 @import 'components/header_bar';
 @import 'components/gradient_bar';
 @import 'components/button';
-@import 'components/course_block';
 @import 'components/progress_bars';
-@import 'components/lesson_block';
 @import 'components/read_more_gradient';
-@import 'components/category_tag';
 @import 'components/epic_editor';
 @import 'components/code_input';
 @import 'components/ace_editor';
+
+// Automatically generated components from the ui folder
+@import 'components';
 
 @import 'content-types/markdown';
 @import 'content-types/code';
@@ -32,11 +32,8 @@
 @import 'sharing-progress';
 @import 'images';
 
-@import 'comments';
 @import 'step';
 @import 'definitions';
-@import 'admin-tools';
-@import 'loading';
 
 @import 'fluidbox';
 @import 'override';

@@ -1,3 +1,4 @@
+//ace.js
 var aceUtil = new function()
 {
     this.convertTextAreas = function(selector) {
@@ -53,7 +54,7 @@ var aceUtil = new function()
 
 
 
-
+//base.js
 // base.js binds UI stuff and initialises some important bits
 
 var mathjax = false;
@@ -135,7 +136,7 @@ $( function() {
     }
 
 });
-
+//bootstrap-mod.js
 // bootstrap-mod.js alters some bootstrap UI animations
 
 function boostrapMods()
@@ -160,6 +161,7 @@ function boostrapMods()
     });
 }
 boostrapMods();
+//comments.js
 // comments.js powers the comment frame for articles and images
 
 var comments = new function()
@@ -395,7 +397,7 @@ var comments = new function()
 
 comments.bindComments();
 
-
+//definitions.js
 // definitions.js handle definition lookups
 
 var definitions = new function()
@@ -522,7 +524,7 @@ var definitions = new function()
 definitions.convertDefinitionLinks();
 definitions.bindDefinitions();
 
-
+//epiceditor-config.js
 // epiceditor-config.js configures the epic editor backend fields
 
 var editor;
@@ -574,7 +576,7 @@ function bindEpicEditorField($el)
 }
 
 bindEpicEditorFields();
-
+//form-util.js
 // form-util.js provides form handling abstractions
 
 function appendErrors(errorsData, $form, errorsSelector)
@@ -596,6 +598,7 @@ function appendErrors(errorsData, $form, errorsSelector)
         animate(errorsSelector, "fadeInUp");
     }
 }
+//hideable-region.js
 // hideable-region.js
 
 var hideable = new function()
@@ -647,7 +650,7 @@ var hideable = new function()
 hideable.createHideableRegions();
 hideable.bindInsertRegionButton();
 
-
+//learn.js
 // learn.js modifies the learn page layout to inject images etc.
 
 var learn = new function()
@@ -703,8 +706,9 @@ var learn = new function()
 }
 
 learn.setup();
-
+//loading.js
 var loadingIndicator = '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
+//notifications.js
 // notifications.js
 
 var notifications = new function()
@@ -745,6 +749,7 @@ var notifications = new function()
 }
 
 notifications.bindRemoveLinks();
+//payment_validation.js
 var paymentValidation = new function()
 {
     this.init = function init()
@@ -799,7 +804,7 @@ var paymentValidation = new function()
     }
 }
 
-
+//progress-bar.js
 // progress-bar.js powers the progress bar during a lesson
 
 var progress = new function()
@@ -917,6 +922,7 @@ var progress = new function()
 progress.initHorizontalBars();
 progress.bindProgressBarResize();
 progress.initVerticalBars();
+//search.js
 var search = new function()
 {
     var self = this;
@@ -1029,6 +1035,7 @@ var search = new function()
 
 search.bindCourseSearchField();
 search.bindDefinitionSearchField();
+//sharing-progress.js
 // sharing-progress.js controls everything about the gallery sharing steps
 
 var sharing = new function()
@@ -1148,7 +1155,7 @@ sharing.bindImageClick();
 sharing.bindSharingImageForm();
 sharing.bindPageResize();
 sharing.bindLikeImage();
-
+//slug-fields.js
 // slug-fields.js powers slugifying and lower-casing of fields into another field
 
 var slug = new function()
@@ -1194,7 +1201,7 @@ var slug = new function()
 
 slug.bindSlugFields();
 slug.bindLowercaseFields();
-
+//sortable-list.js
 // sortable-list.js powers the re-orderable lists for creating steps, lessons, etc.
 
 var sortable = new function()
@@ -1282,7 +1289,7 @@ var sortable = new function()
         }
     }
 }
-
+//two-cols.js
 var twoCols = new function()
 {
 
@@ -1303,7 +1310,7 @@ var twoCols = new function()
 }
 
 twoCols.repositionColumns();
-
+//upload-form.js
 // upload-form.js powers the file uploader available in the backend
 
 function bindUpload()
@@ -1391,11 +1398,13 @@ function showUploadFrame(id, $frame)
         }
     });
 }
+//_jquery_extend.js
 $.postWithCsrf = function (url, data, success)
 {
     data[$("meta[name=csrf-param]").attr("content")] = $("meta[name=csrf-token]").attr("content");
     $.post(url, data, success);
 };
+//_util.js
 // Shim for String.trunc()
 String.prototype.trunc = String.prototype.trunc ||
     function(n) {
@@ -1525,7 +1534,7 @@ function getViewportHeight()
 {
     return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 }
-
+//animate-util.js
 /**
  * Calls an Animate.css animation on the provided selector
  * @param  {[type]} element_ID [description]
@@ -1582,6 +1591,7 @@ function animateElement($element, animation, completeCallback) {
 
 
 }
+//event-util.js
 function stopEventPropagating(e)
 {
     if (!e)
@@ -1601,6 +1611,7 @@ function eventTargetDoesNotInclude(event, element)
 {
     return ( $(event.target).closest(element).length == 0 );
 }
+//templating-util.js
 function getTemplate(name)
 {
     return $("#" + name + "_template").html();
@@ -1622,7 +1633,7 @@ function format(html, variables)
 
     return html;
 }
-
+//ajax_view.js
 var AjaxFormView = Backbone.View.extend({
     initialize: function(opts)
     {
@@ -1697,13 +1708,13 @@ var AjaxFormView = Backbone.View.extend({
         });
     }
 });
-
+//undescore_settings.js
 _.templateSettings = {
     interpolate: /\%\%=(.+?)\%\%/g,
     escape: /\%\%-(.+?)\%\%/g,
     evaluate: /\%\%(.+?)\%\%/g,
 };
-
+//pillar.js
 Pillar = {} || Pillar;
 
 Pillar.superOf = function(clazz)
@@ -1980,7 +1991,7 @@ Pillar.ExtendedTextView = Pillar.TestView.extend({
         console.log("Child INIT");
     }
 });
-
+//icon-tab.js
 var iconTab = new function ()
 {
     this.initialised = false;
@@ -2004,7 +2015,7 @@ var iconTab = new function ()
         }
     }
 }
-
+//views.js
 var ModalView = Pillar.View.extend({
     init: function(opts)
     {
@@ -2087,7 +2098,7 @@ var NewStepModalView = ModalView.extend({
         slug.slugify( this.$el.find("input[name=title]"), this.$el.find("input[name=slug]") );
     }
 });
-
+//models.js
 var SortableItem = Backbone.Model.extend({
     defaults: {
         title: "",
@@ -2106,7 +2117,7 @@ var SortableItem = Backbone.Model.extend({
 var SortableItemCollection = Backbone.Collection.extend({
   model: SortableItem
 });
-
+//views.js
 
 var SortableItemView = Pillar.View.extend({
     init: function(opts)
@@ -2196,7 +2207,7 @@ var SortableItemListView = Pillar.CollectionView.extend({
         this.collection.add( model );
     },
 });
-
+//views.js
 var ComposeStepView = Pillar.View.extend({
     init: function(opts)
     {

@@ -146,31 +146,3 @@ p.intro-small {
         }
     }
 }
-
-.icon-button-tab
-{
-    color: $header-link-color;
-    font-size: 2em;
-    transform: scale(0.8, 0.8);
-    background: none;
-    border: none;
-
-    transition: 0.3s $bounce-easing;
-
-    &:hover
-    {
-        color: $header-link-hover-color;;
-        transform: scale(1.0, 1.0);
-    }
-
-    &:visited
-    {
-        color: $header-link-color;;
-        transform: scale(0.8, 0.8);
-    }
-
-    &:focus
-    {
-        outline: none;
-    }
-}
