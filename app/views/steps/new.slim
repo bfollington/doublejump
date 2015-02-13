@@ -18,13 +18,13 @@
 - content_for :admin_tools
     = ui_element "ui/floating_button", { size: "big", title: "Save Step", selector: "js-save-step", icon: "fa-save"}
 
-= render_js_template 'js-templates/editing/_markdown'
-= render_js_template 'js-templates/editing/_code'
-= render_js_template 'js-templates/editing/_hideable'
-= render_js_template 'js-templates/editing/_math'
-= render_js_template 'js-templates/editing/_definition'
-= render_js_template 'js-templates/editing/_two_cols'
-= render_js_template 'js-templates/editing/_step_content_id_entry'
+= render_js_template 'ui/js/editing/_markdown'
+= render_js_template 'ui/js/editing/_code'
+= render_js_template 'ui/js/editing/_hideable'
+= render_js_template 'ui/js/editing/_math'
+= render_js_template 'ui/js/editing/_definition'
+= render_js_template 'ui/js/editing/_two_cols'
+= render_js_template 'ui/js/editing/_step_content_id_entry'
 
 .create-step-form
     .row

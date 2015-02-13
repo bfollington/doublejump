@@ -5,7 +5,7 @@ class HideableContent < Content
     validates_presence_of :title
 
     def editing_partial
-        "js-templates/backbone/editing/hideable"
+        "ui/js/editing/hideable"
     end
 
     def get_final_html(view)

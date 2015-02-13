@@ -5,7 +5,7 @@ class DefinitionContent < Content
     validates_presence_of :term
 
     def editing_partial
-        "js-templates/backbone/editing/definition"
+        "ui/js/editing/definition"
     end
 
     def get_final_html(view)

@@ -5,7 +5,7 @@
     javascript:
         // sortable.bindSortableLists({itemSelector: "li"});
 
-= render_js_template 'js-templates/backbone/_sortable_content_list_entry_backbone'
+= render_js_template 'ui/js/_sortable_content_list_entry_backbone'
 
 .create-lesson-form
 
@@ -28,7 +28,7 @@
                             - if @lesson
                                 - @lesson.step_ids.each do |step_id|
                                     - step = Step.find( step_id )
-                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => step.title, :field_value => step.id, :field_name => hidden_field_name}
+                                    = partial 'ui/js/sortable_content_list_entry', :locals => { :item_text => step.title, :field_value => step.id, :field_name => hidden_field_name}
                 .box
                     - hidden_field_name = 'lesson[related_readings][]'
 
@@ -45,7 +45,7 @@
                             - if @lesson
                                 - @lesson.related_reading_ids.each do |related_reading_id|
                                     - related_reading = RelatedReading.find( related_reading_id )
-                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => related_reading.title, :field_value => related_reading.id, :field_name => hidden_field_name}
+                                    = partial 'ui/js/sortable_content_list_entry', :locals => { :item_text => related_reading.title, :field_value => related_reading.id, :field_name => hidden_field_name}
 
                 .box
                     - hidden_field_name = 'lesson[downloads][]'
@@ -63,7 +63,7 @@
                             - if @lesson
                                 - @lesson.download_ids.each do |download_id|
                                     - download = Download.find( download_id )
-                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => download.title, :field_value => download.id, :field_name => hidden_field_name}
+                                    = partial 'ui/js/sortable_content_list_entry', :locals => { :item_text => download.title, :field_value => download.id, :field_name => hidden_field_name}
             .col-lg-9
                 .box
 

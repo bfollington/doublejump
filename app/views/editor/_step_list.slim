@@ -9,33 +9,35 @@
 
         var data = #{{ query }};
 
-        _.each(data, function(model)
-        {
-            var id = model["_id"]["$oid"];
-            var active = false;
-
-            if (id == currentStep)
+        $(function() {
+            _.each(data, function(model)
             {
-                active = true;
-            }
+                var id = model["_id"]["$oid"];
+                var active = false;
 
-            var model = new SortableItem({
-                id: id,
-                title: model.title,
-                link: urlBase + id,
-                active: active
+                if (id == currentStep)
+                {
+                    active = true;
+                }
+
+                var model = new SortableItem({
+                    id: id,
+                    title: model.title,
+                    link: urlBase + id,
+                    active: active
+                });
+
+                collection.add(model);
             });
 
-            collection.add(model);
-        });
+            window.doublejump.stepListForCurrentLesson = collection;
 
-        window.doublejump.stepListForCurrentLesson = collection;
-
-        window.doublejump.stepListView = new SortableItemListView({
-            el: $("#steps_sortable_list"),
-            hiddenFieldName: 'lesson[steps][]',
-            targetList: '#steps',
-            collection: collection
+            window.doublejump.stepListView = new SortableItemListView({
+                el: $("#steps_sortable_list"),
+                hiddenFieldName: 'lesson[steps][]',
+                targetList: '#steps',
+                collection: collection
+            });
         });
 
 #steps_sortable_list

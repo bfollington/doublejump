@@ -1,3 +1,280 @@
+//pillar.js
+Pillar = {} || Pillar;
+
+Pillar.superOf = function(clazz)
+{
+    return clazz.constructor.__super__;
+}
+
+Pillar.extendEvents = function(view) {
+    view.events = _.extend({}, Pillar.superOf(view).events, view.events);
+}
+
+Pillar.Templates = {
+    templates: {},
+
+    register: function(name, html)
+    {
+        this.templates[name] = html;
+    },
+
+    get: function(name)
+    {
+        return this.templates[name];
+    },
+
+    smartRegister: function(name)
+    {
+        this.register(name, Pillar.Templates.template( $("#_" + name + "_template").html() ));
+    },
+
+    evalIfFunction: function(obj, attr)
+    {
+        if (typeof obj[attr] == "function")
+        {
+            return obj[attr]();
+        } else if (typeof obj[attr] != "undefined")
+        {
+            return obj[attr];
+        } else if (typeof obj.get == "function" && typeof obj.get(attr) != "undefined")
+        {
+            return obj.get(attr);
+        } else {
+            return "";
+        }
+    },
+
+    getPlaceholder: function(string)
+    {
+        return "{{"+string+"}}";
+    },
+
+    // TODO: optimisation where we return a function from there, that concats string fragments and an attrs object using .join
+    // Need to split final HTML string at {{tokens}};
+    compileTemplate: function($template)
+    {
+        var $html = $template.clone();
+        var $elems = $html.find("[data-pillar]").toArray();
+
+        if (typeof $html.attr("data-pillar") != "undefined")
+        {
+            $elems.unshift($html);
+        }
+
+        _.each($elems, function(elem)
+        {
+            var $el = $(elem);
+            var links = $el.attr("data-pillar");
+            var toLink = links.split(",");
+
+            $.each(toLink, function(index, property)
+            {
+                var trimmed = property.trim();
+                var splitTerm = trimmed.split("<-");
+                var attr = splitTerm[0];
+                var valueName = splitTerm[1];
+
+                var specialAttrs = {
+                    "extraClass": function($el) {
+                        $el.addClass(Pillar.Templates.getPlaceholder(valueName));
+                    },
+                    "visible": function($el) {
+                        $el.attr("data-visible", Pillar.Templates.getPlaceholder(valueName));
+                    },
+                    "hidden": function($el) {
+                        $el.attr("data-hidden", Pillar.Templates.getPlaceholder(valueName));
+                    },
+                    "text": function($el) {
+                        $el.html(Pillar.Templates.getPlaceholder(valueName));
+                    }
+                };
+
+                if (attr in specialAttrs)
+                {
+                    specialAttrs[attr]($el);
+                } else {
+                    $el.attr(attr, Pillar.Templates.getPlaceholder(valueName));
+                }
+            });
+
+            $el.removeAttr("data-pillar");
+            $el.attr("data-pillar-rendered", true);
+        });
+
+        var finalString = $html.clone().wrap("<div/>").parent().html();
+
+        var reNoGroup = /\{\{[^}}]+\}\}/g;
+        var re = /\{\{([^}}]+)\}\}/g;
+        var parts = finalString.split(reNoGroup);
+        var matches = finalString.match(re);
+
+        var f = function (attrs)
+        {
+            var sBuild = [];
+            // console.log(parts);
+            for (var i = 0; i < parts.length; i++)
+            {
+                sBuild.push(parts[i]);
+                if (i < matches.length)
+                {
+                    var cleanMatchName = matches[i].replace("{{", "").replace("}}", "");
+                    // console.log(matches[i], Pillar.Templates.evalIfFunction(attrs, cleanMatchName));
+                    sBuild.push(Pillar.Templates.evalIfFunction(attrs, cleanMatchName));
+                }
+            }
+
+            return sBuild.join("")
+        }
+
+        return f;
+    },
+
+    template: function(html)
+    {
+        return this.compileTemplate($(html));
+    },
+
+    renderTemplate: function(template, attrs)
+    {
+        return template(attrs);
+    }
+}
+
+Pillar.View = Backbone.View.extend({
+    initialize: function(opts)
+    {
+        Pillar.superOf(this).initialize(opts);
+        Pillar.extendEvents(this);
+
+        if (opts)
+        {
+            if ("template" in opts)
+            {
+                this.template = opts.template;
+            }
+        }
+
+        this.init(opts);
+    },
+
+    replaceElement: function(html)
+    {
+        var $oldEl = this.$el;
+        this.setElement(html);
+        $oldEl.replaceWith(this.$el);
+    },
+
+    defaultDraw: function()
+    {
+        var data = {};
+        if (this.model)
+        {
+            data = this.model.toJSON();
+        }
+        var html = Mustache.render(this.template, data);
+        this.replaceElement(html);
+    },
+
+    renderTemplate: Pillar.Templates.renderTemplate,
+
+    _super: function()
+    {
+        return Pillar.superOf(this).initialize(opts);
+    },
+
+    // init is called up the extension stack the way one might expect
+    init: function(opts)
+    {
+
+    },
+
+    // Render is wrapped to always return this, and provide easy hookins for before and
+    // after drawing
+    render: function()
+    {
+        this.beforeDraw();
+        this.draw();
+        this.afterDraw();
+        return this;
+    },
+
+    draw: function() {},
+    beforeDraw: function() {},
+    afterDraw: function() {}
+});
+
+Pillar.CollectionView = Pillar.View.extend({
+    init: function(opts)
+    {
+        this.views = [];
+    },
+
+    // Remove all existing views from the collection view,
+    // since we are about to redraw all of the child views.
+    beforeDraw: function()
+    {
+        _.each(this.views, function(view)
+        {
+            view.remove();
+        });
+
+        this.views = [];
+    },
+
+    // Iterate over all models in the collection, drawing each individual model.
+    // Shortcut for manually looping over the models.
+    // If more control is needed, override draw and this will not be called.
+    drawCollection: function(model)
+    {
+
+    },
+
+    draw: function()
+    {
+        this.collection.each(this.drawCollection, this);
+    }
+});
+
+Pillar.BaseTestView = Pillar.View.extend({
+
+    init: function(opts)
+    {
+        console.log("Base INIT");
+    },
+
+    events: {
+        "click": "helloWorld"
+    },
+
+    helloWorld: function(e)
+    {
+        console.log("Hello World");
+    }
+});
+
+Pillar.TestView = Pillar.BaseTestView.extend({
+
+    init: function(opts)
+    {
+        console.log("INIT");
+    },
+
+    events: {
+        "click .all": "whatUp"
+    },
+
+    whatUp: function(e)
+    {
+        console.log("What Up!");
+    }
+});
+
+Pillar.ExtendedTextView = Pillar.TestView.extend({
+    init: function(opts)
+    {
+        console.log("Child INIT");
+    }
+});
 //ace.js
 var aceUtil = new function()
 {
@@ -397,6 +674,210 @@ var comments = new function()
 
 comments.bindComments();
 
+//components.js
+//_modal_view.js
+var ModalView = (function() {
+    return Pillar.View.extend({
+        init: function(opts)
+        {
+
+        },
+
+        events: {
+            "hidden.bs.modal": "modalHidden"
+        },
+
+        draw: function()
+        {
+            var html = this.template({});
+            this.setElement(html);
+        },
+
+        modalHidden: function(e)
+        {
+            // When the modal fades out, we remove it from the DOM
+            console.log("HIDDEN");
+            this.remove();
+        },
+
+        hideModal: function()
+        {
+            this.$el.modal('hide');
+        },
+
+        showModal: function()
+        {
+            this.$el.modal({});
+        }
+    });
+})();
+//_sortable_content_list_entry_model.js
+var SortableItem = (function() {
+    return Backbone.Model.extend({
+        defaults: {
+            title: "",
+            field_name: "",
+            id: "",
+            link: "#",
+            cssClass: ""
+        },
+
+        initialize: function(attrs, opts)
+        {
+            this.set({id: getId(attrs)});
+        }
+    });
+})();
+
+var SortableItemCollection = (function () {
+    return Backbone.Collection.extend({
+        model: SortableItem
+    });
+})();
+//_sortable_content_list_entry_view.js
+var SortableItemView = (function() {
+    return Pillar.View.extend({
+        init: function(opts)
+        {
+            this.params = opts.params;
+            this.model.on("change", this.render, this);
+        },
+
+        events: {
+            "click .js-sortable-delete-link": "deleteSelf"
+        },
+
+        template: templateHtml("sortable_content_list_entry"),
+
+        cssClass: function()
+        {
+            return this.model.get("active") ? "active" : "";
+        },
+
+        draw: function(opts)
+        {
+            var data = this.model.toJSON();
+            data.cssClass = this.cssClass();
+            var html = Mustache.render(this.template, this.model.toJSON());
+            this.replaceElement(html);
+        },
+
+        deleteSelf: function(e)
+        {
+            e.preventDefault();
+            this.model.collection.remove(this.model);
+        }
+    });
+})();
+
+var SortableItemListView = (function() {
+    return Pillar.CollectionView.extend({
+        init: function(opts) {
+            this.$el.find(".js-sortable").sortable({});
+
+            this.$readSelectionFrom = $(this.el).find(".js-select2");
+            this.hiddenFieldName = opts.hiddenFieldName;
+            this.$targetList = this.$el.find(opts.targetList);
+
+            this.collection.on('reset add remove', this.render, this);
+
+            this.render();
+        },
+
+        events: {
+            "click .js-sortable-add-new": "addEntry",
+            "click .js-sortable-create-new": "newStepModal",
+        },
+
+        afterDraw: function()
+        {
+            this.$el.find(".loading").remove();
+        },
+
+        drawCollection: function(model)
+        {
+            console.log()
+            model.set({field_name: this.hiddenFieldName})
+            var itemView = new SortableItemView({model: model});
+            this.views.push( itemView );
+            this.$targetList.append(itemView.render().el);
+        },
+
+        newStepModal: function(e)
+        {
+            e.preventDefault();
+
+            var view = new NewStepModalView({});
+            $("body").append(view.render().el);
+            view.showModal();
+        },
+
+        addEntry: function(e)
+        {
+            e.preventDefault();
+            console.log("Add Entry");
+
+            var model = new SortableItem({
+                "title": this.$readSelectionFrom.find('option:selected').text(),
+                "field_name": this.hiddenFieldName,
+                "id": this.$readSelectionFrom.val()
+            });
+
+            this.collection.add( model );
+        },
+    });
+})();
+//_new_step_modal_view.js
+var NewStepModalView = (function() {
+
+    return ModalView.extend({
+        init: function(opts)
+        {
+            if (opts.el)
+            {
+                this.ajaxForm();
+            }
+        },
+
+        template: templateHtml("new_step_modal"),
+
+        draw: function()
+        {
+            this.defaultDraw();
+        },
+
+        ajaxForm: function()
+        {
+            var that = this;
+            this.ajax = new AjaxFormView({
+                el: this.$el.find("#addStepForm"),
+                success: function(data, text, xhr, $form)
+                {
+                    if (data.success)
+                    {
+                        var collection = window.doublejump.stepListForCurrentLesson;
+                        var view = window.doublejump.stepListView;
+                        collection.add(new SortableItem({
+                            id: data.id,
+                            title: data.title,
+                            field_name: view.hiddenFieldName
+                        }));
+                        that.hideModal();
+                    } else {
+                        console.error("Errors: ", data.errors);
+                    }
+
+                }
+            });
+        },
+
+        afterDraw: function()
+        {
+            this.ajaxForm();
+            slug.slugify( this.$el.find("input[name=title]"), this.$el.find("input[name=slug]") );
+        }
+    });
+})();
 //definitions.js
 // definitions.js handle definition lookups
 
@@ -1423,6 +1904,11 @@ function getId(attrs)
     }
 }
 
+function module(f)
+{
+    return new (f);
+}
+
 function defined(variable)
 {
     return typeof window[variable] != "undefined";
@@ -1634,363 +2120,93 @@ function format(html, variables)
     return html;
 }
 //ajax_view.js
-var AjaxFormView = Backbone.View.extend({
-    initialize: function(opts)
-    {
-        this.ajaxForm();
+var AjaxFormView = (function() {
 
-        if (opts.success)
+    return Backbone.View.extend({
+        initialize: function(opts)
         {
-            this.success = opts.success;
-        } else {
-            this.success = this.defaultSuccess;
-        }
+            this.ajaxForm();
+            this.refreshPage = false;
 
-        if (opts.failure)
-        {
-            this.failure = opts.failure;
-        } else {
-            this.failure = this.defaultFailure;
-        }
-
-        if (opts.beforeSubmit)
-        {
-            this.beforeSubmit = opts.beforeSubmit;
-        } else {
-            this.beforeSubmit = this.defaultBeforeSubmit;
-        }
-
-        this.refreshPage = false;
-        if (opts.refreshPage)
-        {
-            this.refreshPage = opts.refreshPage;
-        }
-    },
-
-    defaultBeforeSubmit: function(data, $form, options)
-    {
-
-    },
-
-    defaultSuccess: function(data, text, xhr, $form)
-    {
-        if (data.success)
-        {
-            console.log("Form submission returned success");
-            if (this.refreshPage)
+            if ( defined(opts) )
             {
-                console.log("Refreshing page.");
-                window.location.reload();
+                if ('success' in opts)
+                {
+                    this.success = opts.success;
+                } else {
+                    this.success = this.defaultSuccess;
+                }
+
+                if ('failure' in opts)
+                {
+                    this.failure = opts.failure;
+                } else {
+                    this.failure = this.defaultFailure;
+                }
+
+                if ('beforeSubmit' in opts)
+                {
+                    this.beforeSubmit = opts.beforeSubmit;
+                } else {
+                    this.beforeSubmit = this.defaultBeforeSubmit;
+                }
+
+                if ('refreshPage' in opts)
+                {
+                    this.refreshPage = opts.refreshPage;
+                }
             }
-        } else {
-            console.error("Form submission returned failure");
+
+        },
+
+        defaultBeforeSubmit: function(data, $form, options)
+        {
+
+        },
+
+        defaultSuccess: function(data, text, xhr, $form)
+        {
+            if (data.success)
+            {
+                console.log("Form submission returned success");
+                if (this.refreshPage)
+                {
+                    console.log("Refreshing page.");
+                    window.location.reload();
+                }
+            } else {
+                console.error("Form submission returned failure");
+            }
+        },
+
+        defaultFailure: function(data, text, xhr, $form)
+        {
+            console.error("Form submission failed");
+        },
+
+        ajaxForm: function()
+        {
+            var that = this;
+            this.$el.ajaxForm({
+                beforeSubmit:  function (data, $form, options) {
+                    that.beforeSubmit(data, $form, options);
+                },
+                success: function (data, text, xhr, $form) {
+                    that.success(data, text, xhr, $form);
+                },
+                error: function (data, text, xhr, $form) {
+                    that.failure(data, text, xhr, $form);
+                }
+            });
         }
-    },
-
-    defaultFailure: function(data, text, xhr, $form)
-    {
-        console.error("Form submission failed");
-    },
-
-    ajaxForm: function()
-    {
-        var that = this;
-        this.$el.ajaxForm({
-            beforeSubmit:  function (data, $form, options) {
-                that.beforeSubmit(data, $form, options);
-            },
-            success: function (data, text, xhr, $form) {
-                that.success(data, text, xhr, $form);
-            },
-            error: function (data, text, xhr, $form) {
-                that.failure(data, text, xhr, $form);
-            }
-        });
-    }
-});
+    });
+})();
 //undescore_settings.js
 _.templateSettings = {
     interpolate: /\%\%=(.+?)\%\%/g,
     escape: /\%\%-(.+?)\%\%/g,
     evaluate: /\%\%(.+?)\%\%/g,
 };
-//pillar.js
-Pillar = {} || Pillar;
-
-Pillar.superOf = function(clazz)
-{
-    return clazz.constructor.__super__;
-}
-
-Pillar.extendEvents = function(view) {
-    view.events = _.extend({}, Pillar.superOf(view).events, view.events);
-}
-
-Pillar.Templates = {
-    templates: {},
-
-    register: function(name, html)
-    {
-        this.templates[name] = html;
-    },
-
-    get: function(name)
-    {
-        return this.templates[name];
-    },
-
-    smartRegister: function(name)
-    {
-        this.register(name, Pillar.Templates.template( $("#_" + name + "_template").html() ));
-    },
-
-    evalIfFunction: function(obj, attr)
-    {
-        if (typeof obj[attr] == "function")
-        {
-            return obj[attr]();
-        } else if (typeof obj[attr] != "undefined")
-        {
-            return obj[attr];
-        } else if (typeof obj.get == "function" && typeof obj.get(attr) != "undefined")
-        {
-            return obj.get(attr);
-        } else {
-            return "";
-        }
-    },
-
-    getPlaceholder: function(string)
-    {
-        return "{{"+string+"}}";
-    },
-
-    // TODO: optimisation where we return a function from there, that concats string fragments and an attrs object using .join
-    // Need to split final HTML string at {{tokens}};
-    compileTemplate: function($template)
-    {
-        var $html = $template.clone();
-        var $elems = $html.find("[data-pillar]").toArray();
-
-        if (typeof $html.attr("data-pillar") != "undefined")
-        {
-            $elems.unshift($html);
-        }
-
-        _.each($elems, function(elem)
-        {
-            var $el = $(elem);
-            var links = $el.attr("data-pillar");
-            var toLink = links.split(",");
-
-            $.each(toLink, function(index, property)
-            {
-                var trimmed = property.trim();
-                var splitTerm = trimmed.split("<-");
-                var attr = splitTerm[0];
-                var valueName = splitTerm[1];
-
-                var specialAttrs = {
-                    "extraClass": function($el) {
-                        $el.addClass(Pillar.Templates.getPlaceholder(valueName));
-                    },
-                    "visible": function($el) {
-                        $el.attr("data-visible", Pillar.Templates.getPlaceholder(valueName));
-                    },
-                    "hidden": function($el) {
-                        $el.attr("data-hidden", Pillar.Templates.getPlaceholder(valueName));
-                    },
-                    "text": function($el) {
-                        $el.html(Pillar.Templates.getPlaceholder(valueName));
-                    }
-                };
-
-                if (attr in specialAttrs)
-                {
-                    specialAttrs[attr]($el);
-                } else {
-                    $el.attr(attr, Pillar.Templates.getPlaceholder(valueName));
-                }
-            });
-
-            $el.removeAttr("data-pillar");
-            $el.attr("data-pillar-rendered", true);
-        });
-
-        var finalString = $html.clone().wrap("<div/>").parent().html();
-
-        var reNoGroup = /\{\{[^}}]+\}\}/g;
-        var re = /\{\{([^}}]+)\}\}/g;
-        var parts = finalString.split(reNoGroup);
-        var matches = finalString.match(re);
-
-        var f = function (attrs)
-        {
-            var sBuild = [];
-            // console.log(parts);
-            for (var i = 0; i < parts.length; i++)
-            {
-                sBuild.push(parts[i]);
-                if (i < matches.length)
-                {
-                    var cleanMatchName = matches[i].replace("{{", "").replace("}}", "");
-                    // console.log(matches[i], Pillar.Templates.evalIfFunction(attrs, cleanMatchName));
-                    sBuild.push(Pillar.Templates.evalIfFunction(attrs, cleanMatchName));
-                }
-            }
-
-            return sBuild.join("")
-        }
-
-        return f;
-    },
-
-    template: function(html)
-    {
-        return this.compileTemplate($(html));
-    },
-
-    renderTemplate: function(template, attrs)
-    {
-        return template(attrs);
-    }
-}
-
-Pillar.View = Backbone.View.extend({
-    initialize: function(opts)
-    {
-        Pillar.superOf(this).initialize(opts);
-        Pillar.extendEvents(this);
-
-        if (opts)
-        {
-            if ("template" in opts)
-            {
-                this.template = opts.template;
-            }
-        }
-
-        this.init(opts);
-    },
-
-    replaceElement: function(html)
-    {
-        var $oldEl = this.$el;
-        this.setElement(html);
-        $oldEl.replaceWith(this.$el);
-    },
-
-    defaultDraw: function()
-    {
-        var data = {};
-        if (this.model)
-        {
-            data = this.model.toJSON();
-        }
-        var html = Mustache.render(this.template, data);
-        this.replaceElement(html);
-    },
-
-    renderTemplate: Pillar.Templates.renderTemplate,
-
-    _super: function()
-    {
-        return Pillar.superOf(this).initialize(opts);
-    },
-
-    // init is called up the extension stack the way one might expect
-    init: function(opts)
-    {
-
-    },
-
-    // Render is wrapped to always return this, and provide easy hookins for before and
-    // after drawing
-    render: function()
-    {
-        this.beforeDraw();
-        this.draw();
-        this.afterDraw();
-        return this;
-    },
-
-    draw: function() {},
-    beforeDraw: function() {},
-    afterDraw: function() {}
-});
-
-Pillar.CollectionView = Pillar.View.extend({
-    init: function(opts)
-    {
-        this.views = [];
-    },
-
-    // Remove all existing views from the collection view,
-    // since we are about to redraw all of the child views.
-    beforeDraw: function()
-    {
-        _.each(this.views, function(view)
-        {
-            view.remove();
-        });
-
-        this.views = [];
-    },
-
-    // Iterate over all models in the collection, drawing each individual model.
-    // Shortcut for manually looping over the models.
-    // If more control is needed, override draw and this will not be called.
-    drawCollection: function(model)
-    {
-
-    },
-
-    draw: function()
-    {
-        this.collection.each(this.drawCollection, this);
-    }
-});
-
-Pillar.BaseTestView = Pillar.View.extend({
-
-    init: function(opts)
-    {
-        console.log("Base INIT");
-    },
-
-    events: {
-        "click": "helloWorld"
-    },
-
-    helloWorld: function(e)
-    {
-        console.log("Hello World");
-    }
-});
-
-Pillar.TestView = Pillar.BaseTestView.extend({
-
-    init: function(opts)
-    {
-        console.log("INIT");
-    },
-
-    events: {
-        "click .all": "whatUp"
-    },
-
-    whatUp: function(e)
-    {
-        console.log("What Up!");
-    }
-});
-
-Pillar.ExtendedTextView = Pillar.TestView.extend({
-    init: function(opts)
-    {
-        console.log("Child INIT");
-    }
-});
 //icon-tab.js
 var iconTab = new function ()
 {
@@ -2016,366 +2232,180 @@ var iconTab = new function ()
     }
 }
 //views.js
-var ModalView = Pillar.View.extend({
-    init: function(opts)
-    {
+var ComposeStepView = (function() {
 
-    },
-
-    events: {
-        "hidden.bs.modal": "modalHidden"
-    },
-
-    draw: function()
-    {
-        var html = this.template({});
-        this.setElement(html);
-    },
-
-    modalHidden: function(e)
-    {
-        // When the modal fades out, we remove it from the DOM
-        console.log("HIDDEN");
-        this.remove();
-    },
-
-    hideModal: function()
-    {
-        this.$el.modal('hide');
-    },
-
-    showModal: function()
-    {
-        this.$el.modal({});
-    }
-});
-
-var NewStepModalView = ModalView.extend({
-
-    init: function(opts)
-    {
-        if (opts.el)
+    return Pillar.View.extend({
+        init: function(opts)
         {
+            console.log("INIT");
+            this.rebuildIdList();
+            this.countSubmits = 0;
+            sortable.sortable(this.$el.find(".js-sortable-blocks"), {afterDrag: this.rebuildIdList, itemSelector: ".content", handle: 'h4'});
             this.ajaxForm();
-        }
-    },
+        },
 
-    template: templateHtml("new_step_modal"),
+        events: {
+            "click .js-add-content": "addContent"
+        },
 
-    draw: function()
-    {
-        this.defaultDraw();
-    },
-
-    ajaxForm: function()
-    {
-        var that = this;
-        this.ajax = new AjaxFormView({
-            el: this.$el.find("#addStepForm"),
-            success: function(data, text, xhr, $form)
-            {
-                if (data.success)
-                {
-                    var collection = window.doublejump.stepListForCurrentLesson;
-                    var view = window.doublejump.stepListView;
-                    collection.add(new SortableItem({
-                        id: data.id,
-                        title: data.title,
-                        field_name: view.hiddenFieldName
-                    }));
-                    that.hideModal();
-                } else {
-                    console.error("Errors: ", data.errors);
-                }
-
-            }
-        });
-    },
-
-    afterDraw: function()
-    {
-        this.ajaxForm();
-        slug.slugify( this.$el.find("input[name=title]"), this.$el.find("input[name=slug]") );
-    }
-});
-//models.js
-var SortableItem = Backbone.Model.extend({
-    defaults: {
-        title: "",
-        field_name: "",
-        id: "",
-        link: "#",
-        cssClass: ""
-    },
-
-    initialize: function(attrs, opts)
-    {
-        this.set({id: getId(attrs)});
-    }
-});
-
-var SortableItemCollection = Backbone.Collection.extend({
-  model: SortableItem
-});
-//views.js
-
-var SortableItemView = Pillar.View.extend({
-    init: function(opts)
-    {
-        this.params = opts.params;
-        this.model.on("change", this.render, this);
-    },
-
-    events: {
-        "click .js-sortable-delete-link": "deleteSelf"
-    },
-
-    template: templateHtml("sortable_content_list_entry"),
-
-    cssClass: function()
-    {
-        return this.model.get("active") ? "active" : "";
-    },
-
-    draw: function(opts)
-    {
-        var data = this.model.toJSON();
-        data.cssClass = this.cssClass();
-        var html = Mustache.render(this.template, this.model.toJSON());
-        this.replaceElement(html);
-    },
-
-    deleteSelf: function(e)
-    {
-        e.preventDefault();
-        this.model.collection.remove(this.model);
-    }
-});
-
-var SortableItemListView = Pillar.CollectionView.extend({
-    init: function(opts) {
-        this.$el.find(".js-sortable").sortable({});
-
-        this.$readSelectionFrom = $(this.el).find(".js-select2");
-        this.hiddenFieldName = opts.hiddenFieldName;
-        this.$targetList = this.$el.find(opts.targetList);
-
-        this.collection.on('reset add remove', this.render, this);
-
-        this.render();
-    },
-
-    events: {
-        "click .js-sortable-add-new": "addEntry",
-        "click .js-sortable-create-new": "newStepModal",
-    },
-
-    afterDraw: function()
-    {
-        this.$el.find(".loading").remove();
-    },
-
-    drawCollection: function(model)
-    {
-        console.log()
-        model.set({field_name: this.hiddenFieldName})
-        var itemView = new SortableItemView({model: model});
-        this.views.push( itemView );
-        this.$targetList.append(itemView.render().el);
-    },
-
-    newStepModal: function(e)
-    {
-        e.preventDefault();
-
-        var view = new NewStepModalView({});
-        $("body").append(view.render().el);
-        view.showModal();
-    },
-
-    addEntry: function(e)
-    {
-        e.preventDefault();
-        console.log("Add Entry");
-
-        var model = new SortableItem({
-            "title": this.$readSelectionFrom.find('option:selected').text(),
-            "field_name": this.hiddenFieldName,
-            "id": this.$readSelectionFrom.val()
-        });
-
-        this.collection.add( model );
-    },
-});
-//views.js
-var ComposeStepView = Pillar.View.extend({
-    init: function(opts)
-    {
-        console.log("INIT");
-        this.rebuildIdList();
-        this.countSubmits = 0;
-        sortable.sortable(this.$el.find(".js-sortable-blocks"), {afterDrag: this.rebuildIdList, itemSelector: ".content", handle: 'h4'});
-        this.ajaxForm();
-    },
-
-    events: {
-        "click .js-add-content": "addContent"
-    },
-
-    beginSubmits: function()
-    {
-        this.countSubmits = 0;
-        this.$el.find(".content form").submit();
-    },
-
-    ajaxForm: function()
-    {
-        this.$el.ajaxForm({
-            beforeSubmit:  function (data, $form, options) {
-
-            },
-            success: function (data, text, xhr, $form) {
-                if (data.success)
-                {
-                    console.log("Form submission returned success, refreshing page...");
-                    window.location.reload();
-                } else {
-                    console.error("Form submission returned failure");
-                }
-            },
-            error: function (data) {
-                console.error("Form submission failed");
-            }
-        });
-    },
-
-    addContent: function(e)
-    {
-        var $button = $(e.target);
-        var templateName = $button.attr("data-content");
-
-        var view = new ComposeStepContentView({
-            template: _.template( $("#" + templateName + "_template").html() ),
-            parent: this
-        });
-
-        this.$el.find(".contents").append(view.render().el);
-        view.convertTextArea();
-        view.ajaxForm();
-    },
-
-    rebuildIdList: function()
-    {
-        // Clear the existing data
-        console.log("Rebulding id list");
-        $(".content-ids").html("");
-
-        $(".contents .content .id-field").each( function () {
-
-            var compile = _.template( $("#_step_content_id_entry_template").html() );
-            var template = compile({"id": $(this).val() });
-
-            $(".content-ids").append(template);
-
-        });
-    },
-
-    contentSubmissionDone: function()
-    {
-        this.countSubmits += 1;
-
-        if (this.countSubmits == this.$el.find(".content form").length)
+        beginSubmits: function()
         {
-            this.finishedSubmissions();
+            this.countSubmits = 0;
+            this.$el.find(".content form").submit();
+        },
+
+        ajaxForm: function()
+        {
+            this.$el.ajaxForm({
+                beforeSubmit:  function (data, $form, options) {
+
+                },
+                success: function (data, text, xhr, $form) {
+                    if (data.success)
+                    {
+                        console.log("Form submission returned success, refreshing page...");
+                        window.location.reload();
+                    } else {
+                        console.error("Form submission returned failure");
+                    }
+                },
+                error: function (data) {
+                    console.error("Form submission failed");
+                }
+            });
+        },
+
+        addContent: function(e)
+        {
+            var $button = $(e.target);
+            var templateName = $button.attr("data-content");
+
+            var view = new ComposeStepContentView({
+                template: _.template( $("#" + templateName + "_template").html() ),
+                parent: this
+            });
+
+            this.$el.find(".contents").append(view.render().el);
+            view.convertTextArea();
+            view.ajaxForm();
+        },
+
+        rebuildIdList: function()
+        {
+            // Clear the existing data
+            console.log("Rebulding id list");
+            $(".content-ids").html("");
+
+            $(".contents .content .id-field").each( function () {
+
+                var compile = _.template( $("#_step_content_id_entry_template").html() );
+                var template = compile({"id": $(this).val() });
+
+                $(".content-ids").append(template);
+
+            });
+        },
+
+        contentSubmissionDone: function()
+        {
+            this.countSubmits += 1;
+
+            if (this.countSubmits == this.$el.find(".content form").length)
+            {
+                this.finishedSubmissions();
+            }
+        },
+
+        contentSubmissionError: function()
+        {
+            console.error("Submission of one content block failed.");
+            this.countSubmits = 0;
+        },
+
+        finishedSubmissions: function()
+        {
+            this.$el.find("#addStepForm").submit();
         }
-    },
+    });
+})();
 
-    contentSubmissionError: function()
-    {
-        console.error("Submission of one content block failed.");
-        this.countSubmits = 0;
-    },
+var ComposeStepContentView = (function() {
 
-    finishedSubmissions: function()
-    {
-        this.$el.find("#addStepForm").submit();
-    }
-});
+    return Pillar.View.extend({
+        init: function(opts)
+        {
+            this.parent = opts.parent;
+            this.convertTextArea();
+            this.ajaxForm();
+        },
 
-var ComposeStepContentView = Pillar.View.extend({
-    init: function(opts)
-    {
-        this.parent = opts.parent;
-        this.convertTextArea();
-        this.ajaxForm();
-    },
+        events: {
+            "click .js-delete-content": "deleteSelf",
+            "click .js-minimise-content": "minimiseSelf",
+            "change .code-input-language": "codeLanguageChange"
+        },
 
-    events: {
-        "click .js-delete-content": "deleteSelf",
-        "click .js-minimise-content": "minimiseSelf",
-        "change .code-input-language": "codeLanguageChange"
-    },
+        convertTextArea: function()
+        {
+            aceUtil.convertTextAreas(this.$el);
+        },
 
-    convertTextArea: function()
-    {
-        aceUtil.convertTextAreas(this.$el);
-    },
+        ajaxForm: function()
+        {
+            var that = this;
 
-    ajaxForm: function()
-    {
-        var that = this;
+            this.$el.find("form").ajaxForm({
+                beforeSubmit:  function (data, $form, options) {
 
-        this.$el.find("form").ajaxForm({
-            beforeSubmit:  function (data, $form, options) {
-
-            },
-            success: function (data, text, xhr, $form) {
-                if (data.success)
-                {
-                    $form.find(".id-field").val(data.id);
-                    that.parent.rebuildIdList();
-                    that.parent.contentSubmissionDone();
-                } else {
+                },
+                success: function (data, text, xhr, $form) {
+                    if (data.success)
+                    {
+                        $form.find(".id-field").val(data.id);
+                        that.parent.rebuildIdList();
+                        that.parent.contentSubmissionDone();
+                    } else {
+                        that.parent.contentSubmissionError();
+                    }
+                },
+                error: function (data) {
+                    console.error(":(");
                     that.parent.contentSubmissionError();
                 }
-            },
-            error: function (data) {
-                console.error(":(");
-                that.parent.contentSubmissionError();
-            }
-        });
-    },
+            });
+        },
 
-    draw: function()
-    {
-        var html = this.template({});
-        this.setElement(html);
-    },
-
-    deleteSelf: function(e)
-    {
-        e.preventDefault();
-        var confirmation = confirm("Are you sure you want to remove this content block?");
-
-        if (confirmation)
+        draw: function()
         {
-            // parent.rebuildIdList();
-            this.remove();
+            var html = this.template({});
+            this.setElement(html);
+        },
+
+        deleteSelf: function(e)
+        {
+            e.preventDefault();
+            var confirmation = confirm("Are you sure you want to remove this content block?");
+
+            if (confirmation)
+            {
+                // parent.rebuildIdList();
+                this.remove();
+            }
+        },
+
+        minimiseSelf: function(e)
+        {
+            e.preventDefault();
+            this.$el.toggleClass("minimised");
+        },
+
+        codeLanguageChange: function(e)
+        {
+            var $el = $(e.target);
+
+            var editor = ace.edit($el.siblings(".ace_editor")[0]);
+            console.log(editor);
+            editor.getSession().setMode("ace/mode/" + $el.val());
         }
-    },
-
-    minimiseSelf: function(e)
-    {
-        e.preventDefault();
-        this.$el.toggleClass("minimised");
-    },
-
-    codeLanguageChange: function(e)
-    {
-        var $el = $(e.target);
-
-        var editor = ace.edit($el.siblings(".ace_editor")[0]);
-        console.log(editor);
-        editor.getSession().setMode("ace/mode/" + $el.val());
-    }
-});
+    });
+})();

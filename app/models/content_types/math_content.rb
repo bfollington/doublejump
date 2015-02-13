@@ -7,7 +7,7 @@ class MathContent < Content
     validates_presence_of :body, :message => "You can't have an empty content block, that makes no sense."
 
     def editing_partial
-        "js-templates/backbone/editing/math"
+        "ui/js/editing/math"
     end
 
     def get_final_html(view)

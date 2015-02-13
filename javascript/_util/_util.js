@@ -16,6 +16,11 @@ function getId(attrs)
     }
 }
 
+function module(f)
+{
+    return new (f);
+}
+
 function defined(variable)
 {
     return typeof window[variable] != "undefined";

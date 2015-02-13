@@ -27,16 +27,16 @@
 - content_for :admin_tools
     = ui_element "ui/floating_button", { size: "big", title: "Save Step", selector: "js-save-step", icon: "fa-save"}
 
-= ui_uses 'js-templates/backbone/_sortable_content_list_entry'
-= ui_uses 'js-templates/backbone/new_step_modal/_new_step_modal'
+= ui_uses 'ui/js/_sortable_content_list_entry'
+= ui_uses 'ui/js/new_step_modal/_new_step_modal'
 
-= ui_uses 'js-templates/backbone/editing/_markdown'
-= ui_uses 'js-templates/backbone/editing/_code'
-= ui_uses 'js-templates/backbone/editing/_hideable'
-= ui_uses 'js-templates/backbone/editing/_math'
-= ui_uses 'js-templates/backbone/editing/_definition'
-= ui_uses 'js-templates/backbone/editing/_two_cols'
-= ui_uses 'js-templates/backbone/editing/_step_content_id_entry'
+= ui_uses 'ui/js/editing/_markdown'
+= ui_uses 'ui/js/editing/_code'
+= ui_uses 'ui/js/editing/_hideable'
+= ui_uses 'ui/js/editing/_math'
+= ui_uses 'ui/js/editing/_definition'
+= ui_uses 'ui/js/editing/_two_cols'
+= ui_uses 'ui/js/editing/_step_content_id_entry'
 
 .create-step-form
     .row

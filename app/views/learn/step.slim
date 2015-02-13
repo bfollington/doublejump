@@ -1,5 +1,5 @@
-= ui_uses 'js-templates/_comment_icon'
-= ui_uses 'js-templates/_inserted_definition'
+= ui_uses 'ui/js/_comment_icon'
+= ui_uses 'ui/js/_inserted_definition'
 
 - if !@lesson.get_next_step(@step).nil?
     - next_link = "/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_next_step(@step).slug}#main_content"

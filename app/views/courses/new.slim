@@ -6,7 +6,7 @@
         sortable.bindSortableLists();
 
 
-= render_js_template 'js-templates/backbone/_sortable_content_list_entry_backbone'
+= render_js_template 'ui/js/_sortable_content_list_entry_backbone'
 
 .create-course-form
     = form_for :course, "", { :id => 'addCourseForm' } do |f|
@@ -28,7 +28,7 @@
                             - if @course
                                 - @course.lesson_ids.each do |lesson_id|
                                     - lesson = Lesson.find( lesson_id )
-                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => lesson.title, :field_value => lesson.id, :field_name => hidden_field_name}
+                                    = partial 'ui/js/sortable_content_list_entry', :locals => { :item_text => lesson.title, :field_value => lesson.id, :field_name => hidden_field_name}
 
                 .box
                     - hidden_field_name = 'course[prerequisites][]'
@@ -46,7 +46,7 @@
                             - if @course
                                 - @course.prerequisite_ids.each do |prereq_id|
                                     - prereq = Course.find( prereq_id )
-                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => prereq.title, :field_value => prereq.id, :field_name => hidden_field_name}
+                                    = partial 'ui/js/sortable_content_list_entry', :locals => { :item_text => prereq.title, :field_value => prereq.id, :field_name => hidden_field_name}
 
                 .box
                     - hidden_field_name = 'course[follow_ons][]'
@@ -64,7 +64,7 @@
                             - if @course
                                 - @course.follow_on_ids.each do |follow_on_id|
                                     - follow_on = Course.find( follow_on_id )
-                                    = partial 'js-templates/sortable_content_list_entry', :locals => { :item_text => follow_on.title, :field_value => follow_on.id, :field_name => hidden_field_name}
+                                    = partial 'ui/js/sortable_content_list_entry', :locals => { :item_text => follow_on.title, :field_value => follow_on.id, :field_name => hidden_field_name}
             .col-lg-9
                 .box
 

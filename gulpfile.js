@@ -17,6 +17,15 @@ var gulp = require('gulp'),
 
 gulp.task('scripts', buildJs);
 gulp.task('components', buildComponents);
+gulp.task('componentsJs', buildComponentsJs);
+
+function buildComponentsJs()
+{
+    return gulp.src('app/views/**/*.js')
+    .pipe(wrap('//<%= file.path.replace(/^.*[\\\/]/, "") %>\n<%= contents %>'))
+    .pipe(concat('components.js'))
+    .pipe(gulp.dest('javascript'));
+}
 
 function buildComponents()
 {
@@ -28,7 +37,7 @@ function buildComponents()
 
 function buildJs()
 {
-    return gulp.src('javascript/**/*.js')
+    return gulp.src(['javascript/pillar/pillar.js', 'javascript/**/*.js'])
     .pipe(wrap('//<%= file.path.replace(/^.*[\\\/]/, "") %>\n<%= contents %>'))
     .pipe(concat('doublejump.js'))
     .pipe(gulp.dest('public/javascripts'))
@@ -37,11 +46,12 @@ function buildJs()
     .pipe(gulp.dest('public/javascripts'));
 }
 
-gulp.task('watch', ['scripts', 'components'], function() {
+gulp.task('watch', ['scripts', 'components', 'componentsJs'], function() {
 
   // Watch .js files
   gulp.watch('javascript/**/*.js', ['scripts']);
   gulp.watch('app/views/**/*.scss', ['components']);
+  gulp.watch('app/views/**/*.js', ['componentsJs']);
 });
 
 function ignoreError(e)

@@ -26,7 +26,7 @@ Doublejump::App.helpers do
   end
 
   def ui_uses(name)
-    partial 'js-templates/include', locals: {name: name}
+    partial 'ui/js/include', locals: {name: name}
   end
 
 end

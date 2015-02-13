@@ -11,7 +11,7 @@
     = ui_element "ui/floating_button", { size: "big", title: "Save Course", selector: "js-save-course", icon: "fa-save"}
 
 
-= render_js_template 'js-templates/backbone/_sortable_content_list_entry_backbone'
+= render_js_template 'ui/js/_sortable_content_list_entry_backbone'
 
 .create-course-form
     = form_for :course, url_for(:courses, :make, @course.slug), { :id => 'addCourseForm' } do |f|
