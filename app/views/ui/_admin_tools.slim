@@ -4,8 +4,8 @@
 .admin-tools
     .icon-wrapper
         - if params[:course]
-                = ui_element "ui/floating_button", { size: "big", title: "Edit Course", href: "/courses/make/#{params[:course].slug}", icon: "fa-pencil-square-o"}
+                = ui_element "ui/floating_button", { size: "big", title: "Edit Course", href: url_for(:editor, :course, params[:course].id), icon: "fa-pencil-square-o"}
         - if params[:lesson]
-                = ui_element "ui/floating_button", { title: "Edit Lesson", href: "/lessons/make/#{params[:lesson].slug}", icon: "fa-pencil"}
+                = ui_element "ui/floating_button", { title: "Edit Lesson", href: url_for(:editor, :lesson, params[:course].id, params[:lesson].id), icon: "fa-pencil"}
         - if params[:step]
-                = ui_element "ui/floating_button", { size: "small", title: "Edit Step", href: "/steps/make/#{params[:step].slug}", icon: "fa-file-text"}
+                = ui_element "ui/floating_button", { size: "small", title: "Edit Step", href: url_for(:editor, :step, params[:course].id, params[:lesson].id, params[:step].id), icon: "fa-file-text"}
