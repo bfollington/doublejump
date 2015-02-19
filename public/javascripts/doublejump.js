@@ -460,22 +460,6 @@ var comments = new function()
             var $otherParent = $(this).parent().parent().parent();
             var $sibling = $(this).prev();
 
-            // Strip comments out of hideable sections, they shouldn't be there in the first place.
-            if ($otherParent.is(".hideable-inner"))
-            {
-                $(this).remove();
-                return true;
-            }
-
-            var blockElementComments = [];
-
-            if ($(this).closest(".shared-wrapper").length == 0)
-            {
-                var data = {count: $(this).attr("data-count")};
-
-                $(this).html( Mustache.render(templateHtml("comment_icon"), data) );
-            }
-
             $(this).find('a').on("touchstart, click", function (e) {
 
                 e.preventDefault();
@@ -532,21 +516,6 @@ var comments = new function()
             } );
 
         } );
-
-        // Move comments after text to start of paragraph
-        $(".step-body :not(div) + p .comment").each( function () {
-
-            $(this).prependTo($(this).parent());
-        });
-
-        var $firstComment = $(".step-body .comment").first();
-        $firstComment.prependTo($firstComment.parent());
-
-        // Move comments after divs to be before them instead
-        $(".step-body div + p .comment").each( function () {
-
-            $(this).parent().insertBefore($(this).parent().prev());
-        });
 
         $('html').on( "touchstart, click", function (e) {
 
@@ -708,6 +677,30 @@ var ModalView = (function() {
         showModal: function()
         {
             this.$el.modal({});
+        }
+    });
+})();
+//_comment_icon_view.js
+var CommentIconView = (function() {
+    return Pillar.View.extend({
+        init: function(opts)
+        {
+            this.params = opts.params;
+            this.model.on("change", this.render, this);
+        },
+
+        events: {
+
+        },
+
+        template: templateHtml("sortable_content_list_entry"),
+
+        draw: function(opts)
+        {
+            var data = this.model.toJSON();
+            data.cssClass = this.cssClass();
+            var html = Mustache.render(this.template, this.model.toJSON());
+            this.replaceElement(html);
         }
     });
 })();
