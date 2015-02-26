@@ -46,9 +46,13 @@
             = ui_element "ui/loading_spinner"
 
     p
-        = form.select(:step, :collection => @steps, :fields => [:title, :id], :class => 'js-select2')
-        a.js-sortable-add-new href="#"
-            i.fa.fa-plus-circle
+        .row
+            .col-xs-9
+                = form.select(:step, :collection => @steps, :fields => [:title, :id], :class => 'js-select2')
+            .col-xs-3
+                a.button.create-button.js-sortable-add-new href="#"
+                    i.fa.fa-plus-circle
 
-    a.js-sortable-create-new href="#"
+    a.button.create-button.js-sortable-create-new href="#"
         i.fa.fa-plus-circle
+        |  Create New Step

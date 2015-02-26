@@ -55,9 +55,12 @@
                     p
                         = f.label :lesson, :caption => "Lessons"
                         br
-                        = f.select(:lesson, :collection => @lessons, :fields => [:title, :id], :class => 'js-select2')
-                        a.js-sortable-add-new href="#"
-                            i.fa.fa-plus-circle
+                        .row
+                            .col-xs-10
+                                = f.select(:lesson, :collection => @lessons, :fields => [:title, :id], :class => 'js-select2')
+                            .col-xs-2
+                                a.js-sortable-add-new href="#"
+                                    i.fa.fa-plus-circle
             .col-lg-9
                 .box
 
@@ -115,9 +118,12 @@
                             p
                                 = f.label :prerequisite, :caption => "Prerequisites"
                                 br
-                                = f.select(:prerequisite, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
-                                a.js-sortable-add-new href="#"
-                                    i.fa.fa-plus-circle
+                                .row
+                                    .col-xs-11
+                                        = f.select(:prerequisite, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
+                                    .col-xs-1
+                                        a.js-sortable-add-new href="#"
+                                            i.fa.fa-plus-circle
 
                             p
                                 ul#prerequisites.js-sortable
@@ -139,9 +145,12 @@
                             p
                                 = f.label :follow_on, :caption => "Follow Ons"
                                 br
-                                = f.select(:follow_on, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
-                                a.js-sortable-add-new href="#"
-                                    i.fa.fa-plus-circle
+                                .row
+                                    .col-xs-11
+                                        = f.select(:follow_on, :collection => @courses, :fields => [:title, :id], :class => 'js-select2')
+                                    .col-xs-1
+                                        a.js-sortable-add-new href="#"
+                                            i.fa.fa-plus-circle
 
                             p
                                 ul#follow_ons.js-sortable

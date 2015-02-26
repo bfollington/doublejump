@@ -7,6 +7,7 @@ String.prototype.trunc = String.prototype.trunc ||
 // Extract a mongoId from a model
 function getId(attrs)
 {
+
     // Use a Mongo Id if we don't have one already
     if (!attrs.id && attrs["_id"]["$oid"])
     {
@@ -19,6 +20,11 @@ function getId(attrs)
 function module(f)
 {
     return new (f);
+}
+
+function definedIn(obj, variable)
+{
+    return
 }
 
 function defined(variable)

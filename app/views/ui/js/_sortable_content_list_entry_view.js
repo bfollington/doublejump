@@ -78,7 +78,6 @@ var SortableItemListView = (function() {
         addEntry: function(e)
         {
             e.preventDefault();
-            console.log("Add Entry");
 
             var model = new SortableItem({
                 "title": this.$readSelectionFrom.find('option:selected').text(),
