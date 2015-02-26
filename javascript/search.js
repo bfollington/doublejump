@@ -1,7 +1,7 @@
 var search = new function()
 {
     var self = this;
-    
+
     self.searchTerm = "";
     self.categoryFilter = "";
 
@@ -31,7 +31,7 @@ var search = new function()
 
             });
 
-                
+
         });
 
     }
@@ -45,7 +45,7 @@ var search = new function()
 
             self.filterCourses(self.searchTerm, self.categoryFilter);
 
-            
+
         });
 
         $(".js-category-tag").click( function() {
@@ -62,7 +62,7 @@ var search = new function()
                 $(this).css("background-color", $(this).attr("data-bg-selected"));
                 $(this).attr("data-selected", "true");
 
-                
+
             } else {
                 self.categoryFilter = "";
                 $(this).css("background-color", $(this).attr("data-bg"));
@@ -108,5 +108,4 @@ var search = new function()
     }
 }
 
-search.bindCourseSearchField();
-search.bindDefinitionSearchField();
+module.exports = search;

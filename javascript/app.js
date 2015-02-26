@@ -3,10 +3,56 @@
 var mathjax = false;
 window.doublejump = window.doublejump || {};
 
+var mixins = require("mixins/mixin_controller"),
+    bootstrapMod = require("bootstrap-mod"),
+    definitions = require("definitions"),
+    hideable = require("hideable-region"),
+    learn = require("learn"),
+    notifications = require("notifications"),
+    jqueryExtend = require("util/_jquery_extend"),
+    search = require("search"),
+    slug = require("slug-fields"),
+    loading = require("loading"),
+    util = require("util/_util"),
+    twoCols = require("two-cols"),
+    underscoreSettings = require("backbone/underscore_settings"),
+    comments = require("comments");
+
 $( function() {
+
+    util.init();
+    loading();
 
     // Remove no-js class to signify that we... uh... have js
     $("html").first().removeClass("no-js");
+
+    // Initialise all the individual page controllers for the app
+    mixins.intialiseControllers();
+
+    underscoreSettings();
+
+    bootstrapMod();
+    jqueryExtend();
+
+    definitions.convertDefinitionLinks();
+    definitions.bindDefinitions();
+
+    hideable.createHideableRegions();
+    hideable.bindInsertRegionButton();
+
+    search.bindCourseSearchField();
+    search.bindDefinitionSearchField();
+
+    twoCols.repositionColumns();
+
+    slug.bindSlugFields();
+    slug.bindLowercaseFields();
+
+    learn.setup();
+
+    notifications.bindRemoveLinks();
+
+    comments.bindComments();
 
     // Configure select2 when the plugin is present
     if ( typeof $.fn.select2 != "undefined" )

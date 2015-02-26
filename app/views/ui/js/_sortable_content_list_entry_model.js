@@ -1,22 +1,25 @@
-var SortableItem = (function() {
-    return Backbone.Model.extend({
-        defaults: {
-            title: "",
-            field_name: "",
-            id: "",
-            link: "#",
-            cssClass: ""
-        },
+var util = require("util/_util");
 
-        initialize: function(attrs, opts)
-        {
-            this.set({id: getId(attrs)});
-        }
-    });
-})();
+var SortableItem = Backbone.Model.extend({
+    defaults: {
+        title: "",
+        field_name: "",
+        id: "",
+        link: "#",
+        cssClass: ""
+    },
 
-var SortableItemCollection = (function () {
-    return Backbone.Collection.extend({
-        model: SortableItem
-    });
-})();
+    initialize: function(attrs, opts)
+    {
+        this.set({id: util.getId(attrs)});
+    }
+});
+
+var SortableItemCollection = Backbone.Collection.extend({
+    model: SortableItem
+});
+
+module.exports = {
+    SortableItem: SortableItem,
+    SortableItemCollection: SortableItemCollection
+};

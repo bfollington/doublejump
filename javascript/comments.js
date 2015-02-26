@@ -1,12 +1,15 @@
-// comments.js powers the comment frame for articles and images
+var eventUtil = require("util/event-util"),
+    util = require("util/_util"),
+    animate = require("util/animate-util");
 
+// comments.js powers the comment frame for articles and images
 var comments = new function()
 {
     var self = this;
 
     self.bindComments = function()
     {
-
+        console.log("BINDING COMMENTS");
         var id = "#comment_frame";
         var $frame = $(id);
 
@@ -23,7 +26,7 @@ var comments = new function()
 
                 e.preventDefault();
 
-                stopEventPropagating(e);
+                eventUtil.stopEventPropagating(e);
 
                 // Do not interrupt a transition
                 if (!$("#comment_frame").hasClass("animated"))
@@ -78,11 +81,11 @@ var comments = new function()
 
         $('html').on( "touchstart, click", function (e) {
 
-            if ( eventTargetDoesNotInclude(e, '#comment_frame') )
+            if ( eventUtil.eventTargetDoesNotInclude(e, '#comment_frame') )
             {
                 if (!$frame.hasClass("animated") && $frame.css("display") == "block")
                 {
-                    animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
+                    animate.animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
                 }
             }
         });
@@ -98,14 +101,14 @@ var comments = new function()
 
         $frame.css("display", "block");
 
-        if (findBootstrapEnvironment() == "ExtraSmall")
+        if (util.findBootstrapEnvironment() == "ExtraSmall")
         {
             // Centre the display on mobiles
             $frame.offset({ left: getViewportWidth() / 2 - $frame.outerWidth() / 2, top: $comment.offset().top + offsetTop});
         } else {
 
             // Stop comments panel sticking off the right side of the display
-            if ($comment.offset().left + offsetLeft + $frame.outerWidth() >= getViewportWidth())
+            if ($comment.offset().left + offsetLeft + $frame.outerWidth() >= util.getViewportWidth())
             {
                 $frame.offset({ left: getViewportWidth() - $frame.outerWidth() - 10, top: $comment.offset().top + offsetTop});
             } else {
@@ -118,7 +121,7 @@ var comments = new function()
 
 
 
-        animate(id, 'fadeInDown', null);
+        animate.animate(id, 'fadeInDown', null);
 
         $("form#Comment").off();
 
@@ -152,7 +155,7 @@ var comments = new function()
         $(".js-close-comments").click( function(e) {
             e.preventDefault();
 
-            animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
+            animate.animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
 
         });
 
@@ -200,5 +203,4 @@ var comments = new function()
     }
 }
 
-comments.bindComments();
-
+module.exports = comments;

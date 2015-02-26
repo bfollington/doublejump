@@ -1,8 +1,8 @@
-var ModalView = require("ui/_modal_view.js");
+var ModalView = require("ui/_modal_view");
 
-module.exports = NewStepModalView;
+module.exports = NewCourseModalView;
 
-var NewStepModalView = ModalView.extend({
+var NewCourseModalView = ModalView.extend({
     init: function(opts)
     {
         if (opts.el)
@@ -49,3 +49,4 @@ var NewStepModalView = ModalView.extend({
         slug.slugify( this.$el.find("input[name=title]"), this.$el.find("input[name=slug]") );
     }
 });
+

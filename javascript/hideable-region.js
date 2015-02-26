@@ -46,6 +46,5 @@ var hideable = new function()
     }
 }
 
-hideable.createHideableRegions();
-hideable.bindInsertRegionButton();
+module.exports = hideable;
 

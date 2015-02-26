@@ -19,3 +19,9 @@ function format(html, variables)
 
     return html;
 }
+
+module.exports = {
+    getTemplate: getTemplate,
+    templateHtml: templateHtml,
+    format: format
+}

@@ -1,3 +1,5 @@
+var animate = require("util/animate-util");
+
 // form-util.js provides form handling abstractions
 
 function appendErrors(errorsData, $form, errorsSelector)
@@ -15,7 +17,7 @@ function appendErrors(errorsData, $form, errorsSelector)
             $form.find(errorsSelector).append(errorsData[i]);
             $form.find(errorsSelector).append("<br>");
         }
-        
-        animate(errorsSelector, "fadeInUp");
+
+        animate.animate(errorsSelector, "fadeInUp");
     }
 }

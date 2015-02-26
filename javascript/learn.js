@@ -52,4 +52,4 @@ var learn = new function()
     }
 }
 
-learn.setup();
+module.exports = learn;

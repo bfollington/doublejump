@@ -3,9 +3,7 @@
     = javascript_include_tag 'https://js.stripe.com/v2/'
     = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.0.2/jquery.payment.min.js'
 
-- content_for :include_end_body
-    javascript:
-        paymentValidation.init();
+script data-mixin="mixins/payment_details"
 
 span class="payment-errors"
 

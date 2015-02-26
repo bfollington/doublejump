@@ -1,6 +1,9 @@
 = ui_uses 'ui/js/_comment_icon'
 = ui_uses 'ui/js/_inserted_definition'
 
+script data-mixin="mixins/progress_bars"
+script data-mixin="mixins/sharing"
+
 - if !@lesson.get_next_step(@step).nil?
     - next_link = "/learn/#{@course.slug}/#{@lesson.slug}/#{@lesson.get_next_step(@step).slug}#main_content"
     - next_step_exists = true

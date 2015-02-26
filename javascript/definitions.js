@@ -1,3 +1,5 @@
+var animate = require("util/animate-util");
+
 // definitions.js handle definition lookups
 
 var definitions = new function()
@@ -42,14 +44,14 @@ var definitions = new function()
                         var html = Mustache.render(templateHtml("inserted_definition"), model);
 
                         $definition.parent().after(html);
-                        animate($definition.parent().next(), "fadeInUp");
+                        animate.animate($definition.parent().next(), "fadeInUp");
 
                         if (mathjax) MathJax.Hub.Queue(["Typeset", MathJax.Hub, $definition.parent().next()[0]]);
 
                         $(".js-close-inserted-definition").click( function(e) {
                             e.preventDefault();
 
-                            animate($(this).parent(), "fadeOutDown", function($el) { $el.remove(); });
+                            animate.animate($(this).parent(), "fadeOutDown", function($el) { $el.remove(); });
                         });
 
                     }
@@ -121,6 +123,4 @@ var definitions = new function()
     }
 }
 
-definitions.convertDefinitionLinks();
-definitions.bindDefinitions();
-
+module.exports = definitions;

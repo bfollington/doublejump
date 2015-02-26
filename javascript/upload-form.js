@@ -1,3 +1,5 @@
+var animate = require("util/animate-util");
+
 // upload-form.js powers the file uploader available in the backend
 
 function bindUpload()
@@ -6,7 +8,7 @@ function bindUpload()
     var id = "#upload_frame";
     var $frame = $(id);
 
-    $(".js-upload-link").click( function (e) { 
+    $(".js-upload-link").click( function (e) {
 
         e.preventDefault();
 
@@ -18,7 +20,7 @@ function bindUpload()
 
             $.ajax({
                 url: "/upload/",
-                success: function (data) { 
+                success: function (data) {
                     if (data.success)
                     {
                         $frame.html(data.html);
@@ -32,7 +34,7 @@ function bindUpload()
                     showUploadFrame(id, $frame);
                 }
             });
-        }  
+        }
 
     } );
 
@@ -42,7 +44,7 @@ function bindUpload()
         {
             if (!$frame.hasClass("animated") && $frame.css("display") == "block")
             {
-                animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
+                animate.animate(id, 'fadeOutUp', function() { $frame.css("display", "none"); });
             }
         }
     });
@@ -53,14 +55,14 @@ function showUploadFrame(id, $frame)
 {
     $frame.css("display", "block");
     $frame.offset({ left: $(".js-upload-link").offset().left, top: $(".js-upload-link").offset().top + 40});
-    animate(id, 'fadeInDown', null);
+    animate.animate(id, 'fadeInDown', null);
 
     $("form#Upload").off();
 
     $("form#Upload").ajaxForm({
         beforeSubmit:  function () {
-            $frame.find(".errors").text("");  
-            $frame.find(".file").text("");  
+            $frame.find(".errors").text("");
+            $frame.find(".file").text("");
             $("form#Upload").find('input[type="submit"]').attr("disabled", "disabled");
         },
         success: function (data) {
@@ -85,3 +87,8 @@ function showUploadFrame(id, $frame)
         }
     });
 }
+
+module.exports = {
+    bindUpload: bindUpload,
+    showUploadFrame: showUploadFrame
+};

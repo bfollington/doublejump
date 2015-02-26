@@ -21,4 +21,5 @@ function boostrapMods()
         e.preventDefault();
     });
 }
-boostrapMods();
+
+module.exports = boostrapMods;

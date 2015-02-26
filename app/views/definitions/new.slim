@@ -1,3 +1,8 @@
+- content_for :include_js
+    = partial 'includes/ace'
+
+script data-mixin="mixins/convert_ace" data-selector=".create-definition-form"
+
 .create-definition-form
     = form_for :definition, "", { :id => 'addDefinitionForm' } do |f|
         .row
@@ -15,10 +20,10 @@
 
                     p
                         = f.label :body, :caption => "Definition Body"
-                        #epiceditor
+                        /#epiceditor
 
                     p
-                        = f.text_area :body, :id => 'epiceditor-target', :class => "form-control"
+                        = f.text_area :body, :id => 'epiceditor-target', :class => "form-control", :"data-editor" => 'markdown'
                         = partial 'form_error', :collection => (errors_for @definition, :body)
 
         .row

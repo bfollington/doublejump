@@ -21,3 +21,5 @@ var iconTab = new function ()
         }
     }
 }
+
+module.exports = iconTab;

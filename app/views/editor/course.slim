@@ -1,10 +1,11 @@
 - content_for :include_js do
     = javascript_include_tag 'jquery.sortable.min'
 
+script data-mixin="mixins/ajax_form" data-opts="{formId: '#addCouseForm', refreshPage: true}"
+script data-mixin="mixins/course_edit_page"
+
 - content_for :include_end_body
     javascript:
-        new AjaxFormView({el: $("#addCourseForm"), refreshPage: true});
-
         $(".js-save-course").click( function(e) { e.preventDefault(); $("#addCourseForm").submit(); } );
 
 - content_for :admin_tools
@@ -21,30 +22,8 @@
                     - content_for :include_end_body
                         - query = (find_from_id_list Lesson, @course.lesson_ids).to_json
                         javascript:
-
-                            //course.slim
-                            var lessonCollection = new SortableItemCollection();
-                            var urlBase = "#{{ url_for(:editor, :lesson, @course.id, "") }}";
-
                             window.doublejump.lessonListForCurrentCourse = #{{ query }};
-
-                            _.each(window.doublejump.lessonListForCurrentCourse, function(model)
-                            {
-                                var model = new SortableItem({
-                                    id: model["_id"]["$oid"],
-                                    title: model.title,
-                                    link: urlBase + model["_id"]["$oid"]
-                                });
-
-                                lessonCollection.add(model);
-                            });
-
-                            new SortableItemListView({
-                                el: $("#lessons_sortable_list"),
-                                hiddenFieldName: 'course[lessons][]',
-                                targetList: '#lessons',
-                                collection: lessonCollection
-                            });
+                            window.doublejump.urlBase = "#{{ url_for(:editor, :lesson, @course.id, "") }}";
 
                     a href="#{ url_for(:editor, :course, @course.id) }"
                         h3 = @course.title
@@ -103,17 +82,13 @@
                 .row
                     .col-md-6
                         .box#prerequisites_sortable_list
-                            - content_for :include_end_body
-                                - query = (find_from_id_list Course, @course.prerequisite_ids).to_json
-                                javascript:
+                            - query = (find_from_id_list Course, @course.prerequisite_ids).to_json
 
-                                    //course.slim
-                                    new SortableItemListView({
-                                        el: $("#prerequisites_sortable_list"),
-                                        hiddenFieldName: 'course[prerequisites][]',
-                                        targetList: '#prerequisites',
-                                        collection: new SortableItemCollection(#{{ query }})
-                                    });
+                            - content_for :include_end_body
+                                javascript:
+                                    window.doublejump.prerequisiteList = #{{ query }};
+
+                            script data-mixin="mixins/sortable_item_list" data-selector="#prerequisites_sortable_list" data-hidden-field-name="course[prerequisites][]" data-target-list="#prerequisites" data-data="prerequisiteList"
 
                             p
                                 = f.label :prerequisite, :caption => "Prerequisites"
@@ -132,15 +107,12 @@
                         .box#follow_ons_sortable_list
                             - content_for :include_end_body
                                 - query = (find_from_id_list Course, @course.follow_on_ids).to_json
-                                javascript:
 
-                                    //course.slim
-                                    new SortableItemListView({
-                                        el: $("#follow_ons_sortable_list"),
-                                        hiddenFieldName: 'course[follow_ons][]',
-                                        targetList: '#follow_ons',
-                                        collection: new SortableItemCollection(#{{ query }})
-                                    });
+                                - content_for :include_end_body
+                                    javascript:
+                                        window.doublejump.followOnList = #{{ query }};
+
+                                script data-mixin="mixins/sortable_item_list" data-selector="#follow_ons_sortable_list" data-hidden-field-name="course[follow_ons][]" data-target-list="#follow_ons" data-data="followOnList"
 
                             p
                                 = f.label :follow_on, :caption => "Follow Ons"

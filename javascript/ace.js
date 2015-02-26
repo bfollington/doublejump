@@ -48,7 +48,7 @@ var aceUtil = new function()
 
 }
 
-
+module.exports = aceUtil;
 
 
 

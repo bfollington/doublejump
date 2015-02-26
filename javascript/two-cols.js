@@ -17,4 +17,4 @@ var twoCols = new function()
 
 }
 
-twoCols.repositionColumns();
+module.exports = twoCols;

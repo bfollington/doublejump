@@ -1,4 +1,6 @@
 // epiceditor-config.js configures the epic editor backend fields
+// UNUSED DO NOT CALL STUFF
+
 
 var editor;
 
@@ -47,5 +49,3 @@ function bindEpicEditorField($el)
 
     editor = new EpicEditor(opts).load();
 }
-
-bindEpicEditorFields();

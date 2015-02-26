@@ -1,91 +1,95 @@
-var SortableItemView = (function() {
-    return Pillar.View.extend({
-        init: function(opts)
-        {
-            this.params = opts.params;
-            this.model.on("change", this.render, this);
-        },
+var SortableItem = require("ui/js/_sortable_content_list_entry_model").SortableItem;
+var Pillar = require("pillar/pillar");
+var template = require("util/templating-util");
 
-        events: {
-            "click .js-sortable-delete-link": "deleteSelf"
-        },
+var SortableItemView = Pillar.View.extend({
+    init: function(opts)
+    {
+        this.params = opts.params;
+        this.model.on("change", this.render, this);
+    },
 
-        template: templateHtml("sortable_content_list_entry"),
+    events: {
+        "click .js-sortable-delete-link": "deleteSelf"
+    },
 
-        cssClass: function()
-        {
-            return this.model.get("active") ? "active" : "";
-        },
+    template: template.templateHtml("sortable_content_list_entry"),
 
-        draw: function(opts)
-        {
-            var data = this.model.toJSON();
-            data.cssClass = this.cssClass();
-            var html = Mustache.render(this.template, this.model.toJSON());
-            this.replaceElement(html);
-        },
+    cssClass: function()
+    {
+        return this.model.get("active") ? "active" : "";
+    },
 
-        deleteSelf: function(e)
-        {
-            e.preventDefault();
-            this.model.collection.remove(this.model);
-        }
-    });
-})();
+    draw: function(opts)
+    {
+        var data = this.model.toJSON();
+        data.cssClass = this.cssClass();
+        var html = Mustache.render(this.template, this.model.toJSON());
+        this.replaceElement(html);
+    },
 
-var SortableItemListView = (function() {
-    return Pillar.CollectionView.extend({
-        init: function(opts) {
-            this.$el.find(".js-sortable").sortable({});
+    deleteSelf: function(e)
+    {
+        e.preventDefault();
+        this.model.collection.remove(this.model);
+    }
+});
 
-            this.$readSelectionFrom = $(this.el).find(".js-select2");
-            this.hiddenFieldName = opts.hiddenFieldName;
-            this.$targetList = this.$el.find(opts.targetList);
+var SortableItemListView = Pillar.CollectionView.extend({
+    init: function(opts) {
+        this.$el.find(".js-sortable").sortable({});
 
-            this.collection.on('reset add remove', this.render, this);
+        this.$readSelectionFrom = $(this.el).find(".js-select2");
+        this.hiddenFieldName = opts.hiddenFieldName;
+        this.$targetList = this.$el.find(opts.targetList);
 
-            this.render();
-        },
+        this.collection.on('reset add remove', this.render, this);
 
-        events: {
-            "click .js-sortable-add-new": "addEntry",
-            "click .js-sortable-create-new": "newStepModal",
-        },
+        this.render();
+    },
 
-        afterDraw: function()
-        {
-            this.$el.find(".loading").remove();
-        },
+    events: {
+        "click .js-sortable-add-new": "addEntry",
+        "click .js-sortable-create-new": "newStepModal",
+    },
 
-        drawCollection: function(model)
-        {
-            console.log()
-            model.set({field_name: this.hiddenFieldName})
-            var itemView = new SortableItemView({model: model});
-            this.views.push( itemView );
-            this.$targetList.append(itemView.render().el);
-        },
+    afterDraw: function()
+    {
+        this.$el.find(".loading").remove();
+    },
 
-        newStepModal: function(e)
-        {
-            e.preventDefault();
+    drawCollection: function(model)
+    {
+        model.set({field_name: this.hiddenFieldName})
+        var itemView = new SortableItemView({model: model});
+        this.views.push( itemView );
+        this.$targetList.append(itemView.render().el);
+    },
 
-            var view = new NewStepModalView({});
-            $("body").append(view.render().el);
-            view.showModal();
-        },
+    newStepModal: function(e)
+    {
+        e.preventDefault();
 
-        addEntry: function(e)
-        {
-            e.preventDefault();
+        var view = new NewStepModalView({});
+        $("body").append(view.render().el);
+        view.showModal();
+    },
 
-            var model = new SortableItem({
-                "title": this.$readSelectionFrom.find('option:selected').text(),
-                "field_name": this.hiddenFieldName,
-                "id": this.$readSelectionFrom.val()
-            });
+    addEntry: function(e)
+    {
+        e.preventDefault();
 
-            this.collection.add( model );
-        },
-    });
-})();
+        var model = new SortableItem({
+            "title": this.$readSelectionFrom.find('option:selected').text(),
+            "field_name": this.hiddenFieldName,
+            "id": this.$readSelectionFrom.val()
+        });
+
+        this.collection.add( model );
+    },
+});
+
+module.exports = {
+    SortableItemView: SortableItemView,
+    SortableItemListView: SortableItemListView
+};

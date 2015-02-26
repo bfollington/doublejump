@@ -37,4 +37,4 @@ var notifications = new function()
     };
 }
 
-notifications.bindRemoveLinks();
+module.exports = notifications;

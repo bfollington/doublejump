@@ -1,3 +1,5 @@
+var util = require("util/_util");
+
 /**
  * Calls an Animate.css animation on the provided selector
  * @param  {[type]} element_ID [description]
@@ -11,7 +13,7 @@ function animate(element_ID, animation, completeCallback) {
 
 function animateElement($element, animation, completeCallback) {
 
-    if (supportsTransitions())
+    if (util.supportsTransitions())
     {
         if ($element.attr("data-timeout-id"))
         {
@@ -36,7 +38,7 @@ function animateElement($element, animation, completeCallback) {
         $element.attr("data-timeout-id", timeoutId);
 
         $element.off();
-        $element.one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", 
+        $element.one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend",
             function() {
                 $element.removeClass(animation);
                 $element.removeClass("animated");
@@ -53,4 +55,9 @@ function animateElement($element, animation, completeCallback) {
     }
 
 
+}
+
+module.exports = {
+    animate: animate,
+    animateElement: animateElement
 }

@@ -1,24 +1,4 @@
-- content_for :include_end_body
-    javascript:
-        //step.slim
-        new AjaxFormView({
-            el: $("#updateStepOrderForm")
-        });
-
-        var composeStepView = new ComposeStepView({el: $(".create-step-form")});
-
-        $(".content").each( function() {
-            new ComposeStepContentView({el: $(this), parent: composeStepView});
-        });
-
-        $(".js-save-step").click( function (e)
-        {
-            e.preventDefault();
-
-            $("#updateStepOrderForm").submit();
-            composeStepView.beginSubmits();
-        });
-
+scripts data-mixin="mixins/edit_step"
 
 - content_for :include_js
     = partial 'includes/ace'

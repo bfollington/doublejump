@@ -1,11 +1,13 @@
 // progress-bar.js powers the progress bar during a lesson
 
+var util = require("util/_util");
+
 var progress = new function()
 {
     var self = this;
     self.updateProgressBars = function()
     {
-        $(".progress-list-wrapper .progress").each(function() { 
+        $(".progress-list-wrapper .progress").each(function() {
 
             var
             $this = $(this),
@@ -13,11 +15,11 @@ var progress = new function()
             $first = $parent.find("ul.progress-list li:first a"),
             $last = $parent.find("ul.progress-list li.current-step a");
 
-            $(this).css("width", $last.offset().left - $first.offset().left); 
-            $(this).css("left", $first.position().left + 2); 
-            $(this).css("top", $first.position().top); 
+            $(this).css("width", $last.offset().left - $first.offset().left);
+            $(this).css("left", $first.position().left + 2);
+            $(this).css("top", $first.position().top);
 
-        } );  
+        } );
 
         if ( $(".course-progress-node").length > 0 )
         {
@@ -70,7 +72,7 @@ var progress = new function()
             var href = $selector.find("a").attr("href");
 
             $selector.find(".box").prepend("<a href='" + href + "' class='button create-button float-right lets-go'>Let's Go!</div>");
-        } 
+        }
     }
 
     self.initHorizontalBars = function()
@@ -91,11 +93,11 @@ var progress = new function()
         $(window).resize( self.updateProgressBars );
 
         // If we are running CSS animations, then we need to keep the progress bars up to date
-        if (supportsTransitions())
+        if (util.supportsTransitions())
         {
-            self.runBarUpdate();    
+            self.runBarUpdate();
         }
-        
+
     }
 
     self.barUpdateCount = 0;
@@ -112,6 +114,4 @@ var progress = new function()
     }
 }
 
-progress.initHorizontalBars();
-progress.bindProgressBarResize();
-progress.initVerticalBars();
+module.exports = progress;

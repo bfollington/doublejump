@@ -13,7 +13,12 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     notify = require('gulp-notify'),
     cache = require('gulp-cache'),
-    livereload = require('gulp-livereload');
+    livereload = require('gulp-livereload'),
+    sourcemaps = require('gulp-sourcemaps'),
+    browserify = require('browserify'),
+    source = require('vinyl-source-stream'),
+    buffer = require('vinyl-buffer'),
+    glob = require('glob');
 
 gulp.task('scripts', buildJs);
 gulp.task('components', buildComponents);
@@ -35,23 +40,43 @@ function buildComponents()
     .pipe(gulp.dest('app/stylesheets'));
 }
 
+var getBundleName = function () {
+    var version = require('./package.json').version;
+    var name = require('./package.json').name;
+    return version + '.' + name + '.' + 'min';
+};
+
 function buildJs()
 {
-    return gulp.src(['javascript/pillar/pillar.js', 'javascript/**/*.js'])
-    .pipe(wrap('//<%= file.path.replace(/^.*[\\\/]/, "") %>\n<%= contents %>'))
-    .pipe(concat('doublejump.js'))
-    .pipe(gulp.dest('public/javascripts'))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(uglify().on('error', ignoreError))
-    .pipe(gulp.dest('public/javascripts'));
+
+    var bundler = browserify({
+        entries: ['./javascript/app.js'],
+        paths: ['./node_modules', './javascript', './app/views'],
+        debug: true
+    });
+
+    var bundle = function() {
+        return bundler
+            .bundle()
+            .pipe(source('bundle.js'))
+            .pipe(buffer())
+            .pipe(sourcemaps.init({loadMaps: true}))
+            .pipe(gulp.dest('./public/javascripts/'))
+            // Add transformation tasks to the pipeline here.
+            //.pipe(uglify())
+            .pipe(sourcemaps.write('./'))
+            .pipe(gulp.dest('./public/javascripts/'));
+    };
+
+    return bundle();
 }
 
-gulp.task('watch', ['scripts', 'components', 'componentsJs'], function() {
+gulp.task('watch', ['scripts', 'components'], function() {
 
   // Watch .js files
   gulp.watch('javascript/**/*.js', ['scripts']);
   gulp.watch('app/views/**/*.scss', ['components']);
-  gulp.watch('app/views/**/*.js', ['componentsJs']);
+  //gulp.watch('app/views/**/*.js', ['componentsJs']);
 });
 
 function ignoreError(e)

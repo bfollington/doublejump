@@ -1,10 +1,12 @@
+script data-mixin="mixins/progress_bars"
+
 .row.fadeInUp.animated
     .col-md-12
             h3
                 = @lesson.title
                 br
                 small
-                    |  by 
+                    |  by
                     = @course.account.name
                     img.avatar.very-small.margin-left.margin-right src="#{@course.account.avatar}"
                     = @course.account.surname
@@ -13,7 +15,7 @@
                 = @lesson.description
 
             h3 Steps in This Lesson
-    
+
 
 
 .row.fadeInUp.animated
@@ -51,8 +53,8 @@
                                 - if current_account && current_account.has_completed_step?(step)
                                     small.margin-left
                                         i.fa.fa-check-circle
-                                        |  Completed on #{current_account.get_completed_step(step).created_at.strftime("%A, %d %B, %Y")}   
-            
+                                        |  Completed on #{current_account.get_completed_step(step).created_at.strftime("%A, %d %B, %Y")}
+
     .col-md-3.col-xs-12.fadeInUp.animated
         h4 Related Readings
 
@@ -68,4 +70,4 @@
             .box
                 - @lesson.downloads.each do |download|
                     = partial 'learn/elements/download', :object => download
-                
+

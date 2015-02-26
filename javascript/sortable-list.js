@@ -85,3 +85,5 @@ var sortable = new function()
         }
     }
 }
+
+module.exports = sortable;

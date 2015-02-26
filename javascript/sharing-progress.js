@@ -1,5 +1,7 @@
 // sharing-progress.js controls everything about the gallery sharing steps
 
+var learn = require("learn");
+
 var sharing = new function()
 {
     var $sharedImageForm = $("form#addSharedImageForm");
@@ -9,7 +11,7 @@ var sharing = new function()
     {
         $sharedImageForm.ajaxForm({
             beforeSubmit:  function () {
-                $sharedImageForm.find(".errors").text("");  
+                $sharedImageForm.find(".errors").text("");
                 $sharedImageForm.find('input[type="submit"]').attr("disabled", "disabled");
             },
             success: function (data) {
@@ -83,7 +85,7 @@ var sharing = new function()
                 url: '/upload-image/',
                 type: 'post',
                 beforeSubmit:  function () {
-                    $sharedImageForm.find(".errors").text("");  
+                    $sharedImageForm.find(".errors").text("");
                     $sharedImageForm.find('input[type="submit"]').attr("disabled", "disabled");
                 },
                 success: function (data) {
@@ -106,14 +108,11 @@ var sharing = new function()
         );
         }
 
-        
+
     });
 
 
 
 }
 
-sharing.bindImageClick();
-sharing.bindSharingImageForm();
-sharing.bindPageResize();
-sharing.bindLikeImage();
+module.exports = sharing;

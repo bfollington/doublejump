@@ -8,7 +8,7 @@ var paymentValidation = new function()
             return;
         }
 
-        Stripe.setPublishableKey('#{stripe_publishable_key}');
+        Stripe.setPublishableKey("pk_test_90Yk2QxvQRPpw2T5qEQtyvoP");
 
         $('#cc_num').payment('formatCardNumber');
         $('#cc_cvc').payment('formatCardCVC');
@@ -52,3 +52,4 @@ var paymentValidation = new function()
     }
 }
 
+module.exports = paymentValidation;

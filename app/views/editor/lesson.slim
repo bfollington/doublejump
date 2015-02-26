@@ -1,11 +1,12 @@
 - content_for :include_js do
     = javascript_include_tag 'jquery.sortable.min'
 
+script data-mixin="mixins/ajax_form" data-opts="{formId: '#addLessonForm', refreshPage: true}"
+script data-mixin="mixins/course_edit_page"
+
 - content_for :include_end_body
     javascript:
         //lesson.slim
-        new AjaxFormView({el: $("#addLessonForm"), refreshPage: true});
-
         $(".js-save-lesson").click( function(e) { e.preventDefault(); $("#addLessonForm").submit(); } );
 
 - content_for :admin_tools
@@ -61,17 +62,13 @@
 
                     .col-md-6
                         .box#related_readings_sortable_list
-                            - content_for :include_end_body
-                                - query = (find_from_id_list RelatedReading, @lesson.related_reading_ids).to_json
-                                javascript:
+                            - query = (find_from_id_list RelatedReading, @lesson.related_reading_ids).to_json
 
-                                    //lesson.slim
-                                    new SortableItemListView({
-                                        el: $("#related_readings_sortable_list"),
-                                        hiddenFieldName: 'lesson[related_readings][]',
-                                        targetList: '#related_readings',
-                                        collection: new SortableItemCollection(#{{ query }})
-                                    });
+                            - content_for :include_end_body
+                                javascript:
+                                    window.doublejump.relatedReadingList = #{{ query }};
+
+                            script data-mixin="mixins/sortable_item_list" data-selector="#related_readings_sortable_list" data-hidden-field-name="lesson[related_readings][]" data-target-list="#related_readings" data-data="relatedReadingList"
 
                             p
                                 = f.label :related_reading, :caption => "Related Readings"
@@ -88,15 +85,12 @@
                         .box#downloads_sortable_list
                             - content_for :include_end_body
                                 - query = (find_from_id_list Download, @lesson.download_ids).to_json
-                                javascript:
 
-                                    //lesson.slim
-                                    new SortableItemListView({
-                                        el: $("#downloads_sortable_list"),
-                                        hiddenFieldName: 'lesson[downloads][]',
-                                        targetList: '#downloads',
-                                        collection: new SortableItemCollection(#{{ query }})
-                                    });
+                                - content_for :include_end_body
+                                javascript:
+                                    window.doublejump.downloadList = #{{ query }};
+
+                                script data-mixin="mixins/sortable_item_list" data-selector="#downloads_sortable_list" data-hidden-field-name="lesson[downloads][]" data-target-list="#downloads" data-data="downloadList"
 
                             p
                                 = f.label :title, :caption => "Downloads"

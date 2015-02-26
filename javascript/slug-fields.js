@@ -41,5 +41,4 @@ var slug = new function()
 
 }
 
-slug.bindSlugFields();
-slug.bindLowercaseFields();
+module.exports = slug;

@@ -1,23 +1,25 @@
-var CommentIconView = (function() {
-    return Pillar.View.extend({
-        init: function(opts)
-        {
-            this.params = opts.params;
-            this.model.on("change", this.render, this);
-        },
+var Pillar = require("pillar/pillar");
 
-        events: {
+module.exports = CommentIconView;
 
-        },
+var CommentIconView = Pillar.View.extend({
+    init: function(opts)
+    {
+        this.params = opts.params;
+        this.model.on("change", this.render, this);
+    },
 
-        template: templateHtml("sortable_content_list_entry"),
+    events: {
 
-        draw: function(opts)
-        {
-            var data = this.model.toJSON();
-            data.cssClass = this.cssClass();
-            var html = Mustache.render(this.template, this.model.toJSON());
-            this.replaceElement(html);
-        }
-    });
-})();
+    },
+
+    template: templateHtml("sortable_content_list_entry"),
+
+    draw: function(opts)
+    {
+        var data = this.model.toJSON();
+        data.cssClass = this.cssClass();
+        var html = Mustache.render(this.template, this.model.toJSON());
+        this.replaceElement(html);
+    }
+});
