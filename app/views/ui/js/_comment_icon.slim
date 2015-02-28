@@ -1,9 +1,10 @@
-' {{#count}}
-a href="#" title="View comments"
-    ' {{count}}
-    i.fa.fa-comment
-' {{/count}}
-' {{^count}}
-a href="#" title="Add comment"
-    i.fa.fa-plus
-' {{/count}}
+.comment data-content="{{content_id}}" data-view-model="ui/js/_comment_icon_view"
+    ' {{#count}}
+    a.js-show-comments href="#" title="View comments"
+        ' {{count}}
+        i.fa.fa-comment
+    ' {{/count}}
+    ' {{^count}}
+    a.js-show-comments href="#" title="Add comment"
+        i.fa.fa-plus
+    ' {{/count}}

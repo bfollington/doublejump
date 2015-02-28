@@ -16,6 +16,7 @@ var mixins = require("mixins/mixin_controller"),
     util = require("util/_util"),
     twoCols = require("two-cols"),
     underscoreSettings = require("backbone/underscore_settings"),
+    uiBinding = require("mixins/ui_binder"),
     comments = require("comments");
 
 $( function() {
@@ -52,7 +53,9 @@ $( function() {
 
     notifications.bindRemoveLinks();
 
-    comments.bindComments();
+    uiBinding();
+
+    // comments.bindComments();
 
     // Configure select2 when the plugin is present
     if ( typeof $.fn.select2 != "undefined" )

@@ -17,6 +17,7 @@ var mixins = require("mixins/mixin_controller"),
     util = require("util/_util"),
     twoCols = require("two-cols"),
     underscoreSettings = require("backbone/underscore_settings"),
+    uiBinding = require("mixins/ui_binder"),
     comments = require("comments");
 
 $( function() {
@@ -53,7 +54,9 @@ $( function() {
 
     notifications.bindRemoveLinks();
 
-    comments.bindComments();
+    uiBinding();
+
+    // comments.bindComments();
 
     // Configure select2 when the plugin is present
     if ( typeof $.fn.select2 != "undefined" )
@@ -127,7 +130,7 @@ $( function() {
 
 });
 
-},{"backbone/underscore_settings":7,"bootstrap-mod":8,"comments":9,"definitions":10,"hideable-region":11,"learn":12,"loading":13,"mixins/mixin_controller":20,"notifications":26,"search":30,"slug-fields":32,"two-cols":34,"util/_jquery_extend":36,"util/_util":37}],2:[function(require,module,exports){
+},{"backbone/underscore_settings":9,"bootstrap-mod":10,"comments":11,"definitions":12,"hideable-region":13,"learn":14,"loading":15,"mixins/mixin_controller":22,"mixins/ui_binder":28,"notifications":29,"search":33,"slug-fields":35,"two-cols":37,"util/_jquery_extend":39,"util/_util":40}],2:[function(require,module,exports){
 var Pillar = require("pillar/pillar");
 var sortable = require("sortable-list");
 var aceUtil = require("ace");
@@ -309,7 +312,96 @@ module.exports = {
     ComposeStepContentView: ComposeStepContentView
 }
 
-},{"ace":5,"pillar/pillar":28,"sortable-list":33}],3:[function(require,module,exports){
+},{"ace":7,"pillar/pillar":31,"sortable-list":36}],3:[function(require,module,exports){
+var Pillar = require("pillar/pillar"),
+    template = require("util/templating-util"),
+    CommentListView = require("ui/js/_comment_list_view");
+
+module.exports = CommentIconView;
+
+var CommentIconView = Pillar.View.extend({
+    init: function(opts)
+    {
+        this.params = opts.params;
+    },
+
+    events: {
+        "click .js-show-comments": "showComments"
+    },
+
+    showComments: function(e)
+    {
+        e.preventDefault();
+
+        var list = new CommentListView({params: {content_id: this.$el.attr("data-content")}});
+        var el = list.render().el;
+
+        $("body").append( el );
+        console.log("Comment List added", el);
+    },
+
+    template: Pillar.template("comment_icon"),
+
+    draw: function(opts)
+    {
+        var data = this.model.toJSON();
+        var html = Mustache.render(this.template, data);
+        this.replaceElement(html);
+    }
+});
+
+module.exports = CommentIconView;
+
+},{"pillar/pillar":31,"ui/js/_comment_list_view":4,"util/templating-util":43}],4:[function(require,module,exports){
+var Pillar = require("pillar/pillar"),
+    animate = require("util/animate-util");
+
+module.exports = Pillar.View.extend({
+    init: function(opts)
+    {
+        opts = opts || {};
+        this.params = opts.params || {};
+    },
+
+    events: {
+        "click .js-close-comments": "closeComments",
+        "click .comment-frame": "test"
+    },
+
+    template: Pillar.template("comment_list"),
+
+    closeComments: function(e)
+    {
+        e.preventDefault();
+        console.log("woo");
+        animate.animateElement(this.$el, "fadeOutDown", this.fadeOut, this);
+    },
+
+    fadeOut: function($el, context)
+    {
+        context.remove();
+    },
+
+    getData: function()
+    {
+        return {};
+    },
+
+    draw: function(opts)
+    {
+        var data = this.getData();
+        data.content_id = this.params.content_id;
+        data.shared_image_id = this.$el.attr("data-shared-image");
+
+        var html = Mustache.render(this.template, data);
+        this.replaceElement(html);
+
+        this.$el.css("display", "block");
+        animate.animateElement(this.$el, "fadeInUp", null);
+    }
+});
+
+},{"pillar/pillar":31,"util/animate-util":41}],5:[function(require,module,exports){
 var util = require("util/_util");
 
 var SortableItem = Backbone.Model.extend({
@@ -336,7 +428,7 @@ module.exports = {
     SortableItemCollection: SortableItemCollection
 };
 
-},{"util/_util":37}],4:[function(require,module,exports){
+},{"util/_util":40}],6:[function(require,module,exports){
 var SortableItem = require("ui/js/_sortable_content_list_entry_model").SortableItem;
 var Pillar = require("pillar/pillar");
 var template = require("util/templating-util");
@@ -433,7 +525,7 @@ module.exports = {
     SortableItemListView: SortableItemListView
 };
 
-},{"pillar/pillar":28,"ui/js/_sortable_content_list_entry_model":3,"util/templating-util":40}],5:[function(require,module,exports){
+},{"pillar/pillar":31,"ui/js/_sortable_content_list_entry_model":5,"util/templating-util":43}],7:[function(require,module,exports){
 var aceUtil = new function()
 {
     this.convertTextAreas = function(selector) {
@@ -490,7 +582,7 @@ module.exports = aceUtil;
 
 
 
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var util = require("util/_util");
 
 var AjaxFormView = Backbone.View.extend({
@@ -574,7 +666,7 @@ var AjaxFormView = Backbone.View.extend({
 
 module.exports = AjaxFormView;
 
-},{"util/_util":37}],7:[function(require,module,exports){
+},{"util/_util":40}],9:[function(require,module,exports){
 function run()
 {
     _.templateSettings = {
@@ -586,7 +678,7 @@ function run()
 
 module.exports = run;
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 // bootstrap-mod.js alters some bootstrap UI animations
 
 function boostrapMods()
@@ -613,7 +705,7 @@ function boostrapMods()
 
 module.exports = boostrapMods;
 
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var eventUtil = require("util/event-util"),
     util = require("util/_util"),
     animate = require("util/animate-util");
@@ -821,7 +913,7 @@ var comments = new function()
 
 module.exports = comments;
 
-},{"util/_util":37,"util/animate-util":38,"util/event-util":39}],10:[function(require,module,exports){
+},{"util/_util":40,"util/animate-util":41,"util/event-util":42}],12:[function(require,module,exports){
 var animate = require("util/animate-util");
 
 // definitions.js handle definition lookups
@@ -949,7 +1041,7 @@ var definitions = new function()
 
 module.exports = definitions;
 
-},{"util/animate-util":38}],11:[function(require,module,exports){
+},{"util/animate-util":41}],13:[function(require,module,exports){
 // hideable-region.js
 
 var hideable = new function()
@@ -1001,7 +1093,7 @@ var hideable = new function()
 module.exports = hideable;
 
 
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 // learn.js modifies the learn page layout to inject images etc.
 
 var learn = new function()
@@ -1058,7 +1150,7 @@ var learn = new function()
 
 module.exports = learn;
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 function run()
 {
     window.loadingIndicator = '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
@@ -1066,7 +1158,7 @@ function run()
 
 module.exports = run;
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 var AjaxFormView = require("backbone/ajax_view");
 
 function run(opts)
@@ -1076,7 +1168,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"backbone/ajax_view":6}],15:[function(require,module,exports){
+},{"backbone/ajax_view":8}],17:[function(require,module,exports){
 var aceUtil = require("ace");
 
 function run(opts)
@@ -1086,7 +1178,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"ace":5}],16:[function(require,module,exports){
+},{"ace":7}],18:[function(require,module,exports){
 var SortableItemListView = require("ui/js/_sortable_content_list_entry_view").SortableItemListView,
     SortableItem = require("ui/js/_sortable_content_list_entry_model").SortableItem,
     SortableItemCollection = require("ui/js/_sortable_content_list_entry_model").SortableItemCollection;
@@ -1118,7 +1210,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"ui/js/_sortable_content_list_entry_model":3,"ui/js/_sortable_content_list_entry_view":4}],17:[function(require,module,exports){
+},{"ui/js/_sortable_content_list_entry_model":5,"ui/js/_sortable_content_list_entry_view":6}],19:[function(require,module,exports){
 var AjaxFormView = require("backbone/ajax_view");
 var ComposeStepView = require("editor/step_view").ComposeStepView;
 var ComposeStepContentView = require("editor/step_view").ComposeStepContentView;
@@ -1147,7 +1239,7 @@ function run()
 
 module.exports = {run: run};
 
-},{"backbone/ajax_view":6,"editor/step_view":2}],18:[function(require,module,exports){
+},{"backbone/ajax_view":8,"editor/step_view":2}],20:[function(require,module,exports){
 var comments = require("comments");
 var sortable = require("sortable-list");
 
@@ -1161,7 +1253,7 @@ var EditorCourseList = new function()
 
 module.exports = EditorCourseList;
 
-},{"comments":9,"sortable-list":33}],19:[function(require,module,exports){
+},{"comments":11,"sortable-list":36}],21:[function(require,module,exports){
 var iconTab = require("ui/icon-tab");
 
 function run(opts)
@@ -1171,7 +1263,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"ui/icon-tab":35}],20:[function(require,module,exports){
+},{"ui/icon-tab":38}],22:[function(require,module,exports){
 require("mixins/editor_course_list");
 require("mixins/payment_details");
 require("mixins/progress_bars");
@@ -1196,7 +1288,7 @@ var MixinController = new function()
 
 module.exports = MixinController;
 
-},{"mixins/ajax_form":14,"mixins/convert_ace":15,"mixins/course_edit_page":16,"mixins/edit_step":17,"mixins/editor_course_list":18,"mixins/icon_tab":19,"mixins/payment_details":21,"mixins/progress_bars":22,"mixins/sharing":23,"mixins/sortable_item_list":24,"mixins/step_list":25}],21:[function(require,module,exports){
+},{"mixins/ajax_form":16,"mixins/convert_ace":17,"mixins/course_edit_page":18,"mixins/edit_step":19,"mixins/editor_course_list":20,"mixins/icon_tab":21,"mixins/payment_details":23,"mixins/progress_bars":24,"mixins/sharing":25,"mixins/sortable_item_list":26,"mixins/step_list":27}],23:[function(require,module,exports){
 var payment = require("payment_validation");
 
 var PaymentDetails = new function()
@@ -1209,7 +1301,7 @@ var PaymentDetails = new function()
 
 module.exports = PaymentDetails;
 
-},{"payment_validation":27}],22:[function(require,module,exports){
+},{"payment_validation":30}],24:[function(require,module,exports){
 var progress = require("progress-bar");
 
 var ProgressBars = new function()
@@ -1224,7 +1316,7 @@ var ProgressBars = new function()
 
 module.exports = ProgressBars;
 
-},{"progress-bar":29}],23:[function(require,module,exports){
+},{"progress-bar":32}],25:[function(require,module,exports){
 var sharing = require("sharing-progress");
 
 function run(opts)
@@ -1237,7 +1329,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"sharing-progress":31}],24:[function(require,module,exports){
+},{"sharing-progress":34}],26:[function(require,module,exports){
 var SortableItemCollection = require("ui/js/_sortable_content_list_entry_model").SortableItemCollection,
     SortableItemListView = require("ui/js/_sortable_content_list_entry_view").SortableItemListView;
 
@@ -1253,7 +1345,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"ui/js/_sortable_content_list_entry_model":3,"ui/js/_sortable_content_list_entry_view":4}],25:[function(require,module,exports){
+},{"ui/js/_sortable_content_list_entry_model":5,"ui/js/_sortable_content_list_entry_view":6}],27:[function(require,module,exports){
 var SortableItemListView = require("ui/js/_sortable_content_list_entry_view").SortableItemListView,
     SortableItem = require("ui/js/_sortable_content_list_entry_model").SortableItem,
     SortableItemCollection = require("ui/js/_sortable_content_list_entry_model").SortableItemCollection;
@@ -1296,7 +1388,20 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"ui/js/_sortable_content_list_entry_model":3,"ui/js/_sortable_content_list_entry_view":4}],26:[function(require,module,exports){
+},{"ui/js/_sortable_content_list_entry_model":5,"ui/js/_sortable_content_list_entry_view":6}],28:[function(require,module,exports){
+require("ui/js/_comment_icon_view");
+
+function run()
+{
+    $("[data-view-model]").each( function() {
+        console.log( $(this).attr("data-view-model") );
+        new (require( $(this).attr("data-view-model") ))({el: $(this)});
+    });
+}
+
+module.exports = run;
+
+},{"ui/js/_comment_icon_view":3}],29:[function(require,module,exports){
 // notifications.js
 
 var notifications = new function()
@@ -1338,7 +1443,7 @@ var notifications = new function()
 
 module.exports = notifications;
 
-},{}],27:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 var paymentValidation = new function()
 {
     this.init = function init()
@@ -1395,7 +1500,7 @@ var paymentValidation = new function()
 
 module.exports = paymentValidation;
 
-},{}],28:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 Pillar = {} || Pillar;
 
 Pillar.superOf = function(clazz)
@@ -1405,6 +1510,11 @@ Pillar.superOf = function(clazz)
 
 Pillar.extendEvents = function(view) {
     view.events = _.extend({}, Pillar.superOf(view).events, view.events);
+}
+
+Pillar.template = function(name)
+{
+    return $("[data-template='" + name + "']").html();
 }
 
 Pillar.Templates = {
@@ -1592,6 +1702,9 @@ Pillar.View = Backbone.View.extend({
         this.beforeDraw();
         this.draw();
         this.afterDraw();
+
+        this.delegateEvents(this.events);
+
         return this;
     },
 
@@ -1675,7 +1788,7 @@ Pillar.ExtendedTextView = Pillar.TestView.extend({
 
 module.exports = Pillar;
 
-},{}],29:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 // progress-bar.js powers the progress bar during a lesson
 
 var util = require("util/_util");
@@ -1794,7 +1907,7 @@ var progress = new function()
 
 module.exports = progress;
 
-},{"util/_util":37}],30:[function(require,module,exports){
+},{"util/_util":40}],33:[function(require,module,exports){
 var search = new function()
 {
     var self = this;
@@ -1907,7 +2020,7 @@ var search = new function()
 
 module.exports = search;
 
-},{}],31:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 // sharing-progress.js controls everything about the gallery sharing steps
 
 var learn = require("learn");
@@ -2027,7 +2140,7 @@ var sharing = new function()
 
 module.exports = sharing;
 
-},{"learn":12}],32:[function(require,module,exports){
+},{"learn":14}],35:[function(require,module,exports){
 // slug-fields.js powers slugifying and lower-casing of fields into another field
 
 var slug = new function()
@@ -2073,7 +2186,7 @@ var slug = new function()
 
 module.exports = slug;
 
-},{}],33:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 // sortable-list.js powers the re-orderable lists for creating steps, lessons, etc.
 
 var sortable = new function()
@@ -2164,7 +2277,7 @@ var sortable = new function()
 
 module.exports = sortable;
 
-},{}],34:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 var twoCols = new function()
 {
 
@@ -2186,7 +2299,7 @@ var twoCols = new function()
 
 module.exports = twoCols;
 
-},{}],35:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 var iconTab = new function ()
 {
     this.initialised = false;
@@ -2213,7 +2326,7 @@ var iconTab = new function ()
 
 module.exports = iconTab;
 
-},{}],36:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 function extendJq()
 {
     $.postWithCsrf = function (url, data, success)
@@ -2225,7 +2338,7 @@ function extendJq()
 
 module.exports = extendJq;
 
-},{}],37:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 var util = new function()
 {
     this.init = function()
@@ -2371,7 +2484,7 @@ var util = new function()
 
 module.exports = util;
 
-},{}],38:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 var util = require("util/_util");
 
 /**
@@ -2379,13 +2492,13 @@ var util = require("util/_util");
  * @param  {[type]} element_ID [description]
  * @param  {[type]} animation  [description]
  */
-function animate(element_ID, animation, completeCallback) {
+function animate(element_ID, animation, completeCallback, context) {
 
-    animateElement($(element_ID), animation, completeCallback);
+    animateElement($(element_ID), animation, completeCallback, context);
 
 }
 
-function animateElement($element, animation, completeCallback) {
+function animateElement($element, animation, completeCallback, context) {
 
     if (util.supportsTransitions())
     {
@@ -2399,14 +2512,16 @@ function animateElement($element, animation, completeCallback) {
 
         var timeoutId = window.setTimeout( function () {
 
-            $element.removeClass(animation);
-            $element.removeClass("animated");
-
-            if (completeCallback != null)
+            if ($element.hasClass("animated"))
             {
-                completeCallback($element);
-            }
+                $element.removeClass(animation);
+                $element.removeClass("animated");
 
+                if (completeCallback != null)
+                {
+                    completeCallback($element);
+                }
+            }
         }, 2000);
 
         $element.attr("data-timeout-id", timeoutId);
@@ -2420,7 +2535,7 @@ function animateElement($element, animation, completeCallback) {
 
                 if (completeCallback != null)
                 {
-                    completeCallback($element);
+                    completeCallback($element, context);
                 }
             }
         );
@@ -2436,7 +2551,7 @@ module.exports = {
     animateElement: animateElement
 }
 
-},{"util/_util":37}],39:[function(require,module,exports){
+},{"util/_util":40}],42:[function(require,module,exports){
 var eventUtil = new function()
 {
   this.stopEventPropagating = function(e)
@@ -2462,7 +2577,7 @@ var eventUtil = new function()
 
 module.exports = eventUtil;
 
-},{}],40:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 function getTemplate(name)
 {
     return $("#" + name + "_template").html();

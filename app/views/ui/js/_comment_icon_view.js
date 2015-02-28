@@ -1,4 +1,6 @@
-var Pillar = require("pillar/pillar");
+var Pillar = require("pillar/pillar"),
+    template = require("util/templating-util"),
+    CommentListView = require("ui/js/_comment_list_view");
 
 module.exports = CommentIconView;
 
@@ -6,20 +8,31 @@ var CommentIconView = Pillar.View.extend({
     init: function(opts)
     {
         this.params = opts.params;
-        this.model.on("change", this.render, this);
     },
 
     events: {
-
+        "click .js-show-comments": "showComments"
     },
 
-    template: templateHtml("sortable_content_list_entry"),
+    showComments: function(e)
+    {
+        e.preventDefault();
+
+        var list = new CommentListView({params: {content_id: this.$el.attr("data-content")}});
+        var el = list.render().el;
+
+        $("body").append( el );
+        console.log("Comment List added", el);
+    },
+
+    template: Pillar.template("comment_icon"),
 
     draw: function(opts)
     {
         var data = this.model.toJSON();
-        data.cssClass = this.cssClass();
-        var html = Mustache.render(this.template, this.model.toJSON());
+        var html = Mustache.render(this.template, data);
         this.replaceElement(html);
     }
 });
+
+module.exports = CommentIconView;

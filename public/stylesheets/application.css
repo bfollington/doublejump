@@ -2005,41 +2005,6 @@ ul.progress-list {
   -ms-user-select: none;
   user-select: none; }
 
-#comment_frame, #upload_frame {
-  position: absolute;
-  padding: 15px;
-  border-bottom: 2px solid #ccc;
-  border-radius: 3px;
-  display: none;
-  background: white;
-  width: 19em;
-  max-width: 100%;
-  -webkit-animation-duration: 0.3s;
-  -moz-animation-duration: 0.3s;
-  -ms-animation-duration: 0.3s;
-  -o-animation-duration: 0.3s;
-  animation-duration: 0.3s;
-  z-index: 10000; }
-
-#sharing_lightbox, #upload_frame {
-  position: fixed; }
-
-.comments-list {
-  max-height: 320px;
-  overflow-y: scroll; }
-
-.step-body .comment {
-  position: absolute;
-  right: 0.3em;
-  margin-top: -0.5em;
-  background: white;
-  padding-right: 0.3em;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -o-border-radius: 2px;
-  border-radius: 2px; }
-
 .course-icon {
   width: 64px;
   height: 64px;
@@ -2232,6 +2197,41 @@ ul.progress-list {
   40% {
     transform: scale(1);
     -webkit-transform: scale(1); } }
+.comment-frame, #upload_frame {
+  position: absolute;
+  padding: 15px;
+  border-bottom: 2px solid #ccc;
+  border-radius: 3px;
+  display: none;
+  background: white;
+  width: 19em;
+  max-width: 100%;
+  -webkit-animation-duration: 0.3s;
+  -moz-animation-duration: 0.3s;
+  -ms-animation-duration: 0.3s;
+  -o-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  z-index: 10000; }
+
+#sharing_lightbox, #upload_frame {
+  position: fixed; }
+
+.comments-list {
+  max-height: 320px;
+  overflow-y: scroll; }
+
+.step-body .comment {
+  position: absolute;
+  right: 0.3em;
+  margin-top: -0.5em;
+  background: white;
+  padding-right: 0.3em;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px; }
+
 .markdown-content textarea {
   font-size: 12px; }
 

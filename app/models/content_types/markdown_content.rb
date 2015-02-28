@@ -14,7 +14,7 @@ class MarkdownContent < Content
         body_edited = RDiscount.new(body_edited, :no_superscript).to_html
         body_edited = lazy_load_images body_edited
 
-        view.render "learn/content_types/_markdown", :layout => false, :locals => {body: body_edited}
+        view.render "learn/content_types/_markdown", :layout => false, :locals => {body: body_edited, comment_count: comments.length, content_id: id}
     end
 
 

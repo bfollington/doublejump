@@ -5,13 +5,13 @@ var util = require("util/_util");
  * @param  {[type]} element_ID [description]
  * @param  {[type]} animation  [description]
  */
-function animate(element_ID, animation, completeCallback) {
+function animate(element_ID, animation, completeCallback, context) {
 
-    animateElement($(element_ID), animation, completeCallback);
+    animateElement($(element_ID), animation, completeCallback, context);
 
 }
 
-function animateElement($element, animation, completeCallback) {
+function animateElement($element, animation, completeCallback, context) {
 
     if (util.supportsTransitions())
     {
@@ -25,14 +25,16 @@ function animateElement($element, animation, completeCallback) {
 
         var timeoutId = window.setTimeout( function () {
 
-            $element.removeClass(animation);
-            $element.removeClass("animated");
-
-            if (completeCallback != null)
+            if ($element.hasClass("animated"))
             {
-                completeCallback($element);
-            }
+                $element.removeClass(animation);
+                $element.removeClass("animated");
 
+                if (completeCallback != null)
+                {
+                    completeCallback($element);
+                }
+            }
         }, 2000);
 
         $element.attr("data-timeout-id", timeoutId);
@@ -46,7 +48,7 @@ function animateElement($element, animation, completeCallback) {
 
                 if (completeCallback != null)
                 {
-                    completeCallback($element);
+                    completeCallback($element, context);
                 }
             }
         );

@@ -65,7 +65,8 @@ function buildJs()
             // Add transformation tasks to the pipeline here.
             //.pipe(uglify())
             .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest('./public/javascripts/'));
+            .pipe(gulp.dest('./public/javascripts/'))
+            .on('error', ignoreError);
     };
 
     return bundle();
@@ -74,7 +75,7 @@ function buildJs()
 gulp.task('watch', ['scripts', 'components'], function() {
 
   // Watch .js files
-  gulp.watch('javascript/**/*.js', ['scripts']);
+  gulp.watch(['javascript/**/*.js', 'app/views/**/*.js'], ['scripts']);
   gulp.watch('app/views/**/*.scss', ['components']);
   //gulp.watch('app/views/**/*.js', ['componentsJs']);
 });
