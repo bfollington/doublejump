@@ -323,6 +323,7 @@ var CommentIconView = Pillar.View.extend({
     init: function(opts)
     {
         this.params = opts.params;
+        console.log(this.model);
     },
 
     events: {
@@ -333,7 +334,7 @@ var CommentIconView = Pillar.View.extend({
     {
         e.preventDefault();
 
-        var list = new CommentListView({params: {content_id: this.$el.attr("data-content")}});
+        var list = new CommentListView({params: {content_id: this.model.content}});
         var el = list.render().el;
 
         $("body").append( el );
@@ -1395,7 +1396,7 @@ function run()
 {
     $("[data-view-model]").each( function() {
         console.log( $(this).attr("data-view-model") );
-        new (require( $(this).attr("data-view-model") ))({el: $(this)});
+        new (require( $(this).attr("data-view-model") ))({el: $(this), model: new Backbone.Model($(this).data()) });
     });
 }
 

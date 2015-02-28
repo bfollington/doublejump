@@ -8,6 +8,7 @@ var CommentIconView = Pillar.View.extend({
     init: function(opts)
     {
         this.params = opts.params;
+        console.log(this.model);
     },
 
     events: {
@@ -18,7 +19,7 @@ var CommentIconView = Pillar.View.extend({
     {
         e.preventDefault();
 
-        var list = new CommentListView({params: {content_id: this.$el.attr("data-content")}});
+        var list = new CommentListView({params: {content_id: this.model.content}});
         var el = list.render().el;
 
         $("body").append( el );
