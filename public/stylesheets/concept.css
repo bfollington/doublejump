@@ -1,0 +1,14 @@
+#content {
+  margin: 100px auto;
+  padding: 100px 50px 80px 50px;
+  width: 500px;
+  background: white;
+  position: relative;
+  opacity: 1;
+  -webkit-border-radius: 2px;
+  -webkit-box-shadow: 0 0 10px black;
+  -webkit-transition: -webkit-transform 300ms ease-out, opacity 300ms ease-out; }
+
+#content.transition {
+  -webkit-transform: translateX(100px);
+  opacity: 0; }

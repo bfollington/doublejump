@@ -1,0 +1,11 @@
+#content {
+  background: white;
+  position: relative;
+  opacity: 1;
+  -webkit-transition: -webkit-transform 300ms ease-out, opacity 300ms ease-out;
+}
+
+#content.transition {
+  -webkit-transform: translateX(100px);
+  opacity: 0;
+}

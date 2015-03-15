@@ -26,6 +26,19 @@ export class Router {
 
     start()
     {
+
+        page('*', function(ctx,  next) {
+            if (ctx.init) {
+                next();
+            } else {
+                window.app.domRoot.classList.add('transition');
+                setTimeout(function(){
+                    window.app.domRoot.classList.remove('transition');
+                    next();
+                }, 300);
+            }
+        });
+
         for (var i in routes)
         {
             page(baseRoute + i, routes[i]);

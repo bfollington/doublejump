@@ -41,38 +41,32 @@ function compileReact(watch, callback) {
     gutil.log('Starting browserify');
 
     var entryFile = './javascript/jsx/app.jsx';
-    es6ify.traceurOverrides = {experimental: true};
+    // es6ify.traceurOverrides = {experimental: true};
 
-    var bundler;
-    if (watch) {
-        bundler = watchify(entryFile);
-    } else {
-        bundler = browserify(entryFile);
-    }
+    var b = browserify({ cache: {}, packageCache: {}, fullPaths: true, debug: true, entries: ['./javascript/jsx/app.jsx'], paths: ["./node_modules", "./javascript/jsx"] });
+    var w = watchify(b);
+    var bundler = w;
 
-    bundler.on('package', function (file) { console.info("=> Processing", file) });
+    bundler.on('log', gutil.log); // output build logs to terminal
+    bundler.on('package', function (file) { console.info("=> Processing package", file.name) });
+    bundler.on('file', function (file) { console.info("=> Processing file", file) });
     //bundler.require(requireFiles);
     bundler.transform(babelify);
-    //bundler.transform(es6ify.configure(/.jsx/));
     bundler.transform(reactify);
 
     var rebundle = function () {
-        var stream = bundler.bundle({ debug: true});
+        var stream = bundler.bundle();
 
         console.log("--> Starting bundle...\n===");
 
-        stream.on('end', function (err) {
-            console.log("===\n--> Finished bundle!");
-        });
-
-        stream.on('error', function (err) { console.error(err) });
-        stream = stream.pipe(source(entryFile));
-        stream.pipe(rename('reactBundle.js'));
-        stream.pipe(gulp.dest('./public/javascripts/'));
-        // stream.pipe(sourcemaps.write('./'));
-        // stream.pipe(gulp.dest('./public/javascripts/'));
-
-
+        stream.on('end', function (err) { console.log("===\n--> Finished bundle!"); })
+        .on('error', function (err) { console.error(err) })
+        .pipe(source(entryFile))
+        // .pipe(buffer())
+        .pipe(rename('reactBundle.js'))
+        // .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+        // .pipe(sourcemaps.write('./')) // writes .map file
+        .pipe(gulp.dest('./public/javascripts'));
     }
 
     bundler.on('update', rebundle);

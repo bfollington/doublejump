@@ -2671,6 +2671,16 @@ img.fit-width {
   max-width: 90%;
   padding: 5%; }
 
+#content {
+  background: white;
+  position: relative;
+  opacity: 1;
+  -webkit-transition: -webkit-transform 300ms ease-out, opacity 300ms ease-out; }
+
+#content.transition {
+  -webkit-transform: translateX(100px);
+  opacity: 0; }
+
 .step-body img {
   max-width: 90%;
   display: block;

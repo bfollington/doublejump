@@ -47,7 +47,7 @@ html.no-js lang="en"
         script src="#{ local_or_live( '/local_required/react.js', '//cdnjs.cloudflare.com/ajax/libs/react/0.13.0-rc2/react.min.js') }"
         = partial( local_or_live('includes/local_app_js', 'includes/live_app_js') )
         script src="#{ local_or_live( '/local_required/select2.min.js', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js') }"
-        = javascript_include_tag 'reactBundle'
+        script src='/javascripts/reactBundle.js'
     .include-end-body
         = yield_content :include_end_body
 

@@ -6,10 +6,10 @@ export class ProjectStart extends Component {
     constructor(props)
     {
         super(props);
-        this.state = this.getInitialState();
+        this.state = this.getState();
     }
 
-    getInitialState()
+    getState()
     {
         return {
             field: "value",
@@ -19,6 +19,7 @@ export class ProjectStart extends Component {
 
     navigate(e)
     {
+        console.log("Navigated");
         page("/concepts/test");
     }
 
