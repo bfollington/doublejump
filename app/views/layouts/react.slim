@@ -1,0 +1,53 @@
+doctype 5
+
+html.no-js lang="en"
+
+    head
+
+        meta charset="utf-8"
+        meta name="viewport" content="width=device-width, initial-scale=1"
+        = csrf_meta_tags
+
+        title = [@title, "doublejump"].compact.join(" | ")
+
+        = partial( local_or_live('includes/local_app_css', 'includes/live_app_css') )
+
+        link rel="stylesheet" href="/select2/select2.css"
+        link rel="stylesheet" href="/select2/select2-bootstrap.css"
+
+        = partial 'includes/favicons'
+
+        = yield_content :include_css
+
+        = partial 'includes/mixpanel'
+    body
+
+        section.js-templates
+            = yield_content :html_templates
+
+        = partial 'elements/old_browser'
+        .admin-tools
+            .icon-wrapper
+                = yield_content :admin_tools
+
+        .container-fluid
+            = partial 'elements/doublejump_header_bar'
+            .gradient-container
+                = partial "learn/elements/navigation"
+            .main-content#main_content
+                - if session[:flash]
+                    = session[:flash]
+                    - session[:flash] = nil
+
+                = yield
+
+            = partial 'elements/footer'
+
+    .include-libs
+        script src="#{ local_or_live( '/local_required/react.js', '//cdnjs.cloudflare.com/ajax/libs/react/0.13.0-rc2/react.min.js') }"
+        = partial( local_or_live('includes/local_app_js', 'includes/live_app_js') )
+        script src="#{ local_or_live( '/local_required/select2.min.js', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js') }"
+        = javascript_include_tag 'reactBundle'
+    .include-end-body
+        = yield_content :include_end_body
+

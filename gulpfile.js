@@ -17,12 +17,67 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'),
+    watchify = require('watchify'),
+    es6ify = require('es6ify'),
+    reactify = require('reactify'),
     buffer = require('vinyl-buffer'),
-    glob = require('glob');
+    glob = require('glob'),
+    babelify = require('babelify');
 
 gulp.task('scripts', buildJs);
 gulp.task('components', buildComponents);
 gulp.task('componentsJs', buildComponentsJs);
+
+var jsxFiles = 'javascript/jsx/**/*.jsx';
+
+// deprecated
+var requireFiles = './node_modules/react/react.js';
+
+gulp.task('react', function(callback) {
+    compileReact(true, callback);
+});
+
+function compileReact(watch, callback) {
+    gutil.log('Starting browserify');
+
+    var entryFile = './javascript/jsx/app.jsx';
+    es6ify.traceurOverrides = {experimental: true};
+
+    var bundler;
+    if (watch) {
+        bundler = watchify(entryFile);
+    } else {
+        bundler = browserify(entryFile);
+    }
+
+    bundler.on('package', function (file) { console.info("=> Processing", file) });
+    //bundler.require(requireFiles);
+    bundler.transform(babelify);
+    //bundler.transform(es6ify.configure(/.jsx/));
+    bundler.transform(reactify);
+
+    var rebundle = function () {
+        var stream = bundler.bundle({ debug: true});
+
+        console.log("--> Starting bundle...\n===");
+
+        stream.on('end', function (err) {
+            console.log("===\n--> Finished bundle!");
+        });
+
+        stream.on('error', function (err) { console.error(err) });
+        stream = stream.pipe(source(entryFile));
+        stream.pipe(rename('reactBundle.js'));
+        stream.pipe(gulp.dest('./public/javascripts/'));
+        // stream.pipe(sourcemaps.write('./'));
+        // stream.pipe(gulp.dest('./public/javascripts/'));
+
+
+    }
+
+    bundler.on('update', rebundle);
+    rebundle();
+}
 
 function buildComponentsJs()
 {
@@ -72,7 +127,7 @@ function buildJs()
     return bundle();
 }
 
-gulp.task('watch', ['scripts', 'components'], function() {
+gulp.task('watch', ['scripts', 'components', 'react'], function() {
 
   // Watch .js files
   gulp.watch(['javascript/**/*.js', 'app/views/**/*.js'], ['scripts']);
@@ -87,6 +142,12 @@ function ignoreError(e)
 }
 
 gulp.task('server', ['watch'], function() {
+
+    gulp.src('').pipe( shell(['mongod &']) );
+    gulp.src('').pipe( shell(['padrino s']) );
+});
+
+gulp.task('up', function() {
 
     gulp.src('').pipe( shell(['mongod &']) );
     gulp.src('').pipe( shell(['padrino s']) );
