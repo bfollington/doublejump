@@ -146,7 +146,15 @@ var ComposeStepView = Pillar.View.extend({
     },
 
     events: {
-        "click .js-add-content": "addContent"
+        "click .js-add-content": "addContent",
+        "click .js-edit-concept-button": "changeConcept"
+    },
+
+    changeConcept: function(e) {
+        e.preventDefault();
+
+        var $field = this.$el.find("select[name='learning_module']");
+        window.location = "/concepts/editor/" + $field.val();
     },
 
     beginSubmits: function()
@@ -2148,6 +2156,8 @@ module.exports = sharing;
 },{"learn":14}],35:[function(require,module,exports){
 // slug-fields.js powers slugifying and lower-casing of fields into another field
 
+var util = require("util/_util");
+
 var slug = new function()
 {
     var self = this;
@@ -2158,7 +2168,7 @@ var slug = new function()
 
             var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
 
-            $(targetId).val( convertToSlug( $(this).val() ) );
+            $(targetId).val( util.convertToSlug( $(this).val() ) );
 
         });
     }
@@ -2170,7 +2180,7 @@ var slug = new function()
 
         $el.keyup( function() {
 
-            $slugEl.val( convertToSlug( $(this).val() ) );
+            $slugEl.val( util.convertToSlug( $(this).val() ) );
 
         });
     }
@@ -2181,7 +2191,7 @@ var slug = new function()
 
             var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
 
-            $(targetId).val( convertToLowercase( $(this).val() ) );
+            $(targetId).val( util.convertToLowercase( $(this).val() ) );
 
         });
     }
@@ -2191,7 +2201,7 @@ var slug = new function()
 
 module.exports = slug;
 
-},{}],36:[function(require,module,exports){
+},{"util/_util":40}],36:[function(require,module,exports){
 // sortable-list.js powers the re-orderable lists for creating steps, lessons, etc.
 
 var sortable = new function()

@@ -1,5 +1,7 @@
 // slug-fields.js powers slugifying and lower-casing of fields into another field
 
+var util = require("util/_util");
+
 var slug = new function()
 {
     var self = this;
@@ -10,7 +12,7 @@ var slug = new function()
 
             var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
 
-            $(targetId).val( convertToSlug( $(this).val() ) );
+            $(targetId).val( util.convertToSlug( $(this).val() ) );
 
         });
     }
@@ -22,7 +24,7 @@ var slug = new function()
 
         $el.keyup( function() {
 
-            $slugEl.val( convertToSlug( $(this).val() ) );
+            $slugEl.val( util.convertToSlug( $(this).val() ) );
 
         });
     }
@@ -33,7 +35,7 @@ var slug = new function()
 
             var targetId = "#" + $(this).attr("data-object") + "_" + $(this).attr("data-target");
 
-            $(targetId).val( convertToLowercase( $(this).val() ) );
+            $(targetId).val( util.convertToLowercase( $(this).val() ) );
 
         });
     }

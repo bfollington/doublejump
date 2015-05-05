@@ -13,7 +13,15 @@ var ComposeStepView = Pillar.View.extend({
     },
 
     events: {
-        "click .js-add-content": "addContent"
+        "click .js-add-content": "addContent",
+        "click .js-edit-concept-button": "changeConcept"
+    },
+
+    changeConcept: function(e) {
+        e.preventDefault();
+
+        var $field = this.$el.find("select[name='learning_module']");
+        window.location = "/concepts/editor/" + $field.val();
     },
 
     beginSubmits: function()

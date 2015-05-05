@@ -135,10 +135,8 @@ function ignoreError(e)
     this.emit('end');
 }
 
-gulp.task('server', ['watch'], function() {
+gulp.task('server', ['up', 'watch'], function() {
 
-    gulp.src('').pipe( shell(['mongod &']) );
-    gulp.src('').pipe( shell(['padrino s']) );
 });
 
 gulp.task('up', function() {
