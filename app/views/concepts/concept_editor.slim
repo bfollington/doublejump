@@ -26,7 +26,8 @@ scripts data-mixin="mixins/edit_step"
     .box
         .row
             .col-md-10
-                = select_tag(:learning_module, :collection => @learning_modules, :fields => [:title, :id], :class => 'js-select2')
+                - current = @learning_module ? @learning_module.id : ""
+                = select_tag(:learning_module, :collection => @learning_modules, :fields => [:title, :id], :class => 'js-select2', :value => current)
             .col-md-2
                 button.create-button.button.js-edit-concept-button Edit Concept
     .row
