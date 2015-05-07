@@ -1,4 +1,4 @@
-var aceUtil = require("ace");
+var aceUtil = require("aceUtil");
 
 function run(opts)
 {

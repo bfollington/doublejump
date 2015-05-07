@@ -133,7 +133,7 @@ $( function() {
 },{"backbone/underscore_settings":9,"bootstrap-mod":10,"comments":11,"definitions":12,"hideable-region":13,"learn":14,"loading":15,"mixins/mixin_controller":22,"mixins/ui_binder":28,"notifications":29,"search":33,"slug-fields":35,"two-cols":37,"util/_jquery_extend":39,"util/_util":40}],2:[function(require,module,exports){
 var Pillar = require("pillar/pillar");
 var sortable = require("sortable-list");
-var aceUtil = require("ace");
+var aceUtil = require("aceUtil");
 
 var ComposeStepView = Pillar.View.extend({
     init: function(opts)
@@ -320,7 +320,7 @@ module.exports = {
     ComposeStepContentView: ComposeStepContentView
 }
 
-},{"ace":7,"pillar/pillar":31,"sortable-list":36}],3:[function(require,module,exports){
+},{"aceUtil":7,"pillar/pillar":31,"sortable-list":36}],3:[function(require,module,exports){
 var Pillar = require("pillar/pillar"),
     template = require("util/templating-util"),
     CommentListView = require("ui/js/_comment_list_view");
@@ -1178,7 +1178,7 @@ function run(opts)
 module.exports = {run: run};
 
 },{"backbone/ajax_view":8}],17:[function(require,module,exports){
-var aceUtil = require("ace");
+var aceUtil = require("aceUtil");
 
 function run(opts)
 {
@@ -1187,7 +1187,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"ace":7}],18:[function(require,module,exports){
+},{"aceUtil":7}],18:[function(require,module,exports){
 var SortableItemListView = require("ui/js/_sortable_content_list_entry_view").SortableItemListView,
     SortableItem = require("ui/js/_sortable_content_list_entry_model").SortableItem,
     SortableItemCollection = require("ui/js/_sortable_content_list_entry_model").SortableItemCollection;

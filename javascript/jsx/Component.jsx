@@ -1,5 +1,3 @@
-//const React = require("react");
-
 export class Mixin {
 
     constructor()

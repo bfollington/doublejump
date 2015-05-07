@@ -52,7 +52,7 @@ function compileReact(watch, callback) {
     bundler.on('file', function (file) { console.info("=> Processing file", file) });
     //bundler.require(requireFiles);
     bundler.transform(babelify);
-    bundler.transform(reactify);
+    // bundler.transform(reactify);
 
     var rebundle = function () {
         var stream = bundler.bundle();
@@ -60,7 +60,9 @@ function compileReact(watch, callback) {
         console.log("--> Starting bundle...\n===");
 
         stream.on('end', function (err) { console.log("===\n--> Finished bundle!"); })
-        .on('error', function (err) { console.error(err) })
+        .on('error', function (err) {
+            console.log(err.toString());
+        })
         .pipe(source(entryFile))
         // .pipe(buffer())
         .pipe(rename('reactBundle.js'))

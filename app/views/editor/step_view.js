@@ -1,6 +1,6 @@
 var Pillar = require("pillar/pillar");
 var sortable = require("sortable-list");
-var aceUtil = require("ace");
+var aceUtil = require("aceUtil");
 
 var ComposeStepView = Pillar.View.extend({
     init: function(opts)

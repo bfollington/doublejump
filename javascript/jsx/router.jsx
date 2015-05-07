@@ -1,6 +1,7 @@
 import page from 'page';
 import {ProjectPageController} from './pages/ProjectPageController.jsx';
 import {ModuleViewPageController} from './pages/ModuleViewPageController.jsx';
+import {EditModulePageController} from './pages/EditModulePageController.jsx';
 import {Test} from './components/Test.react.jsx';
 
 
@@ -20,6 +21,7 @@ routes['/test'] = function() {
 };
 
 routes['/project/:project/:module'] = ModuleViewPageController;
+routes['/edit'] = EditModulePageController;
 
 export class Router {
     constructor()
