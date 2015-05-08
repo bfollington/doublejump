@@ -58,7 +58,7 @@ export class MathContent extends React.Component {
     render() {
 
         var edit = (
-            <ContentType title="Math Content">
+            <ContentType title="Math Content" editable={this.props.editable}>
                 <AceEditor onContentChange={this.contentChange.bind(this)} language='latex' value={this.state.content} />
                 <button className="button create-button" onClick={this.save.bind(this)}>Save</button>
                 <button className="button create-button" onClick={this.cancel.bind(this)}>Cancel</button>
@@ -73,7 +73,7 @@ export class MathContent extends React.Component {
 
         var content = this.state.editing ? edit : view;
 
-        return content;
+        return ContentType.wrapContentType(this, content);
     }
 }
 

@@ -54,7 +54,7 @@ export class MarkdownContent extends React.Component {
     render() {
 
         var edit = (
-            <ContentType title="Markdown Content">
+            <ContentType title="Markdown Content" editable={this.props.editable}>
                 <AceEditor onContentChange={this.contentChange.bind(this)} language='markdown' value={this.state.content} />
                 <button className="button create-button" onClick={this.save.bind(this)}>Save</button>
                 <button className="button create-button" onClick={this.cancel.bind(this)}>Cancel</button>
@@ -69,7 +69,7 @@ export class MarkdownContent extends React.Component {
 
         var content = this.state.editing ? edit : view;
 
-        return content;
+        return ContentType.wrapContentType(this, content);
     }
 }
 

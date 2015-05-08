@@ -2,6 +2,7 @@ import {Util} from 'Util.jsx';
 import {CodeContent} from 'components/editing/CodeContent.jsx';
 import {MathContent} from 'components/editing/MathContent.jsx';
 import {MarkdownContent} from 'components/editing/MarkdownContent.jsx';
+import {Sortable} from 'components/Sortable.jsx';
 
 export class EditModulePage extends React.Component {
     constructor() {
@@ -82,7 +83,7 @@ export class EditModulePage extends React.Component {
                         </div>
                     </div>
                 </div>
-                <section className="contents js-sortable-blocks">
+                <Sortable>
                     {
                         this.state.contentBlocks.map( function(block) {
                             switch(block.type) {
@@ -98,7 +99,7 @@ export class EditModulePage extends React.Component {
                             }
                         }.bind(this) )
                     }
-                </section>
+                </Sortable>
                 <div className="box">
                     <button className="create-button button" onClick={this.newMarkdownSection.bind(this)}>
                         <i className="fa fa-file-text"></i> Add Markdown Content

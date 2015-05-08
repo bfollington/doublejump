@@ -5,6 +5,7 @@
     "babelify": "^5",
     "brace": "^0.5.1",
     "browserify": "^9",
+    "dragula": "^1.6.0",
     "gulp": "~3.8.5",
     "gulp-autoprefixer": "0.0.8",
     "gulp-cache": "~0.2.0",

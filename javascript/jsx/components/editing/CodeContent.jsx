@@ -39,7 +39,7 @@ export class CodeContent extends React.Component {
     render() {
 
         var edit = (
-            <ContentType title="Code Content">
+            <ContentType title="Code Content" editable={this.props.editable}>
                 <AceEditor showLanguageSelection={true} onLanguageChange={this.languageChange.bind(this)} onContentChange={this.contentChange.bind(this)} language={this.state.language} value={this.state.content} />
                 <button className="button create-button" onClick={this.save.bind(this)}>Save</button>
                 <button className="button create-button" onClick={this.cancel.bind(this)}>Cancel</button>
@@ -56,7 +56,7 @@ export class CodeContent extends React.Component {
 
         var content = this.state.editing ? edit : view;
 
-        return content;
+        return ContentType.wrapContentType(this, content);
     }
 }
 

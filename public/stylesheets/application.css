@@ -2257,6 +2257,27 @@ ul.progress-list {
 .box.affects-next-two-contents + .content + .content {
   margin-top: 0; }
 
+.content-type.editable {
+  border: 1px solid;
+  border-color: rgba(128, 128, 128, 0);
+  border-radius: 2px;
+  margin-top: 0;
+  margin-bottom: 0;
+  transition: 0.3s; }
+
+.content-type.gu-transit {
+  transform: scale(1.05, 1.05);
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+.content-type.gu-mirror {
+  display: none; }
+
+.gu-unselectable {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing; }
+
 .gradient-block {
   background-image: -o-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
   background-image: -moz-linear-gradient(135deg, #3c52e3 0%, #3e88f3 30%, #40a6fc 47%, #b4e658 100%);
