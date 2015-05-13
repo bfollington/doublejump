@@ -1946,6 +1946,21 @@ ul.progress-list {
   padding: 5px;
   z-index: 100; }
 
+.floating-tools {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  padding: 5px;
+  z-index: 100; }
+  .floating-tools .round-icon {
+    transition: 0.3s, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+    .floating-tools .round-icon:hover {
+      -moz-transform: scale(1.1, 1.1);
+      -o-transform: scale(1.1, 1.1);
+      -ms-transform: scale(1.1, 1.1);
+      -webkit-transform: scale(1.1, 1.1);
+      transform: scale(1.1, 1.1); }
+
 .round-icon {
   border-radius: 1000px;
   width: 40px;
@@ -1958,7 +1973,8 @@ ul.progress-list {
   color: white;
   text-align: center;
   border-bottom: 2px solid #B32626;
-  font-size: 1.2em; }
+  font-size: 1.2em;
+  cursor: pointer; }
 
 .round-icon:hover {
   color: white; }
@@ -2257,18 +2273,28 @@ ul.progress-list {
 .box.affects-next-two-contents + .content + .content {
   margin-top: 0; }
 
+.edit-content-type-tools__visible, .content-type.editable:hover .edit-content-type-tools, .content-type.gu-transit .edit-content-type-tools {
+  opacity: 1;
+  top: 0; }
+
 .content-type.editable {
-  border: 1px solid;
-  border-color: rgba(128, 128, 128, 0);
-  border-radius: 2px;
-  margin-top: 0;
-  margin-bottom: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  transition: 0.3s;
+  position: relative; }
+
+.edit-content-type-tools {
+  position: absolute;
+  opacity: 0;
+  right: 0;
+  top: -10px;
   transition: 0.3s; }
 
 .content-type.gu-transit {
   transform: scale(1.05, 1.05);
-  margin-top: 10px;
-  margin-bottom: 10px; }
+  opacity: 0.8;
+  margin-top: 20px;
+  margin-bottom: 20px; }
 
 .content-type.gu-mirror {
   display: none; }

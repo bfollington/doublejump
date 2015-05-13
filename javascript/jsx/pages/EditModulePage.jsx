@@ -1,8 +1,11 @@
 import {Util} from 'Util.jsx';
+import {Events, SaveModuleFormEvent} from 'Events.jsx';
 import {CodeContent} from 'components/editing/CodeContent.jsx';
 import {MathContent} from 'components/editing/MathContent.jsx';
 import {MarkdownContent} from 'components/editing/MarkdownContent.jsx';
+import {ImageContent} from 'components/editing/ImageContent.jsx';
 import {Sortable} from 'components/Sortable.jsx';
+import {FloatingButton} from 'components/FloatingButton.jsx';
 
 export class EditModulePage extends React.Component {
     constructor() {
@@ -17,99 +20,88 @@ export class EditModulePage extends React.Component {
 
     }
 
-    newMarkdownSection(e) {
+    newSection(data) {
         var blocks = this.state.contentBlocks;
-        blocks.push({type: "markdown", content: ""});
+        blocks.push(data);
 
         this.setState({contentBlocks: blocks});
+    }
+
+    newMarkdownSection(e) {
+        this.newSection(<MarkdownContent value="" editable={this.isEditable} />);
     }
 
     newCodeSection(e) {
-        var blocks = this.state.contentBlocks;
-        blocks.push({type: "code", content: "", language: ""});
-
-        this.setState({contentBlocks: blocks});
+        this.newSection(<CodeContent value="" editable={this.isEditable} />);
     }
 
     newMathSection(e) {
-        var blocks = this.state.contentBlocks;
-        blocks.push({type: "math"});
+        this.newSection(<MathContent value="" editable={this.isEditable} />);
+    }
 
-        this.setState({contentBlocks: blocks});
+    newImageSection(e) {
+        this.newSection(<ImageContent value="" editable={this.isEditable} />);
+    }
+
+    save(e) {
+        Events.emitRoot(SaveModuleFormEvent, this);
+    }
+
+    isEditable() {
+        return true;
     }
 
     render() {
 
         return (
-
-            <div className="create-step-form">
-                <div className="box">
-                    <div className="row">
-                        <div className="col-md-10">
-                            <select id="learning_module" name="learning_module" className="select2" defaultValue={this.state.currentModule}>
-                                {
-                                    this.state.modules.map( function(module) {
-                                        return <option value={module.id}>{module.title}</option>;
-                                    })
-                                }
-                            </select>
-                        </div>
-                        <div className="col-md-2">
-                            <button className="create-button button" onClick={this.handleEditConcept.bind(this)}>Edit Concept</button>
+            <div className="main-content">
+                <div className="create-step-form">
+                    <div className="box">
+                        <div className="row">
+                            <div className="col-md-10">
+                                <select id="learning_module" name="learning_module" className="select2" defaultValue={this.state.currentModule}>
+                                    { this.state.modules.map( module => <option value={module.id}>{module.title}</option> ) }
+                                </select>
+                            </div>
+                            <div className="col-md-2">
+                                <button className="create-button button" onClick={this.handleEditConcept.bind(this)}>Edit Concept</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="box">
-                    <div className="row">
-                        <div className="col-xs-12">
-                            <h2>Edit Concept</h2>
-                            <form action="/concepts/make/" acceptCharset="UTF-8" id="addStepForm" method="post">
-                                { Util.getCSRFFormField() }
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <p>
-                                            <label htmlFor="learning_module_title">Concept Title</label>
-                                            <input type="text" name="learning_module[title]" id="learning_module_title" className="js-slug form-control" data-object="learning_module" data-target="slug" />
-                                        </p>
+                    <div className="box">
+                        <div className="row">
+                            <div className="col-xs-12">
+                                <h2>Edit Concept</h2>
+                                <form action="/concepts/make/" acceptCharset="UTF-8" id="addStepForm" method="post">
+                                    { Util.getCSRFFormField() }
+                                    <div className="row">
+                                        <div className="col-sm-6">
+                                            <p>
+                                                <label htmlFor="learning_module_title">Concept Title</label>
+                                                <input type="text" name="learning_module[title]" id="learning_module_title" className="js-slug form-control" data-object="learning_module" data-target="slug" />
+                                            </p>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <p>
+                                                <label htmlFor="learning_module_slug">Concept Slug (For URL)</label><input type="text" name="learning_module[slug]" id="learning_module_slug" className="form-control" />
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div className="col-sm-6">
-                                        <p>
-                                            <label htmlFor="learning_module_slug">Concept Slug (For URL)</label><input type="text" name="learning_module[slug]" id="learning_module_slug" className="form-control" />
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="content-ids"></div>
-                            </form>
+                                    <div className="content-ids"></div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <Sortable>
-                    {
-                        this.state.contentBlocks.map( function(block) {
-                            switch(block.type) {
-                                case "markdown":
-                                    return <MarkdownContent value={block.content} editable={true} />
-                                    break;
-                                case "code":
-                                    return <CodeContent value={block.content} language={block.language} editable={true} />
-                                    break;
-                                case "math":
-                                    return <MathContent value={block.content} editable={true} />
-                                    break;
-                            }
-                        }.bind(this) )
-                    }
-                </Sortable>
-                <div className="box">
-                    <button className="create-button button" onClick={this.newMarkdownSection.bind(this)}>
-                        <i className="fa fa-file-text"></i> Add Markdown Content
-                    </button>
-                    <button className="create-button button" onClick={this.newCodeSection.bind(this)}>
-                        <i className="fa fa-code"></i> Add Code Snippet
-                    </button>
-                    <button className="create-button button" onClick={this.newMathSection.bind(this)}>
-                        <i className="fa fa-code"></i> Add Math Content
-                    </button>
+                    <Sortable>
+                        { this.state.contentBlocks.map(block => block) }
+                    </Sortable>
+                    <div className="floating-tools">
+                        <FloatingButton icon="file-text" onClick={this.newMarkdownSection.bind(this)}>Add New Markdown Content</FloatingButton>
+                        <FloatingButton icon="code" onClick={this.newCodeSection.bind(this)}>Add Code Snippet</FloatingButton>
+                        <FloatingButton icon="plus" onClick={this.newMathSection.bind(this)}>Add Math Content</FloatingButton>
+                        <FloatingButton icon="picture-o" onClick={this.newImageSection.bind(this)}>Add Image</FloatingButton>
+                        <FloatingButton icon="save" size="big" onClick={this.save.bind(this)}>Save Concept</FloatingButton>
+                    </div>
                 </div>
             </div>
         );

@@ -1,9 +1,10 @@
 import {ContentTypeToolbar} from "./ContentTypeToolbar.jsx";
+import {FloatingButton} from "components/FloatingButton.jsx";
 
 export class ContentType extends React.Component {
     render() {
         return (
-            <div className={"content-type " + this.props.editable ? "editable" : ""}>
+            <div className={"content-type " + this.props.editable() ? "editable" : ""}>
                 <ContentTypeToolbar icon={this.props.titleIcon}>{this.props.title}</ContentTypeToolbar>
                 {this.props.children}
             </div>
@@ -11,25 +12,22 @@ export class ContentType extends React.Component {
     }
 }
 
-ContentType.wrapContentType = function(ctx, content) {
+ContentType.wrapContentType = function(ctx, content, editHandler) {
 
-    var inner = (
-        <div className="row">
-            <div className="col-xs-1">
-                <i className="fa fa-arrows handle" />
-            </div>
-            <div className="col-xs-11">
-                {content}
-            </div>
-        </div>
-    );
+    var inner = [
+        <div className="edit-content-type-tools float-right">
+            <FloatingButton icon="arrows" className="handle">Move</FloatingButton>
+            <FloatingButton icon="pencil" onClick={editHandler}>Edit</FloatingButton>
+        </div>,
+        {content}
+    ];
 
-    if (!ctx.props.editable) {
+    if (!ctx.props.editable()) {
         inner = content;
     }
 
     return (
-        <div className={"content-type " + (ctx.props.editable ? "editable" : "")} >
+        <div className={"box content-type " + (ctx.props.editable() ? "editable" : "")} >
             {inner}
         </div>
     );

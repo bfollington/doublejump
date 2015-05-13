@@ -20,6 +20,7 @@ var gulp = require('gulp'),
     watchify = require('watchify'),
     es6ify = require('es6ify'),
     reactify = require('reactify'),
+    uglifyify = require('uglifyify'),
     buffer = require('vinyl-buffer'),
     glob = require('glob'),
     babelify = require('babelify');
@@ -33,7 +34,23 @@ var jsxFiles = 'javascript/jsx/**/*.jsx';
 // deprecated
 var requireFiles = './node_modules/react/react.js';
 
-gulp.task('react', function(callback) {
+var externalDeps = ['katex', 'page', 'dragula', 'marked'];
+
+gulp.task('js-deps', function() {
+    var b = browserify();
+
+    for (var i = 0; i < externalDeps.length; i++) {
+        b.require(externalDeps[i])
+    }
+
+    return b.bundle()
+        .pipe(source('deps_bundle.js'))
+        .pipe(buffer())
+        .pipe(uglify())
+        .pipe(gulp.dest('./public/javascripts/'));
+});
+
+gulp.task('js-app', ['js-deps'], function(callback) {
     compileReact(true, callback);
 });
 
@@ -51,6 +68,11 @@ function compileReact(watch, callback) {
     bundler.on('package', function (file) { console.info("=> Processing package", file.name) });
     bundler.on('file', function (file) { console.info("=> Processing file", file) });
     //bundler.require(requireFiles);
+
+    for (var i = 0; i < externalDeps.length; i++) {
+        b.external(externalDeps[i])
+    }
+
     bundler.transform(babelify);
     // bundler.transform(reactify);
 
@@ -65,9 +87,11 @@ function compileReact(watch, callback) {
         })
         .pipe(source(entryFile))
         // .pipe(buffer())
-        .pipe(rename('reactBundle.js'))
+        .pipe(rename('app_bundle.js'))
         // .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
         // .pipe(sourcemaps.write('./')) // writes .map file
+        .pipe(buffer())
+        //.pipe(uglify())
         .pipe(gulp.dest('./public/javascripts'));
     }
 
@@ -123,7 +147,7 @@ function buildJs()
     return bundle();
 }
 
-gulp.task('watch', ['scripts', 'components', 'react'], function() {
+gulp.task('watch', ['scripts', 'components'], function() {
 
   // Watch .js files
   gulp.watch(['javascript/**/*.js', 'app/views/**/*.js'], ['scripts']);
@@ -137,7 +161,7 @@ function ignoreError(e)
     this.emit('end');
 }
 
-gulp.task('server', ['up', 'watch'], function() {
+gulp.task('server', ['up', 'watch', 'js-app'], function() {
 
 });
 

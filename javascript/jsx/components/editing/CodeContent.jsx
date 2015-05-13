@@ -1,3 +1,4 @@
+import {Events, SaveModuleFormEvent} from 'Events.jsx';
 import {ContentType} from 'components/editing/ContentType.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
 
@@ -12,6 +13,18 @@ export class CodeContent extends React.Component {
         };
     }
 
+    componentDidMount() {
+        Events.subscribeRoot( SaveModuleFormEvent, this.saveToServer.bind(this) );
+    }
+
+    componentDidUnmount() {
+        Events.unsubscribeRoot( SaveModuleFormEvent, this.saveToServer.bind(this) );
+    }
+
+    saveToServer(e) {
+        console.log("test");
+    }
+
     languageChange(lang) {
         this.setState({language: lang});
     }
@@ -21,7 +34,7 @@ export class CodeContent extends React.Component {
     }
 
     edit(e) {
-        if (this.props.editable) {
+        if (this.props.editable()) {
             this.contentBuffer = this.state.content;
             this.setState({editing: true});
         }
@@ -56,7 +69,7 @@ export class CodeContent extends React.Component {
 
         var content = this.state.editing ? edit : view;
 
-        return ContentType.wrapContentType(this, content);
+        return ContentType.wrapContentType(this, content, this.edit.bind(this));
     }
 }
 

@@ -1,3 +1,4 @@
+import {Events, SaveModuleFormEvent} from 'Events.jsx';
 import {ContentType} from 'components/editing/ContentType.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
 var katex = require('katex');
@@ -11,6 +12,23 @@ export class MathContent extends React.Component {
             content: this.props.value,
             editing: this.props.editContent
         };
+    }
+
+    componentDidMount() {
+        Events.subscribeRoot( SaveModuleFormEvent, this.saveToServer.bind(this) );
+        this.renderMath();
+    }
+
+    componentDidUnmount() {
+        Events.unsubscribeRoot( SaveModuleFormEvent, this.saveToServer.bind(this) );
+    }
+
+    componentDidUpdate() {
+        this.renderMath();
+    }
+
+    saveToServer(e) {
+        console.log("test");
     }
 
     contentChange(content) {
@@ -31,16 +49,8 @@ export class MathContent extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.renderMath();
-    }
-
-    componentDidUpdate() {
-        this.renderMath();
-    }
-
     edit(e) {
-        if (this.props.editable) {
+        if (this.props.editable()) {
             this.contentBuffer = this.state.content;
             this.setState({editing: true});
         }
@@ -73,7 +83,7 @@ export class MathContent extends React.Component {
 
         var content = this.state.editing ? edit : view;
 
-        return ContentType.wrapContentType(this, content);
+        return ContentType.wrapContentType(this, content, this.edit.bind(this));
     }
 }
 
