@@ -22,6 +22,7 @@ routes['/test'] = function() {
 
 routes['/project/:project/:module'] = ModuleViewPageController;
 routes['/edit'] = EditModulePageController;
+routes['/edit/:module'] = EditModulePageController;
 
 export class Router {
     constructor()

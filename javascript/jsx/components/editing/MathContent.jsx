@@ -1,4 +1,4 @@
-import {Events, SaveModuleFormEvent} from 'Events.jsx';
+import {Events, SaveModuleFormEvent, ContentTypeSubmissionSuccessEvent} from 'Events.jsx';
 import {ContentType} from 'components/editing/ContentType.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
 var katex = require('katex');
@@ -10,7 +10,8 @@ export class MathContent extends React.Component {
 
         this.state = {
             content: this.props.value,
-            editing: this.props.editContent
+            editing: this.props.editContent,
+            id: this.props.id
         };
     }
 
@@ -28,7 +29,21 @@ export class MathContent extends React.Component {
     }
 
     saveToServer(e) {
-        console.log("test");
+        var data = {
+            math_content: {
+                body: this.state.content,
+                id: this.state.id
+            }
+        };
+        $.post("/content/math/add", data, this.saveCallback.bind(this));
+    }
+
+    saveCallback(data) {
+        if (data.success) {
+            this.setState({id: data.id});
+        }
+
+        Events.emitRoot(ContentTypeSubmissionSuccessEvent, this);
     }
 
     contentChange(content) {
@@ -76,7 +91,7 @@ export class MathContent extends React.Component {
         );
 
         var view = (
-            <div onDoubleClick={this.edit.bind(this)}>
+            <div data-id={this.state.id}>
                 <div className="math-content"></div>
             </div>
         );
@@ -88,5 +103,6 @@ export class MathContent extends React.Component {
 }
 
 MathContent.defaultProps = {
-    value: ""
+    value: "",
+    id: null
 }

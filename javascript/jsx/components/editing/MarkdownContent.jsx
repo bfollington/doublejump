@@ -1,7 +1,8 @@
-import {Events, SaveModuleFormEvent} from 'Events.jsx';
+import {Events, SaveModuleFormEvent, ContentTypeSubmissionSuccessEvent} from 'Events.jsx';
 import {ContentType} from 'components/editing/ContentType.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
 var marked = require('marked');
+var handlebars = require('handlebars');
 
 export class MarkdownContent extends React.Component {
 
@@ -9,7 +10,8 @@ export class MarkdownContent extends React.Component {
         super.constructor(props);
 
         this.state = {
-            content: this.props.value
+            content: this.props.value,
+            id: this.props.id
         };
     }
 
@@ -27,7 +29,21 @@ export class MarkdownContent extends React.Component {
     }
 
     saveToServer(e) {
-        console.log("test");
+        var data = {
+            markdown_content: {
+                body: this.state.content,
+                id: this.state.id
+            }
+        };
+        $.post("/content/markdown/add", data, this.saveCallback.bind(this));
+    }
+
+    saveCallback(data) {
+        if (data.success) {
+            this.setState({id: data.id});
+        }
+
+        Events.emitRoot(ContentTypeSubmissionSuccessEvent, this);
     }
 
     contentChange(content) {
@@ -36,12 +52,13 @@ export class MarkdownContent extends React.Component {
 
     renderMath() {
         if (!this.state.editing) {
-            console.log("Rendering markdown");
             var $el = $(React.findDOMNode(this));
 
             var renderTarget = $el.find(".markdown-content")[0];
+            var html = marked(this.state.content);
+            var template = handlebars.compile(html);
 
-            renderTarget.innerHTML = marked(this.state.content);
+            renderTarget.innerHTML = template(this.props.metadata());
         }
     }
 
@@ -74,7 +91,7 @@ export class MarkdownContent extends React.Component {
         );
 
         var view = (
-            <div onDoubleClick={this.edit.bind(this)}>
+            <div data-id={this.state.id}>
                 <div className="markdown-content"></div>
             </div>
         );
@@ -86,5 +103,6 @@ export class MarkdownContent extends React.Component {
 }
 
 MarkdownContent.defaultProps = {
-    value: ""
+    value: "",
+    id: null
 }

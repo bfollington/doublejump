@@ -34,7 +34,7 @@ var jsxFiles = 'javascript/jsx/**/*.jsx';
 // deprecated
 var requireFiles = './node_modules/react/react.js';
 
-var externalDeps = ['katex', 'page', 'dragula', 'marked'];
+var externalDeps = ['katex', 'page', 'dragula', 'marked', 'handlebars'];
 
 gulp.task('js-deps', function() {
     var b = browserify();

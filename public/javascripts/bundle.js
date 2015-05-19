@@ -2181,6 +2181,7 @@ var slug = new function()
         $el.keyup( function() {
 
             $slugEl.val( util.convertToSlug( $(this).val() ) );
+            $slugEl.trigger("change");
 
         });
     }

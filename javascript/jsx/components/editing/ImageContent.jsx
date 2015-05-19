@@ -1,4 +1,4 @@
-import {Events, SaveModuleFormEvent} from 'Events.jsx';
+import {Events, SaveModuleFormEvent, ContentTypeSubmissionSuccessEvent} from 'Events.jsx';
 import {ContentType} from 'components/editing/ContentType.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
 var marked = require('marked');
@@ -9,7 +9,8 @@ export class ImageContent extends React.Component {
         super.constructor(props);
 
         this.state = {
-            content: this.props.value
+            content: this.props.value,
+            id: this.props.id
         };
     }
 
@@ -22,7 +23,21 @@ export class ImageContent extends React.Component {
     }
 
     saveToServer(e) {
-        console.log("test");
+        var data = {
+            image_content: {
+                src: this.state.content,
+                id: this.state.id
+            }
+        };
+        $.post("/content/image/add", data, this.saveCallback.bind(this));
+    }
+
+    saveCallback(data) {
+        if (data.success) {
+            this.setState({id: data.id});
+        }
+
+        Events.emitRoot(ContentTypeSubmissionSuccessEvent, this);
     }
 
     contentChange(content) {
@@ -56,7 +71,7 @@ export class ImageContent extends React.Component {
         );
 
         var view = (
-            <div>
+            <div data-id={this.state.id}>
                 <img src={this.state.content} />
             </div>
         );
@@ -68,5 +83,6 @@ export class ImageContent extends React.Component {
 }
 
 ImageContent.defaultProps = {
-    value: ""
+    value: "",
+    id: null
 }

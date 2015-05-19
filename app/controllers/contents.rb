@@ -47,6 +47,8 @@ end
 
 def create_content(params, model_class, array_key)
 
+    puts params.inspect
+
     # Catch empty id errors
     if params[array_key].has_key?("id") && params[array_key][:id].empty?
         params[array_key].delete("id")

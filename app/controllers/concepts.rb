@@ -9,8 +9,16 @@ Doublejump::App.controllers :concepts, :cache => true do
   get :concept, :with => :id do
     content_type :json
     learning_module = LearningModule.find(params[:id])
+    contents = []
 
-    {learning_module: learning_module, contents: learning_module.contents}.to_json
+    # Annotate types for loading
+    learning_module.content_ids.each do |content_id|
+      content = Content.find(content_id)
+      content.write_attribute("type", content.get_type)
+      contents << content
+    end
+
+    {learning_module: learning_module, contents: contents}.to_json
   end
 
   get :editor do
@@ -29,38 +37,26 @@ Doublejump::App.controllers :concepts, :cache => true do
   end
 
   post :make do
-    @learning_module = LearningModule.create(params[:learning_module])
 
-    params[:contents].each do |content|
-        @learning_module.contents << Content.find(content)
-    end
-
-    content_type :json
-
-    if @learning_module.valid?
-      @learning_module.save
-      session[:flash] = "Concept saved successfully!"
-      {:success => true }.to_json
+    if params[:id]
+      @learning_module = LearningModule.find(params[:id])
+      @learning_module.update_attributes(params[:learning_module])
     else
-      {:success => false, :errors => @learning_module.errors.messages }.to_json
+      @learning_module = LearningModule.create(params[:learning_module])
     end
-  end
 
-  post :make, :with => :id do
-    @learning_module = LearningModule.find(params[:id])
+    @learning_module.contents = []
 
     params[:contents].each do |content|
         @learning_module.contents << Content.find(content)
     end
-
-    @learning_module.update_attributes(params[:learning_module])
 
     content_type :json
 
     if @learning_module.valid?
       @learning_module.save
       session[:flash] = "Concept saved successfully!"
-      {:success => true }.to_json
+      {:success => true, :id => @learning_module.id.to_s }.to_json
     else
       {:success => false, :errors => @learning_module.errors.messages }.to_json
     end

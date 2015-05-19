@@ -6,4 +6,8 @@ class Content
   has_and_belongs_to_many :steps
   has_many :comments
 
+  def get_type
+    self["_type"]
+  end
+
 end

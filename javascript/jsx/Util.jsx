@@ -22,3 +22,11 @@ Util.getCSRFFormField = function() {
     var csrf = Util.getCSRF();
     return <input type="hidden" name={csrf.param} value={csrf.token} />;
 }
+
+Util.transformMongoId = function(obj) {
+    if (obj["_id"]) {
+        if (obj["_id"]["$oid"]) {
+            obj["id"] = obj["_id"]["$oid"];
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import {Events, SaveModuleFormEvent} from 'Events.jsx';
+import {Events, SaveModuleFormEvent, ContentTypeSubmissionSuccessEvent} from 'Events.jsx';
 import {ContentType} from 'components/editing/ContentType.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
 
@@ -9,7 +9,8 @@ export class CodeContent extends React.Component {
 
         this.state = {
             content: this.props.value,
-            language: this.props.language
+            language: this.props.language,
+            id: this.props.id
         };
     }
 
@@ -22,7 +23,22 @@ export class CodeContent extends React.Component {
     }
 
     saveToServer(e) {
-        console.log("test");
+        var data = {
+            code_content: {
+                body: this.state.content,
+                language: this.state.language,
+                id: this.state.id
+            }
+        };
+        $.post("/content/code/add", data, this.saveCallback.bind(this));
+    }
+
+    saveCallback(data) {
+        if (data.success) {
+            this.setState({id: data.id});
+        }
+
+        Events.emitRoot(ContentTypeSubmissionSuccessEvent, this);
     }
 
     languageChange(lang) {
@@ -60,7 +76,7 @@ export class CodeContent extends React.Component {
         );
 
         var view = (
-            <pre onDoubleClick={this.edit.bind(this)}>
+            <pre data-id={this.state.id}>
                 <code className={this.state.language}>
                     {this.state.content}
                 </code>
@@ -75,5 +91,6 @@ export class CodeContent extends React.Component {
 
 CodeContent.defaultProps = {
     language: 'javascript',
-    value: ""
+    value: "",
+    id: null
 }
