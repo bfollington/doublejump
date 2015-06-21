@@ -3,10 +3,12 @@ import {ContentType} from 'components/editing/ContentType.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
 var marked = require('marked');
 
+var React = require("react");
+
 export class ImageContent extends React.Component {
 
     constructor(props) {
-        super.constructor(props);
+        super(props);
 
         this.state = {
             content: this.props.value,

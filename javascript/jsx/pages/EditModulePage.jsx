@@ -7,13 +7,28 @@ import {ImageContent} from 'components/editing/ImageContent.jsx';
 import {Sortable} from 'components/Sortable.jsx';
 import {FloatingButton} from 'components/FloatingButton.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
+import {Mixin} from 'Mixin';
+import {Print} from 'mixins/Print';
+import {Store} from 'mixins/Store';
 import {Slug} from 'Slug.js';
+
+var Select = require('react-select');
+var React = require("react");
 
 var page = require("page");
 
+var options = [
+    { value: 'one', label: 'One' },
+    { value: 'two', label: 'Two' }
+];
+
+function logChange(val) {
+    console.log("Selected: " + val);
+}
+
 export class EditModulePage extends React.Component {
     constructor(props) {
-        super.constructor(props);
+        super(props);
 
         this.state = {
             modules: [{}],
@@ -22,10 +37,22 @@ export class EditModulePage extends React.Component {
             metadata: {},
             title: this.props.title,
             slug: this.props.slug
-        }
+        };
+
+        Mixin.apply(this, Print);
+        Mixin.apply(this, Store, {stores: ["module"]});
+        window.test = this;
 
         this.submitCount = 0;
     }
+
+
+    onChange(data) {
+        if (data._type == "updateModule") {
+            this.stores.module.save(this.props.module, this.moduleSaveRepsonse.bind(this));
+        }
+    }
+
 
     titleUpdate(e) {
         this.setState({title: e.target.value});
@@ -39,11 +66,15 @@ export class EditModulePage extends React.Component {
 
 
 
+
     componentDidMount() {
+
+        console.log("Hello from component");
+
         Events.subscribeRoot( ContentTypeSubmissionSuccessEvent, this.contentTypeDidSave.bind(this) );
 
         if (this.props.module) {
-            $.get(`/concepts/concept/${this.props.module}`, this.fetchedData.bind(this));
+            this.stores.module.get(this.props.module, this.fetchedData.bind(this));
         }
     }
 
@@ -80,6 +111,7 @@ export class EditModulePage extends React.Component {
     }
 
     componentDidUnmount() {
+        console.log("Goodbye from component");
         Events.unsubscribeRoot( ContentTypeSubmissionSuccessEvent, this.contentTypeDidSave.bind(this) );
     }
 
@@ -115,7 +147,7 @@ export class EditModulePage extends React.Component {
             "id": this.props.module
         };
 
-        $.post(`/concepts/make`, data, this.moduleSaveRepsonse.bind(this));
+        this.stores.module.actions.updateModule(data);
     }
 
     moduleSaveRepsonse(data) {
@@ -262,6 +294,14 @@ export class EditModulePage extends React.Component {
                                                 <input onChange={this.slugUpdate.bind(this)} value={this.state.slug} type="text" name="learning_module[slug]" id="learning_module_slug" className="form-control" />
                                             </p>
                                         </div>
+                                    </div>
+                                    <div className="col-sm-12">
+                                        <Select
+                                            name="form-field-name"
+                                            options={options}
+                                            onChange={logChange}
+                                            multi={true}
+                                        />
                                     </div>
                                     <div className="content-ids"></div>
                                 </form>

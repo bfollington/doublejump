@@ -1,4 +1,5 @@
 var dragula = require('dragula');
+var React = require("react");
 
 export class Sortable extends React.Component {
 

@@ -1,6 +1,8 @@
 import {ContentTypeToolbar} from "./ContentTypeToolbar.jsx";
 import {FloatingButton} from "components/FloatingButton.jsx";
 
+var React = require("react");
+
 export class ContentType extends React.Component {
     render() {
         return (

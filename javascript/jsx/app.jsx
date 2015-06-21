@@ -1,6 +1,14 @@
 import {Router} from './router.jsx';
+import {ModuleStore} from 'stores/ModuleStore';
+var React = require("react");
 
 window.app = { domRoot: document.getElementById('content') };
+
+window.flux = {
+    stores: {
+        "module": new ModuleStore()
+    }
+};
 
 $.ajaxPrefilter(function(options, originalOptions, xhr) {
     if ( !options.crossDomain ) {

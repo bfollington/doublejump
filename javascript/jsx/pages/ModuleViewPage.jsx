@@ -1,6 +1,10 @@
+var React = require("react");
+
 export class ModuleViewPage extends React.Component {
 
     constructor() {
+        super();
+
         this.state = {
             loaded: false
         }

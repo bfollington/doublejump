@@ -1,6 +1,6 @@
-import {Component} from '../Component.jsx'
+var React = require("react");
 
-export class Draggable extends Component {
+export class Draggable extends React.Component {
 
     constructor(props)
     {

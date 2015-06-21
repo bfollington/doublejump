@@ -1,7 +1,9 @@
+var React = require("react");
+
 export class FloatingButton extends React.Component {
 
-    constructor() {
-
+    constructor(props) {
+        super(props);
     }
 
     componentDidMount() {

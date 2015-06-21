@@ -3,6 +3,7 @@ import {ProjectPageController} from './pages/ProjectPageController.jsx';
 import {ModuleViewPageController} from './pages/ModuleViewPageController.jsx';
 import {EditModulePageController} from './pages/EditModulePageController.jsx';
 import {Test} from './components/Test.react.jsx';
+var React = require("react");
 
 
 const render = (component) => React.render(

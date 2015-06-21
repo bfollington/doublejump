@@ -1,136 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-// base.js binds UI stuff and initialises some important bits
-
-var mathjax = false;
-window.doublejump = window.doublejump || {};
-
-var mixins = require("mixins/mixin_controller"),
-    bootstrapMod = require("bootstrap-mod"),
-    definitions = require("definitions"),
-    hideable = require("hideable-region"),
-    learn = require("learn"),
-    notifications = require("notifications"),
-    jqueryExtend = require("util/_jquery_extend"),
-    search = require("search"),
-    slug = require("slug-fields"),
-    loading = require("loading"),
-    util = require("util/_util"),
-    twoCols = require("two-cols"),
-    underscoreSettings = require("backbone/underscore_settings"),
-    uiBinding = require("mixins/ui_binder"),
-    comments = require("comments");
-
-$( function() {
-
-    util.init();
-    loading();
-
-    // Remove no-js class to signify that we... uh... have js
-    $("html").first().removeClass("no-js");
-
-    // Initialise all the individual page controllers for the app
-    mixins.intialiseControllers();
-
-    underscoreSettings();
-
-    bootstrapMod();
-    jqueryExtend();
-
-    definitions.convertDefinitionLinks();
-    definitions.bindDefinitions();
-
-    hideable.createHideableRegions();
-    hideable.bindInsertRegionButton();
-
-    search.bindCourseSearchField();
-    search.bindDefinitionSearchField();
-
-    twoCols.repositionColumns();
-
-    slug.bindSlugFields();
-    slug.bindLowercaseFields();
-
-    learn.setup();
-
-    notifications.bindRemoveLinks();
-
-    uiBinding();
-
-    // comments.bindComments();
-
-    // Configure select2 when the plugin is present
-    if ( typeof $.fn.select2 != "undefined" )
-    {
-        $(".js-select2").select2();
-    }
-
-    //Configure lazy loading of images when the plugin is present
-    //Only if we are on the appropriate page, need to used defined? util
-    if (jQuery().lazyload)
-    {
-        $("img.lazy").lazyload(
-        {
-            threshold : 200
-        });
-    }
-
-    // Add a book icon to every definition link in the body of the step
-    $(".step-body a[rel='definition']").each( function() {
-
-        $(this).html($(this).html() + ' <i class="fa fa-book"></i>');
-
-        if ( typeof $(this).attr("title") == "undefined")
-        {
-            $(this).attr("title", "Show Definition");
-        }
-
-        $(this).tooltip();
-
-    });
-
-    // Add tooltips to comment links
-    $(".step-body .comment a").tooltip();
-
-    // Add icons to external links
-    $(".step-body a[href*='http']").each( function() {
-
-        $(this).html($(this).html() + ' <i class="fa fa-external-link"></i>');
-
-        if ( typeof $(this).attr("title") == "undefined")
-        {
-            $(this).attr("title", $(this).attr("href").trunc(50));
-        }
-
-        $(this).attr("target", "new");
-
-        $(this).tooltip({placement: "top"});
-
-    });
-
-    //Include mathjax if needed
-    if ($("div:contains('{\\[')").length > 0 || $("div:contains('\\(')").length > 0)
-    {
-
-        mathjax = true;
-
-        (function () {
-          var head = document.getElementsByTagName("head")[0], script;
-          script = document.createElement("script");
-          script.type = "text/x-mathjax-config";
-          script[(window.opera ? "innerHTML" : "text")] =
-            "MathJax.Hub.Config({\n" +
-            "});"
-          head.appendChild(script);
-          script = document.createElement("script");
-          script.type = "text/javascript";
-          script.src  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML";
-          head.appendChild(script);
-        })();
-    }
-
-});
-
-},{"backbone/underscore_settings":9,"bootstrap-mod":10,"comments":11,"definitions":12,"hideable-region":13,"learn":14,"loading":15,"mixins/mixin_controller":22,"mixins/ui_binder":28,"notifications":29,"search":33,"slug-fields":35,"two-cols":37,"util/_jquery_extend":39,"util/_util":40}],2:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/Ben/Projects/Ruby/doublejump/app/views/editor/step_view.js":[function(require,module,exports){
 var Pillar = require("pillar/pillar");
 var sortable = require("sortable-list");
 var aceUtil = require("aceUtil");
@@ -320,7 +188,7 @@ module.exports = {
     ComposeStepContentView: ComposeStepContentView
 }
 
-},{"aceUtil":7,"pillar/pillar":31,"sortable-list":36}],3:[function(require,module,exports){
+},{"aceUtil":"/Users/Ben/Projects/Ruby/doublejump/javascript/aceUtil.js","pillar/pillar":"/Users/Ben/Projects/Ruby/doublejump/javascript/pillar/pillar.js","sortable-list":"/Users/Ben/Projects/Ruby/doublejump/javascript/sortable-list.js"}],"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_comment_icon_view.js":[function(require,module,exports){
 var Pillar = require("pillar/pillar"),
     template = require("util/templating-util"),
     CommentListView = require("ui/js/_comment_list_view");
@@ -361,7 +229,7 @@ var CommentIconView = Pillar.View.extend({
 
 module.exports = CommentIconView;
 
-},{"pillar/pillar":31,"ui/js/_comment_list_view":4,"util/templating-util":43}],4:[function(require,module,exports){
+},{"pillar/pillar":"/Users/Ben/Projects/Ruby/doublejump/javascript/pillar/pillar.js","ui/js/_comment_list_view":"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_comment_list_view.js","util/templating-util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/templating-util.js"}],"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_comment_list_view.js":[function(require,module,exports){
 var Pillar = require("pillar/pillar"),
     animate = require("util/animate-util");
 
@@ -410,7 +278,7 @@ module.exports = Pillar.View.extend({
     }
 });
 
-},{"pillar/pillar":31,"util/animate-util":41}],5:[function(require,module,exports){
+},{"pillar/pillar":"/Users/Ben/Projects/Ruby/doublejump/javascript/pillar/pillar.js","util/animate-util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/animate-util.js"}],"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_sortable_content_list_entry_model.js":[function(require,module,exports){
 var util = require("util/_util");
 
 var SortableItem = Backbone.Model.extend({
@@ -437,7 +305,7 @@ module.exports = {
     SortableItemCollection: SortableItemCollection
 };
 
-},{"util/_util":40}],6:[function(require,module,exports){
+},{"util/_util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_util.js"}],"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_sortable_content_list_entry_view.js":[function(require,module,exports){
 var SortableItem = require("ui/js/_sortable_content_list_entry_model").SortableItem;
 var Pillar = require("pillar/pillar");
 var template = require("util/templating-util");
@@ -534,7 +402,7 @@ module.exports = {
     SortableItemListView: SortableItemListView
 };
 
-},{"pillar/pillar":31,"ui/js/_sortable_content_list_entry_model":5,"util/templating-util":43}],7:[function(require,module,exports){
+},{"pillar/pillar":"/Users/Ben/Projects/Ruby/doublejump/javascript/pillar/pillar.js","ui/js/_sortable_content_list_entry_model":"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_sortable_content_list_entry_model.js","util/templating-util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/templating-util.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/aceUtil.js":[function(require,module,exports){
 var aceUtil = new function()
 {
     this.convertTextAreas = function(selector) {
@@ -591,7 +459,139 @@ module.exports = aceUtil;
 
 
 
-},{}],8:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/app.js":[function(require,module,exports){
+// base.js binds UI stuff and initialises some important bits
+
+var mathjax = false;
+window.doublejump = window.doublejump || {};
+
+var mixins = require("mixins/mixin_controller"),
+    bootstrapMod = require("bootstrap-mod"),
+    definitions = require("definitions"),
+    hideable = require("hideable-region"),
+    learn = require("learn"),
+    notifications = require("notifications"),
+    jqueryExtend = require("util/_jquery_extend"),
+    search = require("search"),
+    slug = require("slug-fields"),
+    loading = require("loading"),
+    util = require("util/_util"),
+    twoCols = require("two-cols"),
+    underscoreSettings = require("backbone/underscore_settings"),
+    uiBinding = require("mixins/ui_binder"),
+    comments = require("comments");
+
+$( function() {
+
+    util.init();
+    loading();
+
+    // Remove no-js class to signify that we... uh... have js
+    $("html").first().removeClass("no-js");
+
+    // Initialise all the individual page controllers for the app
+    mixins.intialiseControllers();
+
+    underscoreSettings();
+
+    bootstrapMod();
+    jqueryExtend();
+
+    definitions.convertDefinitionLinks();
+    definitions.bindDefinitions();
+
+    hideable.createHideableRegions();
+    hideable.bindInsertRegionButton();
+
+    search.bindCourseSearchField();
+    search.bindDefinitionSearchField();
+
+    twoCols.repositionColumns();
+
+    slug.bindSlugFields();
+    slug.bindLowercaseFields();
+
+    learn.setup();
+
+    notifications.bindRemoveLinks();
+
+    uiBinding();
+
+    // comments.bindComments();
+
+    // Configure select2 when the plugin is present
+    if ( typeof $.fn.select2 != "undefined" )
+    {
+        $(".js-select2").select2();
+    }
+
+    //Configure lazy loading of images when the plugin is present
+    //Only if we are on the appropriate page, need to used defined? util
+    if (jQuery().lazyload)
+    {
+        $("img.lazy").lazyload(
+        {
+            threshold : 200
+        });
+    }
+
+    // Add a book icon to every definition link in the body of the step
+    $(".step-body a[rel='definition']").each( function() {
+
+        $(this).html($(this).html() + ' <i class="fa fa-book"></i>');
+
+        if ( typeof $(this).attr("title") == "undefined")
+        {
+            $(this).attr("title", "Show Definition");
+        }
+
+        $(this).tooltip();
+
+    });
+
+    // Add tooltips to comment links
+    $(".step-body .comment a").tooltip();
+
+    // Add icons to external links
+    $(".step-body a[href*='http']").each( function() {
+
+        $(this).html($(this).html() + ' <i class="fa fa-external-link"></i>');
+
+        if ( typeof $(this).attr("title") == "undefined")
+        {
+            $(this).attr("title", $(this).attr("href").trunc(50));
+        }
+
+        $(this).attr("target", "new");
+
+        $(this).tooltip({placement: "top"});
+
+    });
+
+    //Include mathjax if needed
+    if ($("div:contains('{\\[')").length > 0 || $("div:contains('\\(')").length > 0)
+    {
+
+        mathjax = true;
+
+        (function () {
+          var head = document.getElementsByTagName("head")[0], script;
+          script = document.createElement("script");
+          script.type = "text/x-mathjax-config";
+          script[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({\n" +
+            "});"
+          head.appendChild(script);
+          script = document.createElement("script");
+          script.type = "text/javascript";
+          script.src  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML";
+          head.appendChild(script);
+        })();
+    }
+
+});
+
+},{"backbone/underscore_settings":"/Users/Ben/Projects/Ruby/doublejump/javascript/backbone/underscore_settings.js","bootstrap-mod":"/Users/Ben/Projects/Ruby/doublejump/javascript/bootstrap-mod.js","comments":"/Users/Ben/Projects/Ruby/doublejump/javascript/comments.js","definitions":"/Users/Ben/Projects/Ruby/doublejump/javascript/definitions.js","hideable-region":"/Users/Ben/Projects/Ruby/doublejump/javascript/hideable-region.js","learn":"/Users/Ben/Projects/Ruby/doublejump/javascript/learn.js","loading":"/Users/Ben/Projects/Ruby/doublejump/javascript/loading.js","mixins/mixin_controller":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/mixin_controller.js","mixins/ui_binder":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/ui_binder.js","notifications":"/Users/Ben/Projects/Ruby/doublejump/javascript/notifications.js","search":"/Users/Ben/Projects/Ruby/doublejump/javascript/search.js","slug-fields":"/Users/Ben/Projects/Ruby/doublejump/javascript/slug-fields.js","two-cols":"/Users/Ben/Projects/Ruby/doublejump/javascript/two-cols.js","util/_jquery_extend":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_jquery_extend.js","util/_util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_util.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/backbone/ajax_view.js":[function(require,module,exports){
 var util = require("util/_util");
 
 var AjaxFormView = Backbone.View.extend({
@@ -675,7 +675,7 @@ var AjaxFormView = Backbone.View.extend({
 
 module.exports = AjaxFormView;
 
-},{"util/_util":40}],9:[function(require,module,exports){
+},{"util/_util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_util.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/backbone/underscore_settings.js":[function(require,module,exports){
 function run()
 {
     _.templateSettings = {
@@ -687,7 +687,7 @@ function run()
 
 module.exports = run;
 
-},{}],10:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/bootstrap-mod.js":[function(require,module,exports){
 // bootstrap-mod.js alters some bootstrap UI animations
 
 function boostrapMods()
@@ -714,7 +714,7 @@ function boostrapMods()
 
 module.exports = boostrapMods;
 
-},{}],11:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/comments.js":[function(require,module,exports){
 var eventUtil = require("util/event-util"),
     util = require("util/_util"),
     animate = require("util/animate-util");
@@ -922,7 +922,7 @@ var comments = new function()
 
 module.exports = comments;
 
-},{"util/_util":40,"util/animate-util":41,"util/event-util":42}],12:[function(require,module,exports){
+},{"util/_util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_util.js","util/animate-util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/animate-util.js","util/event-util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/event-util.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/definitions.js":[function(require,module,exports){
 var animate = require("util/animate-util");
 
 // definitions.js handle definition lookups
@@ -1050,7 +1050,7 @@ var definitions = new function()
 
 module.exports = definitions;
 
-},{"util/animate-util":41}],13:[function(require,module,exports){
+},{"util/animate-util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/animate-util.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/hideable-region.js":[function(require,module,exports){
 // hideable-region.js
 
 var hideable = new function()
@@ -1102,7 +1102,7 @@ var hideable = new function()
 module.exports = hideable;
 
 
-},{}],14:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/learn.js":[function(require,module,exports){
 // learn.js modifies the learn page layout to inject images etc.
 
 var learn = new function()
@@ -1159,7 +1159,7 @@ var learn = new function()
 
 module.exports = learn;
 
-},{}],15:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/loading.js":[function(require,module,exports){
 function run()
 {
     window.loadingIndicator = '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
@@ -1167,7 +1167,7 @@ function run()
 
 module.exports = run;
 
-},{}],16:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/ajax_form.js":[function(require,module,exports){
 var AjaxFormView = require("backbone/ajax_view");
 
 function run(opts)
@@ -1177,7 +1177,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"backbone/ajax_view":8}],17:[function(require,module,exports){
+},{"backbone/ajax_view":"/Users/Ben/Projects/Ruby/doublejump/javascript/backbone/ajax_view.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/convert_ace.js":[function(require,module,exports){
 var aceUtil = require("aceUtil");
 
 function run(opts)
@@ -1187,7 +1187,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"aceUtil":7}],18:[function(require,module,exports){
+},{"aceUtil":"/Users/Ben/Projects/Ruby/doublejump/javascript/aceUtil.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/course_edit_page.js":[function(require,module,exports){
 var SortableItemListView = require("ui/js/_sortable_content_list_entry_view").SortableItemListView,
     SortableItem = require("ui/js/_sortable_content_list_entry_model").SortableItem,
     SortableItemCollection = require("ui/js/_sortable_content_list_entry_model").SortableItemCollection;
@@ -1219,7 +1219,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"ui/js/_sortable_content_list_entry_model":5,"ui/js/_sortable_content_list_entry_view":6}],19:[function(require,module,exports){
+},{"ui/js/_sortable_content_list_entry_model":"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_sortable_content_list_entry_model.js","ui/js/_sortable_content_list_entry_view":"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_sortable_content_list_entry_view.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/edit_step.js":[function(require,module,exports){
 var AjaxFormView = require("backbone/ajax_view");
 var ComposeStepView = require("editor/step_view").ComposeStepView;
 var ComposeStepContentView = require("editor/step_view").ComposeStepContentView;
@@ -1248,7 +1248,7 @@ function run()
 
 module.exports = {run: run};
 
-},{"backbone/ajax_view":8,"editor/step_view":2}],20:[function(require,module,exports){
+},{"backbone/ajax_view":"/Users/Ben/Projects/Ruby/doublejump/javascript/backbone/ajax_view.js","editor/step_view":"/Users/Ben/Projects/Ruby/doublejump/app/views/editor/step_view.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/editor_course_list.js":[function(require,module,exports){
 var comments = require("comments");
 var sortable = require("sortable-list");
 
@@ -1262,7 +1262,7 @@ var EditorCourseList = new function()
 
 module.exports = EditorCourseList;
 
-},{"comments":11,"sortable-list":36}],21:[function(require,module,exports){
+},{"comments":"/Users/Ben/Projects/Ruby/doublejump/javascript/comments.js","sortable-list":"/Users/Ben/Projects/Ruby/doublejump/javascript/sortable-list.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/icon_tab.js":[function(require,module,exports){
 var iconTab = require("ui/icon-tab");
 
 function run(opts)
@@ -1272,7 +1272,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"ui/icon-tab":38}],22:[function(require,module,exports){
+},{"ui/icon-tab":"/Users/Ben/Projects/Ruby/doublejump/javascript/ui/icon-tab.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/mixin_controller.js":[function(require,module,exports){
 require("mixins/editor_course_list");
 require("mixins/payment_details");
 require("mixins/progress_bars");
@@ -1297,7 +1297,7 @@ var MixinController = new function()
 
 module.exports = MixinController;
 
-},{"mixins/ajax_form":16,"mixins/convert_ace":17,"mixins/course_edit_page":18,"mixins/edit_step":19,"mixins/editor_course_list":20,"mixins/icon_tab":21,"mixins/payment_details":23,"mixins/progress_bars":24,"mixins/sharing":25,"mixins/sortable_item_list":26,"mixins/step_list":27}],23:[function(require,module,exports){
+},{"mixins/ajax_form":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/ajax_form.js","mixins/convert_ace":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/convert_ace.js","mixins/course_edit_page":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/course_edit_page.js","mixins/edit_step":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/edit_step.js","mixins/editor_course_list":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/editor_course_list.js","mixins/icon_tab":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/icon_tab.js","mixins/payment_details":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/payment_details.js","mixins/progress_bars":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/progress_bars.js","mixins/sharing":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/sharing.js","mixins/sortable_item_list":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/sortable_item_list.js","mixins/step_list":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/step_list.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/payment_details.js":[function(require,module,exports){
 var payment = require("payment_validation");
 
 var PaymentDetails = new function()
@@ -1310,7 +1310,7 @@ var PaymentDetails = new function()
 
 module.exports = PaymentDetails;
 
-},{"payment_validation":30}],24:[function(require,module,exports){
+},{"payment_validation":"/Users/Ben/Projects/Ruby/doublejump/javascript/payment_validation.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/progress_bars.js":[function(require,module,exports){
 var progress = require("progress-bar");
 
 var ProgressBars = new function()
@@ -1325,7 +1325,7 @@ var ProgressBars = new function()
 
 module.exports = ProgressBars;
 
-},{"progress-bar":32}],25:[function(require,module,exports){
+},{"progress-bar":"/Users/Ben/Projects/Ruby/doublejump/javascript/progress-bar.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/sharing.js":[function(require,module,exports){
 var sharing = require("sharing-progress");
 
 function run(opts)
@@ -1338,7 +1338,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"sharing-progress":34}],26:[function(require,module,exports){
+},{"sharing-progress":"/Users/Ben/Projects/Ruby/doublejump/javascript/sharing-progress.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/sortable_item_list.js":[function(require,module,exports){
 var SortableItemCollection = require("ui/js/_sortable_content_list_entry_model").SortableItemCollection,
     SortableItemListView = require("ui/js/_sortable_content_list_entry_view").SortableItemListView;
 
@@ -1354,7 +1354,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"ui/js/_sortable_content_list_entry_model":5,"ui/js/_sortable_content_list_entry_view":6}],27:[function(require,module,exports){
+},{"ui/js/_sortable_content_list_entry_model":"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_sortable_content_list_entry_model.js","ui/js/_sortable_content_list_entry_view":"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_sortable_content_list_entry_view.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/step_list.js":[function(require,module,exports){
 var SortableItemListView = require("ui/js/_sortable_content_list_entry_view").SortableItemListView,
     SortableItem = require("ui/js/_sortable_content_list_entry_model").SortableItem,
     SortableItemCollection = require("ui/js/_sortable_content_list_entry_model").SortableItemCollection;
@@ -1397,7 +1397,7 @@ function run(opts)
 
 module.exports = {run: run};
 
-},{"ui/js/_sortable_content_list_entry_model":5,"ui/js/_sortable_content_list_entry_view":6}],28:[function(require,module,exports){
+},{"ui/js/_sortable_content_list_entry_model":"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_sortable_content_list_entry_model.js","ui/js/_sortable_content_list_entry_view":"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_sortable_content_list_entry_view.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/ui_binder.js":[function(require,module,exports){
 require("ui/js/_comment_icon_view");
 
 function run()
@@ -1414,7 +1414,7 @@ function run()
 
 module.exports = run;
 
-},{"ui/js/_comment_icon_view":3}],29:[function(require,module,exports){
+},{"ui/js/_comment_icon_view":"/Users/Ben/Projects/Ruby/doublejump/app/views/ui/js/_comment_icon_view.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/notifications.js":[function(require,module,exports){
 // notifications.js
 
 var notifications = new function()
@@ -1456,7 +1456,7 @@ var notifications = new function()
 
 module.exports = notifications;
 
-},{}],30:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/payment_validation.js":[function(require,module,exports){
 var paymentValidation = new function()
 {
     this.init = function init()
@@ -1513,7 +1513,7 @@ var paymentValidation = new function()
 
 module.exports = paymentValidation;
 
-},{}],31:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/pillar/pillar.js":[function(require,module,exports){
 Pillar = {} || Pillar;
 
 Pillar.superOf = function(clazz)
@@ -1801,7 +1801,7 @@ Pillar.ExtendedTextView = Pillar.TestView.extend({
 
 module.exports = Pillar;
 
-},{}],32:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/progress-bar.js":[function(require,module,exports){
 // progress-bar.js powers the progress bar during a lesson
 
 var util = require("util/_util");
@@ -1920,7 +1920,7 @@ var progress = new function()
 
 module.exports = progress;
 
-},{"util/_util":40}],33:[function(require,module,exports){
+},{"util/_util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_util.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/search.js":[function(require,module,exports){
 var search = new function()
 {
     var self = this;
@@ -2033,7 +2033,7 @@ var search = new function()
 
 module.exports = search;
 
-},{}],34:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/sharing-progress.js":[function(require,module,exports){
 // sharing-progress.js controls everything about the gallery sharing steps
 
 var learn = require("learn");
@@ -2153,7 +2153,7 @@ var sharing = new function()
 
 module.exports = sharing;
 
-},{"learn":14}],35:[function(require,module,exports){
+},{"learn":"/Users/Ben/Projects/Ruby/doublejump/javascript/learn.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/slug-fields.js":[function(require,module,exports){
 // slug-fields.js powers slugifying and lower-casing of fields into another field
 
 var util = require("util/_util");
@@ -2202,7 +2202,7 @@ var slug = new function()
 
 module.exports = slug;
 
-},{"util/_util":40}],36:[function(require,module,exports){
+},{"util/_util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_util.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/sortable-list.js":[function(require,module,exports){
 // sortable-list.js powers the re-orderable lists for creating steps, lessons, etc.
 
 var sortable = new function()
@@ -2293,7 +2293,7 @@ var sortable = new function()
 
 module.exports = sortable;
 
-},{}],37:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/two-cols.js":[function(require,module,exports){
 var twoCols = new function()
 {
 
@@ -2315,7 +2315,7 @@ var twoCols = new function()
 
 module.exports = twoCols;
 
-},{}],38:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/ui/icon-tab.js":[function(require,module,exports){
 var iconTab = new function ()
 {
     this.initialised = false;
@@ -2342,7 +2342,7 @@ var iconTab = new function ()
 
 module.exports = iconTab;
 
-},{}],39:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_jquery_extend.js":[function(require,module,exports){
 function extendJq()
 {
     $.postWithCsrf = function (url, data, success)
@@ -2354,7 +2354,7 @@ function extendJq()
 
 module.exports = extendJq;
 
-},{}],40:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_util.js":[function(require,module,exports){
 var util = new function()
 {
     this.init = function()
@@ -2500,7 +2500,7 @@ var util = new function()
 
 module.exports = util;
 
-},{}],41:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/util/animate-util.js":[function(require,module,exports){
 var util = require("util/_util");
 
 /**
@@ -2567,7 +2567,7 @@ module.exports = {
     animateElement: animateElement
 }
 
-},{"util/_util":40}],42:[function(require,module,exports){
+},{"util/_util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_util.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/util/event-util.js":[function(require,module,exports){
 var eventUtil = new function()
 {
   this.stopEventPropagating = function(e)
@@ -2593,7 +2593,7 @@ var eventUtil = new function()
 
 module.exports = eventUtil;
 
-},{}],43:[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/util/templating-util.js":[function(require,module,exports){
 function getTemplate(name)
 {
     return $("#" + name + "_template").html();
@@ -2622,7 +2622,6 @@ module.exports = {
     format: format
 }
 
-},{}]},{},[1])
-
+},{}]},{},["/Users/Ben/Projects/Ruby/doublejump/javascript/app.js"]);
 
 //# sourceMappingURL=bundle.js.map

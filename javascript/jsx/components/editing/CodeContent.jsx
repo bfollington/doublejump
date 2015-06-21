@@ -2,10 +2,12 @@ import {Events, SaveModuleFormEvent, ContentTypeSubmissionSuccessEvent} from 'Ev
 import {ContentType} from 'components/editing/ContentType.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
 
+var React = require("react");
+
 export class CodeContent extends React.Component {
 
     constructor(props) {
-        super.constructor(props);
+        super(props);
 
         this.state = {
             content: this.props.value,

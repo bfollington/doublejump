@@ -4,10 +4,12 @@ import {AceEditor} from 'components/AceEditor.jsx';
 var marked = require('marked');
 var handlebars = require('handlebars');
 
+var React = require("react");
+
 export class MarkdownContent extends React.Component {
 
     constructor(props) {
-        super.constructor(props);
+        super(props);
 
         this.state = {
             content: this.props.value,

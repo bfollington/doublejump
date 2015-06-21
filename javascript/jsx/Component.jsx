@@ -1,3 +1,5 @@
+var React = require("react");
+
 export class Mixin {
 
     constructor()
@@ -40,6 +42,7 @@ export class Component extends React.Component {
 
     constructor(props)
     {
+        super(props);
         this.mixins = [];
     }
 

@@ -1,3 +1,5 @@
+"use strict";
+
 var animate = require("util/animate-util");
 
 // form-util.js provides form handling abstractions

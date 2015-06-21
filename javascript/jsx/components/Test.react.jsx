@@ -1,6 +1,6 @@
-import {Component} from '../Component.jsx'
+var React = require("react");
 
-export class Test extends Component {
+export class Test extends React.Component {
     constructor(props)
     {
         super(props);
