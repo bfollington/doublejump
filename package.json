@@ -2,12 +2,13 @@
   "name": "doublejump",
   "version": "0.0.1",
   "devDependencies": {
-    "babelify": "^5",
+    "babelify": "^6.1.2",
     "brace": "^0.5.1",
     "browserify": "^9",
     "dragula": "^1.6.0",
     "gulp": "~3.8.5",
     "gulp-autoprefixer": "0.0.8",
+    "gulp-build-tools": "^1.0.5",
     "gulp-cache": "~0.2.0",
     "gulp-clean": "~0.3.1",
     "gulp-concat": "~2.2.0",
@@ -27,9 +28,11 @@
     "marked": "^0.3.3",
     "minifyify": "^7.0.0",
     "page": "^1.6.1",
-    "react": "0.13.0-rc1",
-    "reactify": "^0.13.1",
+    "react": "0.13.3",
+    "react-select": "^0.5.0",
+    "reactify": "^1.1.1",
     "uglifyify": "^3.0.1",
+    "underscore": "^1.8.3",
     "vinyl-source-stream": "^1",
     "watchify": "^2"
   }
