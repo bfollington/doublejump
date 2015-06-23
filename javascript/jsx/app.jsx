@@ -1,12 +1,14 @@
 import {Router} from './router.jsx';
 import {ModuleStore} from 'stores/ModuleStore';
+import {TopicStore} from 'stores/TopicStore';
 var React = require("react");
 
 window.app = { domRoot: document.getElementById('content') };
 
 window.flux = {
     stores: {
-        "module": new ModuleStore()
+        "module": new ModuleStore(),
+        "topic": new TopicStore(),
     }
 };
 

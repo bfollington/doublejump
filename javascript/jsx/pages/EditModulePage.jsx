@@ -17,15 +17,6 @@ var React = require("react");
 
 var page = require("page");
 
-var options = [
-    { value: 'one', label: 'One' },
-    { value: 'two', label: 'Two' }
-];
-
-function logChange(val) {
-    console.log("Selected: " + val);
-}
-
 export class EditModulePage extends React.Component {
     constructor(props) {
         super(props);
@@ -35,12 +26,12 @@ export class EditModulePage extends React.Component {
             currentModule: null,
             contentBlocks: [],
             metadata: {},
+            topics: [],
             title: this.props.title,
             slug: this.props.slug
         };
 
-        Mixin.apply(this, Print);
-        Mixin.apply(this, Store, {stores: ["module"]});
+        Mixin.apply(this, Store, {stores: ["module", "topic"]});
         window.test = this;
 
         this.submitCount = 0;
@@ -63,6 +54,10 @@ export class EditModulePage extends React.Component {
         this.setState({slug: e.target.value});
     }
 
+    onTopicChange(latest, list) {
+        console.log(this);
+        this.setState({topics: list});
+    }
 
 
 
@@ -76,18 +71,31 @@ export class EditModulePage extends React.Component {
         if (this.props.module) {
             this.stores.module.get(this.props.module, this.fetchedData.bind(this));
         }
+
+        this.stores.topic.getAll(this.receivedTopics.bind(this));
+    }
+
+    receivedTopics(data) {
+
+        var result = [];
+
+        data.topics.forEach(topic => {
+            Util.transformMongoId(topic);
+            result.push({ value: topic.id, label: topic.name });
+        });
+
+        this.setState({allTopics: result});
     }
 
     fetchedData(data) {
         console.log(data);
-
 
         var blocks = [];
 
         for (var i = 0; i < data.contents.length; i++) {
             Util.transformMongoId(data.contents[i]);
             console.log(data.contents[i]);
-            switch(data.contents[i]["type"]) {
+            switch(data.contents[i].type) {
                 case "MarkdownContent":
                     blocks.push(this.newMarkdownSection(data.contents[i]));
                     break;
@@ -104,14 +112,14 @@ export class EditModulePage extends React.Component {
         }
 
         this.setState({
-            title: data["learning_module"].title,
-            slug: data["learning_module"].slug,
-            contentBlocks: blocks
+            title: data.learning_module.title,
+            slug: data.learning_module.slug,
+            contentBlocks: blocks,
+            topics: data.learning_module.topic_ids.map(id => id.$oid)
         });
     }
 
     componentDidUnmount() {
-        console.log("Goodbye from component");
         Events.unsubscribeRoot( ContentTypeSubmissionSuccessEvent, this.contentTypeDidSave.bind(this) );
     }
 
@@ -131,7 +139,9 @@ export class EditModulePage extends React.Component {
             content_type_ids.push($(this).attr("data-id"));
         });
 
-        console.log(content_type_ids);
+        var topic_ids = this.state.topics.map(topic => {
+            return topic.value;
+        });
 
         var id = "";
         if (this.props.module !== undefined) {
@@ -144,7 +154,8 @@ export class EditModulePage extends React.Component {
                 title: this.state.title,
                 slug: this.state.slug
             },
-            "id": this.props.module
+            "id": this.props.module,
+            "topics": topic_ids
         };
 
         this.stores.module.actions.updateModule(data);
@@ -182,7 +193,7 @@ export class EditModulePage extends React.Component {
             ctx = {}
         }
 
-        return <MarkdownContent id={ctx["id"]} value={ctx["body"]} editable={this.isEditable} metadata={this.getMetadata.bind(this)}/>;
+        return <MarkdownContent id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)}/>;
     }
 
     newCodeSection(ctx) {
@@ -190,7 +201,7 @@ export class EditModulePage extends React.Component {
             ctx = {}
         }
 
-        return <CodeContent id={ctx["id"]} value={ctx["body"]} language={ctx["language"]} editable={this.isEditable} />;
+        return <CodeContent id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} />;
     }
 
     newMathSection(ctx) {
@@ -198,7 +209,7 @@ export class EditModulePage extends React.Component {
             ctx = {}
         }
 
-        return <MathContent id={ctx["id"]} value={ctx["body"]} editable={this.isEditable} />;
+        return <MathContent id={ctx.id} value={ctx.body} editable={this.isEditable} />;
     }
 
     newImageSection(ctx) {
@@ -206,7 +217,7 @@ export class EditModulePage extends React.Component {
             ctx = {}
         }
 
-        return <ImageContent id={ctx["id"]} value="" editable={this.isEditable} />;
+        return <ImageContent id={ctx.id} value="" editable={this.isEditable} />;
     }
 
 
@@ -215,7 +226,12 @@ export class EditModulePage extends React.Component {
 
 
     save(e) {
-        Events.emitRoot(SaveModuleFormEvent, this);
+        if (this.state.contentBlocks.length > 0) {
+            Events.emitRoot(SaveModuleFormEvent, this);
+        } else {
+            this.allContentTypesDidSave();
+        }
+
 
         this.submitCount = 0;
     }
@@ -298,8 +314,9 @@ export class EditModulePage extends React.Component {
                                     <div className="col-sm-12">
                                         <Select
                                             name="form-field-name"
-                                            options={options}
-                                            onChange={logChange}
+                                            options={this.state.allTopics}
+                                            value={this.state.topics}
+                                            onChange={this.onTopicChange.bind(this)}
                                             multi={true}
                                         />
                                     </div>

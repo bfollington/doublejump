@@ -295,13 +295,16 @@ var _routerJsx = require('./router.jsx');
 
 var _storesModuleStore = require('stores/ModuleStore');
 
+var _storesTopicStore = require('stores/TopicStore');
+
 var React = require('react');
 
 window.app = { domRoot: document.getElementById('content') };
 
 window.flux = {
     stores: {
-        'module': new _storesModuleStore.ModuleStore()
+        'module': new _storesModuleStore.ModuleStore(),
+        'topic': new _storesTopicStore.TopicStore()
     }
 };
 
@@ -318,7 +321,7 @@ var router = new _routerJsx.Router();
 router.start();
 
 
-},{"./router.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/router.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js","stores/ModuleStore":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/ModuleStore.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/AceEditor.jsx":[function(require,module,exports){
+},{"./router.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/router.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js","stores/ModuleStore":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/ModuleStore.js","stores/TopicStore":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/TopicStore.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/AceEditor.jsx":[function(require,module,exports){
 // var ace = require('brace');
 "use strict";
 
@@ -1578,12 +1581,6 @@ var React = require('react');
 
 var page = require('page');
 
-var options = [{ value: 'one', label: 'One' }, { value: 'two', label: 'Two' }];
-
-function logChange(val) {
-    console.log('Selected: ' + val);
-}
-
 var EditModulePage = (function (_React$Component) {
     function EditModulePage(props) {
         _classCallCheck(this, EditModulePage);
@@ -1595,12 +1592,12 @@ var EditModulePage = (function (_React$Component) {
             currentModule: null,
             contentBlocks: [],
             metadata: {},
+            topics: [],
             title: this.props.title,
             slug: this.props.slug
         };
 
-        _Mixin.Mixin.apply(this, _mixinsPrint.Print);
-        _Mixin.Mixin.apply(this, _mixinsStore.Store, { stores: ['module'] });
+        _Mixin.Mixin.apply(this, _mixinsStore.Store, { stores: ['module', 'topic'] });
         window.test = this;
 
         this.submitCount = 0;
@@ -1627,6 +1624,12 @@ var EditModulePage = (function (_React$Component) {
             this.setState({ slug: e.target.value });
         }
     }, {
+        key: 'onTopicChange',
+        value: function onTopicChange(latest, list) {
+            console.log(this);
+            this.setState({ topics: list });
+        }
+    }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
 
@@ -1637,6 +1640,21 @@ var EditModulePage = (function (_React$Component) {
             if (this.props.module) {
                 this.stores.module.get(this.props.module, this.fetchedData.bind(this));
             }
+
+            this.stores.topic.getAll(this.receivedTopics.bind(this));
+        }
+    }, {
+        key: 'receivedTopics',
+        value: function receivedTopics(data) {
+
+            var result = [];
+
+            data.topics.forEach(function (topic) {
+                _UtilJsx.Util.transformMongoId(topic);
+                result.push({ value: topic.id, label: topic.name });
+            });
+
+            this.setState({ allTopics: result });
         }
     }, {
         key: 'fetchedData',
@@ -1648,7 +1666,7 @@ var EditModulePage = (function (_React$Component) {
             for (var i = 0; i < data.contents.length; i++) {
                 _UtilJsx.Util.transformMongoId(data.contents[i]);
                 console.log(data.contents[i]);
-                switch (data.contents[i]['type']) {
+                switch (data.contents[i].type) {
                     case 'MarkdownContent':
                         blocks.push(this.newMarkdownSection(data.contents[i]));
                         break;
@@ -1665,15 +1683,17 @@ var EditModulePage = (function (_React$Component) {
             }
 
             this.setState({
-                title: data['learning_module'].title,
-                slug: data['learning_module'].slug,
-                contentBlocks: blocks
+                title: data.learning_module.title,
+                slug: data.learning_module.slug,
+                contentBlocks: blocks,
+                topics: data.learning_module.topic_ids.map(function (id) {
+                    return id.$oid;
+                })
             });
         }
     }, {
         key: 'componentDidUnmount',
         value: function componentDidUnmount() {
-            console.log('Goodbye from component');
             _EventsJsx.Events.unsubscribeRoot(_EventsJsx.ContentTypeSubmissionSuccessEvent, this.contentTypeDidSave.bind(this));
         }
     }, {
@@ -1695,7 +1715,9 @@ var EditModulePage = (function (_React$Component) {
                 content_type_ids.push($(this).attr('data-id'));
             });
 
-            console.log(content_type_ids);
+            var topic_ids = this.state.topics.map(function (topic) {
+                return topic.value;
+            });
 
             var id = '';
             if (this.props.module !== undefined) {
@@ -1708,7 +1730,8 @@ var EditModulePage = (function (_React$Component) {
                     title: this.state.title,
                     slug: this.state.slug
                 },
-                'id': this.props.module
+                'id': this.props.module,
+                'topics': topic_ids
             };
 
             this.stores.module.actions.updateModule(data);
@@ -1740,7 +1763,7 @@ var EditModulePage = (function (_React$Component) {
                 ctx = {};
             }
 
-            return React.createElement(_componentsEditingMarkdownContentJsx.MarkdownContent, { id: ctx['id'], value: ctx['body'], editable: this.isEditable, metadata: this.getMetadata.bind(this) });
+            return React.createElement(_componentsEditingMarkdownContentJsx.MarkdownContent, { id: ctx.id, value: ctx.body, editable: this.isEditable, metadata: this.getMetadata.bind(this) });
         }
     }, {
         key: 'newCodeSection',
@@ -1749,7 +1772,7 @@ var EditModulePage = (function (_React$Component) {
                 ctx = {};
             }
 
-            return React.createElement(_componentsEditingCodeContentJsx.CodeContent, { id: ctx['id'], value: ctx['body'], language: ctx['language'], editable: this.isEditable });
+            return React.createElement(_componentsEditingCodeContentJsx.CodeContent, { id: ctx.id, value: ctx.body, language: ctx.language, editable: this.isEditable });
         }
     }, {
         key: 'newMathSection',
@@ -1758,7 +1781,7 @@ var EditModulePage = (function (_React$Component) {
                 ctx = {};
             }
 
-            return React.createElement(_componentsEditingMathContentJsx.MathContent, { id: ctx['id'], value: ctx['body'], editable: this.isEditable });
+            return React.createElement(_componentsEditingMathContentJsx.MathContent, { id: ctx.id, value: ctx.body, editable: this.isEditable });
         }
     }, {
         key: 'newImageSection',
@@ -1767,12 +1790,16 @@ var EditModulePage = (function (_React$Component) {
                 ctx = {};
             }
 
-            return React.createElement(_componentsEditingImageContentJsx.ImageContent, { id: ctx['id'], value: '', editable: this.isEditable });
+            return React.createElement(_componentsEditingImageContentJsx.ImageContent, { id: ctx.id, value: '', editable: this.isEditable });
         }
     }, {
         key: 'save',
         value: function save(e) {
-            _EventsJsx.Events.emitRoot(_EventsJsx.SaveModuleFormEvent, this);
+            if (this.state.contentBlocks.length > 0) {
+                _EventsJsx.Events.emitRoot(_EventsJsx.SaveModuleFormEvent, this);
+            } else {
+                this.allContentTypesDidSave();
+            }
 
             this.submitCount = 0;
         }
@@ -1894,8 +1921,9 @@ var EditModulePage = (function (_React$Component) {
                                         { className: 'col-sm-12' },
                                         React.createElement(Select, {
                                             name: 'form-field-name',
-                                            options: options,
-                                            onChange: logChange,
+                                            options: this.state.allTopics,
+                                            value: this.state.topics,
+                                            onChange: this.onTopicChange.bind(this),
                                             multi: true
                                         })
                                     ),
@@ -2304,7 +2332,67 @@ var Store = (function (_EventEmitter) {
 exports.Store = Store;
 
 
-},{"events":"/Users/Ben/Projects/Ruby/doublejump/node_modules/gulp-build-tools/node_modules/browserify/node_modules/events/events.js"}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/dragula.js":[function(require,module,exports){
+},{"events":"/Users/Ben/Projects/Ruby/doublejump/node_modules/gulp-build-tools/node_modules/browserify/node_modules/events/events.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/TopicStore.js":[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _storesStore = require("stores/Store");
+
+var actions = {
+    "addTopic": "onAddTopic"
+};
+
+var fetchedAllFromServer = false;
+var topics = {};
+
+var TopicStore = (function (_Store) {
+    function TopicStore() {
+        _classCallCheck(this, TopicStore);
+
+        _get(Object.getPrototypeOf(TopicStore.prototype), "constructor", this).call(this, actions);
+    }
+
+    _inherits(TopicStore, _Store);
+
+    _createClass(TopicStore, [{
+        key: "onAddTopic",
+        value: function onAddTopic(data) {
+            console.log("Add topic", data);
+            topics.push(data);
+        }
+    }, {
+        key: "getAll",
+        value: function getAll(callback) {
+            if (fetchedAllFromServer) {
+                callback(topics);
+            } else {
+                $.get("/concepts/topics", function (data) {
+                    $.extend(topics, data);
+                    fetchedAllFromServer = true;
+                    callback(data);
+                });
+            }
+        }
+    }]);
+
+    return TopicStore;
+})(_storesStore.Store);
+
+exports.TopicStore = TopicStore;
+
+
+},{"stores/Store":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/Store.js"}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/dragula.js":[function(require,module,exports){
 (function (global){
 'use strict';
 

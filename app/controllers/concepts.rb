@@ -36,6 +36,13 @@ Doublejump::App.controllers :concepts, :cache => true do
     render 'concepts/concept_editor'
   end
 
+  get :topics do
+
+    topics = Topic.all
+
+    send_json({:topics => topics})
+  end
+
   post :make do
 
     if params[:id]
@@ -47,8 +54,16 @@ Doublejump::App.controllers :concepts, :cache => true do
 
     @learning_module.contents = []
 
+    params[:contents] = params[:contents] || []
     params[:contents].each do |content|
         @learning_module.contents << Content.find(content)
+    end
+
+    @learning_module.topics = []
+
+    params[:topics] = params[:topics] || []
+    params[:topics].each do |topic|
+        @learning_module.topics << Topic.find(topic)
     end
 
     content_type :json

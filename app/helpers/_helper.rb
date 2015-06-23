@@ -2,6 +2,11 @@
 
 Doublejump::App.helpers do
 
+  def send_json(object)
+    content_type :json
+    object.to_json
+  end
+
   def errors_for (object, field)
     if object && object.errors
         return object.errors.messages[field]
