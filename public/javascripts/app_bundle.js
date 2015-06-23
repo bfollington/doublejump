@@ -194,14 +194,18 @@ Mixin.apply = function (parentComponent, mixin, opts) {
 
         if (mixin[key] !== undefined) {
 
-            var one = parentComponent[key].bind(parentComponent);
-            var two = mixin[key].bind(parentComponent);
+            if (!parentComponent[key]) {
+                parentComponent[key] = mixin[key].bind(parentComponent);
+            } else {
+                var one = parentComponent[key].bind(parentComponent);
+                var two = mixin[key].bind(parentComponent);
 
-            if (one && two) {
-                parentComponent[key] = function () {
-                    one();
-                    two();
-                };
+                if (one && two) {
+                    parentComponent[key] = function () {
+                        one();
+                        two();
+                    };
+                }
             }
 
             delete mixin[key];
@@ -451,6 +455,49 @@ AceEditor.defaultProps = {
     keepTextAreaInSync: true,
     showLanguageSelection: false
 };
+
+
+},{"react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/CommentButton.jsx":[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var React = require("react");
+
+var CommentButton = (function (_React$Component) {
+    function CommentButton() {
+        _classCallCheck(this, CommentButton);
+
+        _get(Object.getPrototypeOf(CommentButton.prototype), "constructor", this).apply(this, arguments);
+    }
+
+    _inherits(CommentButton, _React$Component);
+
+    _createClass(CommentButton, [{
+        key: "render",
+        value: function render() {
+            return React.createElement(
+                "button",
+                { className: this.constructor.name },
+                React.createElement("i", { className: "fa fa-comment" })
+            );
+        }
+    }]);
+
+    return CommentButton;
+})(React.Component);
+
+exports.CommentButton = CommentButton;
 
 
 },{"react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/FloatingButton.jsx":[function(require,module,exports){
@@ -885,6 +932,8 @@ var _ContentTypeToolbarJsx = require("./ContentTypeToolbar.jsx");
 
 var _componentsFloatingButtonJsx = require("components/FloatingButton.jsx");
 
+var _componentsCommentButtonJsx = require("components/CommentButton.jsx");
+
 var React = require("react");
 
 var ContentType = (function (_React$Component) {
@@ -941,12 +990,13 @@ ContentType.wrapContentType = function (ctx, content, editHandler) {
     return React.createElement(
         "div",
         { className: "box content-type " + (ctx.props.editable() ? "editable" : "") },
+        React.createElement(_componentsCommentButtonJsx.CommentButton, null),
         inner
     );
 };
 
 
-},{"./ContentTypeToolbar.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ContentTypeToolbar.jsx","components/FloatingButton.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/FloatingButton.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ContentTypeToolbar.jsx":[function(require,module,exports){
+},{"./ContentTypeToolbar.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ContentTypeToolbar.jsx","components/CommentButton.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/CommentButton.jsx","components/FloatingButton.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/FloatingButton.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ContentTypeToolbar.jsx":[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2126,7 +2176,188 @@ function ProjectPageController(ctx, next) {
 }
 
 
-},{"../components/ProjectStart.react.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/ProjectStart.react.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/router.jsx":[function(require,module,exports){
+},{"../components/ProjectStart.react.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/ProjectStart.react.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePage.jsx":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _UtilJsx = require('Util.jsx');
+
+var _componentsEditingCodeContentJsx = require('components/editing/CodeContent.jsx');
+
+var _componentsEditingMathContentJsx = require('components/editing/MathContent.jsx');
+
+var _componentsEditingMarkdownContentJsx = require('components/editing/MarkdownContent.jsx');
+
+var _componentsEditingImageContentJsx = require('components/editing/ImageContent.jsx');
+
+var _componentsSortableJsx = require('components/Sortable.jsx');
+
+var _componentsFloatingButtonJsx = require('components/FloatingButton.jsx');
+
+var _componentsAceEditorJsx = require('components/AceEditor.jsx');
+
+var _Mixin = require('Mixin');
+
+var _mixinsPrint = require('mixins/Print');
+
+var _mixinsStore = require('mixins/Store');
+
+var React = require('react');
+
+var page = require('page');
+
+var ViewModulePage = (function (_React$Component) {
+    function ViewModulePage(props) {
+        _classCallCheck(this, ViewModulePage);
+
+        _get(Object.getPrototypeOf(ViewModulePage.prototype), 'constructor', this).call(this, props);
+
+        this.state = {
+            contents: [],
+            metadata: {},
+            topics: [],
+            title: '',
+            slug: ''
+        };
+
+        _Mixin.Mixin.apply(this, _mixinsStore.Store, { stores: ['module', 'topic'] });
+    }
+
+    _inherits(ViewModulePage, _React$Component);
+
+    _createClass(ViewModulePage, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+
+            if (this.props.module) {
+                this.stores.module.get(this.props.module, this.fetchedData.bind(this));
+            }
+        }
+    }, {
+        key: 'fetchedData',
+        value: function fetchedData(data) {
+            console.log(data);
+
+            this.setState({
+                title: data.learning_module.title,
+                slug: data.learning_module.slug,
+                contents: data.contents,
+                topics: data.learning_module.topic_ids.map(function (id) {
+                    return id.$oid;
+                })
+            });
+        }
+    }, {
+        key: 'isEditable',
+        value: function isEditable() {
+            return false;
+        }
+    }, {
+        key: 'getMetadata',
+        value: function getMetadata() {
+            return this.state.metadata;
+        }
+    }, {
+        key: 'metadataChange',
+        value: function metadataChange(content) {
+            try {
+                var metadata = JSON.parse(content);
+
+                this.setState({ metadata: metadata });
+                console.log('Updated metadata', content, metadata);
+            } catch (err) {}
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this = this;
+
+            var content_type_lookup = {
+                'MarkdownContent': function MarkdownContent(ctx) {
+                    return React.createElement(_componentsEditingMarkdownContentJsx.MarkdownContent, { id: ctx.id, value: ctx.body, editable: _this.isEditable, metadata: _this.getMetadata.bind(_this) });
+                },
+                'CodeContent': function CodeContent(ctx) {
+                    return React.createElement(_componentsEditingCodeContentJsx.CodeContent, { id: ctx.id, value: ctx.body, language: ctx.language, editable: _this.isEditable });
+                },
+                'MathContent': function MathContent(ctx) {
+                    return React.createElement(_componentsEditingMathContentJsx.MathContent, { id: ctx.id, value: ctx.body, editable: _this.isEditable });
+                },
+                'ImageContent': function ImageContent(ctx) {
+                    return React.createElement(_componentsEditingImageContentJsx.ImageContent, { id: ctx.id, value: '', editable: _this.isEditable });
+                }
+            };
+
+            return React.createElement(
+                'div',
+                { className: 'main-content' },
+                React.createElement(
+                    'div',
+                    { className: '' },
+                    React.createElement(
+                        'div',
+                        { className: 'box' },
+                        React.createElement(
+                            'div',
+                            { className: 'row' },
+                            React.createElement(
+                                'div',
+                                { className: 'col-xs-12' },
+                                React.createElement(
+                                    'h2',
+                                    null,
+                                    this.state.title
+                                )
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'box' },
+                        React.createElement(_componentsAceEditorJsx.AceEditor, { onContentChange: this.metadataChange.bind(this), language: 'javascript', value: '{}' })
+                    ),
+                    this.state.contents.map(function (block) {
+                        return content_type_lookup[block.type](block);
+                    })
+                )
+            );
+        }
+    }]);
+
+    return ViewModulePage;
+})(React.Component);
+
+exports.ViewModulePage = ViewModulePage;
+
+
+},{"Mixin":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Mixin.js","Util.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Util.jsx","components/AceEditor.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/AceEditor.jsx","components/FloatingButton.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/FloatingButton.jsx","components/Sortable.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Sortable.jsx","components/editing/CodeContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/CodeContent.jsx","components/editing/ImageContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ImageContent.jsx","components/editing/MarkdownContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MarkdownContent.jsx","components/editing/MathContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MathContent.jsx","mixins/Print":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Print.js","mixins/Store":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Store.js","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx":[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ViewModulePageController = ViewModulePageController;
+
+var _ViewModulePageJsx = require("./ViewModulePage.jsx");
+
+var React = require("react");
+
+function ViewModulePageController(ctx, next) {
+    React.render(React.createElement(_ViewModulePageJsx.ViewModulePage, { context: ctx, module: ctx.params.module }), window.app.domRoot);
+}
+
+
+},{"./ViewModulePage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePage.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/router.jsx":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2149,6 +2380,8 @@ var _pagesModuleViewPageControllerJsx = require('./pages/ModuleViewPageControlle
 
 var _pagesEditModulePageControllerJsx = require('./pages/EditModulePageController.jsx');
 
+var _pagesViewModulePageControllerJsx = require('./pages/ViewModulePageController.jsx');
+
 var _componentsTestReactJsx = require('./components/Test.react.jsx');
 
 var React = require('react');
@@ -2170,6 +2403,7 @@ routes['/test'] = function () {
 routes['/project/:project/:module'] = _pagesModuleViewPageControllerJsx.ModuleViewPageController;
 routes['/edit'] = _pagesEditModulePageControllerJsx.EditModulePageController;
 routes['/edit/:module'] = _pagesEditModulePageControllerJsx.EditModulePageController;
+routes['/view/:module'] = _pagesViewModulePageControllerJsx.ViewModulePageController;
 
 var Router = (function () {
     function Router() {
@@ -2210,7 +2444,7 @@ var Router = (function () {
 exports.Router = Router;
 
 
-},{"./components/Test.react.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Test.react.jsx","./pages/EditModulePageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/EditModulePageController.jsx","./pages/ModuleViewPageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ModuleViewPageController.jsx","./pages/ProjectPageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ProjectPageController.jsx","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/ModuleStore.js":[function(require,module,exports){
+},{"./components/Test.react.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Test.react.jsx","./pages/EditModulePageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/EditModulePageController.jsx","./pages/ModuleViewPageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ModuleViewPageController.jsx","./pages/ProjectPageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ProjectPageController.jsx","./pages/ViewModulePageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/ModuleStore.js":[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

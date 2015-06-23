@@ -16,14 +16,18 @@ Mixin.apply = function(parentComponent, mixin, opts) {
 
         if (mixin[key] !== undefined) {
 
-            var one = parentComponent[key].bind(parentComponent);
-            var two = mixin[key].bind(parentComponent);
+            if (!parentComponent[key]) {
+                parentComponent[key] = mixin[key].bind(parentComponent);
+            } else {
+                var one = parentComponent[key].bind(parentComponent);
+                var two = mixin[key].bind(parentComponent);
 
-            if (one && two) {
-                parentComponent[key] = function() {
-                    one();
-                    two();
-                };
+                if (one && two) {
+                    parentComponent[key] = function() {
+                        one();
+                        two();
+                    };
+                }
             }
 
             delete mixin[key];

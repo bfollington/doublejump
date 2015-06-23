@@ -1,5 +1,6 @@
 import {ContentTypeToolbar} from "./ContentTypeToolbar.jsx";
 import {FloatingButton} from "components/FloatingButton.jsx";
+import {CommentButton} from "components/CommentButton.jsx";
 
 var React = require("react");
 
@@ -30,6 +31,7 @@ ContentType.wrapContentType = function(ctx, content, editHandler) {
 
     return (
         <div className={"box content-type " + (ctx.props.editable() ? "editable" : "")} >
+        <CommentButton />
             {inner}
         </div>
     );

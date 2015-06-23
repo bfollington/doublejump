@@ -1,0 +1,11 @@
+.CommentButton {
+    border: none;
+    background: none;
+
+    float: right;
+
+
+    &:focus {
+        outline: none;
+    }
+}

@@ -339,3 +339,16 @@
         @include border-radius(2px);
     }
 }
+
+//CommentButton.scss
+.CommentButton {
+    border: none;
+    background: none;
+
+    float: right;
+
+
+    &:focus {
+        outline: none;
+    }
+}
