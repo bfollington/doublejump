@@ -2,7 +2,8 @@ import {Store} from 'stores/Store';
 
 var actions = {
     "addModule": "onAddModule",
-    "updateModule": "onUpdateModule",
+    "addComment": "onAddComment",
+    "updateModule": "onUpdateModule"
 };
 
 var modules = {};
@@ -18,7 +19,21 @@ export class ModuleStore extends Store {
         modules.push(data);
     }
 
+    onAddComment(data) {
+        var content;
+
+        modules[data.module].contents.forEach(c => {
+            if (c._id.$oid == data.id) {
+                content = c;
+            }
+        });
+
+        content.comments = content.comments || [];
+        content.comments.push({text: data.text});
+    }
+
     onUpdateModule(data) {
+        console.log("On update module");
         modules[data.id] = data;
     }
 

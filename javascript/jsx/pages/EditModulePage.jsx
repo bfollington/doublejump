@@ -32,14 +32,13 @@ export class EditModulePage extends React.Component {
         };
 
         Mixin.apply(this, Store, {stores: ["module", "topic"]});
-        window.test = this;
 
         this.submitCount = 0;
     }
 
 
     onChange(data) {
-        if (data._type == "updateModule") {
+        if (data.eventType == "updateModule") {
             this.stores.module.save(this.props.module, this.moduleSaveRepsonse.bind(this));
         }
     }

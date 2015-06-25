@@ -29,6 +29,10 @@ export class ViewModulePage extends React.Component {
         Mixin.apply(this, Store, {stores: ["module", "topic"]});
     }
 
+    onChange(data) {
+        this.stores.module.get(this.props.module, this.fetchedData.bind(this));
+    }
+
     componentDidMount() {
 
         if (this.props.module) {
@@ -38,6 +42,10 @@ export class ViewModulePage extends React.Component {
 
     fetchedData(data) {
         console.log(data);
+
+        data.contents.forEach(content => {
+            Util.transformMongoId(content);
+        });
 
         this.setState({
             title: data.learning_module.title,
@@ -71,10 +79,10 @@ export class ViewModulePage extends React.Component {
     render() {
 
         var content_type_lookup = {
-            "MarkdownContent": ctx => <MarkdownContent id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
-            "CodeContent": ctx => <CodeContent id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} />,
-            "MathContent": ctx => <MathContent id={ctx.id} value={ctx.body} editable={this.isEditable} />,
-            "ImageContent": ctx => <ImageContent id={ctx.id} value="" editable={this.isEditable} />
+            "MarkdownContent": ctx => <MarkdownContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
+            "CodeContent": ctx => <CodeContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} />,
+            "MathContent": ctx => <MathContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} />,
+            "ImageContent": ctx => <ImageContent comments={ctx.comments} module={this.props.module} id={ctx.id} value="" editable={this.isEditable} />
         };
 
         return (

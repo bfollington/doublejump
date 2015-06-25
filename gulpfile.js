@@ -42,7 +42,8 @@ gulp.task('js-app', ['js-deps'], function(callback) {
         compress: false,
         reference_dependies: externalDeps,
         babel: true,
-        reactify: true
+        reactify: true,
+        sourcemaps: true
     });
 
     lr.changed("/javascripts/app_bundle.js");

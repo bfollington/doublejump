@@ -15,6 +15,10 @@ export class ContentType extends React.Component {
     }
 }
 
+ContentType.addComment = function(comment) {
+    window.flux.stores.module.actions.addComment({module: this.props.module, id: this.props.id, text: comment});
+}
+
 ContentType.wrapContentType = function(ctx, content, editHandler) {
 
     var inner = [
@@ -31,7 +35,7 @@ ContentType.wrapContentType = function(ctx, content, editHandler) {
 
     return (
         <div className={"box content-type " + (ctx.props.editable() ? "editable" : "")} >
-        <CommentButton />
+        <CommentButton comments={ctx.props.comments} onAddComment={ContentType.addComment.bind(ctx)} />
             {inner}
         </div>
     );

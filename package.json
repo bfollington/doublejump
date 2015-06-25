@@ -6,6 +6,7 @@
     "brace": "^0.5.1",
     "browserify": "^9",
     "dragula": "^1.6.0",
+    "dynamics.js": "0.0.7",
     "gulp": "~3.8.5",
     "gulp-autoprefixer": "0.0.8",
     "gulp-build-tools": "^1.0.5",

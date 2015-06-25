@@ -1,11 +1,16 @@
-.CommentButton {
-    border: none;
-    background: none;
+.comment-button {
+    button {
+        border: none;
+        background: none;
+
+        color: $medium-grey;
+
+
+        &:focus {
+            outline: none;
+        }
+    }
+
 
     float: right;
-
-
-    &:focus {
-        outline: none;
-    }
 }

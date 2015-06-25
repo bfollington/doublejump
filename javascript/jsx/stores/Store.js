@@ -7,9 +7,7 @@ export class Store extends EventEmitter {
         this.actions = {};
 
         for (var key in actions) {
-            this.actions[key] = (function(data) {
-                this.emit(key, data);
-            }).bind(this);
+            this.actions[key] = this.emit.bind(this, key);
 
             this.addListener(key, this[actions[key]]);
             this.addListener(key, this.onChange.bind(this, key));
@@ -17,7 +15,11 @@ export class Store extends EventEmitter {
     }
 
     onChange(key, data) {
-        data._type = key;
+        if (typeof data === "string") {
+            console.error("Data passed to an event should be an object to enable appending of metadata.");
+        }
+
+        data.eventType = key;
         this.emit("change", data);
     }
 }
