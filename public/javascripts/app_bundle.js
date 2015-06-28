@@ -512,7 +512,8 @@ var CommentButton = (function (_React$Component) {
                 inner = [React.createElement(
                     "span",
                     null,
-                    this.props.comments.length
+                    this.props.comments.length,
+                    " "
                 ), React.createElement("i", { className: "fa fa-comment" })];
             } else {
                 inner = [React.createElement("i", { className: "fa fa-plus" })];

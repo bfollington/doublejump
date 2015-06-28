@@ -27,7 +27,7 @@ export class CommentButton extends React.Component {
         var inner;
 
         if (this.props.comments.length > 0) {
-            inner = [<span>{this.props.comments.length}</span>, <i className="fa fa-comment" />];
+            inner = [<span>{this.props.comments.length} </span>, <i className="fa fa-comment" />];
         } else {
             inner = [<i className="fa fa-plus" />];
         }
