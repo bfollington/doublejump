@@ -26,7 +26,7 @@ export class ViewModulePage extends React.Component {
             slug: ""
         };
 
-        Mixin.apply(this, Store, {stores: ["module", "topic"]});
+        Mixin.apply(this, Store, {stores: ["module", "topic", "project"]});
     }
 
     onChange(data) {
@@ -37,6 +37,12 @@ export class ViewModulePage extends React.Component {
 
         if (this.props.module) {
             this.stores.module.get(this.props.module, this.fetchedData.bind(this));
+        }
+
+        if (this.props.project) {
+            this.stores.project.getMetadata(this.props.project, function(data) {
+                this.setState({metadata: data});
+            });
         }
     }
 
@@ -75,14 +81,18 @@ export class ViewModulePage extends React.Component {
 
     }
 
+    finish() {
+        this.stores.module.markComplete(this.props.project, this.props.module);
+    }
+
 
     render() {
 
         var content_type_lookup = {
             "MarkdownContent": ctx => <MarkdownContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
-            "CodeContent": ctx => <CodeContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} />,
-            "MathContent": ctx => <MathContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} />,
-            "ImageContent": ctx => <ImageContent comments={ctx.comments} module={this.props.module} id={ctx.id} value="" editable={this.isEditable} />
+            "CodeContent": ctx => <CodeContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
+            "MathContent": ctx => <MathContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
+            "ImageContent": ctx => <ImageContent comments={ctx.comments} module={this.props.module} id={ctx.id} value="" editable={this.isEditable} metadata={this.getMetadata.bind(this)} />
         };
 
         return (

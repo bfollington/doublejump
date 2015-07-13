@@ -10,5 +10,4 @@ class Metadata
   validates_presence_of :key
   validates_uniqueness_of :key
   validates_presence_of :value
-  validates_uniqueness_of :value
 end

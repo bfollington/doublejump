@@ -7,7 +7,7 @@ class Project
 
   has_and_belongs_to_many :learning_modules
   belongs_to :account
-  has_many :modules
+  has_many :metadatas
 
   validates_presence_of :title
   validates_presence_of :slug

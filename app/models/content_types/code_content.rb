@@ -1,7 +1,7 @@
 class CodeContent < Content
 
-    field :body, :type => String
-    field :language, :type => String
+    field :body, :type => String, :overwrite => true
+    field :language, :type => String, :overwrite => true
 
     validates_presence_of :body, :message => "You can't have an empty content block, that makes no sense."
 

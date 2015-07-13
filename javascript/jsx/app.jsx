@@ -1,6 +1,7 @@
 import {Router} from './router.jsx';
 import {ModuleStore} from 'stores/ModuleStore';
 import {TopicStore} from 'stores/TopicStore';
+import {ProjectStore} from 'stores/ProjectStore';
 var React = require("react");
 
 window.app = { domRoot: document.getElementById('content') };
@@ -9,6 +10,7 @@ window.flux = {
     stores: {
         "module": new ModuleStore(),
         "topic": new TopicStore(),
+        "project": new ProjectStore(),
     }
 };
 

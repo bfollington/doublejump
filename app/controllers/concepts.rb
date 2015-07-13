@@ -1,6 +1,8 @@
 Doublejump::App.controllers :concepts, :cache => true do
 
   layout :react
+  set :allow_disabled_csrf, true
+  set :protect_from_csrf, false
 
   get :index do
     render 'pages/react'
@@ -21,27 +23,102 @@ Doublejump::App.controllers :concepts, :cache => true do
     {learning_module: learning_module, contents: contents}.to_json
   end
 
-  get :editor do
-
-    @learning_modules = LearningModule.all
-
-    render 'concepts/concept_editor'
-  end
-
-  get :editor, :with => :id do
-
-    @learning_modules = LearningModule.all
-    @learning_module = LearningModule.find(params[:id])
-
-    render 'concepts/concept_editor'
-  end
-
   get :topics do
 
     topics = Topic.all
 
     send_json({:topics => topics})
   end
+
+  get :modules do
+    modules = LearningModule.all
+
+    send_json({modules: modules})
+  end
+
+
+  # Projects
+
+  get :project, :with => :slug do
+    project = Project.where(slug: params[:slug]).first
+
+    send_json({project: project})
+  end
+
+  post :project do
+    # New Project
+
+    project = Project.new({title: params[:title], slug: params[:slug]})
+    project.save
+
+    send_json({success: true, slug: project.slug})
+  end
+
+  post :project, :with => :id do
+    # Update Project
+  end
+
+  get :data, :with => [:project, :key] do
+    # Get Metadata from project
+
+    project = Project.where(slug: params[:project]).first
+
+    send_json project.metadatas.where(key: params[:key]).first
+  end
+
+  get :all_data, :with => :project do
+    # Get all Metadata from project
+
+    result = {}
+
+    project = Project.where(slug: params[:project]).first
+    project.metadatas.each do |metadata|
+      result[metadata.key] = metadata.value
+    end
+
+    send_json result
+  end
+
+  post :data, :with => [:project, :key] do
+    # Store Metadata within project
+
+    project = Project.where(slug: params[:project]).first
+
+    # Remove old value stored for this key, then store new value
+    project.metadatas.where(key: params[:key]).delete
+    puts project.metadatas.inspect
+    metadata = Metadata.new({key: params[:key], value: params[:value]})
+    metadata.save!
+    project.metadatas << metadata
+    puts project.metadatas.inspect
+
+    project.save!
+
+    send_json({success: true})
+  end
+
+  post :module_complete, :with => [:project, :module] do
+    # Store Metadata within project
+
+    project = Project.where(slug: params[:project]).first
+    learning_module = LearningModule.find(params[:module])
+
+    project.learning_modules << learning_module
+    project.save!
+
+    send_json({success: true})
+  end
+
+  delete :data, :with => [:project, :key] do
+    # Remove Metadata from project
+    project = Project.where(slug: params[:project]).first
+    project.metadatas.where(key: params[:key]).delete
+
+    send_json({success: true})
+  end
+
+
+
 
   post :make do
 

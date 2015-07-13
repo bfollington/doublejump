@@ -1,24 +1,40 @@
-import {Component} from '../Component.jsx';
 import {CodeContent} from './editing/CodeContent.jsx';
 import {MathContent} from './editing/MathContent.jsx';
 import {MarkdownContent} from './editing/MarkdownContent.jsx';
 import page from 'page';
 
-export class ProjectStart extends Component {
+import {Mixin} from 'Mixin';
+import {Store} from 'mixins/Store';
+
+var React = require("react");
+
+export class ProjectStart extends React.Component {
 
     constructor(props)
     {
         super(props);
         this.state = this.getState();
+
+        Mixin.apply(this, Store, {stores: ["module"]});
     }
 
     getState()
     {
         return {
-            field: "value",
-            name: "Bob",
-            editField: false
+            modules: []
         };
+    }
+
+    componentDidMount() {
+        this.stores.module.fetchAll(this.fetchedData.bind(this));
+    }
+
+    fetchedData(data) {
+        console.log(data);
+
+        this.setState({
+            modules: data.modules
+        });
     }
 
     navigate(e)
@@ -36,9 +52,8 @@ export class ProjectStart extends Component {
             <div className="box">
                 <h2>Start a New Project</h2>
                 <a href="/concepts/test">Go to test</a>
-                <CodeContent editContent={this.state.editField} value="console.log(test);" />
-                <MathContent editContent={this.state.editField} value="\alpha\beta\gamma" />
-                <MarkdownContent editContent={this.state.editField} value="Hello _You_" />
+
+                { this.state.modules.map( module => <li><a href={`/concepts/view/${module._id.$oid}`}>{module.title}</a></li> )}
 
                 <button className="btn btn-default" onClick={this.edit.bind(this)}>
                     Edit Field

@@ -1,6 +1,6 @@
 class HideableContent < Content
 
-    field :title, :type => String
+    field :title, :type => String, :overwrite => true
 
     validates_presence_of :title
 

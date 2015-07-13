@@ -7,6 +7,7 @@ var actions = {
 };
 
 var modules = {};
+var fetchedAll = false;
 
 export class ModuleStore extends Store {
 
@@ -35,6 +36,22 @@ export class ModuleStore extends Store {
     onUpdateModule(data) {
         console.log("On update module");
         modules[data.id] = data;
+    }
+
+    fetchAll(callback) {
+
+        if (!fetchedAll) {
+            $.get(`/concepts/modules/`, function(data) {
+                modules = data.modules;
+                callback(data);
+            });
+        } else {
+            callback(modules);
+        }
+    }
+
+    markComplete(project, module, callback) {
+        $.post(`/concepts/module_complete/${project}/${module}`, {}, callback);
     }
 
     get(id, callback) {

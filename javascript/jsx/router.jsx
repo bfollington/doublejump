@@ -22,7 +22,7 @@ routes['/test'] = function() {
     render(<Test />);
 };
 
-routes['/project/:project/:module'] = ModuleViewPageController;
+routes['/project/:project/:module'] = ViewModulePageController;
 routes['/edit'] = EditModulePageController;
 routes['/edit/:module'] = EditModulePageController;
 routes['/view/:module'] = ViewModulePageController;

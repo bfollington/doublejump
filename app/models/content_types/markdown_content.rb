@@ -1,6 +1,6 @@
 class MarkdownContent < Content
 
-    field :body, :type => String
+    field :body, :type => String, :overwrite => true
 
     validates_presence_of :body, :message => "You can't have an empty content block, that makes no sense."
 

@@ -1,6 +1,6 @@
 class DefinitionContent < Content
 
-    field :term, :type => String
+    field :term, :type => String, :overwrite => true
 
     validates_presence_of :term
 
