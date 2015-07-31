@@ -48,7 +48,7 @@ export class CommentPanel extends React.Component {
                 <ul>
                     {
                         this.props.comments.map( comment => {
-                            return <li>{comment}</li>;
+                            return <li>{comment.text}</li>;
                         })
                     }
                 </ul>

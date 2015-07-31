@@ -31,6 +31,7 @@ export class ModuleStore extends Store {
 
         content.comments = content.comments || [];
         content.comments.push({text: data.text});
+        this.save(data.module);
     }
 
     onUpdateModule(data) {
@@ -69,6 +70,11 @@ export class ModuleStore extends Store {
     }
 
     save(id, callback) {
-        $.post(`/concepts/make`, modules[id], callback);
+
+        var data = {
+            "module": JSON.stringify(modules[id])
+        }
+
+        $.post(`/concepts/save_module`, data, callback);
     }
 }

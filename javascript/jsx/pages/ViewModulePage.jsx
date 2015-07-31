@@ -88,6 +88,7 @@ export class ViewModulePage extends React.Component {
 
     render() {
 
+
         var content_type_lookup = {
             "MarkdownContent": ctx => <MarkdownContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
             "CodeContent": ctx => <CodeContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
@@ -111,6 +112,7 @@ export class ViewModulePage extends React.Component {
                     </div>
                     {
                         this.state.contents.map(block => {
+                            console.log("render", block);
                             return content_type_lookup[block.type](block)
                         })
                     }

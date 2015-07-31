@@ -118,7 +118,40 @@ Doublejump::App.controllers :concepts, :cache => true do
   end
 
 
+  post :save_module do
 
+    data = JSON.parse(params[:module])
+    puts data.inspect
+    puts data["learning_module"].inspect
+
+    learning_module = LearningModule.find(data["learning_module"]["_id"]["$oid"])
+
+    learning_module.update_attributes(
+      title: data["learning_module"]["title"],
+      slug: data["learning_module"]["slug"]
+    )
+
+    data["contents"].each do |content|
+
+        # Handle full save, including comments
+        entity = Content.find(content["_id"]["$oid"])
+        entity.comments = []
+
+        content["comments"].each do |comment|
+          entity.comments << Comment.new(text: comment["text"])
+        end
+
+        puts entity.comments.inspect
+
+        entity.save
+        learning_module.contents << entity
+    end
+
+    learning_module.save
+
+    content_type :json
+    {success: true}.to_json
+  end
 
   post :make do
 

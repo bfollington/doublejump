@@ -526,7 +526,7 @@ var CommentPanel = (function (_React$Component) {
                         return React.createElement(
                             "li",
                             null,
-                            comment
+                            comment.text
                         );
                     })
                 ),
@@ -2213,110 +2213,7 @@ function EditModulePageController(ctx, next) {
 }
 
 
-},{"./EditModulePage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/EditModulePage.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ModuleViewPage.jsx":[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-var React = require("react");
-
-var ModuleViewPage = (function (_React$Component) {
-    function ModuleViewPage() {
-        _classCallCheck(this, ModuleViewPage);
-
-        _get(Object.getPrototypeOf(ModuleViewPage.prototype), "constructor", this).call(this);
-
-        this.state = {
-            loaded: false
-        };
-    }
-
-    _inherits(ModuleViewPage, _React$Component);
-
-    _createClass(ModuleViewPage, [{
-        key: "componentDidMount",
-        value: function componentDidMount() {
-            $.get("/concepts/concept/" + this.props.context.params.module, (function (data) {
-                this.setState({ learningModule: data["learning_module"], contents: data["contents"], loaded: true });
-            }).bind(this));
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            console.log(this.props.context);
-
-            var body;
-
-            if (this.state.loaded) {
-                body = React.createElement(
-                    "div",
-                    { className: "box" },
-                    React.createElement(
-                        "h3",
-                        null,
-                        this.props.context.params.project
-                    ),
-                    React.createElement(
-                        "h2",
-                        null,
-                        this.state.learningModule.title
-                    ),
-                    React.createElement(
-                        "ul",
-                        null,
-                        this.state.contents.map(function (concept) {
-                            return React.createElement(
-                                "li",
-                                null,
-                                concept
-                            );
-                        })
-                    )
-                );
-            }
-
-            return React.createElement(
-                "div",
-                null,
-                body
-            );
-        }
-    }]);
-
-    return ModuleViewPage;
-})(React.Component);
-
-exports.ModuleViewPage = ModuleViewPage;
-
-
-},{"react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ModuleViewPageController.jsx":[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.ModuleViewPageController = ModuleViewPageController;
-
-var _ModuleViewPageJsx = require("./ModuleViewPage.jsx");
-
-var React = require("react");
-
-function ModuleViewPageController(ctx, next) {
-    React.render(React.createElement(_ModuleViewPageJsx.ModuleViewPage, { context: ctx }), window.app.domRoot);
-}
-
-
-},{"./ModuleViewPage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ModuleViewPage.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ProjectPageController.jsx":[function(require,module,exports){
+},{"./EditModulePage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/EditModulePage.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ProjectPageController.jsx":[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2504,6 +2401,7 @@ var ViewModulePage = (function (_React$Component) {
                         React.createElement(_componentsAceEditorJsx.AceEditor, { onContentChange: this.metadataChange.bind(this), language: 'javascript', value: '{}' })
                     ),
                     this.state.contents.map(function (block) {
+                        console.log('render', block);
                         return content_type_lookup[block.type](block);
                     })
                 )
@@ -2552,8 +2450,6 @@ var _page = require('page');
 var _page2 = _interopRequireDefault(_page);
 
 var _pagesProjectPageControllerJsx = require('./pages/ProjectPageController.jsx');
-
-var _pagesModuleViewPageControllerJsx = require('./pages/ModuleViewPageController.jsx');
 
 var _pagesEditModulePageControllerJsx = require('./pages/EditModulePageController.jsx');
 
@@ -2621,7 +2517,7 @@ var Router = (function () {
 exports.Router = Router;
 
 
-},{"./components/Test.react.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Test.react.jsx","./pages/EditModulePageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/EditModulePageController.jsx","./pages/ModuleViewPageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ModuleViewPageController.jsx","./pages/ProjectPageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ProjectPageController.jsx","./pages/ViewModulePageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/ModuleStore.js":[function(require,module,exports){
+},{"./components/Test.react.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Test.react.jsx","./pages/EditModulePageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/EditModulePageController.jsx","./pages/ProjectPageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ProjectPageController.jsx","./pages/ViewModulePageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/ModuleStore.js":[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2675,6 +2571,7 @@ var ModuleStore = (function (_Store) {
 
             content.comments = content.comments || [];
             content.comments.push({ text: data.text });
+            this.save(data.module);
         }
     }, {
         key: "onUpdateModule",
@@ -2717,7 +2614,12 @@ var ModuleStore = (function (_Store) {
     }, {
         key: "save",
         value: function save(id, callback) {
-            $.post("/concepts/make", modules[id], callback);
+
+            var data = {
+                "module": JSON.stringify(modules[id])
+            };
+
+            $.post("/concepts/save_module", data, callback);
         }
     }]);
 

@@ -3,17 +3,11 @@ class Comment
   include Mongoid::Timestamps # adds created_at and updated_at fields
 
   # field <name>, :type => <type>, :default => <value>
-  field :body, :type => String
-  field :upvotes, :type => Integer
-  field :group, :type => Integer
-  field :times_reported, :type => Integer
+  field :text, :type => String
 
-  validates_presence_of :group, :message => "A comment has to belong to something, supply a group."
-  validates_length_of   :body, :minimum => 20, :message => "That comment's pretty short, write some more maybe?"
+  validates_length_of   :text, :minimum => 1, :message => "That comment's pretty short, write some more maybe?"
 
   belongs_to :account
-  has_many :reported_comments
-  belongs_to :comment
-  belongs_to :shared_image
+  embedded_in :content
 
 end

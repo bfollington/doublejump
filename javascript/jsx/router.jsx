@@ -1,6 +1,5 @@
 import page from 'page';
 import {ProjectPageController} from './pages/ProjectPageController.jsx';
-import {ModuleViewPageController} from './pages/ModuleViewPageController.jsx';
 import {EditModulePageController} from './pages/EditModulePageController.jsx';
 import {ViewModulePageController} from './pages/ViewModulePageController.jsx';
 import {Test} from './components/Test.react.jsx';
