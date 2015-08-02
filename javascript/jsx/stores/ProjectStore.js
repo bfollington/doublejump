@@ -5,6 +5,7 @@ var actions = {
 
 var projects = {};
 var fetchedAll = false;
+var currentProject;
 
 export class ProjectStore extends Store {
 
@@ -28,6 +29,18 @@ export class ProjectStore extends Store {
             }
 
         }
+    }
+
+    setCurrentProject(name) {
+        currentProject = name;
+    }
+
+    getCurrentProject() {
+        return currentProject;
+    }
+
+    getNextModules(project, module, callback) {
+        $.get(`/concepts/next/${module}/${project}`, {}, callback);
     }
 
     fetchMetadata(project, callback) {

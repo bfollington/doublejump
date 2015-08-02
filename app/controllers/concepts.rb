@@ -124,24 +124,45 @@ Doublejump::App.controllers :concepts, :cache => true do
     puts data.inspect
     puts data["learning_module"].inspect
 
-    learning_module = LearningModule.find(data["learning_module"]["_id"]["$oid"])
+    id = data["id"] || get_id(data["learning_module"])
+
+    if id.nil?
+        learning_module = LearningModule.new
+    else
+        learning_module = LearningModule.find(id)
+    end
 
     learning_module.update_attributes(
       title: data["learning_module"]["title"],
       slug: data["learning_module"]["slug"]
     )
 
+    learning_module.topics = []
+
+    data["topics"] = data["topics"] || []
+    data["topics"].each do |topic|
+        learning_module.topics << Topic.find(topic)
+    end
+
+    learning_module.contents = []
+
+    data["contents"] = data["contents"] || []
     data["contents"].each do |content|
+        learning_module.contents << Content.find(content)
+    end
+
+    learning_module.contents.each do |content|
 
         # Handle full save, including comments
-        entity = Content.find(content["_id"]["$oid"])
+        entity = Content.find(get_id(content))
         entity.comments = []
 
-        content["comments"].each do |comment|
-          entity.comments << Comment.new(text: comment["text"])
+        if content["comments"]
+            content["comments"].each do |comment|
+                entity.comments << Comment.new(text: comment["text"])
+            end
         end
 
-        puts entity.comments.inspect
 
         entity.save
         learning_module.contents << entity
@@ -150,7 +171,7 @@ Doublejump::App.controllers :concepts, :cache => true do
     learning_module.save
 
     content_type :json
-    {success: true}.to_json
+    {success: true, learning_module: learning_module}.to_json
   end
 
   post :make do
@@ -189,8 +210,117 @@ Doublejump::App.controllers :concepts, :cache => true do
 
 
 
+  post :finished_module do
+
+    data = get_body
+
+    learning_module = LearningModule.find(data["module"])
+    project = Project.where(slug: params[:project]).first
+
+    scores = []
+
+    learning_module.topics.each do |topic|
+        topic_score = TopicScore.find_or_initialize_by(project: project, topic: topic)
+        topic_score.score = topic_score.score || 0
+        topic_score.score = topic_score.score + 1
+
+        scores << topic_score
+
+        topic_score.save
+    end
+
+    content_type :json
+    {scores: scores}.to_json
+  end
+
+  get :next, :with => [:module, :project] do
+
+      # Calculate relevance score of all other modules
+          # Based on existing topic scores
+          # Biased by the module that was just finished (bonus to its topic scores?)
+          # Take into account meta feedback, like other user's paths
+
+      last_module = LearningModule.find(params[:module])
+      project = Project.where(slug: params[:project]).first
+      topic_lookup = {}
+      module_lookup = {}
+
+      project.topic_scores.each do |topic_score|
+          topic_lookup[topic_score.topic.id] = topic_score.score
+      end
+
+      learning_modules = LearningModule.all
+
+      learning_modules.each do |learning_module|
+          module_lookup[learning_module.id] = calculate_score learning_module, topic_lookup, last_module
+      end
+
+      sorted = module_lookup.sort_by{|k, v| v}.reverse
+      result = []
+      count = 0
+      sorted.each do |learning_module|
+          temp = LearningModule.find(learning_module[0])
+          temp["relevance"] = learning_module[1]
+
+          # Do not include the same module again
+          if learning_module[0] != last_module.id
+            result << temp
+            count = count + 1
+          end
+
+          if count >= 5 then break end
+      end
+
+      content_type :json
+      result.to_json
+
+  end
+
+
+
+
+
+
+
+
+
+
   get :any, :map => '/concepts/*' do
     render 'pages/react'
   end
 
+end
+
+def calculate_score(learning_module, lookup, bias_module)
+
+  score = 0
+  learning_module.topics.each do |topic|
+      score = score + lookup[topic.id]
+
+      # Does this module get a bonus?
+      if bias_module.topics.where(id: topic.id).exists? and bias_module.id != learning_module.id
+          score = score + 2
+      end
+  end
+
+  score
+end
+
+def get_id(obj)
+   id = nil
+   begin
+      # db object
+      id = obj["_id"]["$oid"]
+   rescue
+      begin
+        # Custom format
+        id = obj["id"]
+      rescue
+        # When we have a list of strings
+        id = obj
+      end
+   end
+
+   puts ">>> Got id " + id.to_s
+   id
 end

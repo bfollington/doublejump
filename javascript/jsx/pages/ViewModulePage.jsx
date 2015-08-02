@@ -6,6 +6,8 @@ import {ImageContent} from 'components/editing/ImageContent.jsx';
 import {Sortable} from 'components/Sortable.jsx';
 import {FloatingButton} from 'components/FloatingButton.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
+import {Module} from 'components/Module.jsx';
+import {TopicPill} from 'components/TopicPill.jsx';
 import {Mixin} from 'Mixin';
 import {Print} from 'mixins/Print';
 import {Store} from 'mixins/Store';
@@ -22,8 +24,10 @@ export class ViewModulePage extends React.Component {
             contents: [],
             metadata: {},
             topics: [],
+            topic_entities: [],
             title: "",
-            slug: ""
+            slug: "",
+            nextModules: []
         };
 
         Mixin.apply(this, Store, {stores: ["module", "topic", "project"]});
@@ -40,10 +44,23 @@ export class ViewModulePage extends React.Component {
         }
 
         if (this.props.project) {
+
+            this.stores.project.setCurrentProject(this.props.project);
+
             this.stores.project.getMetadata(this.props.project, function(data) {
                 this.setState({metadata: data});
             });
+
+            this.stores.project.getNextModules(this.props.project, this.props.module, this.fetchedNextModules.bind(this));
         }
+    }
+
+    fetchedNextModules(data) {
+        console.log(data, typeof data);
+
+        this.setState({
+            nextModules: data
+        });
     }
 
     fetchedData(data) {
@@ -58,6 +75,12 @@ export class ViewModulePage extends React.Component {
             slug: data.learning_module.slug,
             contents: data.contents,
             topics: data.learning_module.topic_ids.map(id => id.$oid)
+        });
+
+        this.stores.topic.getList(data.learning_module.topic_ids.map(topic_id => topic_id["$oid"]), (topics) => {
+            this.setState({
+                topic_entities: topics
+            });
         });
     }
 
@@ -99,21 +122,27 @@ export class ViewModulePage extends React.Component {
         return (
             <div className="main-content">
                 <div className="">
-
-                    <div className="box">
-                        <div className="row">
-                            <div className="col-xs-12">
-                                <h2>{this.state.title}</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="box">
+                    <h2>{this.state.title}</h2>
+                    {
+                        this.state.topic_entities.map(topic => {
+                            return <TopicPill topic={topic} />;
+                        })
+                    }
+                    {/*<div className="box">
                         <AceEditor onContentChange={this.metadataChange.bind(this)} language='javascript' value={"{}"} />
-                    </div>
+                    </div>*/}
                     {
                         this.state.contents.map(block => {
                             console.log("render", block);
                             return content_type_lookup[block.type](block)
+                        })
+                    }
+                </div>
+                <h2>What's Next?</h2>
+                <div className="row">
+                    {
+                        this.state.nextModules.map(module => {
+                            return <div className="col-xs-4"><Module module={module} /></div>;
                         })
                     }
                 </div>

@@ -78,10 +78,9 @@ export class EditModulePage extends React.Component {
 
         var result = [];
 
-        data.topics.forEach(topic => {
-            Util.transformMongoId(topic);
-            result.push({ value: topic.id, label: topic.name });
-        });
+        for (var topic in data) {
+            result.push({ value: topic, label: data[topic].name });
+        }
 
         this.setState({allTopics: result});
     }
@@ -164,7 +163,7 @@ export class EditModulePage extends React.Component {
         console.log("module response", data);
 
         if (data.success) {
-            page(`/concepts/edit/${data.id}`);
+            page(`/concepts/edit/${data.learning_module["_id"]["$oid"]}`);
         }
     }
 

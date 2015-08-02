@@ -610,7 +610,97 @@ var FloatingButton = (function (_React$Component) {
 exports.FloatingButton = FloatingButton;
 
 
-},{"react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/ProjectStart.react.jsx":[function(require,module,exports){
+},{"react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Module.jsx":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _Mixin = require('Mixin');
+
+var _mixinsStore = require('mixins/Store');
+
+var _componentsTopicPillJsx = require('components/TopicPill.jsx');
+
+var React = require('react');
+
+var Module = (function (_React$Component) {
+    function Module(props) {
+        _classCallCheck(this, Module);
+
+        _get(Object.getPrototypeOf(Module.prototype), 'constructor', this).call(this, props);
+
+        _Mixin.Mixin.apply(this, _mixinsStore.Store, { stores: ['topic', 'project'] });
+
+        this.state = {
+            topics: []
+        };
+    }
+
+    _inherits(Module, _React$Component);
+
+    _createClass(Module, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.updateTopics();
+        }
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps() {
+            this.updateTopics();
+        }
+    }, {
+        key: 'updateTopics',
+        value: function updateTopics() {
+            var _this = this;
+
+            this.stores.topic.getList(this.props.module.topic_ids.map(function (topic_id) {
+                return topic_id['$oid'];
+            }), function (topics) {
+                _this.setState({
+                    topics: topics
+                });
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+
+            return React.createElement(
+                'div',
+                { className: 'box module' },
+                React.createElement(
+                    'h3',
+                    null,
+                    React.createElement(
+                        'a',
+                        { href: '/concepts/project/' + this.stores.project.getCurrentProject() + '/' + this.props.module['_id']['$oid'] },
+                        this.props.module.title
+                    )
+                ),
+                this.state.topics.map(function (topic) {
+                    return React.createElement(_componentsTopicPillJsx.TopicPill, { topic: topic });
+                })
+            );
+        }
+    }]);
+
+    return Module;
+})(React.Component);
+
+exports.Module = Module;
+
+
+},{"Mixin":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Mixin.js","components/TopicPill.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx","mixins/Store":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Store.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/ProjectStart.react.jsx":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -845,6 +935,50 @@ var Test = (function (_React$Component) {
 })(React.Component);
 
 exports.Test = Test;
+
+
+},{"react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx":[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var React = require("react");
+
+var TopicPill = (function (_React$Component) {
+    function TopicPill(props) {
+        _classCallCheck(this, TopicPill);
+
+        _get(Object.getPrototypeOf(TopicPill.prototype), "constructor", this).call(this, props);
+    }
+
+    _inherits(TopicPill, _React$Component);
+
+    _createClass(TopicPill, [{
+        key: "render",
+        value: function render() {
+
+            return React.createElement(
+                "span",
+                { className: "topic-pill" },
+                this.props.topic.name
+            );
+        }
+    }]);
+
+    return TopicPill;
+})(React.Component);
+
+exports.TopicPill = TopicPill;
 
 
 },{"react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/CodeContent.jsx":[function(require,module,exports){
@@ -1856,10 +1990,9 @@ var EditModulePage = (function (_React$Component) {
 
             var result = [];
 
-            data.topics.forEach(function (topic) {
-                _UtilJsx.Util.transformMongoId(topic);
-                result.push({ value: topic.id, label: topic.name });
-            });
+            for (var topic in data) {
+                result.push({ value: topic, label: data[topic].name });
+            }
 
             this.setState({ allTopics: result });
         }
@@ -1949,7 +2082,7 @@ var EditModulePage = (function (_React$Component) {
             console.log('module response', data);
 
             if (data.success) {
-                page('/concepts/edit/' + data.id);
+                page('/concepts/edit/' + data.learning_module['_id']['$oid']);
             }
         }
     }, {
@@ -2261,6 +2394,10 @@ var _componentsFloatingButtonJsx = require('components/FloatingButton.jsx');
 
 var _componentsAceEditorJsx = require('components/AceEditor.jsx');
 
+var _componentsModuleJsx = require('components/Module.jsx');
+
+var _componentsTopicPillJsx = require('components/TopicPill.jsx');
+
 var _Mixin = require('Mixin');
 
 var _mixinsPrint = require('mixins/Print');
@@ -2281,8 +2418,10 @@ var ViewModulePage = (function (_React$Component) {
             contents: [],
             metadata: {},
             topics: [],
+            topic_entities: [],
             title: '',
-            slug: ''
+            slug: '',
+            nextModules: []
         };
 
         _Mixin.Mixin.apply(this, _mixinsStore.Store, { stores: ['module', 'topic', 'project'] });
@@ -2304,14 +2443,30 @@ var ViewModulePage = (function (_React$Component) {
             }
 
             if (this.props.project) {
+
+                this.stores.project.setCurrentProject(this.props.project);
+
                 this.stores.project.getMetadata(this.props.project, function (data) {
                     this.setState({ metadata: data });
                 });
+
+                this.stores.project.getNextModules(this.props.project, this.props.module, this.fetchedNextModules.bind(this));
             }
+        }
+    }, {
+        key: 'fetchedNextModules',
+        value: function fetchedNextModules(data) {
+            console.log(data, typeof data);
+
+            this.setState({
+                nextModules: data
+            });
         }
     }, {
         key: 'fetchedData',
         value: function fetchedData(data) {
+            var _this = this;
+
             console.log(data);
 
             data.contents.forEach(function (content) {
@@ -2325,6 +2480,14 @@ var ViewModulePage = (function (_React$Component) {
                 topics: data.learning_module.topic_ids.map(function (id) {
                     return id.$oid;
                 })
+            });
+
+            this.stores.topic.getList(data.learning_module.topic_ids.map(function (topic_id) {
+                return topic_id['$oid'];
+            }), function (topics) {
+                _this.setState({
+                    topic_entities: topics
+                });
             });
         }
     }, {
@@ -2355,20 +2518,20 @@ var ViewModulePage = (function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this = this;
+            var _this2 = this;
 
             var content_type_lookup = {
                 'MarkdownContent': function MarkdownContent(ctx) {
-                    return React.createElement(_componentsEditingMarkdownContentJsx.MarkdownContent, { comments: ctx.comments, module: _this.props.module, id: ctx.id, value: ctx.body, editable: _this.isEditable, metadata: _this.getMetadata.bind(_this) });
+                    return React.createElement(_componentsEditingMarkdownContentJsx.MarkdownContent, { comments: ctx.comments, module: _this2.props.module, id: ctx.id, value: ctx.body, editable: _this2.isEditable, metadata: _this2.getMetadata.bind(_this2) });
                 },
                 'CodeContent': function CodeContent(ctx) {
-                    return React.createElement(_componentsEditingCodeContentJsx.CodeContent, { comments: ctx.comments, module: _this.props.module, id: ctx.id, value: ctx.body, language: ctx.language, editable: _this.isEditable, metadata: _this.getMetadata.bind(_this) });
+                    return React.createElement(_componentsEditingCodeContentJsx.CodeContent, { comments: ctx.comments, module: _this2.props.module, id: ctx.id, value: ctx.body, language: ctx.language, editable: _this2.isEditable, metadata: _this2.getMetadata.bind(_this2) });
                 },
                 'MathContent': function MathContent(ctx) {
-                    return React.createElement(_componentsEditingMathContentJsx.MathContent, { comments: ctx.comments, module: _this.props.module, id: ctx.id, value: ctx.body, editable: _this.isEditable, metadata: _this.getMetadata.bind(_this) });
+                    return React.createElement(_componentsEditingMathContentJsx.MathContent, { comments: ctx.comments, module: _this2.props.module, id: ctx.id, value: ctx.body, editable: _this2.isEditable, metadata: _this2.getMetadata.bind(_this2) });
                 },
                 'ImageContent': function ImageContent(ctx) {
-                    return React.createElement(_componentsEditingImageContentJsx.ImageContent, { comments: ctx.comments, module: _this.props.module, id: ctx.id, value: '', editable: _this.isEditable, metadata: _this.getMetadata.bind(_this) });
+                    return React.createElement(_componentsEditingImageContentJsx.ImageContent, { comments: ctx.comments, module: _this2.props.module, id: ctx.id, value: '', editable: _this2.isEditable, metadata: _this2.getMetadata.bind(_this2) });
                 }
             };
 
@@ -2379,30 +2542,32 @@ var ViewModulePage = (function (_React$Component) {
                     'div',
                     { className: '' },
                     React.createElement(
-                        'div',
-                        { className: 'box' },
-                        React.createElement(
-                            'div',
-                            { className: 'row' },
-                            React.createElement(
-                                'div',
-                                { className: 'col-xs-12' },
-                                React.createElement(
-                                    'h2',
-                                    null,
-                                    this.state.title
-                                )
-                            )
-                        )
+                        'h2',
+                        null,
+                        this.state.title
                     ),
-                    React.createElement(
-                        'div',
-                        { className: 'box' },
-                        React.createElement(_componentsAceEditorJsx.AceEditor, { onContentChange: this.metadataChange.bind(this), language: 'javascript', value: '{}' })
-                    ),
+                    this.state.topic_entities.map(function (topic) {
+                        return React.createElement(_componentsTopicPillJsx.TopicPill, { topic: topic });
+                    }),
                     this.state.contents.map(function (block) {
                         console.log('render', block);
                         return content_type_lookup[block.type](block);
+                    })
+                ),
+                React.createElement(
+                    'h2',
+                    null,
+                    'What\'s Next?'
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'row' },
+                    this.state.nextModules.map(function (module) {
+                        return React.createElement(
+                            'div',
+                            { className: 'col-xs-4' },
+                            React.createElement(_componentsModuleJsx.Module, { module: module })
+                        );
                     })
                 )
             );
@@ -2413,9 +2578,12 @@ var ViewModulePage = (function (_React$Component) {
 })(React.Component);
 
 exports.ViewModulePage = ViewModulePage;
+/*<div className="box">
+   <AceEditor onContentChange={this.metadataChange.bind(this)} language='javascript' value={"{}"} />
+</div>*/
 
 
-},{"Mixin":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Mixin.js","Util.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Util.jsx","components/AceEditor.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/AceEditor.jsx","components/FloatingButton.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/FloatingButton.jsx","components/Sortable.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Sortable.jsx","components/editing/CodeContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/CodeContent.jsx","components/editing/ImageContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ImageContent.jsx","components/editing/MarkdownContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MarkdownContent.jsx","components/editing/MathContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MathContent.jsx","mixins/Print":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Print.js","mixins/Store":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Store.js","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx":[function(require,module,exports){
+},{"Mixin":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Mixin.js","Util.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Util.jsx","components/AceEditor.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/AceEditor.jsx","components/FloatingButton.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/FloatingButton.jsx","components/Module.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Module.jsx","components/Sortable.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Sortable.jsx","components/TopicPill.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx","components/editing/CodeContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/CodeContent.jsx","components/editing/ImageContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ImageContent.jsx","components/editing/MarkdownContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MarkdownContent.jsx","components/editing/MathContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MathContent.jsx","mixins/Print":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Print.js","mixins/Store":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Store.js","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx":[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2494,6 +2662,7 @@ var Router = (function () {
                     next();
                 } else {
                     window.app.domRoot.classList.add('transition');
+                    render(React.createElement('div', null));
                     setTimeout(function () {
                         window.app.domRoot.classList.remove('transition');
                         next();
@@ -2650,6 +2819,7 @@ var actions = {};
 
 var projects = {};
 var fetchedAll = false;
+var currentProject;
 
 var ProjectStore = (function (_Store) {
     function ProjectStore() {
@@ -2677,6 +2847,21 @@ var ProjectStore = (function (_Store) {
                     });
                 }
             }
+        }
+    }, {
+        key: 'setCurrentProject',
+        value: function setCurrentProject(name) {
+            currentProject = name;
+        }
+    }, {
+        key: 'getCurrentProject',
+        value: function getCurrentProject() {
+            return currentProject;
+        }
+    }, {
+        key: 'getNextModules',
+        value: function getNextModules(project, module, callback) {
+            $.get('/concepts/next/' + module + '/' + project, {}, callback);
         }
     }, {
         key: 'fetchMetadata',
@@ -2797,15 +2982,43 @@ var TopicStore = (function (_Store) {
             topics.push(data);
         }
     }, {
+        key: "get",
+        value: function get(id, callback) {
+            if (topics[id]) {
+                return topics[id];
+            } else {
+                this.getAll(function (data) {
+                    callback(data[id]);
+                });
+            }
+        }
+    }, {
+        key: "getList",
+        value: function getList(ids, callback) {
+            var result = [];
+
+            this.getAll(function (topics) {
+                ids.forEach(function (id) {
+                    result.push(topics[id]);
+                });
+
+                callback(result);
+            });
+        }
+    }, {
         key: "getAll",
         value: function getAll(callback) {
             if (fetchedAllFromServer) {
                 callback(topics);
             } else {
                 $.get("/concepts/topics", function (data) {
-                    $.extend(topics, data);
+
+                    data.topics.forEach(function (topic) {
+                        topics[topic["_id"]["$oid"]] = topic;
+                    });
+
                     fetchedAllFromServer = true;
-                    callback(data);
+                    callback(topics);
                 });
             }
         }

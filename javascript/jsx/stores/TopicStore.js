@@ -18,14 +18,40 @@ export class TopicStore extends Store {
         topics.push(data);
     }
 
+    get(id, callback) {
+        if (topics[id]) {
+            return topics[id];
+        } else {
+            this.getAll((data) => {
+                callback(data[id]);
+            });
+        }
+    }
+
+    getList(ids, callback) {
+        var result = [];
+
+        this.getAll( (topics) => {
+            ids.forEach(id => {
+                result.push(topics[id]);
+            });
+
+            callback(result);
+        } );
+    }
+
     getAll(callback) {
         if (fetchedAllFromServer) {
             callback(topics);
         } else {
             $.get(`/concepts/topics`, function(data) {
-                $.extend(topics, data);
+
+                data.topics.forEach(topic => {
+                    topics[topic["_id"]["$oid"]] = topic;
+                });
+
                 fetchedAllFromServer = true;
-                callback(data);
+                callback(topics);
             });
         }
     }

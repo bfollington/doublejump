@@ -7,6 +7,14 @@ Doublejump::App.helpers do
     object.to_json
   end
 
+  def get_body()
+
+    request.body.rewind
+    request_payload = JSON.parse request.body.read
+    request_payload
+
+  end
+
   def errors_for (object, field)
     if object && object.errors
         return object.errors.messages[field]

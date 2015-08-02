@@ -40,6 +40,7 @@ export class Router {
                 next();
             } else {
                 window.app.domRoot.classList.add('transition');
+                render(<div />);
                 setTimeout(function(){
                     window.app.domRoot.classList.remove('transition');
                     next();
