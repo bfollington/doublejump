@@ -1,4 +1,21 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Events.jsx":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/API.js":[function(require,module,exports){
+"use strict";
+
+var API = {};
+
+/**
+ * Record a transition between two learning modules.
+ * @param  {Module ID} current
+ * @param  {Module ID} next
+ */
+API.transition = function (current, next) {
+  $.post("/concepts/transition/", { current: current, next: next });
+};
+
+module.exports = API;
+
+
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Events.jsx":[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -683,7 +700,7 @@ var Module = (function (_React$Component) {
                     null,
                     React.createElement(
                         'a',
-                        { href: '/concepts/project/' + this.stores.project.getCurrentProject() + '/' + this.props.module['_id']['$oid'] },
+                        { onClick: this.props.onClick, href: '/concepts/project/' + this.stores.project.getCurrentProject() + '/' + this.props.module['_id']['$oid'] },
                         this.props.module.title
                     )
                 ),
@@ -2374,6 +2391,8 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
@@ -2403,6 +2422,10 @@ var _Mixin = require('Mixin');
 var _mixinsPrint = require('mixins/Print');
 
 var _mixinsStore = require('mixins/Store');
+
+var _API = require('API');
+
+var _API2 = _interopRequireDefault(_API);
 
 var React = require('react');
 
@@ -2435,8 +2458,18 @@ var ViewModulePage = (function (_React$Component) {
             this.stores.module.get(this.props.module, this.fetchedData.bind(this));
         }
     }, {
+        key: 'onModuleClick',
+        value: function onModuleClick(next) {
+            if (this.props.project) {
+                this.stores.module.finishedModule(this.props.project, this.props.module);
+            }
+
+            _API2['default'].transition(this.props.module, next['_id']['$oid']);
+        }
+    }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
+            var _this = this;
 
             if (this.props.module) {
                 this.stores.module.get(this.props.module, this.fetchedData.bind(this));
@@ -2447,7 +2480,7 @@ var ViewModulePage = (function (_React$Component) {
                 this.stores.project.setCurrentProject(this.props.project);
 
                 this.stores.project.getMetadata(this.props.project, function (data) {
-                    this.setState({ metadata: data });
+                    _this.setState({ metadata: data });
                 });
 
                 this.stores.project.getNextModules(this.props.project, this.props.module, this.fetchedNextModules.bind(this));
@@ -2465,7 +2498,7 @@ var ViewModulePage = (function (_React$Component) {
     }, {
         key: 'fetchedData',
         value: function fetchedData(data) {
-            var _this = this;
+            var _this2 = this;
 
             console.log(data);
 
@@ -2485,7 +2518,7 @@ var ViewModulePage = (function (_React$Component) {
             this.stores.topic.getList(data.learning_module.topic_ids.map(function (topic_id) {
                 return topic_id['$oid'];
             }), function (topics) {
-                _this.setState({
+                _this2.setState({
                     topic_entities: topics
                 });
             });
@@ -2518,20 +2551,20 @@ var ViewModulePage = (function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             var content_type_lookup = {
                 'MarkdownContent': function MarkdownContent(ctx) {
-                    return React.createElement(_componentsEditingMarkdownContentJsx.MarkdownContent, { comments: ctx.comments, module: _this2.props.module, id: ctx.id, value: ctx.body, editable: _this2.isEditable, metadata: _this2.getMetadata.bind(_this2) });
+                    return React.createElement(_componentsEditingMarkdownContentJsx.MarkdownContent, { comments: ctx.comments, module: _this3.props.module, id: ctx.id, value: ctx.body, editable: _this3.isEditable, metadata: _this3.getMetadata.bind(_this3) });
                 },
                 'CodeContent': function CodeContent(ctx) {
-                    return React.createElement(_componentsEditingCodeContentJsx.CodeContent, { comments: ctx.comments, module: _this2.props.module, id: ctx.id, value: ctx.body, language: ctx.language, editable: _this2.isEditable, metadata: _this2.getMetadata.bind(_this2) });
+                    return React.createElement(_componentsEditingCodeContentJsx.CodeContent, { comments: ctx.comments, module: _this3.props.module, id: ctx.id, value: ctx.body, language: ctx.language, editable: _this3.isEditable, metadata: _this3.getMetadata.bind(_this3) });
                 },
                 'MathContent': function MathContent(ctx) {
-                    return React.createElement(_componentsEditingMathContentJsx.MathContent, { comments: ctx.comments, module: _this2.props.module, id: ctx.id, value: ctx.body, editable: _this2.isEditable, metadata: _this2.getMetadata.bind(_this2) });
+                    return React.createElement(_componentsEditingMathContentJsx.MathContent, { comments: ctx.comments, module: _this3.props.module, id: ctx.id, value: ctx.body, editable: _this3.isEditable, metadata: _this3.getMetadata.bind(_this3) });
                 },
                 'ImageContent': function ImageContent(ctx) {
-                    return React.createElement(_componentsEditingImageContentJsx.ImageContent, { comments: ctx.comments, module: _this2.props.module, id: ctx.id, value: '', editable: _this2.isEditable, metadata: _this2.getMetadata.bind(_this2) });
+                    return React.createElement(_componentsEditingImageContentJsx.ImageContent, { comments: ctx.comments, module: _this3.props.module, id: ctx.id, value: '', editable: _this3.isEditable, metadata: _this3.getMetadata.bind(_this3) });
                 }
             };
 
@@ -2566,7 +2599,7 @@ var ViewModulePage = (function (_React$Component) {
                         return React.createElement(
                             'div',
                             { className: 'col-xs-4' },
-                            React.createElement(_componentsModuleJsx.Module, { module: module })
+                            React.createElement(_componentsModuleJsx.Module, { module: module, onClick: _this3.onModuleClick.bind(_this3, module) })
                         );
                     })
                 )
@@ -2583,7 +2616,7 @@ exports.ViewModulePage = ViewModulePage;
 </div>*/
 
 
-},{"Mixin":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Mixin.js","Util.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Util.jsx","components/AceEditor.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/AceEditor.jsx","components/FloatingButton.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/FloatingButton.jsx","components/Module.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Module.jsx","components/Sortable.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Sortable.jsx","components/TopicPill.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx","components/editing/CodeContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/CodeContent.jsx","components/editing/ImageContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ImageContent.jsx","components/editing/MarkdownContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MarkdownContent.jsx","components/editing/MathContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MathContent.jsx","mixins/Print":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Print.js","mixins/Store":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Store.js","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx":[function(require,module,exports){
+},{"API":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/API.js","Mixin":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Mixin.js","Util.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Util.jsx","components/AceEditor.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/AceEditor.jsx","components/FloatingButton.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/FloatingButton.jsx","components/Module.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Module.jsx","components/Sortable.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Sortable.jsx","components/TopicPill.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx","components/editing/CodeContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/CodeContent.jsx","components/editing/ImageContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ImageContent.jsx","components/editing/MarkdownContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MarkdownContent.jsx","components/editing/MathContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MathContent.jsx","mixins/Print":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Print.js","mixins/Store":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Store.js","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx":[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2762,9 +2795,9 @@ var ModuleStore = (function (_Store) {
             }
         }
     }, {
-        key: "markComplete",
-        value: function markComplete(project, module, callback) {
-            $.post("/concepts/module_complete/" + project + "/" + module, {}, callback);
+        key: "finishedModule",
+        value: function finishedModule(project, module, callback) {
+            $.post("/concepts/finished_module/", JSON.stringify({ project: project, module: module }), callback);
         }
     }, {
         key: "get",

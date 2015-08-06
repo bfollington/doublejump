@@ -35,7 +35,7 @@ export class Module extends React.Component {
 
         return (
             <div className="box module">
-                <h3><a href={`/concepts/project/${this.stores.project.getCurrentProject()}/${this.props.module["_id"]["$oid"]}`}>{this.props.module.title}</a></h3>
+                <h3><a onClick={this.props.onClick} href={`/concepts/project/${this.stores.project.getCurrentProject()}/${this.props.module["_id"]["$oid"]}`}>{this.props.module.title}</a></h3>
                 {
                     this.state.topics.map(topic => {
                         return <TopicPill topic={topic} />;

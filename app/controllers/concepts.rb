@@ -97,18 +97,6 @@ Doublejump::App.controllers :concepts, :cache => true do
     send_json({success: true})
   end
 
-  post :module_complete, :with => [:project, :module] do
-    # Store Metadata within project
-
-    project = Project.where(slug: params[:project]).first
-    learning_module = LearningModule.find(params[:module])
-
-    project.learning_modules << learning_module
-    project.save!
-
-    send_json({success: true})
-  end
-
   delete :data, :with => [:project, :key] do
     # Remove Metadata from project
     project = Project.where(slug: params[:project]).first
@@ -208,14 +196,15 @@ Doublejump::App.controllers :concepts, :cache => true do
     end
   end
 
-
-
   post :finished_module do
 
     data = get_body
 
     learning_module = LearningModule.find(data["module"])
-    project = Project.where(slug: params[:project]).first
+    project = Project.where(slug: data["project"]).first
+
+    project.learning_modules << learning_module
+    project.save!
 
     scores = []
 
@@ -231,6 +220,11 @@ Doublejump::App.controllers :concepts, :cache => true do
 
     content_type :json
     {scores: scores}.to_json
+  end
+
+  post :transition do
+    content_type :json
+    {hello: "world"}.to_json
   end
 
   get :next, :with => [:module, :project] do

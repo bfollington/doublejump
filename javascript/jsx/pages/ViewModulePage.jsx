@@ -12,6 +12,8 @@ import {Mixin} from 'Mixin';
 import {Print} from 'mixins/Print';
 import {Store} from 'mixins/Store';
 
+import API from "API";
+
 var React = require("react");
 
 var page = require("page");
@@ -37,6 +39,14 @@ export class ViewModulePage extends React.Component {
         this.stores.module.get(this.props.module, this.fetchedData.bind(this));
     }
 
+    onModuleClick(next) {
+        if (this.props.project) {
+            this.stores.module.finishedModule(this.props.project, this.props.module);
+        }
+
+        API.transition(this.props.module, next["_id"]["$oid"]);
+    }
+
     componentDidMount() {
 
         if (this.props.module) {
@@ -47,7 +57,7 @@ export class ViewModulePage extends React.Component {
 
             this.stores.project.setCurrentProject(this.props.project);
 
-            this.stores.project.getMetadata(this.props.project, function(data) {
+            this.stores.project.getMetadata(this.props.project, (data) => {
                 this.setState({metadata: data});
             });
 
@@ -142,7 +152,7 @@ export class ViewModulePage extends React.Component {
                 <div className="row">
                     {
                         this.state.nextModules.map(module => {
-                            return <div className="col-xs-4"><Module module={module} /></div>;
+                            return <div className="col-xs-4"><Module module={module} onClick={this.onModuleClick.bind(this, module)} /></div>;
                         })
                     }
                 </div>

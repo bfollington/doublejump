@@ -51,8 +51,8 @@ export class ModuleStore extends Store {
         }
     }
 
-    markComplete(project, module, callback) {
-        $.post(`/concepts/module_complete/${project}/${module}`, {}, callback);
+    finishedModule(project, module, callback) {
+        $.post(`/concepts/finished_module/`, JSON.stringify({project: project, module: module}), callback);
     }
 
     get(id, callback) {
