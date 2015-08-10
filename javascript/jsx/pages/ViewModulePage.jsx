@@ -11,6 +11,7 @@ import {TopicPill} from 'components/TopicPill.jsx';
 import {Mixin} from 'Mixin';
 import {Print} from 'mixins/Print';
 import {Store} from 'mixins/Store';
+import {LearningGraph} from 'components/LearningGraph.jsx';
 
 import API from "API";
 
@@ -156,6 +157,7 @@ export class ViewModulePage extends React.Component {
                         })
                     }
                 </div>
+                <LearningGraph module={this.props.module} project={this.props.project} />
             </div>
         );
     }

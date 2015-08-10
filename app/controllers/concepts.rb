@@ -224,7 +224,15 @@ Doublejump::App.controllers :concepts, :cache => true do
 
   post :transition do
     content_type :json
-    {hello: "world"}.to_json
+
+    data = get_body
+    from = LearningModule.find(data["current"])
+    to = LearningModule.find(data["next"])
+
+    transition = Transition.new(from: from, to: to)
+    transition.save
+
+    {transition: transition}.to_json
   end
 
   get :next, :with => [:module, :project] do
@@ -270,6 +278,36 @@ Doublejump::App.controllers :concepts, :cache => true do
 
   end
 
+  get :graph, :with => [:module, :project] do
+
+      # Calculate relevance score of all other modules
+          # Based on existing topic scores
+          # Biased by the module that was just finished (bonus to its topic scores?)
+          # Take into account meta feedback, like other user's paths
+
+      last_module = LearningModule.find(params[:module])
+      project = Project.where(slug: params[:project]).first
+
+      puts params.inspect
+
+      content_type :json
+      build_graph(project, last_module).to_json
+
+  end
+
+  get :full_graph, :with => [:project] do
+
+      # Calculate relevance score of all other modules
+          # Based on existing topic scores
+          # Biased by the module that was just finished (bonus to its topic scores?)
+          # Take into account meta feedback, like other user's paths
+
+      project = Project.where(slug: params[:project]).first
+
+      content_type :json
+      build_full_graph(project).to_json
+
+  end
 
 
 
@@ -288,6 +326,10 @@ end
 def calculate_score(learning_module, lookup, bias_module)
 
   score = 0
+
+  # still need initial topic bias from project initialisation
+  transition_bias = Transition.where(from: bias_module, to: learning_module).count
+
   learning_module.topics.each do |topic|
       score = score + lookup[topic.id]
 
@@ -297,6 +339,7 @@ def calculate_score(learning_module, lookup, bias_module)
       end
   end
 
+  score = score + transition_bias
   score
 end
 
@@ -317,4 +360,76 @@ def get_id(obj)
 
    puts ">>> Got id " + id.to_s
    id
+end
+
+def build_graph(project, start_node)
+
+  # Get all modules
+  topic_lookup = {}
+  module_lookup = {}
+
+  project.topic_scores.each do |topic_score|
+      topic_lookup[topic_score.topic.id] = topic_score.score
+  end
+
+  learning_modules = LearningModule.all
+
+  learning_modules.each do |learning_module|
+      module_lookup[learning_module.id] = calculate_score learning_module, topic_lookup, start_node
+  end
+
+  # Using all topics, generate all links (relevance > 0)
+  nodes = []
+  links = []
+
+  nodes << {name: start_node.title, group: 0}
+
+  module_lookup.each do |key, value|
+
+    next if value == start_node
+
+    lm = LearningModule.find(key)
+
+    nodes << {name: lm.title, group: 1}
+    if value > 0
+      links << {source: 0, target: nodes.length - 1, value: value}
+    end
+
+  end
+
+  {nodes: nodes, links: links}
+end
+
+def build_full_graph(project)
+
+  nodes = []
+  links = []
+  index_lookup = {}
+  topic_lookup = {}
+
+  project.topic_scores.each do |topic_score|
+      topic_lookup[topic_score.topic.id] = topic_score.score
+  end
+
+  learning_modules = LearningModule.all
+
+  learning_modules.each do |learning_module|
+    nodes << {name: learning_module.title}
+    index_lookup[learning_module.id] = nodes.length - 1
+  end
+
+  learning_modules.each do |source|
+    learning_modules.each do |target|
+      next if source == target
+
+      score = calculate_score target, topic_lookup, source
+
+      if score > 0
+        links << {source: index_lookup[source.id], target: index_lookup[target.id], value: score}
+      end
+    end
+  end
+
+  {nodes: nodes, links: links}
+
 end

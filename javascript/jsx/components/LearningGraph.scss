@@ -1,0 +1,32 @@
+.graph {
+    .node {
+        stroke: #fff;
+        stroke-width: 1.5px;
+        cursor: pointer;
+
+        .title {
+            display: none;
+            stroke: none;
+        }
+
+        &:hover {
+            .title {
+                display: block;
+            }
+        }
+    }
+
+    .link {
+        stroke: #999;
+        fill: none;
+        stroke-opacity: .6;
+    }
+
+    .line-end-marker {
+        fill: #999;
+    }
+
+
+
+
+}

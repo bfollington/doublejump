@@ -6,7 +6,7 @@ var API = {};
  * @param  {Module ID} next
  */
 API.transition = function(current, next) {
-    $.post("/concepts/transition/", {current: current, next: next});
+    $.post("/concepts/transition/", JSON.stringify({current: current, next: next}));
 };
 
 module.exports = API;
