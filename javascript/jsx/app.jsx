@@ -4,15 +4,31 @@ import {TopicStore} from 'stores/TopicStore';
 import {ProjectStore} from 'stores/ProjectStore';
 var React = require("react");
 
+import { createStore, combineReducers, compose } from 'redux';
+import { devTools, persistState } from 'redux-devtools';
+import project from 'reducers/Project';
+import module from 'reducers/Module';
+
 window.app = { domRoot: document.getElementById('content') };
 
 window.flux = {
     stores: {
         "module": new ModuleStore(),
         "topic": new TopicStore(),
-        "project": new ProjectStore(),
+        "project": new ProjectStore()
     }
 };
+
+const finalCreateStore = compose(
+    devTools(),
+    persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
+    createStore
+);
+
+window.store = finalCreateStore(combineReducers({
+    project,
+    module
+}));
 
 $.ajaxPrefilter(function(options, originalOptions, xhr) {
     if ( !options.crossDomain ) {

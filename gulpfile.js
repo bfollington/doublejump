@@ -4,11 +4,14 @@ var gulp = require('gulp'),
     wrap = require('gulp-wrap'),
     shell = require('gulp-shell'),
     concat = require('gulp-concat'),
-    build = require("gulp-build-tools/build"),
-    style = require("gulp-build-tools/style"),
-    script = require("gulp-build-tools/script"),
-    _static = require("gulp-build-tools/static"),
+    build = require("bens-gulp-build-tools/build"),
+    style = require("bens-gulp-build-tools/style"),
+    script = require("bens-gulp-build-tools/script"),
+    _static = require("bens-gulp-build-tools/static"),
     lr = require("gulp-livereload");
+
+var babelify = require('babelify');
+var reactify = require('reactify');
 
 gulp.task('scripts', buildJs);
 gulp.task('sass', buildSass);
@@ -41,8 +44,10 @@ gulp.task('js-app', ['js-deps'], function(callback) {
         dest_folder: "./public/javascripts/",
         compress: false,
         reference_dependies: externalDeps,
-        babel: true,
-        reactify: true,
+        transforms: [
+            babelify.configure({ loose: ["es6.modules"], "optional": [ "es7.decorators" ] }),
+            reactify
+        ],
         sourcemaps: true
     });
 
