@@ -8,6 +8,7 @@ import { createStore, combineReducers, compose } from 'redux';
 import { devTools, persistState } from 'redux-devtools';
 import project from 'reducers/Project';
 import module from 'reducers/Module';
+import topic from 'reducers/Topic';
 
 window.app = { domRoot: document.getElementById('content') };
 
@@ -27,6 +28,7 @@ const finalCreateStore = compose(
 
 window.store = finalCreateStore(combineReducers({
     project,
+    topic,
     module
 }));
 

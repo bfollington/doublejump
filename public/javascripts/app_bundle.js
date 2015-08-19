@@ -23,6 +23,10 @@ var _reducersModule = require('reducers/Module');
 
 var _reducersModule2 = _interopRequireDefault(_reducersModule);
 
+var _reducersTopic = require('reducers/Topic');
+
+var _reducersTopic2 = _interopRequireDefault(_reducersTopic);
+
 var React = require("react");
 
 window.app = { domRoot: document.getElementById('content') };
@@ -39,6 +43,7 @@ var finalCreateStore = _redux.compose(_reduxDevtools.devTools(), _reduxDevtools.
 
 window.store = finalCreateStore(_redux.combineReducers({
     project: _reducersProject2['default'],
+    topic: _reducersTopic2['default'],
     module: _reducersModule2['default']
 }));
 
@@ -55,7 +60,7 @@ var router = new _routerJsx.Router();
 router.start();
 
 
-},{"./router.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/router.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js","reducers/Module":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Module.js","reducers/Project":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Project.js","redux":"/Users/Ben/Projects/Ruby/doublejump/node_modules/redux/lib/index.js","redux-devtools":"/Users/Ben/Projects/Ruby/doublejump/node_modules/redux-devtools/lib/index.js","stores/ModuleStore":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/ModuleStore.js","stores/ProjectStore":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/ProjectStore.js","stores/TopicStore":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/TopicStore.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/API.js":[function(require,module,exports){
+},{"./router.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/router.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js","reducers/Module":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Module.js","reducers/Project":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Project.js","reducers/Topic":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Topic.js","redux":"/Users/Ben/Projects/Ruby/doublejump/node_modules/redux/lib/index.js","redux-devtools":"/Users/Ben/Projects/Ruby/doublejump/node_modules/redux-devtools/lib/index.js","stores/ModuleStore":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/ModuleStore.js","stores/ProjectStore":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/ProjectStore.js","stores/TopicStore":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/TopicStore.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/API.js":[function(require,module,exports){
 "use strict";
 
 var API = {};
@@ -66,7 +71,11 @@ var API = {};
  * @param  {Module ID} next
  */
 API.transition = function (current, next) {
-  $.post("/concepts/transition/", JSON.stringify({ current: current, next: next }));
+    $.post("/concepts/transition/", JSON.stringify({ current: current, next: next }));
+};
+
+API.finishedModule = function (project, module, callback) {
+    $.post("/concepts/finished_module/", JSON.stringify({ project: project, module: module }), callback);
 };
 
 module.exports = API;
@@ -349,6 +358,36 @@ function fetchNextModules(project, module) {
 
     $.get("/concepts/next/" + module + "/" + project, {}, function (data) {
         window.store.dispatch(receiveNextModules(project, data));
+    });
+}
+
+
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Topic.js":[function(require,module,exports){
+"use strict";
+
+exports.__esModule = true;
+exports.requestTopics = requestTopics;
+exports.receiveTopics = receiveTopics;
+exports.fetchTopics = fetchTopics;
+var REQUEST_TOPICS = "REQUEST_TOPICS";
+exports.REQUEST_TOPICS = REQUEST_TOPICS;
+
+function requestTopics() {
+    return { type: REQUEST_TOPICS };
+}
+
+var RECEIVE_TOPICS = "RECEIVE_TOPICS";
+exports.RECEIVE_TOPICS = RECEIVE_TOPICS;
+
+function receiveTopics(data) {
+    return { type: RECEIVE_TOPICS, data: data };
+}
+
+function fetchTopics() {
+    window.store.dispatch(requestTopics());
+
+    $.get("/concepts/topics", function (data) {
+        window.store.dispatch(receiveTopics(data));
     });
 }
 
@@ -2648,8 +2687,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _UtilJsx = require('Util.jsx');
-
 var _componentsEditingCodeContentJsx = require('components/editing/CodeContent.jsx');
 
 var _componentsEditingMathContentJsx = require('components/editing/MathContent.jsx');
@@ -2658,21 +2695,11 @@ var _componentsEditingMarkdownContentJsx = require('components/editing/MarkdownC
 
 var _componentsEditingImageContentJsx = require('components/editing/ImageContent.jsx');
 
-var _componentsSortableJsx = require('components/Sortable.jsx');
-
-var _componentsFloatingButtonJsx = require('components/FloatingButton.jsx');
-
 var _componentsAceEditorJsx = require('components/AceEditor.jsx');
 
 var _componentsModuleJsx = require('components/Module.jsx');
 
 var _componentsTopicPillJsx = require('components/TopicPill.jsx');
-
-var _Mixin = require('Mixin');
-
-var _mixinsPrint = require('mixins/Print');
-
-var _mixinsStore = require('mixins/Store');
 
 var _componentsLearningGraphJsx = require('components/LearningGraph.jsx');
 
@@ -2690,30 +2717,7 @@ var _actionsProject = require("actions/Project");
 
 var _actionsModule = require("actions/Module");
 
-/**
- * TODO: rewrite this file using redux
- *
- * We want a global store of projects, modules, next_modules, metadata etc indexed by sane ids
- *
- * This data needs to be fetched before render ideally? Perhaps a system where pages declare their data requirements?
- *
- * Basically my own GraphQL rip off listing what actions need to be run to fetch data
- *
- * initialLoad => [
- *     {"action": "LOAD_PROJECT", "id": <id>},
- *     {"action": "LOAD_METADATA", "id": <id>}
- * ]
- *
- * How do we support dynamic data though?
- *
- *
- * The components need to stop caring about $oid shit basically and need to stop storing data internally
- * The editor is probably too far gone on that front, but we can do better here
- *
- *
- *
- *
- */
+var _actionsTopic = require("actions/Topic");
 
 var React = require("react");
 
@@ -2724,13 +2728,10 @@ var ViewModulePage = (function (_React$Component) {
         _classCallCheck(this, _ViewModulePage);
 
         _get(Object.getPrototypeOf(_ViewModulePage.prototype), 'constructor', this).call(this, props);
+
+        this.state = {};
+
         this.loadData(props);
-
-        this.state = {
-            topic_entities: []
-        };
-
-        _Mixin.Mixin.apply(this, _mixinsStore.Store, { stores: ["module", "topic", "project"] });
     }
 
     //TODO, remove old style from here
@@ -2738,39 +2739,18 @@ var ViewModulePage = (function (_React$Component) {
     _createClass(ViewModulePage, [{
         key: 'onModuleClick',
         value: function onModuleClick(next) {
-            if (this.props.project) {
-                this.stores.module.finishedModule(this.props.project, this.props.module);
-            }
-
-            _API2['default'].transition(this.props.module, next["_id"]["$oid"]);
+            _API2['default'].finishedModule(this.props.project, this.props.module);
+            _API2['default'].transition(this.props.module, next._id.$oid);
         }
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-
-            if (this.props.module) {
-                this.stores.module.get(this.props.module, this.fetchedData.bind(this));
-            }
-        }
-    }, {
-        key: 'fetchedData',
-        value: function fetchedData(data) {
             var _this = this;
 
-            console.log(data);
-
-            this.stores.topic.getList(data.learning_module.topic_ids.map(function (topic_id) {
-                return topic_id["$oid"];
-            }), function (topics) {
-                _this.setState({
-                    topic_entities: topics
-                });
-            });
-        }
-    }, {
-        key: 'finish',
-        value: function finish() {
-            this.stores.module.markComplete(this.props.project, this.props.module);
+            // No trigger for data..!
+            setTimeout(function () {
+                return _this.setState({});
+            }, 1000);
         }
     }, {
         key: 'isEditable',
@@ -2800,6 +2780,15 @@ var ViewModulePage = (function (_React$Component) {
             return this.props.store.getState().module[this.props.module].data;
         }
     }, {
+        key: 'getTopics',
+        value: function getTopics() {
+            var _this2 = this;
+
+            return this.props.store.getState().module[this.props.module].topics.map(function (id) {
+                return _this2.props.store.getState().topic.items[id];
+            });
+        }
+    }, {
         key: 'metadataChange',
         value: function metadataChange(content) {
             try {
@@ -2813,20 +2802,20 @@ var ViewModulePage = (function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
-            var content_type_lookup = {
+            var contentTypeLookup = {
                 "MarkdownContent": function MarkdownContent(ctx) {
-                    return React.createElement(_componentsEditingMarkdownContentJsx.MarkdownContent, { comments: ctx.comments, module: _this2.props.module, id: ctx.id, value: ctx.body, editable: _this2.isEditable, metadata: _this2.getMetadata.bind(_this2) });
+                    return React.createElement(_componentsEditingMarkdownContentJsx.MarkdownContent, { comments: ctx.comments, module: _this3.props.module, id: ctx.id, value: ctx.body, editable: _this3.isEditable, metadata: _this3.getMetadata.bind(_this3) });
                 },
                 "CodeContent": function CodeContent(ctx) {
-                    return React.createElement(_componentsEditingCodeContentJsx.CodeContent, { comments: ctx.comments, module: _this2.props.module, id: ctx.id, value: ctx.body, language: ctx.language, editable: _this2.isEditable, metadata: _this2.getMetadata.bind(_this2) });
+                    return React.createElement(_componentsEditingCodeContentJsx.CodeContent, { comments: ctx.comments, module: _this3.props.module, id: ctx.id, value: ctx.body, language: ctx.language, editable: _this3.isEditable, metadata: _this3.getMetadata.bind(_this3) });
                 },
                 "MathContent": function MathContent(ctx) {
-                    return React.createElement(_componentsEditingMathContentJsx.MathContent, { comments: ctx.comments, module: _this2.props.module, id: ctx.id, value: ctx.body, editable: _this2.isEditable, metadata: _this2.getMetadata.bind(_this2) });
+                    return React.createElement(_componentsEditingMathContentJsx.MathContent, { comments: ctx.comments, module: _this3.props.module, id: ctx.id, value: ctx.body, editable: _this3.isEditable, metadata: _this3.getMetadata.bind(_this3) });
                 },
                 "ImageContent": function ImageContent(ctx) {
-                    return React.createElement(_componentsEditingImageContentJsx.ImageContent, { comments: ctx.comments, module: _this2.props.module, id: ctx.id, value: '', editable: _this2.isEditable, metadata: _this2.getMetadata.bind(_this2) });
+                    return React.createElement(_componentsEditingImageContentJsx.ImageContent, { comments: ctx.comments, module: _this3.props.module, id: ctx.id, value: '', editable: _this3.isEditable, metadata: _this3.getMetadata.bind(_this3) });
                 }
             };
 
@@ -2841,12 +2830,11 @@ var ViewModulePage = (function (_React$Component) {
                         null,
                         this.getModule().title
                     ),
-                    this.state.topic_entities.map(function (topic) {
+                    this.getTopics().map(function (topic) {
                         return React.createElement(_componentsTopicPillJsx.TopicPill, { topic: topic });
                     }),
                     this.getContents().map(function (block) {
-                        console.log("render", block);
-                        return content_type_lookup[block.type](block);
+                        return contentTypeLookup[block.type](block);
                     })
                 ),
                 React.createElement(
@@ -2861,7 +2849,7 @@ var ViewModulePage = (function (_React$Component) {
                         return React.createElement(
                             'div',
                             { className: 'col-xs-4' },
-                            React.createElement(_componentsModuleJsx.Module, { module: module, onClick: _this2.onModuleClick.bind(_this2, module) })
+                            React.createElement(_componentsModuleJsx.Module, { module: module, onClick: _this3.onModuleClick.bind(_this3, module) })
                         );
                     })
                 ),
@@ -2875,6 +2863,7 @@ var ViewModulePage = (function (_React$Component) {
 
         _actionsProject.fetchProject(props.project);
         _actionsModule.fetchModule(props.module);
+        _actionsTopic.fetchTopics();
         _actionsProject.fetchNextModules(props.project, props.module);
     })(ViewModulePage) || ViewModulePage;
     return ViewModulePage;
@@ -2886,7 +2875,7 @@ exports.ViewModulePage = ViewModulePage;
 </div>*/
 
 
-},{"API":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/API.js","Mixin":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Mixin.js","Util.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Util.jsx","actions/Module":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Module.js","actions/Project":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Project.js","components/AceEditor.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/AceEditor.jsx","components/FloatingButton.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/FloatingButton.jsx","components/LearningGraph.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/LearningGraph.jsx","components/Module.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Module.jsx","components/Sortable.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Sortable.jsx","components/TopicPill.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx","components/editing/CodeContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/CodeContent.jsx","components/editing/ImageContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ImageContent.jsx","components/editing/MarkdownContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MarkdownContent.jsx","components/editing/MathContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MathContent.jsx","mixins/Print":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Print.js","mixins/Store":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Store.js","mixins/data":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/data.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js","react-es7-mixin":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react-es7-mixin/index.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx":[function(require,module,exports){
+},{"API":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/API.js","actions/Module":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Module.js","actions/Project":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Project.js","actions/Topic":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Topic.js","components/AceEditor.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/AceEditor.jsx","components/LearningGraph.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/LearningGraph.jsx","components/Module.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Module.jsx","components/TopicPill.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx","components/editing/CodeContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/CodeContent.jsx","components/editing/ImageContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ImageContent.jsx","components/editing/MarkdownContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MarkdownContent.jsx","components/editing/MathContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MathContent.jsx","mixins/data":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/data.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js","react-es7-mixin":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react-es7-mixin/index.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx":[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2941,7 +2930,8 @@ function moduleData(state, action) {
         isFetchingNextModules: false,
         didInvalidate: false,
         data: {},
-        contents: []
+        contents: [],
+        topics: []
     };
 
     switch (action.type) {
@@ -3080,7 +3070,57 @@ exports["default"] = project;
 module.exports = exports["default"];
 
 
-},{"./Util.js":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Util.js","actions/Project":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Project.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Util.js":[function(require,module,exports){
+},{"./Util.js":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Util.js","actions/Project":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Project.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Topic.js":[function(require,module,exports){
+"use strict";
+
+exports.__esModule = true;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _actionsTopic = require("actions/Topic");
+
+var _UtilJs = require("./Util.js");
+
+var _UtilJs2 = _interopRequireDefault(_UtilJs);
+
+function topics(state, action) {
+    if (state === undefined) state = {
+        areFetching: false,
+        didInvalidate: false,
+        items: {}
+    };
+
+    switch (action.type) {
+
+        case _actionsTopic.REQUEST_TOPICS:
+            return _UtilJs2["default"](state, {
+                areFetching: true,
+                didInvalidate: false
+            });
+
+        case _actionsTopic.RECEIVE_TOPICS:
+            var topicsDict = {};
+            action.data.topics.forEach(function (topic) {
+                topicsDict[topic["_id"]["$oid"]] = topic;
+            });
+
+            return _UtilJs2["default"](state, {
+                areFetching: false,
+                didInvalidate: false,
+                items: topicsDict
+            });
+
+        default:
+            return state;
+
+    }
+}
+
+exports["default"] = topics;
+module.exports = exports["default"];
+
+
+},{"./Util.js":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Util.js","actions/Topic":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Topic.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Util.js":[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;

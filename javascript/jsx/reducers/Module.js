@@ -10,7 +10,8 @@ function moduleData(
         isFetchingNextModules: false,
         didInvalidate: false,
         data: {},
-        contents: []
+        contents: [],
+        topics: []
     },
     action) {
 
