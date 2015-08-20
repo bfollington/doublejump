@@ -9,10 +9,36 @@ export function receiveModule(id, data) {
     return {type: RECEIVE_MODULE, id, data};
 }
 
-export function fetchModule(module) {
-    window.store.dispatch(requestModule(module));
+export const REQUEST_MODULES = "REQUEST_MODULES";
+export function requestModules() {
+    return {type: REQUEST_MODULES};
+}
 
-    $.get(`/concepts/concept/${module}`, {}, data => {
-        window.store.dispatch(receiveModule(module, data));
+export const RECEIVE_MODULES = "RECEIVE_MODULES";
+export function receiveModules(data) {
+    return {type: RECEIVE_MODULES, data};
+}
+
+export function fetchModule(module) {
+
+    return new Promise( (resolve, reject) => {
+        window.store.dispatch(requestModule(module));
+
+        $.get(`/api/concept/${module}`, {}, data => {
+            window.store.dispatch(receiveModule(module, data));
+            resolve();
+        });
+    });
+}
+
+export function fetchModules(module) {
+
+    return new Promise( (resolve, reject) => {
+        window.store.dispatch(requestModules());
+
+        $.get(`/api/concepts/`, {}, data => {
+            window.store.dispatch(receiveModules(data));
+            resolve();
+        });
     });
 }

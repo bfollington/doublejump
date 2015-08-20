@@ -71,11 +71,11 @@ var API = {};
  * @param  {Module ID} next
  */
 API.transition = function (current, next) {
-    $.post("/concepts/transition/", JSON.stringify({ current: current, next: next }));
+    $.post("/api/transition/", JSON.stringify({ current: current, next: next }));
 };
 
 API.finishedModule = function (project, module, callback) {
-    $.post("/concepts/finished_module/", JSON.stringify({ project: project, module: module }), callback);
+    $.post("/api/finished_module/", JSON.stringify({ project: project, module: module }), callback);
 };
 
 module.exports = API;
@@ -213,18 +213,22 @@ Slug.convertToSlug = function (text) {
 },{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Util.jsx":[function(require,module,exports){
 "use strict";
 
-exports.__esModule = true;
 var React = require("react");
 
 var Util = {};
 
-exports.Util = Util;
 Util.clone = function (obj) {
     var ret = {};
 
     $.extend(ret, obj);
 
     return ret;
+};
+
+Util.read = function (func) {
+    try {
+        return func();
+    } catch (err) {}
 };
 
 Util.setTransform = function (el, style) {
@@ -255,6 +259,8 @@ Util.transformMongoId = function (obj) {
     }
 };
 
+module.exports = Util;
+
 
 },{"react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Module.js":[function(require,module,exports){
 "use strict";
@@ -262,7 +268,10 @@ Util.transformMongoId = function (obj) {
 exports.__esModule = true;
 exports.requestModule = requestModule;
 exports.receiveModule = receiveModule;
+exports.requestModules = requestModules;
+exports.receiveModules = receiveModules;
 exports.fetchModule = fetchModule;
+exports.fetchModules = fetchModules;
 var REQUEST_MODULE = "REQUEST_MODULE";
 exports.REQUEST_MODULE = REQUEST_MODULE;
 
@@ -277,11 +286,41 @@ function receiveModule(id, data) {
     return { type: RECEIVE_MODULE, id: id, data: data };
 }
 
-function fetchModule(module) {
-    window.store.dispatch(requestModule(module));
+var REQUEST_MODULES = "REQUEST_MODULES";
+exports.REQUEST_MODULES = REQUEST_MODULES;
 
-    $.get("/concepts/concept/" + module, {}, function (data) {
-        window.store.dispatch(receiveModule(module, data));
+function requestModules() {
+    return { type: REQUEST_MODULES };
+}
+
+var RECEIVE_MODULES = "RECEIVE_MODULES";
+exports.RECEIVE_MODULES = RECEIVE_MODULES;
+
+function receiveModules(data) {
+    return { type: RECEIVE_MODULES, data: data };
+}
+
+function fetchModule(module) {
+
+    return new Promise(function (resolve, reject) {
+        window.store.dispatch(requestModule(module));
+
+        $.get("/api/concept/" + module, {}, function (data) {
+            window.store.dispatch(receiveModule(module, data));
+            resolve();
+        });
+    });
+}
+
+function fetchModules(module) {
+
+    return new Promise(function (resolve, reject) {
+        window.store.dispatch(requestModules());
+
+        $.get("/api/concepts/", {}, function (data) {
+            window.store.dispatch(receiveModules(data));
+            resolve();
+        });
     });
 }
 
@@ -341,23 +380,32 @@ function receiveNextModules(project, next) {
 }
 
 function fetchProject(project) {
-    window.store.dispatch(requestProject(project));
 
-    // TODO, promises and API class?
-    $.get("/concepts/project/" + project, {}, function (data) {
-        window.store.dispatch(receiveProject(project, data.project));
+    return new Promise(function (resolve, reject) {
+        window.store.dispatch(requestProject(project));
 
-        $.get("/concepts/all_data/" + project, {}, function (data) {
-            window.store.dispatch(receiveMetadata(project, data));
+        // TODO, promises and API class?
+        $.get("/api/project/" + project, {}, function (data) {
+            window.store.dispatch(receiveProject(project, data.project));
+
+            $.get("/api/all_data/" + project, {}, function (data) {
+                window.store.dispatch(receiveMetadata(project, data));
+                resolve();
+            });
         });
     });
 }
 
 function fetchNextModules(project, module) {
-    window.store.dispatch(requestNextModules(project, module));
 
-    $.get("/concepts/next/" + module + "/" + project, {}, function (data) {
-        window.store.dispatch(receiveNextModules(project, data));
+    return new Promise(function (resolve, reject) {
+
+        window.store.dispatch(requestNextModules(project, module));
+
+        $.get("/api/next/" + module + "/" + project, {}, function (data) {
+            window.store.dispatch(receiveNextModules(project, data));
+            resolve();
+        });
     });
 }
 
@@ -384,10 +432,15 @@ function receiveTopics(data) {
 }
 
 function fetchTopics() {
-    window.store.dispatch(requestTopics());
 
-    $.get("/concepts/topics", function (data) {
-        window.store.dispatch(receiveTopics(data));
+    return new Promise(function (resolve, reject) {
+
+        window.store.dispatch(requestTopics());
+
+        $.get("/api/topics", function (data) {
+            window.store.dispatch(receiveTopics(data));
+            resolve();
+        });
     });
 }
 
@@ -913,7 +966,7 @@ var LearningGraph = (function (_React$Component) {
 
             this.defineMarkerStyle(svg);
 
-            d3.json("/concepts/full_graph/" + this.props.project, function (error, graph) {
+            d3.json("/api/full_graph/" + this.props.project, function (error, graph) {
                 if (error) throw error;
 
                 force.nodes(graph.nodes).links(graph.links).start();
@@ -941,21 +994,17 @@ exports.LearningGraph = LearningGraph;
 
 
 },{"d3":"/Users/Ben/Projects/Ruby/doublejump/node_modules/d3/d3.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Module.jsx":[function(require,module,exports){
-'use strict';
+"use strict";
 
 exports.__esModule = true;
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _Mixin = require('Mixin');
-
-var _mixinsStore = require('mixins/Store');
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _componentsTopicPillJsx = require('components/TopicPill.jsx');
 
@@ -967,55 +1016,28 @@ var Module = (function (_React$Component) {
     function Module(props) {
         _classCallCheck(this, Module);
 
-        _get(Object.getPrototypeOf(Module.prototype), 'constructor', this).call(this, props);
+        _get(Object.getPrototypeOf(Module.prototype), "constructor", this).call(this, props);
 
-        _Mixin.Mixin.apply(this, _mixinsStore.Store, { stores: ["topic", "project"] });
-
-        this.state = {
-            topics: []
-        };
+        this.state = {};
     }
 
     _createClass(Module, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.updateTopics();
-        }
-    }, {
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps() {
-            this.updateTopics();
-        }
-    }, {
-        key: 'updateTopics',
-        value: function updateTopics() {
-            var _this = this;
-
-            this.stores.topic.getList(this.props.module.topic_ids.map(function (topic_id) {
-                return topic_id["$oid"];
-            }), function (topics) {
-                _this.setState({
-                    topics: topics
-                });
-            });
-        }
-    }, {
-        key: 'render',
+        key: "render",
         value: function render() {
 
             return React.createElement(
-                'div',
-                { className: 'box module' },
+                "div",
+                { className: "box module" },
                 React.createElement(
-                    'h3',
+                    "h3",
                     null,
                     React.createElement(
-                        'a',
-                        { onClick: this.props.onClick, href: '/concepts/project/' + this.stores.project.getCurrentProject() + '/' + this.props.module["_id"]["$oid"] },
+                        "a",
+                        { onClick: this.props.onClick, href: "/concepts/project/" + this.props.project + "/" + this.props.module["_id"]["$oid"] },
                         this.props.module.title
                     )
                 ),
-                this.state.topics.map(function (topic) {
+                this.props.topics.map(function (topic) {
                     return React.createElement(_componentsTopicPillJsx.TopicPill, { topic: topic });
                 })
             );
@@ -1028,143 +1050,7 @@ var Module = (function (_React$Component) {
 exports.Module = Module;
 
 
-},{"Mixin":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Mixin.js","components/TopicPill.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx","mixins/Store":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Store.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/ProjectStart.react.jsx":[function(require,module,exports){
-'use strict';
-
-exports.__esModule = true;
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _editingCodeContentJsx = require('./editing/CodeContent.jsx');
-
-var _editingMathContentJsx = require('./editing/MathContent.jsx');
-
-var _editingMarkdownContentJsx = require('./editing/MarkdownContent.jsx');
-
-var _page = require('page');
-
-var _page2 = _interopRequireDefault(_page);
-
-var _Mixin = require('Mixin');
-
-var _mixinsStore = require('mixins/Store');
-
-var React = require("react");
-
-var ProjectStart = (function (_React$Component) {
-    _inherits(ProjectStart, _React$Component);
-
-    function ProjectStart(props) {
-        _classCallCheck(this, ProjectStart);
-
-        _get(Object.getPrototypeOf(ProjectStart.prototype), 'constructor', this).call(this, props);
-        this.state = this.getState();
-
-        _Mixin.Mixin.apply(this, _mixinsStore.Store, { stores: ["module"] });
-    }
-
-    _createClass(ProjectStart, [{
-        key: 'getState',
-        value: function getState() {
-            return {
-                modules: []
-            };
-        }
-    }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.stores.module.fetchAll(this.fetchedData.bind(this));
-        }
-    }, {
-        key: 'fetchedData',
-        value: function fetchedData(data) {
-            console.log(data);
-
-            this.setState({
-                modules: data.modules
-            });
-        }
-    }, {
-        key: 'navigate',
-        value: function navigate(e) {
-            console.log("Navigated");
-            _page2['default']("/concepts/test");
-        }
-    }, {
-        key: 'edit',
-        value: function edit(e) {
-            this.setState({ editField: !this.state.editField });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return React.createElement(
-                'div',
-                { className: 'box' },
-                React.createElement(
-                    'h2',
-                    null,
-                    'Start a New Project'
-                ),
-                React.createElement(
-                    'a',
-                    { href: '/concepts/test' },
-                    'Go to test'
-                ),
-                this.state.modules.map(function (module) {
-                    return React.createElement(
-                        'li',
-                        null,
-                        React.createElement(
-                            'a',
-                            { href: '/concepts/view/' + module._id.$oid },
-                            module.title
-                        )
-                    );
-                }),
-                React.createElement(
-                    'button',
-                    { className: 'btn btn-default', onClick: this.edit.bind(this) },
-                    'Edit Field'
-                ),
-                React.createElement(
-                    'div',
-                    { className: 'btn-group', role: 'group', onClick: this.navigate.bind(this) },
-                    React.createElement(
-                        'button',
-                        { className: 'btn btn-default' },
-                        'Click me to Add Data'
-                    ),
-                    React.createElement(
-                        'button',
-                        { className: 'btn btn-default' },
-                        'Click me to Replay Data'
-                    ),
-                    React.createElement(
-                        'button',
-                        { className: 'btn btn-default' },
-                        'Click me to Reset Data'
-                    )
-                )
-            );
-        }
-    }]);
-
-    return ProjectStart;
-})(React.Component);
-
-exports.ProjectStart = ProjectStart;
-
-
-},{"./editing/CodeContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/CodeContent.jsx","./editing/MarkdownContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MarkdownContent.jsx","./editing/MathContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MathContent.jsx","Mixin":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Mixin.js","mixins/Store":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/Store.js","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Sortable.jsx":[function(require,module,exports){
+},{"components/TopicPill.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Sortable.jsx":[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1218,48 +1104,7 @@ var Sortable = (function (_React$Component) {
 exports.Sortable = Sortable;
 
 
-},{"dragula":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/dragula.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Test.react.jsx":[function(require,module,exports){
-"use strict";
-
-exports.__esModule = true;
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = require("react");
-
-var Test = (function (_React$Component) {
-    _inherits(Test, _React$Component);
-
-    function Test(props) {
-        _classCallCheck(this, Test);
-
-        _get(Object.getPrototypeOf(Test.prototype), "constructor", this).call(this, props);
-    }
-
-    _createClass(Test, [{
-        key: "render",
-        value: function render() {
-            return React.createElement(
-                "h1",
-                null,
-                "Test"
-            );
-        }
-    }]);
-
-    return Test;
-})(React.Component);
-
-exports.Test = Test;
-
-
-},{"react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx":[function(require,module,exports){
+},{"dragula":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/dragula.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx":[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1286,7 +1131,6 @@ var TopicPill = (function (_React$Component) {
     _createClass(TopicPill, [{
         key: "render",
         value: function render() {
-
             return React.createElement(
                 "span",
                 { className: "topic-pill" },
@@ -2179,20 +2023,94 @@ function warnForNonExistantStore(ctx, name) {
 }
 
 
-},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/data.js":[function(require,module,exports){
-"use strict";
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/connect.js":[function(require,module,exports){
+'use strict';
 
-module.exports = function data(actions) {
+var _reactRedux = require('react-redux');
+
+module.exports = function connector(stateMapper, dispatchMapper) {
     return function decorator(target) {
 
-        target.prototype.loadData = function (props) {
-            actions(props);
-        };
+        return _reactRedux.connect(stateMapper, dispatchMapper)(target);
     };
 };
 
 
-},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/EditModulePage.jsx":[function(require,module,exports){
+},{"react-redux":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react-redux/lib/index.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/data.js":[function(require,module,exports){
+"use strict";
+
+module.exports = function data(actions, callback) {
+    return function decorator(target) {
+
+        target.prototype.loadData = function (props) {
+            var promises = actions(props);
+            return Promise.all(promises);
+        };
+
+        return target;
+    };
+};
+
+
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/BasePage.jsx":[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reduxDevtoolsLibReact = require('redux-devtools/lib/react');
+
+var _reactRedux = require('react-redux');
+
+var BasePage = (function (_React$Component) {
+    _inherits(BasePage, _React$Component);
+
+    function BasePage(props) {
+        _classCallCheck(this, BasePage);
+
+        _get(Object.getPrototypeOf(BasePage.prototype), 'constructor', this).call(this, props);
+    }
+
+    _createClass(BasePage, [{
+        key: 'render',
+        value: function render() {
+            return _react2['default'].createElement(
+                'div',
+                null,
+                _react2['default'].createElement(
+                    _reactRedux.Provider,
+                    { store: window.store },
+                    this.props.children
+                ),
+                _react2['default'].createElement(
+                    _reduxDevtoolsLibReact.DebugPanel,
+                    { top: true, right: true, bottom: true },
+                    _react2['default'].createElement(_reduxDevtoolsLibReact.DevTools, { store: window.store, monitor: _reduxDevtoolsLibReact.LogMonitor })
+                )
+            );
+        }
+    }]);
+
+    return BasePage;
+})(_react2['default'].Component);
+
+exports.BasePage = BasePage;
+
+
+},{"react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js","react-redux":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react-redux/lib/index.js","redux-devtools/lib/react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/redux-devtools/lib/react/index.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/EditModulePage.jsx":[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2317,7 +2235,7 @@ var EditModulePage = (function (_React$Component) {
             var blocks = [];
 
             for (var i = 0; i < data.contents.length; i++) {
-                _UtilJsx.Util.transformMongoId(data.contents[i]);
+                Util.transformMongoId(data.contents[i]);
                 console.log(data.contents[i]);
                 switch (data.contents[i].type) {
                     case "MarkdownContent":
@@ -2536,7 +2454,7 @@ var EditModulePage = (function (_React$Component) {
                                 React.createElement(
                                     'form',
                                     { action: '/concepts/make/', acceptCharset: 'UTF-8', id: 'addStepForm', method: 'post' },
-                                    _UtilJsx.Util.getCSRFFormField(),
+                                    _UtilJsx.getCSRFFormField(),
                                     React.createElement(
                                         'div',
                                         { className: 'row' },
@@ -2657,22 +2575,273 @@ function EditModulePageController(ctx, next) {
 }
 
 
-},{"./EditModulePage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/EditModulePage.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ProjectPageController.jsx":[function(require,module,exports){
+},{"./EditModulePage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/EditModulePage.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/NewProjectPage.jsx":[function(require,module,exports){
 "use strict";
+
+exports.__esModule = true;
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _mixinsData = require("mixins/data");
+
+var _mixinsData2 = _interopRequireDefault(_mixinsData);
+
+var _mixinsConnect = require("mixins/connect");
+
+var _mixinsConnect2 = _interopRequireDefault(_mixinsConnect);
+
+//import { addProject } from "actions/Project";
+
+var _actionsTopic = require("actions/Topic");
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var NewProjectPage = (function (_React$Component) {
+    _inherits(NewProjectPage, _React$Component);
+
+    function NewProjectPage(props) {
+        _classCallCheck(this, _NewProjectPage);
+
+        _get(Object.getPrototypeOf(_NewProjectPage.prototype), "constructor", this).call(this, props);
+        this.state = {};
+
+        this.loadData(props);
+    }
+
+    _createClass(NewProjectPage, [{
+        key: "render",
+        value: function render() {
+            return _react2["default"].createElement(
+                "div",
+                { className: "box" },
+                _react2["default"].createElement(
+                    "h2",
+                    null,
+                    "Start a New Project"
+                ),
+                this.props.topics
+            );
+        }
+    }]);
+
+    var _NewProjectPage = NewProjectPage;
+    NewProjectPage = _mixinsData2["default"](function (props) {
+        return [_actionsTopic.fetchTopics()];
+    })(NewProjectPage) || NewProjectPage;
+    NewProjectPage = _mixinsConnect2["default"](function (state) {
+        return {
+            topics: state.topic.items
+        };
+    })(NewProjectPage) || NewProjectPage;
+    return NewProjectPage;
+})(_react2["default"].Component);
+
+exports.NewProjectPage = NewProjectPage;
+
+
+},{"actions/Topic":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Topic.js","mixins/connect":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/connect.js","mixins/data":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/data.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/NewProjectPageController.jsx":[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+exports.NewProjectPageController = NewProjectPageController;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _BasePageJsx = require('./BasePage.jsx');
+
+var _pagesNewProjectPageJsx = require('pages/NewProjectPage.jsx');
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function NewProjectPageController(ctx, next) {
+    _react2['default'].render(_react2['default'].createElement(
+        _BasePageJsx.BasePage,
+        null,
+        function () {
+            return _react2['default'].createElement(_pagesNewProjectPageJsx.NewProjectPage, { context: ctx });
+        }
+    ), window.app.domRoot);
+}
+
+
+},{"./BasePage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/BasePage.jsx","pages/NewProjectPage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/NewProjectPage.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ProjectPageController.jsx":[function(require,module,exports){
+'use strict';
 
 exports.__esModule = true;
 exports.ProjectPageController = ProjectPageController;
 
-var _componentsProjectStartReactJsx = require('../components/ProjectStart.react.jsx');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var React = require("react");
+var _BasePageJsx = require('./BasePage.jsx');
+
+var _pagesProjectStartPageJsx = require('pages/ProjectStartPage.jsx');
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
 
 function ProjectPageController(ctx, next) {
-    React.render(React.createElement(_componentsProjectStartReactJsx.ProjectStart, { context: ctx }), window.app.domRoot);
+    _react2['default'].render(_react2['default'].createElement(
+        _BasePageJsx.BasePage,
+        null,
+        function () {
+            return _react2['default'].createElement(_pagesProjectStartPageJsx.ProjectStartPage, { context: ctx, project: ctx.params.project });
+        }
+    ), window.app.domRoot);
 }
 
 
-},{"../components/ProjectStart.react.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/ProjectStart.react.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePage.jsx":[function(require,module,exports){
+},{"./BasePage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/BasePage.jsx","pages/ProjectStartPage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ProjectStartPage.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ProjectStartPage.jsx":[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _componentsEditingCodeContentJsx = require('components/editing/CodeContent.jsx');
+
+var _componentsEditingMathContentJsx = require('components/editing/MathContent.jsx');
+
+var _componentsEditingMarkdownContentJsx = require('components/editing/MarkdownContent.jsx');
+
+var _page = require('page');
+
+var _page2 = _interopRequireDefault(_page);
+
+var _mixinsData = require("mixins/data");
+
+var _mixinsData2 = _interopRequireDefault(_mixinsData);
+
+var _mixinsConnect = require("mixins/connect");
+
+var _mixinsConnect2 = _interopRequireDefault(_mixinsConnect);
+
+var _actionsProject = require("actions/Project");
+
+var _actionsModule = require("actions/Module");
+
+var React = require("react");
+
+var ProjectStartPage = (function (_React$Component) {
+    _inherits(ProjectStartPage, _React$Component);
+
+    function ProjectStartPage(props) {
+        _classCallCheck(this, _ProjectStartPage);
+
+        _get(Object.getPrototypeOf(_ProjectStartPage.prototype), 'constructor', this).call(this, props);
+        this.state = {};
+
+        this.loadData(props);
+    }
+
+    _createClass(ProjectStartPage, [{
+        key: 'navigate',
+        value: function navigate(e) {
+            console.log("Navigated");
+            _page2['default']("/concepts/test");
+        }
+    }, {
+        key: 'edit',
+        value: function edit(e) {
+            this.setState({ editField: !this.state.editField });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this = this;
+
+            return React.createElement(
+                'div',
+                { className: 'box' },
+                React.createElement(
+                    'h2',
+                    null,
+                    'Start a New Project'
+                ),
+                React.createElement(
+                    'a',
+                    { href: '/concepts/test' },
+                    'Go to test'
+                ),
+                this.props.modules.map(function (module) {
+                    return React.createElement(
+                        'li',
+                        null,
+                        React.createElement(
+                            'a',
+                            { href: '/concepts/project/' + _this.props.project + '/' + module.data._id.$oid },
+                            module.data.title
+                        )
+                    );
+                }),
+                React.createElement(
+                    'button',
+                    { className: 'btn btn-default', onClick: this.edit.bind(this) },
+                    'Edit Field'
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'btn-group', role: 'group', onClick: this.navigate.bind(this) },
+                    React.createElement(
+                        'button',
+                        { className: 'btn btn-default' },
+                        'Click me to Add Data'
+                    ),
+                    React.createElement(
+                        'button',
+                        { className: 'btn btn-default' },
+                        'Click me to Replay Data'
+                    ),
+                    React.createElement(
+                        'button',
+                        { className: 'btn btn-default' },
+                        'Click me to Reset Data'
+                    )
+                )
+            );
+        }
+    }]);
+
+    var _ProjectStartPage = ProjectStartPage;
+    ProjectStartPage = _mixinsData2['default'](function (props) {
+        return [_actionsProject.fetchProject(props.project), _actionsModule.fetchModules()];
+    })(ProjectStartPage) || ProjectStartPage;
+    ProjectStartPage = _mixinsConnect2['default'](function (state) {
+        return {
+            modules: Object.keys(state.module).map(function (key) {
+                return state.module[key];
+            }),
+            projects: state.project,
+            topics: state.topic.items
+        };
+    })(ProjectStartPage) || ProjectStartPage;
+    return ProjectStartPage;
+})(React.Component);
+
+exports.ProjectStartPage = ProjectStartPage;
+
+
+},{"actions/Module":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Module.js","actions/Project":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Project.js","components/editing/CodeContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/CodeContent.jsx","components/editing/MarkdownContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MarkdownContent.jsx","components/editing/MathContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MathContent.jsx","mixins/connect":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/connect.js","mixins/data":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/data.js","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePage.jsx":[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2707,11 +2876,17 @@ var _API = require("API");
 
 var _API2 = _interopRequireDefault(_API);
 
+var _UtilJsx = require("Util.jsx");
+
 var _reactEs7Mixin = require("react-es7-mixin");
 
 var _mixinsData = require("mixins/data");
 
 var _mixinsData2 = _interopRequireDefault(_mixinsData);
+
+var _mixinsConnect = require("mixins/connect");
+
+var _mixinsConnect2 = _interopRequireDefault(_mixinsConnect);
 
 var _actionsProject = require("actions/Project");
 
@@ -2725,13 +2900,17 @@ var ViewModulePage = (function (_React$Component) {
     _inherits(ViewModulePage, _React$Component);
 
     function ViewModulePage(props) {
+        var _this = this;
+
         _classCallCheck(this, _ViewModulePage);
 
         _get(Object.getPrototypeOf(_ViewModulePage.prototype), 'constructor', this).call(this, props);
 
         this.state = {};
 
-        this.loadData(props);
+        this.loadData(props).then(function () {
+            return _this.setState({ ready: true });
+        });
     }
 
     //TODO, remove old style from here
@@ -2744,14 +2923,7 @@ var ViewModulePage = (function (_React$Component) {
         }
     }, {
         key: 'componentDidMount',
-        value: function componentDidMount() {
-            var _this = this;
-
-            // No trigger for data..!
-            setTimeout(function () {
-                return _this.setState({});
-            }, 1000);
-        }
+        value: function componentDidMount() {}
     }, {
         key: 'isEditable',
         value: function isEditable() {
@@ -2762,30 +2934,30 @@ var ViewModulePage = (function (_React$Component) {
     }, {
         key: 'getMetadata',
         value: function getMetadata() {
-            return this.props.store.getState().project[this.props.project].metadata;
+            return this.props.projects[this.props.project].metadata;
         }
     }, {
         key: 'getNextModules',
         value: function getNextModules() {
-            return this.props.store.getState().project[this.props.project].nextModules;
+            return this.props.projects[this.props.project].nextModules;
         }
     }, {
         key: 'getContents',
         value: function getContents() {
-            return this.props.store.getState().module[this.props.module].contents;
+            return this.props.modules[this.props.module].contents;
         }
     }, {
         key: 'getModule',
         value: function getModule() {
-            return this.props.store.getState().module[this.props.module].data;
+            return this.props.modules[this.props.module].data;
         }
     }, {
         key: 'getTopics',
         value: function getTopics() {
             var _this2 = this;
 
-            return this.props.store.getState().module[this.props.module].topics.map(function (id) {
-                return _this2.props.store.getState().topic.items[id];
+            return this.props.modules[this.props.module].topics.map(function (id) {
+                return _this2.props.topics[id];
             });
         }
     }, {
@@ -2794,7 +2966,7 @@ var ViewModulePage = (function (_React$Component) {
             try {
                 var metadata = JSON.parse(content);
 
-                this.props.store.dispatch(_actionsProject.updateMetadata(this.props.project, metadata));
+                this.props.onUpdateMetadata(this.props.project, metadata);
             } catch (err) {
                 console.log("invalid metadata");
             }
@@ -2803,6 +2975,8 @@ var ViewModulePage = (function (_React$Component) {
         key: 'render',
         value: function render() {
             var _this3 = this;
+
+            if (!this.state.ready) return null;
 
             var contentTypeLookup = {
                 "MarkdownContent": function MarkdownContent(ctx) {
@@ -2849,7 +3023,9 @@ var ViewModulePage = (function (_React$Component) {
                         return React.createElement(
                             'div',
                             { className: 'col-xs-4' },
-                            React.createElement(_componentsModuleJsx.Module, { module: module, onClick: _this3.onModuleClick.bind(_this3, module) })
+                            React.createElement(_componentsModuleJsx.Module, { module: module, project: _this3.props.project, topics: module.topic_ids.map(function (id) {
+                                    return _this3.props.topics[id.$oid];
+                                }), onClick: _this3.onModuleClick.bind(_this3, module) })
                         );
                     })
                 ),
@@ -2860,11 +3036,20 @@ var ViewModulePage = (function (_React$Component) {
 
     var _ViewModulePage = ViewModulePage;
     ViewModulePage = _mixinsData2['default'](function (props) {
-
-        _actionsProject.fetchProject(props.project);
-        _actionsModule.fetchModule(props.module);
-        _actionsTopic.fetchTopics();
-        _actionsProject.fetchNextModules(props.project, props.module);
+        return [_actionsProject.fetchProject(props.project), _actionsModule.fetchModule(props.module), _actionsTopic.fetchTopics(), _actionsProject.fetchNextModules(props.project, props.module)];
+    })(ViewModulePage) || ViewModulePage;
+    ViewModulePage = _mixinsConnect2['default'](function (state) {
+        return {
+            modules: state.module,
+            projects: state.project,
+            topics: state.topic.items
+        };
+    }, function (dispatch) {
+        return {
+            onUpdateMetadata: function onUpdateMetadata(project, metadata) {
+                return dispatch(_actionsProject.updateMetadata(project, metadata));
+            }
+        };
     })(ViewModulePage) || ViewModulePage;
     return ViewModulePage;
 })(React.Component);
@@ -2875,41 +3060,34 @@ exports.ViewModulePage = ViewModulePage;
 </div>*/
 
 
-},{"API":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/API.js","actions/Module":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Module.js","actions/Project":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Project.js","actions/Topic":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Topic.js","components/AceEditor.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/AceEditor.jsx","components/LearningGraph.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/LearningGraph.jsx","components/Module.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Module.jsx","components/TopicPill.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx","components/editing/CodeContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/CodeContent.jsx","components/editing/ImageContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ImageContent.jsx","components/editing/MarkdownContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MarkdownContent.jsx","components/editing/MathContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MathContent.jsx","mixins/data":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/data.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js","react-es7-mixin":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react-es7-mixin/index.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx":[function(require,module,exports){
+},{"API":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/API.js","Util.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/Util.jsx","actions/Module":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Module.js","actions/Project":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Project.js","actions/Topic":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/actions/Topic.js","components/AceEditor.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/AceEditor.jsx","components/LearningGraph.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/LearningGraph.jsx","components/Module.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Module.jsx","components/TopicPill.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/TopicPill.jsx","components/editing/CodeContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/CodeContent.jsx","components/editing/ImageContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/ImageContent.jsx","components/editing/MarkdownContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MarkdownContent.jsx","components/editing/MathContent.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/editing/MathContent.jsx","mixins/connect":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/connect.js","mixins/data":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/mixins/data.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js","react-es7-mixin":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react-es7-mixin/index.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx":[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 exports.ViewModulePageController = ViewModulePageController;
 
-var _reactRedux = require('react-redux');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _BasePageJsx = require('./BasePage.jsx');
 
 var _ViewModulePageJsx = require('./ViewModulePage.jsx');
 
-var _reduxDevtoolsLibReact = require('redux-devtools/lib/react');
+var _react = require("react");
 
-var React = require("react");
+var _react2 = _interopRequireDefault(_react);
 
 function ViewModulePageController(ctx, next) {
-    React.render(React.createElement(
-        'div',
+    _react2['default'].render(_react2['default'].createElement(
+        _BasePageJsx.BasePage,
         null,
-        React.createElement(
-            _reactRedux.Provider,
-            { store: window.store },
-            function () {
-                return React.createElement(_ViewModulePageJsx.ViewModulePage, { store: window.store, context: ctx, project: ctx.params.project, module: ctx.params.module });
-            }
-        ),
-        React.createElement(
-            _reduxDevtoolsLibReact.DebugPanel,
-            { top: true, right: true, bottom: true },
-            React.createElement(_reduxDevtoolsLibReact.DevTools, { store: window.store, monitor: _reduxDevtoolsLibReact.LogMonitor })
-        )
+        function () {
+            return _react2['default'].createElement(_ViewModulePageJsx.ViewModulePage, { context: ctx, project: ctx.params.project, module: ctx.params.module });
+        }
     ), window.app.domRoot);
 }
 
 
-},{"./ViewModulePage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePage.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js","react-redux":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react-redux/lib/index.js","redux-devtools/lib/react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/redux-devtools/lib/react/index.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Module.js":[function(require,module,exports){
+},{"./BasePage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/BasePage.jsx","./ViewModulePage.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePage.jsx","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/reducers/Module.js":[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -2963,6 +3141,19 @@ function _module(state, action) {
     if (state === undefined) state = {};
 
     switch (action.type) {
+
+        case _actionsModule.REQUEST_MODULES:
+            return _UtilJs2["default"](state, {});
+
+        // FIXME, needs improving, retrieving all modules should call through to the reducer for a single one to keep same data interface
+        case _actionsModule.RECEIVE_MODULES:
+            var modules = {};
+
+            action.data.forEach(function (module) {
+                modules[module._id.$oid] = { data: module };
+            });
+
+            return _UtilJs2["default"](state, modules);
 
         case _actionsModule.REQUEST_MODULE:
         case _actionsModule.RECEIVE_MODULE:
@@ -3154,13 +3345,13 @@ var _page = require('page');
 
 var _page2 = _interopRequireDefault(_page);
 
-var _pagesProjectPageControllerJsx = require('./pages/ProjectPageController.jsx');
+var _pagesNewProjectPageControllerJsx = require('./pages/NewProjectPageController.jsx');
 
-var _pagesEditModulePageControllerJsx = require('./pages/EditModulePageController.jsx');
+var _pagesProjectPageControllerJsx = require('./pages/ProjectPageController.jsx');
 
 var _pagesViewModulePageControllerJsx = require('./pages/ViewModulePageController.jsx');
 
-var _componentsTestReactJsx = require('./components/Test.react.jsx');
+var _pagesEditModulePageControllerJsx = require('./pages/EditModulePageController.jsx');
 
 var React = require("react");
 
@@ -3172,12 +3363,8 @@ var baseRoute = "/concepts";
 
 var routes = {};
 
-routes['/'] = _pagesProjectPageControllerJsx.ProjectPageController;
-
-routes['/test'] = function () {
-    render(React.createElement(_componentsTestReactJsx.Test, null));
-};
-
+routes['/'] = _pagesNewProjectPageControllerJsx.NewProjectPageController;
+routes['/project/:project'] = _pagesProjectPageControllerJsx.ProjectPageController;
 routes['/project/:project/:module'] = _pagesViewModulePageControllerJsx.ViewModulePageController;
 routes['/edit'] = _pagesEditModulePageControllerJsx.EditModulePageController;
 routes['/edit/:module'] = _pagesEditModulePageControllerJsx.EditModulePageController;
@@ -3198,12 +3385,13 @@ var Router = (function () {
                 if (ctx.init) {
                     next();
                 } else {
-                    window.app.domRoot.classList.add('transition');
+                    // window.app.domRoot.classList.add('transition');
                     render(React.createElement('div', null));
-                    setTimeout(function () {
-                        window.app.domRoot.classList.remove('transition');
-                        next();
-                    }, 300);
+                    // setTimeout(function(){
+                    //     window.app.domRoot.classList.remove('transition');
+                    //     next();
+                    // }, 300);
+                    next();
                 }
             });
 
@@ -3223,7 +3411,7 @@ var Router = (function () {
 exports.Router = Router;
 
 
-},{"./components/Test.react.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/components/Test.react.jsx","./pages/EditModulePageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/EditModulePageController.jsx","./pages/ProjectPageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ProjectPageController.jsx","./pages/ViewModulePageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/ModuleStore.js":[function(require,module,exports){
+},{"./pages/EditModulePageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/EditModulePageController.jsx","./pages/NewProjectPageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/NewProjectPageController.jsx","./pages/ProjectPageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ProjectPageController.jsx","./pages/ViewModulePageController.jsx":"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/pages/ViewModulePageController.jsx","page":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/index.js","react":"/Users/Ben/Projects/Ruby/doublejump/node_modules/react/react.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/jsx/stores/ModuleStore.js":[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;

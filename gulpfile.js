@@ -45,7 +45,7 @@ gulp.task('js-app', ['js-deps'], function(callback) {
         compress: false,
         reference_dependies: externalDeps,
         transforms: [
-            babelify.configure({ loose: ["es6.modules"], "optional": [ "es7.decorators" ] }),
+            babelify.configure({ loose: ["es6.modules"], "optional": [ "es7.decorators", "es7.asyncFunctions" ] }),
             reactify
         ],
         sourcemaps: true

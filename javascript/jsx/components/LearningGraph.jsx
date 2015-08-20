@@ -132,7 +132,7 @@ export class LearningGraph extends React.Component {
 
         this.defineMarkerStyle(svg);
 
-        d3.json(`/concepts/full_graph/${this.props.project}`, (error, graph) => {
+        d3.json(`/api/full_graph/${this.props.project}`, (error, graph) => {
             if (error) throw error;
 
             force

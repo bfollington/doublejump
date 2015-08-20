@@ -1,40 +1,39 @@
-import {CodeContent} from './editing/CodeContent.jsx';
-import {MathContent} from './editing/MathContent.jsx';
-import {MarkdownContent} from './editing/MarkdownContent.jsx';
+import {CodeContent} from 'components/editing/CodeContent.jsx';
+import {MathContent} from 'components/editing/MathContent.jsx';
+import {MarkdownContent} from 'components/editing/MarkdownContent.jsx';
 import page from 'page';
 
-import {Mixin} from 'Mixin';
-import {Store} from 'mixins/Store';
+import data from "mixins/data";
+import connect from "mixins/connect";
+import { fetchProject } from "actions/Project";
+import { fetchModules } from "actions/Module";
 
 var React = require("react");
 
-export class ProjectStart extends React.Component {
+@connect(
+    state => (
+        {
+            modules: Object.keys(state.module).map( key => state.module[key] ),
+            projects: state.project,
+            topics: state.topic.items
+        }
+    )
+)
+@data(
+
+    props => [
+        fetchProject(props.project),
+        fetchModules()
+    ]
+)
+export class ProjectStartPage extends React.Component {
 
     constructor(props)
     {
         super(props);
-        this.state = this.getState();
+        this.state = {};
 
-        Mixin.apply(this, Store, {stores: ["module"]});
-    }
-
-    getState()
-    {
-        return {
-            modules: []
-        };
-    }
-
-    componentDidMount() {
-        this.stores.module.fetchAll(this.fetchedData.bind(this));
-    }
-
-    fetchedData(data) {
-        console.log(data);
-
-        this.setState({
-            modules: data.modules
-        });
+        this.loadData(props);
     }
 
     navigate(e)
@@ -53,7 +52,7 @@ export class ProjectStart extends React.Component {
                 <h2>Start a New Project</h2>
                 <a href="/concepts/test">Go to test</a>
 
-                { this.state.modules.map( module => <li><a href={`/concepts/view/${module._id.$oid}`}>{module.title}</a></li> )}
+                { this.props.modules.map( module => <li><a href={`/concepts/project/${this.props.project}/${module.data._id.$oid}`}>{module.data.title}</a></li> )}
 
                 <button className="btn btn-default" onClick={this.edit.bind(this)}>
                     Edit Field

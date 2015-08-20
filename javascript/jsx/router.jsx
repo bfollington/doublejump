@@ -1,8 +1,11 @@
 import page from 'page';
+
+import {NewProjectPageController} from './pages/NewProjectPageController.jsx';
 import {ProjectPageController} from './pages/ProjectPageController.jsx';
-import {EditModulePageController} from './pages/EditModulePageController.jsx';
 import {ViewModulePageController} from './pages/ViewModulePageController.jsx';
-import {Test} from './components/Test.react.jsx';
+
+import {EditModulePageController} from './pages/EditModulePageController.jsx';
+
 var React = require("react");
 
 
@@ -15,12 +18,8 @@ var baseRoute = "/concepts";
 
 var routes = {};
 
-routes['/'] = ProjectPageController;
-
-routes['/test'] = function() {
-    render(<Test />);
-};
-
+routes['/'] = NewProjectPageController;
+routes['/project/:project'] = ProjectPageController;
 routes['/project/:project/:module'] = ViewModulePageController;
 routes['/edit'] = EditModulePageController;
 routes['/edit/:module'] = EditModulePageController;
@@ -39,12 +38,13 @@ export class Router {
             if (ctx.init) {
                 next();
             } else {
-                window.app.domRoot.classList.add('transition');
+                // window.app.domRoot.classList.add('transition');
                 render(<div />);
-                setTimeout(function(){
-                    window.app.domRoot.classList.remove('transition');
-                    next();
-                }, 300);
+                // setTimeout(function(){
+                //     window.app.domRoot.classList.remove('transition');
+                //     next();
+                // }, 300);
+                next();
             }
         });
 

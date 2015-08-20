@@ -1,6 +1,6 @@
 var React = require("react");
 
-export var Util = {};
+var Util = {};
 
 Util.clone = function(obj) {
     var ret = {};
@@ -8,6 +8,15 @@ Util.clone = function(obj) {
     $.extend(ret, obj);
 
     return ret;
+};
+
+Util.read = function(func)
+{
+    try {
+        return func();
+    } catch (err) {
+
+    }
 };
 
 Util.setTransform = function(el, style)
@@ -38,3 +47,5 @@ Util.transformMongoId = function(obj) {
         }
     }
 };
+
+module.exports = Util;

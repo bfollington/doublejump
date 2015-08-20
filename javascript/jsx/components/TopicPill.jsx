@@ -6,7 +6,6 @@ export class TopicPill extends React.Component {
     }
 
     render() {
-
         return (
             <span className="topic-pill">{this.props.topic.name}</span>
         );

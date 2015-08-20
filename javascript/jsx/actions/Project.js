@@ -30,28 +30,35 @@ export function receiveNextModules(project, next) {
 }
 
 export function fetchProject(project) {
-    window.store.dispatch(requestProject(project));
 
-    // TODO, promises and API class?
-    $.get(`/concepts/project/${project}`, {},
-        data => {
-            window.store.dispatch(receiveProject(project, data.project));
+    return new Promise( (resolve, reject) => {
+        window.store.dispatch(requestProject(project));
 
-            $.get(`/concepts/all_data/${project}`, {},
-                data => {
-                    window.store.dispatch(receiveMetadata(project, data));
-                }
-            );
-        }
-    );
+        // TODO, promises and API class?
+        $.get(`/api/project/${project}`, {},
+            data => {
+                window.store.dispatch(receiveProject(project, data.project));
 
-
+                $.get(`/api/all_data/${project}`, {},
+                    data => {
+                        window.store.dispatch(receiveMetadata(project, data));
+                        resolve();
+                    }
+                );
+            }
+        );
+    });
 }
 
 export function fetchNextModules(project, module) {
-    window.store.dispatch(requestNextModules(project, module));
 
-    $.get(`/concepts/next/${module}/${project}`, {}, data => {
-        window.store.dispatch(receiveNextModules(project, data));
+    return new Promise( (resolve, reject) => {
+
+        window.store.dispatch(requestNextModules(project, module));
+
+        $.get(`/api/next/${module}/${project}`, {}, data => {
+            window.store.dispatch(receiveNextModules(project, data));
+            resolve();
+        });
     });
 }

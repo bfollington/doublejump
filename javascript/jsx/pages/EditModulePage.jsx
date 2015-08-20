@@ -1,4 +1,4 @@
-import {Util} from 'Util.jsx';
+import { getCSRFFormField } from 'Util.jsx';
 import {Events, SaveModuleFormEvent, ContentTypeSubmissionSuccessEvent} from 'Events.jsx';
 import {CodeContent} from 'components/editing/CodeContent.jsx';
 import {MathContent} from 'components/editing/MathContent.jsx';
@@ -294,7 +294,7 @@ export class EditModulePage extends React.Component {
                             <div className="col-xs-12">
                                 <h2>Edit Concept</h2>
                                 <form action="/concepts/make/" acceptCharset="UTF-8" id="addStepForm" method="post">
-                                    { Util.getCSRFFormField() }
+                                    { getCSRFFormField() }
                                     <div className="row">
                                         <div className="col-sm-6">
                                             <p>

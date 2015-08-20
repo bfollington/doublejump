@@ -10,9 +10,15 @@ export function receiveTopics(data) {
 }
 
 export function fetchTopics() {
-    window.store.dispatch(requestTopics());
 
-    $.get(`/concepts/topics`, data => {
-        window.store.dispatch(receiveTopics(data));
+
+    return new Promise( (resolve, reject) => {
+
+        window.store.dispatch(requestTopics());
+
+        $.get(`/api/topics`, data => {
+            window.store.dispatch(receiveTopics(data));
+            resolve();
+        });
     });
 }

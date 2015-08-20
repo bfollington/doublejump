@@ -13,29 +13,47 @@ import {TopicPill} from 'components/TopicPill.jsx';
 import {LearningGraph} from 'components/LearningGraph.jsx';
 
 import API from "API";
+import { read } from "Util.jsx";
 
 import { apply } from "react-es7-mixin";
 import data from "mixins/data";
+import connect from "mixins/connect";
 import { fetchProject, updateMetadata, fetchNextModules } from "actions/Project";
 import { fetchModule } from "actions/Module";
 import { fetchTopics } from "actions/Topic";
 
 
-@data( (props) => {
+@connect(
+    state => (
+        {
+            modules: state.module,
+            projects: state.project,
+            topics: state.topic.items
+        }
+    ),
+    dispatch => (
+        {
+            onUpdateMetadata: (project, metadata) => dispatch(updateMetadata(project, metadata))
+        }
+    )
+)
+@data(
 
-    fetchProject(props.project);
-    fetchModule(props.module);
-    fetchTopics();
-    fetchNextModules(props.project, props.module);
-
-} )
+    props => [
+        fetchProject(props.project),
+        fetchModule(props.module),
+        fetchTopics(),
+        fetchNextModules(props.project, props.module)
+    ]
+)
 export class ViewModulePage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {};
 
-        this.loadData(props);
+        this.loadData(props)
+            .then( () => this.setState({ready: true}) );
     }
 
     //TODO, remove old style from here
@@ -47,8 +65,6 @@ export class ViewModulePage extends React.Component {
 
     componentDidMount() {
 
-        // No trigger for data..!
-        setTimeout(() => this.setState({}), 1000);
     }
 
 
@@ -59,40 +75,39 @@ export class ViewModulePage extends React.Component {
 
     // Antipattern yo
     getMetadata() {
-        return this.props.store.getState().project[this.props.project].metadata;
+        return this.props.projects[this.props.project].metadata;
     }
 
     getNextModules() {
-        return this.props.store.getState().project[this.props.project].nextModules;
+        return this.props.projects[this.props.project].nextModules;
     }
 
     getContents() {
-        return this.props.store.getState().module[this.props.module].contents;
+        return this.props.modules[this.props.module].contents;
     }
 
     getModule() {
-        return this.props.store.getState().module[this.props.module].data;
+        return this.props.modules[this.props.module].data;
     }
 
     getTopics() {
-        return this.props.store.getState().module[this.props.module].topics.map( id => this.props.store.getState().topic.items[id] );
+        return this.props.modules[this.props.module].topics.map( id => this.props.topics[id] );
     }
 
     metadataChange(content) {
         try {
             var metadata = JSON.parse(content);
 
-            this.props.store.dispatch(updateMetadata(this.props.project, metadata));
+            this.props.onUpdateMetadata(this.props.project, metadata);
         } catch(err) {
             console.log("invalid metadata");
         }
 
     }
 
-
-
     render() {
 
+        if (!this.state.ready) return null;
 
         var contentTypeLookup = {
             "MarkdownContent": ctx => <MarkdownContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
@@ -123,7 +138,7 @@ export class ViewModulePage extends React.Component {
                 <div className="row">
                     {
                         this.getNextModules().map(module => {
-                            return <div className="col-xs-4"><Module module={module} onClick={this.onModuleClick.bind(this, module)} /></div>;
+                            return <div className="col-xs-4"><Module module={module} project={this.props.project} topics={module.topic_ids.map( id => this.props.topics[id.$oid])} onClick={this.onModuleClick.bind(this, module)} /></div>;
                         })
                     }
                 </div>

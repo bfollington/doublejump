@@ -6,11 +6,11 @@ var API = {};
  * @param  {Module ID} next
  */
 API.transition = function(current, next) {
-    $.post("/concepts/transition/", JSON.stringify({current: current, next: next}));
+    $.post("/api/transition/", JSON.stringify({current: current, next: next}));
 };
 
 API.finishedModule = function(project, module, callback) {
-    $.post(`/concepts/finished_module/`, JSON.stringify({project: project, module: module}), callback);
+    $.post(`/api/finished_module/`, JSON.stringify({project: project, module: module}), callback);
 };
 
 module.exports = API;

@@ -1,5 +1,6 @@
 import {
-    REQUEST_MODULE, RECEIVE_MODULE
+    REQUEST_MODULE, RECEIVE_MODULE,
+    REQUEST_MODULES, RECEIVE_MODULES
 } from "actions/Module";
 
 import clone from "./Util.js";
@@ -41,6 +42,18 @@ function moduleData(
 
 function module(state = {}, action) {
     switch (action.type) {
+
+    case REQUEST_MODULES:
+        return clone(state, {});
+
+    // FIXME, needs improving, retrieving all modules should call through to the reducer for a single one to keep same data interface
+    case RECEIVE_MODULES:
+        var modules = {};
+
+        action.data.forEach( module => { modules[module._id.$oid] = {data: module} });
+
+        return clone(state, modules);
+
 
     case REQUEST_MODULE:
     case RECEIVE_MODULE:
