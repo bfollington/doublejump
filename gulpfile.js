@@ -4,10 +4,10 @@ var gulp = require('gulp'),
     wrap = require('gulp-wrap'),
     shell = require('gulp-shell'),
     concat = require('gulp-concat'),
-    build = require("bens-gulp-build-tools/build"),
-    style = require("bens-gulp-build-tools/style"),
-    script = require("bens-gulp-build-tools/script"),
-    _static = require("bens-gulp-build-tools/static"),
+    build = require("gulp-build-tools/build"),
+    style = require("gulp-build-tools/style"),
+    script = require("gulp-build-tools/script"),
+    _static = require("gulp-build-tools/static"),
     lr = require("gulp-livereload");
 
 var babelify = require('babelify');
@@ -18,18 +18,19 @@ gulp.task('sass', buildSass);
 gulp.task('components', buildComponents);
 gulp.task('componentsJs', buildComponentsJs);
 
-var externalDeps = ['katex', 'page', 'dragula', 'marked', 'handlebars', 'react', 'react-select'];
+var externalDeps = ["classnames", "d3", "jquery", "object-assign", "react-es7-mixin", "react-redux", "redux", "dynamics.js", "dragula", "brace", "underscore", "page", "handlebars", "katex", "marked", "react", "react-select"];
 
 
 
 
 gulp.task('js-deps', function() {
     script.bundle({
+        entries: [],
         paths: [],
-        watch: true,
+        watch: false,
         dest_filename: "deps_bundle.js",
         dest_folder: "./public/javascripts/",
-        compress: true,
+        compress: false,
         include_dependencies: externalDeps
     });
 });
@@ -43,10 +44,10 @@ gulp.task('js-app', ['js-deps'], function(callback) {
         dest_filename: "app_bundle.js",
         dest_folder: "./public/javascripts/",
         compress: false,
-        reference_dependies: externalDeps,
+        reference_dependencies: externalDeps,
         transforms: [
-            babelify.configure({ loose: ["es6.modules"], "optional": [ "es7.decorators", "es7.asyncFunctions" ] }),
-            reactify
+            babelify.configure({ loose: ["es6.modules"], "optional": [ "es7.decorators", "es7.asyncFunctions" ] })
+            //reactify
         ],
         sourcemaps: true
     });
