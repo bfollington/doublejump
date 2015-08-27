@@ -2,6 +2,7 @@ import page from 'page';
 
 import {NewProjectPageController} from './pages/NewProjectPageController.jsx';
 import {ProjectPageController} from './pages/ProjectPageController.jsx';
+import {DashboardPageController} from './pages/DashboardPageController.jsx';
 import {ViewModulePageController} from './pages/ViewModulePageController.jsx';
 import {ModuleBrowserPageController} from './pages/ModuleBrowserPageController.jsx';
 
@@ -20,6 +21,7 @@ var baseRoute = "/concepts";
 var routes = {};
 
 routes['/'] = NewProjectPageController;
+routes['/dashboard'] = DashboardPageController;
 routes['/project/:project'] = ProjectPageController;
 routes['/project/:project/:module'] = ViewModulePageController;
 routes['/browse/:project'] = ModuleBrowserPageController;
