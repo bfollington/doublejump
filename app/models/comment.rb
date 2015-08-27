@@ -8,6 +8,6 @@ class Comment
   validates_length_of   :text, :minimum => 1, :message => "That comment's pretty short, write some more maybe?"
 
   belongs_to :account
-  embedded_in :content
+  belongs_to :content
 
 end
