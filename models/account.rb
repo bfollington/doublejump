@@ -42,7 +42,7 @@ class Account
   embeds_many :notifications
 
   has_many :projects, inverse_of: "account"
-  has_one :current_project, class_name: "Project"
+  belongs_to :current_project, class_name: "Project", inverse_of: nil
 
   # Callbacks
   before_save :encrypt_password, :if => :password_required

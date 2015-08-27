@@ -68,18 +68,17 @@ Doublejump::App.controllers :api, :cache => true do
 
     data = get_body
     project = Project.new({title: data["title"], slug: data["slug"]})
-    project.account = current_account
-    if project.save
-      current_account.current_project = project
-      current_account.save
 
-      send_json({success: true, project: project})
-    else
-      send_json({success: false, errors: project.errors.messages})
-    end
+    current_account.projects << project
+    project.save!
 
+    puts current_account.inspect
+    puts project.inspect
 
+    current_account.current_project = project
+    current_account.save!
 
+    send_json({success: true, project: project})
   end
 
   post :project, :with => :id do
