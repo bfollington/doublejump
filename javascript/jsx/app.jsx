@@ -10,7 +10,7 @@ import project from 'reducers/Project';
 import module from 'reducers/Module';
 import topic from 'reducers/Topic';
 
-window.app = { domRoot: document.getElementById('content') };
+window.app = { domRoot: document.getElementById('mountpoint') };
 
 window.flux = {
     stores: {

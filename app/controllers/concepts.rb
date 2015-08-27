@@ -8,7 +8,7 @@ Doublejump::App.controllers :concepts, :cache => true do
         redirect "/login"
     end
 
-    render 'pages/react'
+    render 'thesis/page'
   end
 
 end
