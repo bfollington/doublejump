@@ -50,6 +50,11 @@ Doublejump::App.controllers :api, :cache => true do
   end
 
 
+  get :account do
+      send_json({account: current_account})
+  end
+
+
   # Projects
 
   get :project, :with => :slug do

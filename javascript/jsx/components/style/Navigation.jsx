@@ -13,12 +13,13 @@ export class Navigation extends React.Component {
             <nav className="banner-navigation">
                 <GridRow sizes={{xs: 6}}>
                     {
-                        this.props.account ?
+                        !this.props.account ?
                             <a href="/login">Login</a>
                         :
                             <a href="/concepts/dashboard">Dashboard</a>
                     }
-                    <a href="/concepts/browse/#{current_account.current_project}">Browse Concepts</a>
+
+                    { this.props.account ? <a href={`/concepts/browse/${this.props.account.current_project}`}>Browse Concepts</a> : null }
                 </GridRow>
             </nav>
 
