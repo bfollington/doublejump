@@ -13,4 +13,8 @@ API.finishedModule = function(project, module, callback) {
     $.post(`/api/finished_module/`, JSON.stringify({project: project, module: module}), callback);
 };
 
+API.startProject = function(name, slug, callback) {
+    $.post(`/api/project/`, JSON.stringify({title: name, slug: slug}), callback);
+}
+
 module.exports = API;

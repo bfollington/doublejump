@@ -31,7 +31,7 @@ export function fetchModule(module) {
     });
 }
 
-export function fetchModules(module) {
+export function fetchModules() {
 
     return new Promise( (resolve, reject) => {
         window.store.dispatch(requestModules());

@@ -22,6 +22,8 @@ import { fetchProject, updateMetadata, fetchNextModules } from "actions/Project"
 import { fetchModule } from "actions/Module";
 import { fetchTopics } from "actions/Topic";
 
+import { GridRow } from "components/Layout.jsx";
+
 
 @connect(
     state => (
@@ -118,30 +120,40 @@ export class ViewModulePage extends React.Component {
 
         return (
             <div className="main-content">
-                <div className="">
-                    <h2>{this.getModule().title}</h2>
-                    {
-                        this.getTopics().map(topic => {
-                            return <TopicPill topic={topic} />;
-                        })
-                    }
+                <div className="view-module-page">
+                    <div className="title">
+                        <h2>{this.getModule().title}</h2>
+                        <h3 className="author">Ben Follington</h3>
+                        {
+                            this.getTopics().map(topic => {
+                                return <TopicPill topic={topic} />;
+                            })
+                        }
+                    </div>
+
                     {/*<div className="box">
                         <AceEditor onContentChange={this.metadataChange.bind(this)} language='javascript' value={"{}"} />
                     </div>*/}
+
                     {
                         this.getContents().map(block => {
                             return contentTypeLookup[block.type](block);
                         })
                     }
                 </div>
-                <h2>What's Next?</h2>
-                <div className="row">
+                <h3>What's Next?</h3>
+                <GridRow sizes={{xs: 6, sm: 4, md: 3}}>
                     {
                         this.getNextModules().map(module => {
-                            return <div className="col-xs-4"><Module module={module} project={this.props.project} topics={module.topic_ids.map( id => this.props.topics[id.$oid])} onClick={this.onModuleClick.bind(this, module)} /></div>;
+                            return <Module
+                                module={module}
+                                project={this.props.project}
+                                topics={module.topic_ids.map( id => this.props.topics[id.$oid])}
+                                onClick={this.onModuleClick.bind(this, module)}
+                            />;
                         })
                     }
-                </div>
+                </GridRow>
                 <LearningGraph module={this.props.module} project={this.props.project} />
             </div>
         );

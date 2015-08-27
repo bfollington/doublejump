@@ -1,136 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"./javascript/app.js":[function(require,module,exports){
-// base.js binds UI stuff and initialises some important bits
-
-var mathjax = false;
-window.doublejump = window.doublejump || {};
-
-var mixins = require("mixins/mixin_controller"),
-    bootstrapMod = require("bootstrap-mod"),
-    definitions = require("definitions"),
-    hideable = require("hideable-region"),
-    learn = require("learn"),
-    notifications = require("notifications"),
-    jqueryExtend = require("util/_jquery_extend"),
-    search = require("search"),
-    slug = require("slug-fields"),
-    loading = require("loading"),
-    util = require("util/_util"),
-    twoCols = require("two-cols"),
-    underscoreSettings = require("backbone/underscore_settings"),
-    uiBinding = require("mixins/ui_binder"),
-    comments = require("comments");
-
-$( function() {
-
-    util.init();
-    loading();
-
-    // Remove no-js class to signify that we... uh... have js
-    $("html").first().removeClass("no-js");
-
-    // Initialise all the individual page controllers for the app
-    mixins.intialiseControllers();
-
-    underscoreSettings();
-
-    bootstrapMod();
-    jqueryExtend();
-
-    definitions.convertDefinitionLinks();
-    definitions.bindDefinitions();
-
-    hideable.createHideableRegions();
-    hideable.bindInsertRegionButton();
-
-    search.bindCourseSearchField();
-    search.bindDefinitionSearchField();
-
-    twoCols.repositionColumns();
-
-    slug.bindSlugFields();
-    slug.bindLowercaseFields();
-
-    learn.setup();
-
-    notifications.bindRemoveLinks();
-
-    uiBinding();
-
-    // comments.bindComments();
-
-    // Configure select2 when the plugin is present
-    if ( typeof $.fn.select2 != "undefined" )
-    {
-        $(".js-select2").select2();
-    }
-
-    //Configure lazy loading of images when the plugin is present
-    //Only if we are on the appropriate page, need to used defined? util
-    if (jQuery().lazyload)
-    {
-        $("img.lazy").lazyload(
-        {
-            threshold : 200
-        });
-    }
-
-    // Add a book icon to every definition link in the body of the step
-    $(".step-body a[rel='definition']").each( function() {
-
-        $(this).html($(this).html() + ' <i class="fa fa-book"></i>');
-
-        if ( typeof $(this).attr("title") == "undefined")
-        {
-            $(this).attr("title", "Show Definition");
-        }
-
-        $(this).tooltip();
-
-    });
-
-    // Add tooltips to comment links
-    $(".step-body .comment a").tooltip();
-
-    // Add icons to external links
-    $(".step-body a[href*='http']").each( function() {
-
-        $(this).html($(this).html() + ' <i class="fa fa-external-link"></i>');
-
-        if ( typeof $(this).attr("title") == "undefined")
-        {
-            $(this).attr("title", $(this).attr("href").trunc(50));
-        }
-
-        $(this).attr("target", "new");
-
-        $(this).tooltip({placement: "top"});
-
-    });
-
-    //Include mathjax if needed
-    if ($("div:contains('{\\[')").length > 0 || $("div:contains('\\(')").length > 0)
-    {
-
-        mathjax = true;
-
-        (function () {
-          var head = document.getElementsByTagName("head")[0], script;
-          script = document.createElement("script");
-          script.type = "text/x-mathjax-config";
-          script[(window.opera ? "innerHTML" : "text")] =
-            "MathJax.Hub.Config({\n" +
-            "});"
-          head.appendChild(script);
-          script = document.createElement("script");
-          script.type = "text/javascript";
-          script.src  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML";
-          head.appendChild(script);
-        })();
-    }
-
-});
-
-},{"backbone/underscore_settings":"/Users/Ben/Projects/Ruby/doublejump/javascript/backbone/underscore_settings.js","bootstrap-mod":"/Users/Ben/Projects/Ruby/doublejump/javascript/bootstrap-mod.js","comments":"/Users/Ben/Projects/Ruby/doublejump/javascript/comments.js","definitions":"/Users/Ben/Projects/Ruby/doublejump/javascript/definitions.js","hideable-region":"/Users/Ben/Projects/Ruby/doublejump/javascript/hideable-region.js","learn":"/Users/Ben/Projects/Ruby/doublejump/javascript/learn.js","loading":"/Users/Ben/Projects/Ruby/doublejump/javascript/loading.js","mixins/mixin_controller":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/mixin_controller.js","mixins/ui_binder":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/ui_binder.js","notifications":"/Users/Ben/Projects/Ruby/doublejump/javascript/notifications.js","search":"/Users/Ben/Projects/Ruby/doublejump/javascript/search.js","slug-fields":"/Users/Ben/Projects/Ruby/doublejump/javascript/slug-fields.js","two-cols":"/Users/Ben/Projects/Ruby/doublejump/javascript/two-cols.js","util/_jquery_extend":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_jquery_extend.js","util/_util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_util.js"}],"/Users/Ben/Projects/Ruby/doublejump/app/views/editor/step_view.js":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/Ben/Projects/Ruby/doublejump/app/views/editor/step_view.js":[function(require,module,exports){
 var Pillar = require("pillar/pillar");
 var sortable = require("sortable-list");
 var aceUtil = require("aceUtil");
@@ -591,7 +459,139 @@ module.exports = aceUtil;
 
 
 
-},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/backbone/ajax_view.js":[function(require,module,exports){
+},{}],"/Users/Ben/Projects/Ruby/doublejump/javascript/app.js":[function(require,module,exports){
+// base.js binds UI stuff and initialises some important bits
+
+var mathjax = false;
+window.doublejump = window.doublejump || {};
+
+var mixins = require("mixins/mixin_controller"),
+    bootstrapMod = require("bootstrap-mod"),
+    definitions = require("definitions"),
+    hideable = require("hideable-region"),
+    learn = require("learn"),
+    notifications = require("notifications"),
+    jqueryExtend = require("util/_jquery_extend"),
+    search = require("search"),
+    slug = require("slug-fields"),
+    loading = require("loading"),
+    util = require("util/_util"),
+    twoCols = require("two-cols"),
+    underscoreSettings = require("backbone/underscore_settings"),
+    uiBinding = require("mixins/ui_binder"),
+    comments = require("comments");
+
+$( function() {
+
+    util.init();
+    loading();
+
+    // Remove no-js class to signify that we... uh... have js
+    $("html").first().removeClass("no-js");
+
+    // Initialise all the individual page controllers for the app
+    mixins.intialiseControllers();
+
+    underscoreSettings();
+
+    bootstrapMod();
+    jqueryExtend();
+
+    definitions.convertDefinitionLinks();
+    definitions.bindDefinitions();
+
+    hideable.createHideableRegions();
+    hideable.bindInsertRegionButton();
+
+    search.bindCourseSearchField();
+    search.bindDefinitionSearchField();
+
+    twoCols.repositionColumns();
+
+    slug.bindSlugFields();
+    slug.bindLowercaseFields();
+
+    learn.setup();
+
+    notifications.bindRemoveLinks();
+
+    uiBinding();
+
+    // comments.bindComments();
+
+    // Configure select2 when the plugin is present
+    if ( typeof $.fn.select2 != "undefined" )
+    {
+        $(".js-select2").select2();
+    }
+
+    //Configure lazy loading of images when the plugin is present
+    //Only if we are on the appropriate page, need to used defined? util
+    if (jQuery().lazyload)
+    {
+        $("img.lazy").lazyload(
+        {
+            threshold : 200
+        });
+    }
+
+    // Add a book icon to every definition link in the body of the step
+    $(".step-body a[rel='definition']").each( function() {
+
+        $(this).html($(this).html() + ' <i class="fa fa-book"></i>');
+
+        if ( typeof $(this).attr("title") == "undefined")
+        {
+            $(this).attr("title", "Show Definition");
+        }
+
+        $(this).tooltip();
+
+    });
+
+    // Add tooltips to comment links
+    $(".step-body .comment a").tooltip();
+
+    // Add icons to external links
+    $(".step-body a[href*='http']").each( function() {
+
+        $(this).html($(this).html() + ' <i class="fa fa-external-link"></i>');
+
+        if ( typeof $(this).attr("title") == "undefined")
+        {
+            $(this).attr("title", $(this).attr("href").trunc(50));
+        }
+
+        $(this).attr("target", "new");
+
+        $(this).tooltip({placement: "top"});
+
+    });
+
+    //Include mathjax if needed
+    if ($("div:contains('{\\[')").length > 0 || $("div:contains('\\(')").length > 0)
+    {
+
+        mathjax = true;
+
+        (function () {
+          var head = document.getElementsByTagName("head")[0], script;
+          script = document.createElement("script");
+          script.type = "text/x-mathjax-config";
+          script[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({\n" +
+            "});"
+          head.appendChild(script);
+          script = document.createElement("script");
+          script.type = "text/javascript";
+          script.src  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML";
+          head.appendChild(script);
+        })();
+    }
+
+});
+
+},{"backbone/underscore_settings":"/Users/Ben/Projects/Ruby/doublejump/javascript/backbone/underscore_settings.js","bootstrap-mod":"/Users/Ben/Projects/Ruby/doublejump/javascript/bootstrap-mod.js","comments":"/Users/Ben/Projects/Ruby/doublejump/javascript/comments.js","definitions":"/Users/Ben/Projects/Ruby/doublejump/javascript/definitions.js","hideable-region":"/Users/Ben/Projects/Ruby/doublejump/javascript/hideable-region.js","learn":"/Users/Ben/Projects/Ruby/doublejump/javascript/learn.js","loading":"/Users/Ben/Projects/Ruby/doublejump/javascript/loading.js","mixins/mixin_controller":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/mixin_controller.js","mixins/ui_binder":"/Users/Ben/Projects/Ruby/doublejump/javascript/mixins/ui_binder.js","notifications":"/Users/Ben/Projects/Ruby/doublejump/javascript/notifications.js","search":"/Users/Ben/Projects/Ruby/doublejump/javascript/search.js","slug-fields":"/Users/Ben/Projects/Ruby/doublejump/javascript/slug-fields.js","two-cols":"/Users/Ben/Projects/Ruby/doublejump/javascript/two-cols.js","util/_jquery_extend":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_jquery_extend.js","util/_util":"/Users/Ben/Projects/Ruby/doublejump/javascript/util/_util.js"}],"/Users/Ben/Projects/Ruby/doublejump/javascript/backbone/ajax_view.js":[function(require,module,exports){
 var util = require("util/_util");
 
 var AjaxFormView = Backbone.View.extend({
@@ -2622,6 +2622,4 @@ module.exports = {
     format: format
 }
 
-},{}]},{},["./javascript/app.js"]);
-
-//# sourceMappingURL=bundle.js.map
+},{}]},{},["/Users/Ben/Projects/Ruby/doublejump/javascript/app.js"]);

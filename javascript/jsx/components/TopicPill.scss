@@ -1,9 +1,25 @@
+.inverted {
+    .topic-pill {
+        background: white;
+        color: $link-color;
+    }
+}
+
 .topic-pill {
     display: inline-block;
-    padding: 5px 10px;
-    border-radius: 2px;
+    padding: 2.5px 8px;
+    border-radius: 100px;
     background: $link-color;
-    margin-right: 10px;
+    margin-right: 5px;
+    font-size: 0.5em;
 
     color: white;
+
+    &.selectable {
+        cursor: pointer;
+    }
+
+    &.selected {
+        background: black;
+    }
 }

@@ -41,6 +41,9 @@ class Account
   has_many :shared_images
   embeds_many :notifications
 
+  has_many :projects, inverse_of: "account"
+  has_one :current_project, class_name: "Project"
+
   # Callbacks
   before_save :encrypt_password, :if => :password_required
 
@@ -211,9 +214,9 @@ class Account
         completed_lesson = CompletedLesson.new(:lesson => lesson, :account => self)
         completed_lessons << completed_lesson
         save!
-        
+
         self.add_xp(lesson.experience)
-    end 
+    end
   end
 
   # Returns true if level up occurred

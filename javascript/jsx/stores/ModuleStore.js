@@ -42,7 +42,7 @@ export class ModuleStore extends Store {
     fetchAll(callback) {
 
         if (!fetchedAll) {
-            $.get(`/concepts/modules/`, function(data) {
+            $.get(`/api/modules/`, function(data) {
                 modules = data.modules;
                 callback(data);
             });
@@ -52,7 +52,7 @@ export class ModuleStore extends Store {
     }
 
     finishedModule(project, module, callback) {
-        $.post(`/concepts/finished_module/`, JSON.stringify({project: project, module: module}), callback);
+        $.post(`/api/finished_module/`, JSON.stringify({project: project, module: module}), callback);
     }
 
     get(id, callback) {
@@ -63,7 +63,7 @@ export class ModuleStore extends Store {
             return;
         }
 
-        $.get(`/concepts/concept/${id}`, function(data) {
+        $.get(`/api/concept/${id}`, function(data) {
             modules[id] = data;
             callback(data);
         });
@@ -75,6 +75,6 @@ export class ModuleStore extends Store {
             "module": JSON.stringify(modules[id])
         }
 
-        $.post(`/concepts/save_module`, data, callback);
+        $.post(`/api/save_module`, data, callback);
     }
 }

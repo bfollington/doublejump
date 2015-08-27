@@ -1,0 +1,9 @@
+nav.banner-navigation
+    .row
+        .col-xs-6
+            - if !current_account
+                a href="/login/" Login
+            - else
+                a href="/concepts/dashboard" Dashboard
+        .col-xs-6
+            a href="/concepts/browse/#{current_account.current_project}" Browse Concepts

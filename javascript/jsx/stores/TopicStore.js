@@ -44,7 +44,7 @@ export class TopicStore extends Store {
         if (fetchedAllFromServer) {
             callback(topics);
         } else {
-            $.get(`/concepts/topics`, function(data) {
+            $.get(`/api/topics`, function(data) {
 
                 data.topics.forEach(topic => {
                     topics[topic["_id"]["$oid"]] = topic;

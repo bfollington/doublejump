@@ -61,10 +61,20 @@ Doublejump::App.controllers :api, :cache => true do
   post :project do
     # New Project
 
-    project = Project.new({title: params[:title], slug: params[:slug]})
-    project.save
+    data = get_body
+    project = Project.new({title: data["title"], slug: data["slug"]})
+    project.account = current_account
+    if project.save
+      current_account.current_project = project
+      current_account.save
 
-    send_json({success: true, slug: project.slug})
+      send_json({success: true, project: project})
+    else
+      send_json({success: false, errors: project.errors.messages})
+    end
+
+
+
   end
 
   post :project, :with => :id do
@@ -135,8 +145,16 @@ Doublejump::App.controllers :api, :cache => true do
 
     learning_module.update_attributes(
       title: data["learning_module"]["title"],
-      slug: data["learning_module"]["slug"]
+      slug: data["learning_module"]["slug"],
+      url: data["learning_module"]["url"]
     )
+
+    if learning_module.url.nil?
+        learning_module.external = false
+    else
+        learning_module.external = !learning_module.url.empty
+    end
+
 
     learning_module.topics = []
 
@@ -248,46 +266,17 @@ Doublejump::App.controllers :api, :cache => true do
     {transition: transition}.to_json
   end
 
-  get :next, :with => [:module, :project] do
+  get :next, :with => [:project, :module] do
 
-      # Calculate relevance score of all other modules
-          # Based on existing topic scores
-          # Biased by the module that was just finished (bonus to its topic scores?)
-          # Take into account meta feedback, like other user's paths
+    content_type :json
+    next_modules(params[:project], params[:module]).to_json
 
-      last_module = LearningModule.find(params[:module])
-      project = Project.where(slug: params[:project]).first
-      topic_lookup = {}
-      module_lookup = {}
+  end
 
-      project.topic_scores.each do |topic_score|
-          topic_lookup[topic_score.topic.id] = topic_score.score
-      end
+  get :next, :with => [:project] do
 
-      learning_modules = LearningModule.all
-
-      learning_modules.each do |learning_module|
-          module_lookup[learning_module.id] = calculate_score learning_module, topic_lookup, last_module
-      end
-
-      sorted = module_lookup.sort_by{|k, v| v}.reverse
-      result = []
-      count = 0
-      sorted.each do |learning_module|
-          temp = LearningModule.find(learning_module[0])
-          temp["relevance"] = learning_module[1]
-
-          # Do not include the same module again
-          if learning_module[0] != last_module.id
-            result << temp
-            count = count + 1
-          end
-
-          if count >= 5 then break end
-      end
-
-      content_type :json
-      result.to_json
+    content_type :json
+    next_modules(params[:project]).to_json
 
   end
 
@@ -324,6 +313,59 @@ Doublejump::App.controllers :api, :cache => true do
 
 end
 
+
+
+def next_modules(project, learning_module = nil)
+    # Calculate relevance score of all other modules
+        # Based on existing topic scores
+        # Biased by the module that was just finished (bonus to its topic scores?)
+        # Take into account meta feedback, like other user's paths
+
+    project = Project.where(slug: project).first
+
+    if !learning_module.nil?
+        last_module = LearningModule.find(learning_module)
+    else
+        last_module = project.last_module
+    end
+
+    topic_lookup = {}
+    module_lookup = {}
+
+    project.topic_scores.each do |topic_score|
+        topic_lookup[topic_score.topic.id] = topic_score.score
+    end
+
+    learning_modules = LearningModule.all
+
+    learning_modules.each do |learning_module|
+        module_lookup[learning_module.id] = calculate_score learning_module, topic_lookup, last_module
+    end
+
+    sorted = module_lookup.sort_by{|k, v| v}.reverse
+    result = []
+    count = 0
+    sorted.each do |learning_module|
+        temp = LearningModule.find(learning_module[0])
+        temp["relevance"] = learning_module[1]
+
+        # Do not include the same module again
+
+        if last_module.nil? or learning_module[0] != last_module.id
+          result << temp
+          count = count + 1
+        end
+
+        if count >= 4 then break end
+    end
+
+    result
+end
+
+
+
+
+
 def calculate_score(learning_module, lookup, bias_module)
 
   score = 0
@@ -337,14 +379,22 @@ def calculate_score(learning_module, lookup, bias_module)
       end
 
       # Does this module get a bonus?
-      if bias_module.topics.where(id: topic.id).exists? and bias_module.id != learning_module.id
+      if !bias_module.nil? and
+        bias_module.topics.where(id: topic.id).exists? and
+        bias_module.id != learning_module.id then
+
           score = score + 2
+
       end
   end
 
   score = score + transition_bias
   score
 end
+
+
+
+
 
 def get_id(obj)
    id = nil
@@ -364,6 +414,11 @@ def get_id(obj)
    puts ">>> Got id " + id.to_s
    id
 end
+
+
+
+
+
 
 def build_graph(project, start_node)
 

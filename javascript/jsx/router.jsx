@@ -3,6 +3,7 @@ import page from 'page';
 import {NewProjectPageController} from './pages/NewProjectPageController.jsx';
 import {ProjectPageController} from './pages/ProjectPageController.jsx';
 import {ViewModulePageController} from './pages/ViewModulePageController.jsx';
+import {ModuleBrowserPageController} from './pages/ModuleBrowserPageController.jsx';
 
 import {EditModulePageController} from './pages/EditModulePageController.jsx';
 
@@ -21,6 +22,7 @@ var routes = {};
 routes['/'] = NewProjectPageController;
 routes['/project/:project'] = ProjectPageController;
 routes['/project/:project/:module'] = ViewModulePageController;
+routes['/browse/:project'] = ModuleBrowserPageController;
 routes['/edit'] = EditModulePageController;
 routes['/edit/:module'] = EditModulePageController;
 routes['/view/:module'] = ViewModulePageController;

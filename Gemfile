@@ -25,7 +25,7 @@ gem 'sass'
 gem 'haml'
 gem 'slim'
 gem 'mustache'
-gem 'mongoid', '~>4.0.0'
+gem 'mongoid', '~>4.0.2'
 
 # Session management
 gem 'moneta'

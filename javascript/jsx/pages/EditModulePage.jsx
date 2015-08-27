@@ -28,7 +28,8 @@ export class EditModulePage extends React.Component {
             metadata: {},
             topics: [],
             title: this.props.title,
-            slug: this.props.slug
+            slug: this.props.slug,
+            url: this.props.url
         };
 
         Mixin.apply(this, Store, {stores: ["module", "topic"]});
@@ -51,6 +52,10 @@ export class EditModulePage extends React.Component {
 
     slugUpdate(e) {
         this.setState({slug: e.target.value});
+    }
+
+    urlUpdate(e) {
+        this.setState({url: e.target.value});
     }
 
     onTopicChange(latest, list) {
@@ -112,6 +117,7 @@ export class EditModulePage extends React.Component {
         this.setState({
             title: data.learning_module.title,
             slug: data.learning_module.slug,
+            url: data.learning_module.url,
             contentBlocks: blocks,
             topics: data.learning_module.topic_ids.map(id => id.$oid)
         });
@@ -306,6 +312,14 @@ export class EditModulePage extends React.Component {
                                             <p>
                                                 <label htmlFor="learning_module_slug">Concept Slug (For URL)</label>
                                                 <input onChange={this.slugUpdate.bind(this)} value={this.state.slug} type="text" name="learning_module[slug]" id="learning_module_slug" className="form-control" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <p>
+                                                <label htmlFor="learning_module_url">External URL (Optional)</label>
+                                                <input onChange={this.urlUpdate.bind(this)} value={this.state.url} type="text" name="learning_module[url]" id="learning_module_url" className="form-control" />
                                             </p>
                                         </div>
                                     </div>

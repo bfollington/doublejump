@@ -4,6 +4,8 @@ class LearningModule
 
   field :title, :type => String
   field :slug, :type => String
+  field :url, :type => String
+  field :external, :type => Boolean
 
   belongs_to :account
   has_and_belongs_to_many :projects

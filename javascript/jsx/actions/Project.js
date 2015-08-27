@@ -56,9 +56,18 @@ export function fetchNextModules(project, module) {
 
         window.store.dispatch(requestNextModules(project, module));
 
-        $.get(`/api/next/${module}/${project}`, {}, data => {
-            window.store.dispatch(receiveNextModules(project, data));
-            resolve();
-        });
+        if (module) {
+            $.get(`/api/next/${project}/${module}`, {}, data => {
+                window.store.dispatch(receiveNextModules(project, data));
+                resolve();
+            });
+        } else {
+            $.get(`/api/next/${project}`, {}, data => {
+                window.store.dispatch(receiveNextModules(project, data));
+                resolve();
+            });
+        }
+
+
     });
 }
