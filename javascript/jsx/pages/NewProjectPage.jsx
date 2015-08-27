@@ -30,18 +30,47 @@ export class NewProjectPage extends React.Component {
     constructor(props)
     {
         super(props);
-        this.state = {};
+        this.state = {
+            likedTopics: [],
+            comfortableTopics: []
+        };
 
         this.loadData(props)
             .then( () => this.setState({ready: true}) );
     }
 
-    onSelectLiked(topic) {
+    handleTopicSelection(stateKey, topic) {
+        if (this.state[stateKey].indexOf(topic) >= 0) {
+            var temp = this.state[stateKey];
 
+            temp.splice(this.state[stateKey].indexOf(topic), 1);
+            this.setState({
+                [stateKey]: temp
+            });
+
+            return false;
+        }
+
+        if (this.state[stateKey].length >= 3) {
+            return false;
+        } else {
+            var temp = this.state[stateKey];
+            temp.push(topic);
+
+            this.setState({
+                [stateKey]: temp
+            });
+            return true;
+        }
     }
 
-    onSelectDisliked(topic) {
+    onSelectLiked(topic) {
 
+        return this.handleTopicSelection("likedTopics", topic);
+    }
+
+    onSelectComfortable(topic) {
+        return this.handleTopicSelection("comfortableTopics", topic);
     }
 
     onNewProject() {
@@ -85,7 +114,7 @@ export class NewProjectPage extends React.Component {
 
                 {
                     this.props.topics.map( topic => {
-                        return <TopicPill big topic={topic} selectable onSelect={this.onSelectDisliked.bind(this)} />;
+                        return <TopicPill big topic={topic} selectable onSelect={this.onSelectComfortable.bind(this)} />;
                     })
                 }
 

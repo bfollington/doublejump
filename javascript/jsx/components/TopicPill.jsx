@@ -9,9 +9,9 @@ export class TopicPill extends React.Component {
 
     clicked() {
         if (this.props.selectable) {
-            this.setState({selected: true});
+            this.setState({selected: this.props.onSelect(this.props.topic)});
 
-            this.props.onSelect(this.props.topic);
+
         }
     }
 
