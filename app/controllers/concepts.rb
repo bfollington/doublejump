@@ -1,6 +1,6 @@
 Doublejump::App.controllers :concepts, :cache => true do
 
-  layout :react
+  layout :thesis
 
   get :any, :map => '/concepts/*' do
 
