@@ -1,0 +1,71 @@
+$dropdown-width: 128px;
+
+.Dropdown {
+
+    position: relative;
+    display: inline-block;
+
+    cursor: pointer;
+
+    .inner {
+        position: absolute;
+        opacity: 0;
+        visibility: hidden;
+        top: 80%;
+        left: 0;
+
+        padding: 5px 10px;
+
+        width: $dropdown-width;
+
+        border-radius: 2px;
+        background: $link-color;
+
+        transition: opacity 0.2s, top 0.2s, visibility 0.2s;
+
+        z-index: 1000;
+
+        a {
+            color: white;
+        }
+    }
+
+    &.isShown {
+        .inner {
+            opacity: 1;
+            visibility: visible;
+
+            top: 100%;
+        }
+
+        .DropdownTrigger {
+            top: -4px;
+        }
+    }
+}
+
+
+
+.DropdownTrigger {
+    width: $dropdown-width;
+    display: inline-block;
+
+    position: relative;
+    top: 0;
+
+    transition: top 0.2s, transform 0.2s;
+    user-select: none;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.DropdownItem {
+
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}

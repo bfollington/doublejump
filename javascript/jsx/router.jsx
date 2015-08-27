@@ -22,9 +22,9 @@ var routes = {};
 
 routes['/'] = NewProjectPageController;
 routes['/dashboard'] = DashboardPageController;
-routes['/project/:project'] = ProjectPageController;
+routes['/project/:project'] = ModuleBrowserPageController;
 routes['/project/:project/:module'] = ViewModulePageController;
-routes['/browse/:project'] = ModuleBrowserPageController;
+// routes['/browse/:project'] = ModuleBrowserPageController;
 routes['/edit'] = EditModulePageController;
 routes['/edit/:module'] = EditModulePageController;
 routes['/view/:module'] = ViewModulePageController;

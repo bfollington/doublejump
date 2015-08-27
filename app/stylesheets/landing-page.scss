@@ -1,9 +1,15 @@
-.gradient-block {
+.gradient {
     background-image: -o-linear-gradient(135deg, #3C52E3 0%, #3E88F3 30%, #40A6FC 47%, #B4E658 100%);
     background-image: -moz-linear-gradient(135deg, #3C52E3 0%, #3E88F3 30%, #40A6FC 47%, #B4E658 100%);
     background-image: -webkit-linear-gradient(135deg, #3C52E3 0%, #3E88F3 30%, #40A6FC 47%, #B4E658 100%);
     background-image: -ms-linear-gradient(135deg, #3C52E3 0%, #3E88F3 30%, #40A6FC 47%, #B4E658 100%);
     background-image: linear-gradient(135deg, #3C52E3 0%, #3E88F3 30%, #40A6FC 47%, #B4E658 100%);
+}
+
+.gradient-block {
+
+    @extend .gradient;
+
     width: 100%;
 
     background-color: #3E88F3;
@@ -40,6 +46,17 @@
     @media only screen and (max-width: $mobile) {
         background-size: 125px 37px;
     }
+}
+
+.doublejump-round {
+    @include background-image-retina('/images/doublejump-round', 'png', 54px, 55px);
+    width: 54px;
+    height: 55px;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    display: block;
 }
 
 .doublejump-dark {

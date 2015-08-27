@@ -26,7 +26,8 @@ export class BasePage extends React.Component {
         super(props);
 
         this.state = {
-            account: false
+            account: false,
+            ready: false
         };
 
         this.store = finalCreateStore(combineReducers({
@@ -48,11 +49,15 @@ export class BasePage extends React.Component {
 
     onStoreChange() {
         this.setState({
-            account: this.store.getState().account.currentAccount.data
+            account: this.store.getState().account.currentAccount.data,
+            ready: true
         });
     }
 
     render() {
+
+        if (!this.state.ready) return null;
+
         return (
             <div className="container-fluid">
                 <HeaderBar account={this.state.account} />

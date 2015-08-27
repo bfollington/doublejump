@@ -6,6 +6,8 @@ import { fetchTopics } from "actions/Topic";
 import { TopicPill } from "components/TopicPill.jsx";
 
 import React from "react";
+import page from "page";
+
 import API from "API";
 import { Input, Button } from "components/input/Input.jsx";
 import {Slug} from 'Slug.js';
@@ -47,7 +49,7 @@ export class NewProjectPage extends React.Component {
 
         API.startProject(this.refs.test.val(), Slug.convertToSlug(this.refs.test.val()),
             response => {
-                console.log(response);
+                page(`/concepts/dashboard`);
             }
         );
     }
@@ -72,7 +74,7 @@ export class NewProjectPage extends React.Component {
 
                 {
                     this.props.topics.map( topic => {
-                        return <TopicPill topic={topic} selectable onSelect={this.onSelectLiked.bind(this)} />;
+                        return <TopicPill big topic={topic} selectable onSelect={this.onSelectLiked.bind(this)} />;
                     })
                 }
 
@@ -83,11 +85,12 @@ export class NewProjectPage extends React.Component {
 
                 {
                     this.props.topics.map( topic => {
-                        return <TopicPill topic={topic} selectable onSelect={this.onSelectDisliked.bind(this)} />;
+                        return <TopicPill big topic={topic} selectable onSelect={this.onSelectDisliked.bind(this)} />;
                     })
                 }
 
                 <div className="text-center">
+                    <br />
                     <Button text="Start Project" onClick={this.onNewProject.bind(this)} />
                 </div>
             </div>

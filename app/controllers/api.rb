@@ -60,7 +60,18 @@ Doublejump::App.controllers :api, :cache => true do
   get :project, :with => :slug do
     project = Project.where(slug: params[:slug]).first
 
-    send_json({project: project})
+    send_json({ project: attach_metadata(project) })
+  end
+
+  get :projects do
+
+    projects = []
+
+    current_account.projects.each do |project|
+      projects << attach_metadata(project)
+    end
+
+    send_json({ projects: projects })
   end
 
   post :project do
@@ -315,6 +326,19 @@ Doublejump::App.controllers :api, :cache => true do
 
   end
 
+end
+
+
+# Annotates a project object with its own metadata
+def attach_metadata(project)
+
+  project["metadata"] = {}
+
+  project.metadatas.each do |metadata|
+    project["metadata"][metadata.key] = metadata.value
+  end
+
+  project
 end
 
 

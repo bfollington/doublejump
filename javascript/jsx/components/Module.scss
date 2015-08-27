@@ -1,3 +1,7 @@
+.column, .row  {
+    overflow-y: visible;
+}
+
 .module {
     h1, h2, h3, h4, h5, h6 {
         margin-top: 0;
@@ -8,12 +12,19 @@
         overflow: hidden;
     }
 
+    h3 {
+        font-size: 90%;
+    }
+
     position: relative;
     top: 0;
 
     transform-origin: 50% 100%;
 
-    transition: top 0.3s, transform 0.3s;
+    transition: top 0.3s, transform 0.3s, z-index 0.3s;
+    cursor: pointer;
+
+    overflow: visible;
 
 
     .inner {
@@ -21,9 +32,12 @@
     }
 
     &:hover {
+        z-index: 1000;
+
         position: relative;
         top: -4px;
-        transform: scale(1.1);
+        transform: scale(1.05);
+
     }
 
 
@@ -39,7 +53,8 @@
         padding: 0.5em;
         width: 75%;
 
-        transition: top 0.3s, opacity 0.3s, z-index 0.3s;
+        transition: top 0.3s, opacity 0.3s;
+        z-index: 1000000;
 
         .body {
 
@@ -55,7 +70,6 @@
 
     &:hover .info-panel {
         opacity: 1;
-        z-index: 1000;
         top: 80%;
     }
 }

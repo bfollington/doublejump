@@ -19,6 +19,7 @@ export class TopicPill extends React.Component {
 
         var c = {
             "topic-pill": true,
+            "big": this.props.big,
             "selectable": this.props.selectable,
             "selected": this.state.selected
         };

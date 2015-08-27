@@ -9,9 +9,14 @@ export function receiveProject(id, data) {
     return {type: RECEIVE_PROJECT, id, data};
 }
 
-export const RECEIVE_METADATA = "RECEIVE_METADATA";
-export function receiveMetadata(id, metadata) {
-    return {type: RECEIVE_METADATA, id, metadata};
+export const REQUEST_PROJECTS = "REQUEST_PROJECTS";
+export function requestProjects() {
+    return {type: REQUEST_PROJECTS};
+}
+
+export const RECEIVE_PROJECTS = "RECEIVE_PROJECTS";
+export function receiveProjects(data) {
+    return {type: RECEIVE_PROJECTS, data};
 }
 
 export const UPDATE_METADATA = "UPDATE_METADATA";
@@ -38,13 +43,21 @@ export function fetchProject(project) {
         $.get(`/api/project/${project}`, {},
             data => {
                 window.store.dispatch(receiveProject(project, data.project));
+                resolve();
+            }
+        );
+    });
+}
 
-                $.get(`/api/all_data/${project}`, {},
-                    data => {
-                        window.store.dispatch(receiveMetadata(project, data));
-                        resolve();
-                    }
-                );
+export function fetchProjects() {
+    return new Promise( (resolve, reject) => {
+        window.store.dispatch(requestProjects());
+
+        // TODO, promises and API class?
+        $.get(`/api/projects/`, {},
+            data => {
+                window.store.dispatch(receiveProjects(data.projects));
+                resolve();
             }
         );
     });

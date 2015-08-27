@@ -5,6 +5,7 @@ import { fetchNextModules } from "actions/Project";
 import { fetchTopics } from "actions/Topic";
 
 import { Module } from "components/Module.jsx";
+import { MessageFromUs } from "components/MessageFromUs.jsx";
 import { GridRow, Column } from "components/Layout.jsx";
 
 import page from "page";
@@ -15,7 +16,7 @@ import Select from "react-select";
     state => (
         {
             allModules: Object.keys(state.module).map( id => state.module[id].data ),
-            projectData: state.project,
+            projectData: state.project.items,
             topics: state.topic.items
         }
     )
@@ -59,6 +60,7 @@ export class ModuleBrowserPage extends React.Component {
             <div className="main-content">
 
                 <h2>What would you like to learn next?</h2>
+                <MessageFromUs>These are the concepts that I think you might want to learn next, these recommendations change over time based on what you choose to learn.</MessageFromUs>
 
                 <GridRow sizes={{xs: 6, sm: 4, md: 3}}>
                     {
@@ -68,7 +70,9 @@ export class ModuleBrowserPage extends React.Component {
                     }
                 </GridRow>
 
+                <br />
                 <h3>Searching for something in particular?</h3>
+                <p>If you'd like to learn about one particular concept, then you can search the entire catalogue below.</p>
                 <Select options={this.props.allModules.map( module => { return {value: module._id.$oid, label: module.title}; } )} onChange={this.onChange.bind(this)} />
 
             </div>

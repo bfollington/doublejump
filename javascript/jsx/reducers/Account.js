@@ -31,7 +31,7 @@ function accountData(
 }
 
 function account(state = {
-    currentAccount: null
+    currentAccount: {}
 }, action) {
     switch (action.type) {
 

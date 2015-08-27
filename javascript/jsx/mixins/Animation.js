@@ -1,5 +1,5 @@
 var dynamics = require("dynamics.js");
-import {Util} from "Util.jsx";
+import clone from "reducers/Util.js";
 var React = require("react");
 
 export var Animation = {};
@@ -24,7 +24,7 @@ Animation.addAnimationState = function(name, state) {
 
 
 Animation.animateNode = function(el, state, animation, callback) {
-    var finalAnim = Util.clone(this._animationDefinitions[animation]);
+    var finalAnim = clone(this._animationDefinitions[animation]);
     if (callback) {
         finalAnim.complete = callback;
     }

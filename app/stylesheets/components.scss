@@ -340,6 +340,78 @@
     }
 }
 
+//Dropdown.scss
+$dropdown-width: 128px;
+
+.Dropdown {
+
+    position: relative;
+    display: inline-block;
+
+    cursor: pointer;
+
+    .inner {
+        position: absolute;
+        opacity: 0;
+        visibility: hidden;
+        top: 80%;
+        left: 0;
+
+        padding: 5px 10px;
+
+        width: $dropdown-width;
+
+        border-radius: 2px;
+        background: $link-color;
+
+        transition: opacity 0.2s, top 0.2s, visibility 0.2s;
+
+        z-index: 1000;
+
+        a {
+            color: white;
+        }
+    }
+
+    &.isShown {
+        .inner {
+            opacity: 1;
+            visibility: visible;
+
+            top: 100%;
+        }
+
+        .DropdownTrigger {
+            top: -4px;
+        }
+    }
+}
+
+
+
+.DropdownTrigger {
+    width: $dropdown-width;
+    display: inline-block;
+
+    position: relative;
+    top: 0;
+
+    transition: top 0.2s, transform 0.2s;
+    user-select: none;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.DropdownItem {
+
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
 //CommentButton.scss
 .comment-button {
     button {
@@ -403,7 +475,51 @@
 
 
 }
+//MessageFromUs.scss
+.MessageFromUs {
+
+    .message-bubble {
+        background: $link-color;
+        color: white;
+        border-radius: 16px;
+        padding: 8px 12px;
+
+        position: relative;
+
+        font-weight: lighter;
+    }
+
+    .full-height {
+        height: 100%;
+        line-height: 100%;
+        text-align: right;
+
+        .doublejump-round {
+            display: inline-block;
+            margin-top: 0px;
+        }
+    }
+
+    .triangle {
+        position: absolute;
+        left: -10px;
+        top: 20px;
+
+        width: 0;
+        height: 0;
+
+        border-right: 10px solid $link-color;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+    }
+
+    margin-bottom: 2em;
+}
 //Module.scss
+.column, .row  {
+    overflow-y: visible;
+}
+
 .module {
     h1, h2, h3, h4, h5, h6 {
         margin-top: 0;
@@ -414,12 +530,19 @@
         overflow: hidden;
     }
 
+    h3 {
+        font-size: 90%;
+    }
+
     position: relative;
     top: 0;
 
     transform-origin: 50% 100%;
 
-    transition: top 0.3s, transform 0.3s;
+    transition: top 0.3s, transform 0.3s, z-index 0.3s;
+    cursor: pointer;
+
+    overflow: visible;
 
 
     .inner {
@@ -427,9 +550,12 @@
     }
 
     &:hover {
+        z-index: 1000;
+
         position: relative;
         top: -4px;
-        transform: scale(1.1);
+        transform: scale(1.05);
+
     }
 
 
@@ -445,7 +571,8 @@
         padding: 0.5em;
         width: 75%;
 
-        transition: top 0.3s, opacity 0.3s, z-index 0.3s;
+        transition: top 0.3s, opacity 0.3s;
+        z-index: 1000000;
 
         .body {
 
@@ -461,8 +588,34 @@
 
     &:hover .info-panel {
         opacity: 1;
-        z-index: 1000;
         top: 80%;
+    }
+}
+//Project.scss
+.Project {
+    position: relative;
+
+    .inner {
+
+        background: $link-color;
+        border-radius: 2px;
+        padding: 10px 12px;
+
+        color: white;
+
+        position: relative;
+
+        cursor: pointer;
+        transition: transform 0.2s;
+
+        h3 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        &:hover {
+            transform: scale(1.05);
+        }
     }
 }
 //Select.scss
@@ -475,6 +628,11 @@
 */
 .Select {
   position: relative;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.025);
+  }
 }
 .Select-control {
   position: relative;
@@ -489,6 +647,8 @@
   outline: none;
   padding: 8px 52px 8px 10px;
   transition: all 200ms ease;
+
+  cursor: pointer;
 }
 .Select-control:hover {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
@@ -739,6 +899,11 @@
     margin-right: 5px;
     font-size: 0.5em;
 
+    &.big {
+        font-size: 0.8em;
+        padding: 4px 10px;
+    }
+
     color: white;
 
     &.selectable {
@@ -765,6 +930,7 @@
         margin-bottom: 1em;
     }
 }
+
 //Input.scss
 .Input {
     label {

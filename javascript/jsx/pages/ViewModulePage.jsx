@@ -7,7 +7,10 @@ import {ImageContent} from 'components/editing/ImageContent.jsx';
 
 import {AceEditor} from 'components/AceEditor.jsx';
 
+import {Button} from 'components/input/Input.jsx';
+
 import {Module} from 'components/Module.jsx';
+import {MessageFromUs} from 'components/MessageFromUs.jsx';
 import {TopicPill} from 'components/TopicPill.jsx';
 
 import {LearningGraph} from 'components/LearningGraph.jsx';
@@ -29,7 +32,7 @@ import { GridRow } from "components/Layout.jsx";
     state => (
         {
             modules: state.module,
-            projects: state.project,
+            projects: state.project.items,
             topics: state.topic.items
         }
     ),
@@ -52,7 +55,10 @@ export class ViewModulePage extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            ready: false,
+            done: false
+        };
 
         this.loadData(props)
             .then( () => this.setState({ready: true}) );
@@ -107,9 +113,41 @@ export class ViewModulePage extends React.Component {
 
     }
 
+    onFinishConcept() {
+        this.setState({
+            done: true
+        });
+    }
+
     render() {
 
         if (!this.state.ready) return null;
+
+        var finished = (
+            <div className="fade-in">
+                <MessageFromUs>Great work! Here's what I think you should try next.</MessageFromUs>
+                <GridRow sizes={{xs: 6, sm: 4, md: 3}}>
+                    {
+                        this.getNextModules().map(module => {
+                            return <Module
+                                module={module}
+                                project={this.props.project}
+                                topics={module.topic_ids.map( id => this.props.topics[id.$oid])}
+                                onClick={this.onModuleClick.bind(this, module)}
+                            />;
+                        })
+                    }
+                </GridRow>
+            </div>
+        );
+
+        if (!this.state.done) {
+            finished = (
+                <div className="text-center">
+                    <Button text="I'm Finished!" onClick={this.onFinishConcept.bind(this)}></Button>
+                </div>
+            );
+        }
 
         var contentTypeLookup = {
             "MarkdownContent": ctx => <MarkdownContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
@@ -141,19 +179,9 @@ export class ViewModulePage extends React.Component {
                         })
                     }
                 </div>
-                <h3>What's Next?</h3>
-                <GridRow sizes={{xs: 6, sm: 4, md: 3}}>
-                    {
-                        this.getNextModules().map(module => {
-                            return <Module
-                                module={module}
-                                project={this.props.project}
-                                topics={module.topic_ids.map( id => this.props.topics[id.$oid])}
-                                onClick={this.onModuleClick.bind(this, module)}
-                            />;
-                        })
-                    }
-                </GridRow>
+
+                {finished}
+
                 <LearningGraph module={this.props.module} project={this.props.project} />
             </div>
         );

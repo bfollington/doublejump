@@ -1,4 +1,6 @@
 import React from "react";
+import { Dropdown, DropdownTrigger, DropdownItem } from "components/Dropdown.jsx";
+import { Icon } from "components/Icon.jsx";
 
 export class UserAccountHeader extends React.Component {
     constructor(props) {
@@ -21,17 +23,16 @@ export class UserAccountHeader extends React.Component {
                 }
 
                 <div className="center-text padding">
-                    <span className="dropdown">
-                        <a href="#" data-toggle="dropdown" className="dropdown-toggle">
+
+                    <Dropdown>
+                        <DropdownTrigger>
                             {this.props.account.name}
-                            <i className="fa fa-chevron-down" />
-                            <ul className="dropdown-menu">
-                                <li>
-                                    <a href="/destroy">Logout</a>
-                                </li>
-                            </ul>
-                        </a>
-                    </span>
+                            <Icon icon="chevron-down" size="14px" spacingLeft="4px" />
+                        </DropdownTrigger>
+                        <DropdownItem title="Logout" href="/destroy" />
+                        <DropdownItem title="Logout" href="/destroy" />
+                        <DropdownItem title="Logout" href="/destroy" />
+                    </Dropdown>
 
                     <div>
                         <small className="extra-small">(that's you!)</small>

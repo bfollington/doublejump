@@ -1,0 +1,26 @@
+.Project {
+    position: relative;
+
+    .inner {
+
+        background: $link-color;
+        border-radius: 2px;
+        padding: 10px 12px;
+
+        color: white;
+
+        position: relative;
+
+        cursor: pointer;
+        transition: transform 0.2s;
+
+        h3 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}

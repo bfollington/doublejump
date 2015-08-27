@@ -1,5 +1,6 @@
 import {
     REQUEST_PROJECT, RECEIVE_PROJECT,
+    REQUEST_PROJECTS, RECEIVE_PROJECTS,
     RECEIVE_METADATA, UPDATE_METADATA,
     REQUEST_NEXT_MODULES, RECEIVE_NEXT_MODULES
 } from "actions/Project";
@@ -60,7 +61,11 @@ function projectData(
 
 }
 
-function project(state = {}, action) {
+function project(state = {
+    areFetching: false,
+    didInvalidate: false,
+    items: {}
+}, action) {
     switch (action.type) {
 
     case REQUEST_PROJECT:
@@ -68,13 +73,35 @@ function project(state = {}, action) {
     case RECEIVE_METADATA:
     case UPDATE_METADATA:
         return clone(state, {
-            [action.id]: projectData(state[action.id], action)
+            items: {
+                [action.id]: projectData(state[action.id], action)
+            }
         });
 
     case REQUEST_NEXT_MODULES:
     case RECEIVE_NEXT_MODULES:
         return clone(state, {
-            [action.project]: projectData(state[action.project], action)
+            items: {
+                [action.project]: projectData(state[action.project], action)
+            }
+        });
+
+    case REQUEST_PROJECTS:
+        return clone(state, {
+            areFetching: true,
+            didInvalidate: false
+        });
+
+    case RECEIVE_PROJECTS:
+        var projectsDict = {};
+        action.data.forEach(project => {
+            projectsDict[project["_id"]["$oid"]] = project;
+        });
+
+        return clone(state, {
+            areFetching: false,
+            didInvalidate: false,
+            items: projectsDict
         });
 
     default:

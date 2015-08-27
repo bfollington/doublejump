@@ -48,7 +48,7 @@ export class Column extends React.Component {
 
     render() {
 
-        var classes = [];
+        var classes = ["column"];
 
         for (var size in this.props.sizes) {
             classes.push(`col-${size}-${this.props.sizes[size]}`);
