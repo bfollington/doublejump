@@ -27,7 +27,7 @@ function moduleData(
 
     case RECEIVE_MODULE:
 
-        var t = clone(state, {
+        return clone(state, {
             isFetching: false,
             didInvalidate: false,
             data: action.data.learning_module,
@@ -35,7 +35,7 @@ function moduleData(
             topics: action.data.learning_module.topic_ids.map(id => id.$oid)
         });
 
-        return t;
+
 
     default:
         return state;
@@ -73,7 +73,7 @@ function module(state = {
         });
 
         return clone(state, {
-            items: modules
+            items: clone(state.items, modules)
         });
 
 
