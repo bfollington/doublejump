@@ -13,7 +13,7 @@ var React = require("react");
 @connect(
     state => (
         {
-            modules: Object.keys(state.module).map( key => state.module[key] ),
+            modules: Object.keys(state.module.items).map( key => state.module.items[key] ),
             projects: state.project.items,
             topics: state.topic.items
         }

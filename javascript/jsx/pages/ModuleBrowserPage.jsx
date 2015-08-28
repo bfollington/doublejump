@@ -15,7 +15,7 @@ import Select from "react-select";
 @connect(
     state => (
         {
-            allModules: Object.keys(state.module).map( id => state.module[id].data ),
+            allModules: Object.keys(state.module.items).map( id => state.module.items[id].data ),
             projectData: state.project.items,
             topics: state.topic.items
         }

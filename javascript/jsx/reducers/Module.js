@@ -1,6 +1,7 @@
 import {
     REQUEST_MODULE, RECEIVE_MODULE,
-    REQUEST_MODULES, RECEIVE_MODULES
+    REQUEST_MODULES, RECEIVE_MODULES,
+    receiveModule
 } from "actions/Module";
 
 import clone from "./Util.js";
@@ -25,13 +26,16 @@ function moduleData(
         });
 
     case RECEIVE_MODULE:
-        return clone(state, {
+
+        var t = clone(state, {
             isFetching: false,
             didInvalidate: false,
             data: action.data.learning_module,
             contents: action.data.contents,            //TODO: make a contents store and reference by id instead
             topics: action.data.learning_module.topic_ids.map(id => id.$oid)
         });
+
+        return t;
 
     default:
         return state;
@@ -40,25 +44,45 @@ function moduleData(
 
 }
 
-function module(state = {}, action) {
+function module(state = {
+    areFetching: false,
+    items: {}
+}, action) {
     switch (action.type) {
 
     case REQUEST_MODULES:
-        return clone(state, {});
+        return clone(state, {
+            areFetching: true
+        });
 
-    // FIXME, needs improving, retrieving all modules should call through to the reducer for a single one to keep same data interface
     case RECEIVE_MODULES:
         var modules = {};
 
-        action.data.forEach( module => { modules[module._id.$oid] = {data: module} });
+        action.data.forEach( module => {
 
-        return clone(state, modules);
+            var test = moduleData(
+                modules[module._id.$oid],
+                receiveModule(
+                    module._id.$oid,
+                    { learning_module: module }
+                )
+            );
+
+            modules[module._id.$oid] = test;
+
+        });
+
+        return clone(state, {
+            items: modules
+        });
 
 
     case REQUEST_MODULE:
     case RECEIVE_MODULE:
         return clone(state, {
-            [action.id]: moduleData(state[action.id], action)
+            items: {
+                [action.id]: moduleData(state[action.id], action)
+            }
         });
 
     default:

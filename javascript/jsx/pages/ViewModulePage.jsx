@@ -31,7 +31,7 @@ import { GridRow } from "components/Layout.jsx";
 @connect(
     state => (
         {
-            modules: state.module,
+            modules: state.module.items,
             projects: state.project.items,
             topics: state.topic.items
         }

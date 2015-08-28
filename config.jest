@@ -1,0 +1,8 @@
+{
+    "testPathDirs": ["./test"],
+    "testDirectoryName": "test",
+    "scriptPreprocessor": "preprocessor.js",
+    "unmockedModulePathPatterns": [
+        "node_modules/react"
+    ]
+}
