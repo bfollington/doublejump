@@ -1,10 +1,11 @@
-import { getCSRFFormField } from 'Util.jsx';
+import { getCSRFFormField, transformMongoId } from 'Util.jsx';
 import {Events, SaveModuleFormEvent, ContentTypeSubmissionSuccessEvent} from 'Events.jsx';
 import {CodeContent} from 'components/editing/CodeContent.jsx';
 import {MathContent} from 'components/editing/MathContent.jsx';
 import {MarkdownContent} from 'components/editing/MarkdownContent.jsx';
 import {ImageContent} from 'components/editing/ImageContent.jsx';
 import {Sortable} from 'components/Sortable.jsx';
+import {FloatingToolbar} from 'components/FloatingToolbar.jsx';
 import {FloatingButton} from 'components/FloatingButton.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
 import {Mixin} from 'Mixin';
@@ -17,33 +18,85 @@ var React = require("react");
 
 var page = require("page");
 
+import { apply } from "react-es7-mixin";
+import data from "mixins/data";
+import query from "mixins/query";
+import connect from "mixins/connect";
+import mapping from "mixins/mapping";
+import { fetchModule, saveModule } from "actions/Module";
+import { getNotification } from "actions/Notification";
+import { fetchContents } from "actions/Content";
+import { fetchTopics } from "actions/Topic";
+
+import clone from "reducers/Util.js";
+
+@connect(
+    state => (
+        {
+            modules: state.module.items,
+            contents: state.content.items,
+            topics: Object.keys(state.topic.items).map( topic => ({value: topic, label: state.topic.items[topic].name}) )
+        }
+    ),
+    dispatch => (
+        {
+            sendNotification: (data) => dispatch(getNotification(data))
+        }
+    )
+)
+@data(
+
+    props => [
+        props.module ? fetchModule(props.module) : () => {},
+        props.module ? fetchContents(props.module) : () => {},
+        fetchTopics()
+    ]
+)
+@mapping({
+    "currentModule": (props, state) => props.modules[props.module].data
+})
 export class EditModulePage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            modules: [{}],
-            currentModule: null,
             contentBlocks: [],
-            metadata: {},
-            topics: [],
             title: this.props.title,
             slug: this.props.slug,
-            url: this.props.url
+            url: this.props.url,
+            ready: false,
+            selectedTopics: []
         };
 
+        window.sendNotification = this.props.sendNotification;
+
+
         Mixin.apply(this, Store, {stores: ["module", "topic"]});
+
+        var contentTypeLookup = {
+            "MarkdownContent": ctx => <MarkdownContent module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
+            "CodeContent": ctx => <CodeContent module={this.props.module} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
+            "MathContent": ctx => <MathContent module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
+            "ImageContent": ctx => <ImageContent module={this.props.module} id={ctx.id} value="" editable={this.isEditable} metadata={this.getMetadata.bind(this)} />
+        };
+
+        this.loadData(props)
+            .then( () => this.setState({
+                ready: true,
+                selectedTopics: this.props.module ? this.$currentModule().topics : [],
+                title: this.$currentModule().title,
+                slug: this.$currentModule().slug,
+                contentBlocks: this.$currentModule().contents.map(id => {
+                    return contentTypeLookup[this.getContent(id).type](this.getContent(id));
+                })
+            }) );
 
         this.submitCount = 0;
     }
 
-
-    onChange(data) {
-        if (data.eventType == "updateModule") {
-            this.stores.module.save(this.props.module, this.moduleSaveRepsonse.bind(this));
-        }
+    getContent(id) {
+        return this.props.contents[id].data;
     }
-
 
     titleUpdate(e) {
         this.setState({title: e.target.value});
@@ -60,7 +113,7 @@ export class EditModulePage extends React.Component {
 
     onTopicChange(latest, list) {
         console.log(this);
-        this.setState({topics: list});
+        this.setState({selectedTopics: list});
     }
 
 
@@ -71,57 +124,8 @@ export class EditModulePage extends React.Component {
         console.log("Hello from component");
 
         Events.subscribeRoot( ContentTypeSubmissionSuccessEvent, this.contentTypeDidSave.bind(this) );
-
-        if (this.props.module) {
-            this.stores.module.get(this.props.module, this.fetchedData.bind(this));
-        }
-
-        this.stores.topic.getAll(this.receivedTopics.bind(this));
     }
 
-    receivedTopics(data) {
-
-        var result = [];
-
-        for (var topic in data) {
-            result.push({ value: topic, label: data[topic].name });
-        }
-
-        this.setState({allTopics: result});
-    }
-
-    fetchedData(data) {
-        console.log(data);
-
-        var blocks = [];
-
-        for (var i = 0; i < data.contents.length; i++) {
-            Util.transformMongoId(data.contents[i]);
-            console.log(data.contents[i]);
-            switch(data.contents[i].type) {
-                case "MarkdownContent":
-                    blocks.push(this.newMarkdownSection(data.contents[i]));
-                    break;
-                case "CodeContent":
-                    blocks.push(this.newCodeSection(data.contents[i]));
-                    break;
-                case "MathContent":
-                    blocks.push(this.newMathSection(data.contents[i]));
-                    break;
-                case "ImageContent":
-                    blocks.push(this.newImageSection(data.contents[i]));
-                    break;
-            }
-        }
-
-        this.setState({
-            title: data.learning_module.title,
-            slug: data.learning_module.slug,
-            url: data.learning_module.url,
-            contentBlocks: blocks,
-            topics: data.learning_module.topic_ids.map(id => id.$oid)
-        });
-    }
 
     componentDidUnmount() {
         Events.unsubscribeRoot( ContentTypeSubmissionSuccessEvent, this.contentTypeDidSave.bind(this) );
@@ -137,13 +141,13 @@ export class EditModulePage extends React.Component {
     }
 
     allContentTypesDidSave() {
-        var content_type_ids = [];
+        var contents = [];
 
         $(React.findDOMNode(this)).find("[data-id]").each( function() {
-            content_type_ids.push($(this).attr("data-id"));
+            contents.push($(this).attr("data-id"));
         });
 
-        var topic_ids = this.state.topics.map(topic => {
+        var topics = this.state.selectedTopics.map(topic => {
             return topic.value;
         });
 
@@ -152,17 +156,17 @@ export class EditModulePage extends React.Component {
             id = this.props.module;
         }
 
-        var data = {
-            "contents": content_type_ids,
-            "learning_module": {
-                title: this.state.title,
-                slug: this.state.slug
-            },
-            "id": this.props.module,
-            "topics": topic_ids
-        };
+        var module = clone(this.query("module").data, {
+            contents: contents,
+            title: this.state.title,
+            slug: this.state.slug,
+            topics: topics
+        });
 
-        this.stores.module.actions.updateModule(data);
+        saveModule(module)
+            .then( data => {
+                console.log("Response", data);
+            });
     }
 
     moduleSaveRepsonse(data) {
@@ -173,12 +177,6 @@ export class EditModulePage extends React.Component {
         }
     }
 
-
-
-
-    handleEditConcept(e) {
-
-    }
 
 
 
@@ -276,21 +274,6 @@ export class EditModulePage extends React.Component {
 
     render() {
 
-        var editModuleSelect = (
-            <div className="box">
-                <div className="row">
-                    <div className="col-md-10">
-                        <select id="learning_module" name="learning_module" className="select2" defaultValue={this.state.currentModule}>
-                            { this.state.modules.map( module => <option value={module.id}>{module.title}</option> ) }
-                        </select>
-                    </div>
-                    <div className="col-md-2">
-                        <button className="create-button button" onClick={this.handleEditConcept.bind(this)}>Edit Concept</button>
-                    </div>
-                </div>
-            </div>
-        );
-
         return (
             <div className="main-content">
                 <div className="create-step-form">
@@ -326,8 +309,8 @@ export class EditModulePage extends React.Component {
                                     <div className="col-sm-12">
                                         <Select
                                             name="form-field-name"
-                                            options={this.state.allTopics}
-                                            value={this.state.topics}
+                                            options={this.props.topics}
+                                            value={this.state.selectedTopics}
                                             onChange={this.onTopicChange.bind(this)}
                                             multi={true}
                                         />
@@ -341,15 +324,20 @@ export class EditModulePage extends React.Component {
                         <AceEditor onContentChange={this.metadataChange.bind(this)} language='javascript' value={"{}"} />
                     </div>
                     <Sortable>
-                        { this.state.contentBlocks.map(block => block) }
+                        {
+                            this.state.contentBlocks.map(block => {
+                                console.log(block);
+                                return block;
+                            })
+                        }
                     </Sortable>
-                    <div className="floating-tools">
+                    <FloatingToolbar>
                         <FloatingButton icon="file-text" onClick={this.newSection.bind(this, this.newMarkdownSection.bind(this))}>Add New Markdown Content</FloatingButton>
                         <FloatingButton icon="code" onClick={this.newSection.bind(this, this.newCodeSection.bind(this))}>Add Code Snippet</FloatingButton>
                         <FloatingButton icon="plus" onClick={this.newSection.bind(this, this.newMathSection.bind(this))}>Add Math Content</FloatingButton>
                         <FloatingButton icon="picture-o" onClick={this.newSection.bind(this, this.newImageSection.bind(this))}>Add Image</FloatingButton>
                         <FloatingButton icon="save" size="big" onClick={this.save.bind(this)}>Save Concept</FloatingButton>
-                    </div>
+                    </FloatingToolbar>
                 </div>
             </div>
         );
@@ -357,6 +345,5 @@ export class EditModulePage extends React.Component {
 }
 
 EditModulePage.defaultProps = {
-    title: "",
-    slug: ""
+
 }
