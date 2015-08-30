@@ -6,11 +6,15 @@ import { HeaderBar } from "components/style/HeaderBar.jsx";
 import { Navigation } from "components/style/Navigation.jsx";
 import { Footer } from "components/style/Footer.jsx";
 
+import { NotificationCenter } from "components/NotificationCenter.jsx";
+
 import { createStore, combineReducers, compose } from 'redux';
 import { devTools, persistState } from 'redux-devtools';
 import project from 'reducers/Project';
 import module from 'reducers/Module';
+import content from 'reducers/Content';
 import topic from 'reducers/Topic';
+import notification from 'reducers/Notification';
 import account from 'reducers/Account';
 
 const finalCreateStore = compose(
@@ -34,6 +38,8 @@ export class BasePage extends React.Component {
             project,
             topic,
             module,
+            content,
+            notification,
             account
         }));
 
@@ -66,6 +72,8 @@ export class BasePage extends React.Component {
                 </div>
 
                 <div className="main-content">
+
+                    <NotificationCenter store={this.store} />
 
                     <Provider store={this.store}>
                         { this.props.children }
