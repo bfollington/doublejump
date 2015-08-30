@@ -1,4 +1,4 @@
-module.exports = function data(actions, callback) {
+var data = function(actions, callback) {
     return function decorator(target) {
 
         target.prototype.loadData = function(props) {
@@ -15,3 +15,5 @@ module.exports = function data(actions, callback) {
         return target;
     };
 };
+
+module.exports = data;
