@@ -86,7 +86,7 @@ export class MarkdownContent extends React.Component {
 
         var edit = (
             <ContentType title="Markdown Content" editable={this.props.editable} id={this.state.id}>
-                <AceEditor onContentChange={this.contentChange.bind(this)} language='markdown' value={this.state.content} />
+                <AceEditor onContentChange={this.contentChange.bind(this)} height={256} language='markdown' value={this.state.content} />
                 <button className="button create-button" onClick={this.save.bind(this)}>Save</button>
                 <button className="button create-button" onClick={this.cancel.bind(this)}>Cancel</button>
             </ContentType>
