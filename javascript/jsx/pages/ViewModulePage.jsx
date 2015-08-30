@@ -11,6 +11,7 @@ import {Button} from 'components/input/Input.jsx';
 
 import {Module} from 'components/Module.jsx';
 import {MessageFromUs} from 'components/MessageFromUs.jsx';
+import {ExternalContent} from 'components/ExternalContent.jsx';
 import {TopicPill} from 'components/TopicPill.jsx';
 
 import {LearningGraph} from 'components/LearningGraph.jsx';
@@ -67,7 +68,6 @@ export class ViewModulePage extends React.Component {
     //TODO, remove old style from here
 
     onModuleClick(next) {
-        API.finishedModule(this.props.project, this.props.module);
         API.transition(this.props.module, next._id.$oid);
     }
 
@@ -114,6 +114,7 @@ export class ViewModulePage extends React.Component {
     }
 
     onFinishConcept() {
+        API.finishedModule(this.props.project, this.props.module);
         this.setState({
             done: true
         });
@@ -173,10 +174,12 @@ export class ViewModulePage extends React.Component {
                         <AceEditor onContentChange={this.metadataChange.bind(this)} language='javascript' value={"{}"} />
                     </div>*/}
 
-                    {
-                        this.getContents().map(block => {
-                            return contentTypeLookup[block.type](block);
-                        })
+                    {   !this.getModule().external ?
+                            this.getContents().map(block => {
+                                return contentTypeLookup[block.type](block);
+                            })
+                        :
+                            <ExternalContent module={this.getModule()} />
                     }
                 </div>
 
