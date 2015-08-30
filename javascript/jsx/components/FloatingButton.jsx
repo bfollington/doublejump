@@ -1,4 +1,5 @@
 var React = require("react");
+import { Icon } from "components/Icon.jsx";
 
 export class FloatingButton extends React.Component {
 
@@ -9,7 +10,7 @@ export class FloatingButton extends React.Component {
     componentDidMount() {
         var el = React.findDOMNode(this);
 
-        $(el).find('[rel=tooltip]').tooltip();
+        // $(el).find('[rel=tooltip]').tooltip();
     }
 
     render() {
@@ -19,7 +20,12 @@ export class FloatingButton extends React.Component {
             iconClass = "";
         }
 
-        return <div className={"round-icon " + this.props.size} onClick={this.props.onClick}><i className={`fa fa-${this.props.icon} ` + iconClass} rel="tooltip" title={this.props.children} /></div>;
+        return (
+            <div className={"FloatingButton " + this.props.size + " " + this.props.className} onClick={this.props.onClick}>
+
+                <Icon icon={this.props.icon} />
+            </div>
+        );
 
     }
 }
