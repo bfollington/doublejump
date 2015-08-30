@@ -1,3 +1,5 @@
+require_relative "../_helpers"
+
 class LearningModule
   include Mongoid::Document
   include Mongoid::Timestamps # adds created_at and updated_at fields
@@ -25,5 +27,30 @@ class LearningModule
     end
 
     result
+  end
+
+  def to_hash
+    {
+      id: _id.to_s,
+      title: title,
+      slug: slug,
+      url: url,
+      external: external,
+      topics: ModelHelpers.flatten_id_array(topic_ids),
+      contents: ModelHelpers.flatten_id_array(content_ids),
+      owner: account_id
+    }
+  end
+
+  def from_hash(data)
+    update_attributes!({
+      title: data["title"],
+      slug: data["slug"],
+      url: data["url"],
+      external: data["external"],
+      topic_ids: data["topics"],
+      content_ids: data["contents"],
+      account_id: data["owner"],
+    })
   end
 end
