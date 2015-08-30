@@ -93,7 +93,7 @@ export class LearningGraph extends React.Component {
 
         node
             .append("circle")
-            .attr("r", 5)
+            .attr("r", 10)
             .attr("x", 0)
             .attr("y", 0)
             .style("fill", function(d) { return color(d.group); })
@@ -112,7 +112,7 @@ export class LearningGraph extends React.Component {
                 .append("svg:path")
                 .attr("class", "link")
                 .style("marker-end",  "url(#end)") // Modified line
-                .style("stroke-width", function(d) { return Math.pow(d.value, 2) / 200; });
+                .style("stroke-width", function(d) { return Math.pow(d.value, 2) / 20; });
 
         return link;
     }
@@ -123,7 +123,7 @@ export class LearningGraph extends React.Component {
 
         var force = d3.layout.force()
             .charge(-120)
-            .linkDistance(64)
+            .linkDistance(128)
             .size([width, height]);
 
         var svg = d3.select(React.findDOMNode(this)).append("svg")
