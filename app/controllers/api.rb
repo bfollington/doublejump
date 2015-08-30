@@ -5,25 +5,43 @@ Doublejump::App.controllers :api, :cache => true do
   set :protect_from_csrf, false
 
   get :concept, :with => :id do
-    content_type :json
     learning_module = LearningModule.find(params[:id])
+
+    send_json learning_module.to_hash
+  end
+
+  post :concept do
+    data = get_body
+
+    if data["id"].nil?
+      learning_module = LearningModule.new
+    else
+      learning_module = LearningModule.find(data["id"])
+    end
+
+    learning_module.from_hash(data)
+
+    send_json learning_module.to_hash
+  end
+
+  get :concepts do
+    learning_modules = LearningModule.all
+
+    send_json learning_modules.map{ |learning_module| learning_module.to_hash }
+  end
+
+  get :contents, :with => :module_id do
+
+    learning_module = LearningModule.find(params[:module_id])
     contents = []
 
     # Annotate types for loading
     learning_module.content_ids.each do |content_id|
-      content = Content.find(content_id)
-      content.write_attribute("type", content.get_type)
+      content = Content.find(content_id).to_hash
       contents << content
     end
 
-    {learning_module: learning_module, contents: contents}.to_json
-  end
-
-  get :concepts do
-    content_type :json
-    learning_modules = LearningModule.all
-
-    learning_modules.to_json
+    send_json contents
   end
 
   get :topics do
