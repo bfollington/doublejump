@@ -19,6 +19,22 @@ export function receiveModules(data) {
     return {type: RECEIVE_MODULES, data};
 }
 
+export const UPDATE_MODULE = "UPDATE_MODULE";
+export function updateModule(data) {
+    return {type: UPDATE_MODULE, data};
+}
+
+export function saveModule(module) {
+    return new Promise( (resolve, reject) => {
+        window.store.dispatch(updateModule(module));
+
+        $.post(`/api/concept/`, JSON.stringify(module), data => {
+            window.store.dispatch(receiveModule(data.id, data));
+            resolve();
+        });
+    });
+}
+
 export function fetchModule(module) {
 
     return new Promise( (resolve, reject) => {

@@ -1,6 +1,7 @@
 import {
     REQUEST_MODULE, RECEIVE_MODULE,
     REQUEST_MODULES, RECEIVE_MODULES,
+    UPDATE_MODULE,
     receiveModule
 } from "actions/Module";
 
@@ -11,9 +12,7 @@ function moduleData(
         isFetching: false,
         isFetchingNextModules: false,
         didInvalidate: false,
-        data: {},
-        contents: [],
-        topics: []
+        data: {}
     },
     action) {
 
@@ -30,9 +29,7 @@ function moduleData(
         return clone(state, {
             isFetching: false,
             didInvalidate: false,
-            data: action.data.learning_module,
-            contents: action.data.contents,            //TODO: make a contents store and reference by id instead
-            topics: action.data.learning_module.topic_ids.map(id => id.$oid)
+            data: action.data
         });
 
 
@@ -46,6 +43,7 @@ function moduleData(
 
 function module(state = {
     areFetching: false,
+    areUpdating: false,
     items: {}
 }, action) {
     switch (action.type) {
@@ -61,14 +59,11 @@ function module(state = {
         action.data.forEach( module => {
 
             var test = moduleData(
-                modules[module._id.$oid],
-                receiveModule(
-                    module._id.$oid,
-                    { learning_module: module }
-                )
+                modules[module.id],
+                receiveModule(module.id, module)
             );
 
-            modules[module._id.$oid] = test;
+            modules[module.id] = test;
 
         });
 
@@ -79,10 +74,19 @@ function module(state = {
 
     case REQUEST_MODULE:
     case RECEIVE_MODULE:
+
         return clone(state, {
+            areUpdating: false,
             items: {
                 [action.id]: moduleData(state[action.id], action)
             }
+        });
+
+
+    case UPDATE_MODULE:
+
+        return clone(state, {
+            areUpdating: true
         });
 
     default:
