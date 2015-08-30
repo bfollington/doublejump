@@ -15,3 +15,4 @@ dumps
 public/javascripts/app_bundle.js
 public/javascripts/app_bundle.js.map
 components.css
+application.css
