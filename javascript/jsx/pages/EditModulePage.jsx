@@ -20,7 +20,6 @@ var page = require("page");
 
 import { apply } from "react-es7-mixin";
 import data from "mixins/data";
-import query from "mixins/query";
 import connect from "mixins/connect";
 import mapping from "mixins/mapping";
 import { fetchModule, saveModule } from "actions/Module";
@@ -67,9 +66,6 @@ export class EditModulePage extends React.Component {
             ready: false,
             selectedTopics: []
         };
-
-        window.sendNotification = this.props.sendNotification;
-
 
         Mixin.apply(this, Store, {stores: ["module", "topic"]});
 
@@ -156,7 +152,7 @@ export class EditModulePage extends React.Component {
             id = this.props.module;
         }
 
-        var module = clone(this.query("module").data, {
+        var module = clone(this.$currentModule(), {
             contents: contents,
             title: this.state.title,
             slug: this.state.slug,
@@ -166,6 +162,7 @@ export class EditModulePage extends React.Component {
         saveModule(module)
             .then( data => {
                 console.log("Response", data);
+                this.props.sendNotification("Module Saved!");
             });
     }
 

@@ -5,7 +5,7 @@ import {
 import clone from "./Util.js";
 
 function notifications(state = {
-    currentNotification: {}
+    currentNotification: null
 }, action) {
     switch (action.type) {
 
@@ -16,7 +16,7 @@ function notifications(state = {
 
     case CLEAR_NOTIFICATION:
         return clone(state, {
-            currentNotification: {}
+            currentNotification: null
         });
 
     default:
