@@ -69,7 +69,7 @@ Doublejump::App.controllers :api, :cache => true do
 
 
   get :account do
-      send_json({account: current_account})
+      send_json current_account.to_hash
   end
 
 
@@ -306,7 +306,7 @@ def next_modules(project, learning_module = nil)
         if count >= 4 then break end
     end
 
-    result
+    result.map{ |mod| mod.to_hash }
 end
 
 

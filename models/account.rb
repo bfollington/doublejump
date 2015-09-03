@@ -47,6 +47,20 @@ class Account
   # Callbacks
   before_save :encrypt_password, :if => :password_required
 
+  def to_hash
+    {
+      id: _id.to_s,
+      current_project: current_project.to_hash,
+      avatar: avatar,
+      bio: bio,
+      email: email,
+      name: name,
+      surname: surname,
+      username: username,
+      role: role
+    }
+  end
+
   ##
   # This method is for authentication purpose.
   #

@@ -16,7 +16,7 @@ export function fetchAccount(project) {
 
         $.get(`/api/account`, {},
             data => {
-                window.store.dispatch(receiveAccount(data.account));
+                window.store.dispatch(receiveAccount(data));
             }
         );
     });

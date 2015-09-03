@@ -14,4 +14,23 @@ class Project
   validates_presence_of :title
   validates_presence_of :slug
   validates_uniqueness_of :slug
+
+  def to_hash
+    {
+      id: _id.to_s,
+      title: title,
+      slug: slug,
+      metadata: get_metadata_hash
+    }
+  end
+
+  def get_metadata_hash
+    data = {}
+
+    metadatas.each do |metadata|
+      data[metadata.key] = metadata.value
+    end
+
+    data
+  end
 end

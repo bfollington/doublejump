@@ -30,7 +30,7 @@ export function saveModule(module) {
 
         $.post(`/api/concept/`, JSON.stringify(module), data => {
             window.store.dispatch(receiveModule(data.id, data));
-            resolve();
+            resolve(data);
         });
     });
 }

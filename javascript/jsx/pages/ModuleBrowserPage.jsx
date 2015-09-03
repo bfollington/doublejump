@@ -65,7 +65,8 @@ export class ModuleBrowserPage extends React.Component {
                 <GridRow sizes={{xs: 6, sm: 4, md: 3}}>
                     {
                         this.props.projectData[this.props.project].nextModules.map( module => {
-                            return <Module module={module} project={this.props.project} topics={module.topic_ids.map( id => this.props.topics[id.$oid])} />;
+                            console.log(module);
+                            return <Module module={module} project={this.props.project} topics={module.topics.map( id => this.props.topics[id])} />;
                         })
                     }
                 </GridRow>
@@ -73,7 +74,7 @@ export class ModuleBrowserPage extends React.Component {
                 <br />
                 <h3>Searching for something in particular?</h3>
                 <p>If you'd like to learn about one particular concept, then you can search the entire catalogue below.</p>
-                <Select options={this.props.allModules.map( module => { return {value: module._id.$oid, label: module.title}; } )} onChange={this.onChange.bind(this)} />
+                <Select options={this.props.allModules.map( module => { return {value: module.id, label: module.title}; } )} onChange={this.onChange.bind(this)} />
 
             </div>
         );

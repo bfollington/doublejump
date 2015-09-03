@@ -25,6 +25,7 @@ import connect from "mixins/connect";
 import { fetchProject, updateMetadata, fetchNextModules } from "actions/Project";
 import { fetchModule } from "actions/Module";
 import { fetchTopics } from "actions/Topic";
+import { fetchContents } from "actions/Content";
 
 import { GridRow } from "components/Layout.jsx";
 
@@ -34,6 +35,7 @@ import { GridRow } from "components/Layout.jsx";
         {
             modules: state.module.items,
             projects: state.project.items,
+            contents: state.content.items,
             topics: state.topic.items
         }
     ),
@@ -49,7 +51,8 @@ import { GridRow } from "components/Layout.jsx";
         fetchProject(props.project),
         fetchModule(props.module),
         fetchTopics(),
-        fetchNextModules(props.project, props.module)
+        fetchNextModules(props.project, props.module),
+        fetchContents(props.module)
     ]
 )
 export class ViewModulePage extends React.Component {
@@ -91,7 +94,7 @@ export class ViewModulePage extends React.Component {
     }
 
     getContents() {
-        return this.props.modules[this.props.module].contents;
+        return this.props.modules[this.props.module].data.contents.map( id => this.props.contents[id].data );
     }
 
     getModule() {
@@ -99,7 +102,7 @@ export class ViewModulePage extends React.Component {
     }
 
     getTopics() {
-        return this.props.modules[this.props.module].topics.map( id => this.props.topics[id] );
+        return this.props.modules[this.props.module].data.topics.map( id => this.props.topics[id] );
     }
 
     metadataChange(content) {
@@ -133,7 +136,7 @@ export class ViewModulePage extends React.Component {
                             return <Module
                                 module={module}
                                 project={this.props.project}
-                                topics={module.topic_ids.map( id => this.props.topics[id.$oid])}
+                                topics={module.topics.map( id => this.props.topics[id])}
                                 onClick={this.onModuleClick.bind(this, module)}
                             />;
                         })
@@ -154,7 +157,7 @@ export class ViewModulePage extends React.Component {
             "MarkdownContent": ctx => <MarkdownContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
             "CodeContent": ctx => <CodeContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
             "MathContent": ctx => <MathContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
-            "ImageContent": ctx => <ImageContent comments={ctx.comments} module={this.props.module} id={ctx.id} value="" editable={this.isEditable} metadata={this.getMetadata.bind(this)} />
+            "ImageContent": ctx => <ImageContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.src} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />
         };
 
         return (
@@ -167,6 +170,14 @@ export class ViewModulePage extends React.Component {
                             this.getTopics().map(topic => {
                                 return <TopicPill topic={topic} />;
                             })
+                        }
+                        {
+                            () => {
+                                console.log(this.getModule().external, this.getModule().url);
+                                if (!this.getModule().external && this.getModule().url) {
+                                    return <small><p>Adapted from content hosted at <a href={this.getModule().url}>{this.getModule().url.trunc(100)}</a></p></small>;
+                                }
+                            }()
                         }
                     </div>
 

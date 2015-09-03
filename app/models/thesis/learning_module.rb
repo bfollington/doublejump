@@ -47,10 +47,10 @@ class LearningModule
       title: data["title"],
       slug: data["slug"],
       url: data["url"],
-      external: data["external"],
+      external: (data["external"] and !data["url"].empty?),
       topic_ids: data["topics"],
       content_ids: data["contents"],
-      account_id: data["owner"],
+      account_id: data["owner"]
     })
   end
 end
