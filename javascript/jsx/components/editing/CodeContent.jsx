@@ -1,9 +1,11 @@
 import {Events, SaveModuleFormEvent, ContentTypeSubmissionSuccessEvent} from 'Events.jsx';
 import {ContentType} from 'components/editing/ContentType.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
+import {apply, afterRender} from "react-es7-mixin";
 
 var React = require("react");
 
+@apply(afterRender)
 export class CodeContent extends React.Component {
 
     constructor(props) {
@@ -12,7 +14,8 @@ export class CodeContent extends React.Component {
         this.state = {
             content: this.props.value,
             language: this.props.language,
-            id: this.props.id
+            id: this.props.id,
+            editing: false
         };
     }
 
@@ -37,10 +40,11 @@ export class CodeContent extends React.Component {
 
     saveCallback(data) {
         if (data.success) {
-            this.setState({id: data.id});
+            this.setStateAnd({id: data.id})
+                .then( () => Events.emitRoot(ContentTypeSubmissionSuccessEvent, this) );
         }
 
-        Events.emitRoot(ContentTypeSubmissionSuccessEvent, this);
+
     }
 
     languageChange(lang) {
@@ -78,16 +82,14 @@ export class CodeContent extends React.Component {
         );
 
         var view = (
-            <pre data-id={this.state.id}>
-                <code className={this.state.language}>
-                    {this.state.content}
-                </code>
-            </pre>
+            <div data-id={this.state.id}>
+                <AceEditor readOnly language={this.state.language} value={this.state.content} />
+            </div>
         );
 
         var content = this.state.editing ? edit : view;
 
-        return ContentType.wrapContentType(this, content, this.edit.bind(this));
+        return ContentType.wrapContentType(this, content, this.edit.bind(this), this.state.editing);
     }
 }
 

@@ -13,6 +13,8 @@ import {Print} from 'mixins/Print';
 import {Store} from 'mixins/Store';
 import {Slug} from 'Slug.js';
 
+import {Row, Column} from "components/Layout.jsx";
+
 var Select = require('react-select');
 var React = require("react");
 
@@ -52,7 +54,7 @@ import clone from "reducers/Util.js";
     ]
 )
 @mapping({
-    "currentModule": (props, state) => props.modules[props.module].data
+    "currentModule": (props, state) => props.module ? props.modules[props.module].data : {}
 })
 export class EditModulePage extends React.Component {
     constructor(props) {
@@ -63,6 +65,7 @@ export class EditModulePage extends React.Component {
             title: this.props.title,
             slug: this.props.slug,
             url: this.props.url,
+            external: this.props.external,
             ready: false,
             selectedTopics: []
         };
@@ -70,22 +73,34 @@ export class EditModulePage extends React.Component {
         Mixin.apply(this, Store, {stores: ["module", "topic"]});
 
         var contentTypeLookup = {
-            "MarkdownContent": ctx => <MarkdownContent module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
-            "CodeContent": ctx => <CodeContent module={this.props.module} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
-            "MathContent": ctx => <MathContent module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
-            "ImageContent": ctx => <ImageContent module={this.props.module} id={ctx.id} value="" editable={this.isEditable} metadata={this.getMetadata.bind(this)} />
+            "MarkdownContent": ctx => <MarkdownContent onDelete={this.onDelete.bind(this)} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
+            "CodeContent": ctx => <CodeContent onDelete={this.onDelete.bind(this)} module={this.props.module} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
+            "MathContent": ctx => <MathContent onDelete={this.onDelete.bind(this)} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
+            "ImageContent": ctx => <ImageContent onDelete={this.onDelete.bind(this)} module={this.props.module} id={ctx.id} value={ctx.src} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />
         };
 
+
         this.loadData(props)
-            .then( () => this.setState({
-                ready: true,
-                selectedTopics: this.props.module ? this.$currentModule().topics : [],
-                title: this.$currentModule().title,
-                slug: this.$currentModule().slug,
-                contentBlocks: this.$currentModule().contents.map(id => {
-                    return contentTypeLookup[this.getContent(id).type](this.getContent(id));
-                })
-            }) );
+            .then( () => {
+
+                if (this.props.module) {
+                    this.setState({
+                        ready: true,
+                        selectedTopics: this.props.module ? this.$currentModule().topics : [],
+                        title: this.$currentModule().title,
+                        slug: this.$currentModule().slug,
+                        url: this.$currentModule().url,
+                        external: this.$currentModule().external,
+                        contentBlocks: this.$currentModule().contents.map(id => {
+                            return contentTypeLookup[this.getContent(id).type](this.getContent(id));
+                        })
+                    });
+                } else {
+                    this.setState({ready: true});
+                }
+
+            }
+        );
 
         this.submitCount = 0;
     }
@@ -105,6 +120,10 @@ export class EditModulePage extends React.Component {
 
     urlUpdate(e) {
         this.setState({url: e.target.value});
+    }
+
+    externalUpdate(e) {
+        this.setState({external: e.target.checked});
     }
 
     onTopicChange(latest, list) {
@@ -156,13 +175,15 @@ export class EditModulePage extends React.Component {
             contents: contents,
             title: this.state.title,
             slug: this.state.slug,
+            url: this.state.url,
+            external: this.state.external,
             topics: topics
         });
 
         saveModule(module)
             .then( data => {
-                console.log("Response", data);
                 this.props.sendNotification("Module Saved!");
+                setTimeout( () => page(`/concepts/edit/${data.id}`), 1000 );
             });
     }
 
@@ -178,7 +199,14 @@ export class EditModulePage extends React.Component {
 
 
 
+    onDelete(block) {
+        if (confirm("Delete content block?")) {
+            var blocks = this.state.contentBlocks.slice();
+            blocks.splice(blocks.indexOf(block), 1);
 
+            this.setState({contentBlocks: blocks});
+        }
+    }
 
     newSection(provider) {
         var blocks = this.state.contentBlocks;
@@ -192,7 +220,7 @@ export class EditModulePage extends React.Component {
             ctx = {}
         }
 
-        return <MarkdownContent id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)}/>;
+        return <MarkdownContent onDelete={this.onDelete.bind(this)} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)}/>;
     }
 
     newCodeSection(ctx) {
@@ -200,7 +228,7 @@ export class EditModulePage extends React.Component {
             ctx = {}
         }
 
-        return <CodeContent id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} />;
+        return <CodeContent onDelete={this.onDelete.bind(this)} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} />;
     }
 
     newMathSection(ctx) {
@@ -208,7 +236,7 @@ export class EditModulePage extends React.Component {
             ctx = {}
         }
 
-        return <MathContent id={ctx.id} value={ctx.body} editable={this.isEditable} />;
+        return <MathContent onDelete={this.onDelete.bind(this)} id={ctx.id} value={ctx.body} editable={this.isEditable} />;
     }
 
     newImageSection(ctx) {
@@ -216,7 +244,7 @@ export class EditModulePage extends React.Component {
             ctx = {}
         }
 
-        return <ImageContent id={ctx.id} value="" editable={this.isEditable} />;
+        return <ImageContent onDelete={this.onDelete.bind(this)} id={ctx.id} value="" editable={this.isEditable} />;
     }
 
 
@@ -295,12 +323,25 @@ export class EditModulePage extends React.Component {
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="col-sm-12">
+                                    <Row>
+                                        <Column sizes={{xs: 8}}>
                                             <p>
-                                                <label htmlFor="learning_module_url">External URL (Optional)</label>
+                                                <label htmlFor="learning_module_url">Reference URL (Optional)</label>
                                                 <input onChange={this.urlUpdate.bind(this)} value={this.state.url} type="text" name="learning_module[url]" id="learning_module_url" className="form-control" />
                                             </p>
+                                        </Column>
+                                        <Column sizes={{xs: 4}}>
+                                            <p>
+                                                <label htmlFor="learning_module_external">
+                                                    Is Reference URL External Activity?
+                                                    <input onChange={this.externalUpdate.bind(this)} checked={this.state.external} type="checkbox" name="learning_module[external]" id="learning_module_external" className="form-control" />
+                                                </label>
+                                            </p>
+                                        </Column>
+                                    </Row>
+                                    <div className="row">
+                                        <div className="col-sm-12">
+
                                         </div>
                                     </div>
                                     <div className="col-sm-12">

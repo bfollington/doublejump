@@ -32,7 +32,7 @@ export class AceEditor extends React.Component {
             var editDiv = $('<div>', {
                 position: 'absolute',
                 width: el.width(),
-                height: Math.max(this.props.height, el[0].scrollHeight),
+                height: this.props.readOnly ? el[0].scrollHeight : Math.max(this.props.height, el[0].scrollHeight),
                 'class': el.attr('class')
             }).insertBefore(el);
 
@@ -46,6 +46,8 @@ export class AceEditor extends React.Component {
             this.editor.getSession().setUseWrapMode(true);
             this.editor.getSession().setUseWorker(false);
             this.editor.setTheme("ace/theme/terminal");
+
+            this.editor.setReadOnly(this.props.readOnly)
 
             // Keep original form field in sync
             if (this.props.keepTextAreaInSync) {
@@ -87,7 +89,7 @@ export class AceEditor extends React.Component {
         }
 
         return (
-            <div>
+            <div className="AceEditor">
                 {languageSelection}
                 <textarea className="form-control" data-editor={this.props.language} defaultValue={this.props.value} />
             </div>
@@ -100,5 +102,6 @@ AceEditor.defaultProps = {
     height: 64,
     value: "",
     keepTextAreaInSync: true,
-    showLanguageSelection: false
+    showLanguageSelection: false,
+    readOnly: false
 };

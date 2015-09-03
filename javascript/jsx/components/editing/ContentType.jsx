@@ -2,6 +2,7 @@ import {ContentTypeToolbar} from "./ContentTypeToolbar.jsx";
 import {FloatingButton} from "components/FloatingButton.jsx";
 import {CommentButton} from "components/CommentButton.jsx";
 
+
 var React = require("react");
 
 export class ContentType extends React.Component {
@@ -19,12 +20,17 @@ ContentType.addComment = function(comment) {
     window.flux.stores.module.actions.addComment({module: this.props.module, id: this.props.id, text: comment});
 }
 
-ContentType.wrapContentType = function(ctx, content, editHandler) {
+function onDelete() {
+    this.props.onDelete(this);
+}
+
+ContentType.wrapContentType = function(ctx, content, editHandler, inBox = true) {
 
     var inner = [
         <div className="edit-content-type-tools float-right">
             <FloatingButton icon="arrows" className="handle">Move</FloatingButton>
             <FloatingButton icon="pencil" onClick={editHandler}>Edit</FloatingButton>
+            <FloatingButton icon="times" onClick={onDelete.bind(ctx)}>Delete</FloatingButton>
         </div>,
         {content}
     ];
@@ -34,7 +40,7 @@ ContentType.wrapContentType = function(ctx, content, editHandler) {
     }
 
     return (
-        <div className={"box content-type " + (ctx.props.editable() ? "editable" : "")} >
+        <div className={ (inBox ? "box" : "") + " content-type " + (ctx.props.editable() ? "editable" : "")} >
         <CommentButton comments={ctx.props.comments} onAddComment={ContentType.addComment.bind(ctx)} />
             {inner}
         </div>
