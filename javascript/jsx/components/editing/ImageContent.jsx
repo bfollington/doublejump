@@ -73,7 +73,7 @@ export class ImageContent extends React.Component {
         );
 
         var view = (
-            <div data-id={this.state.id}>
+            <div data-id={this.state.id} className="ImageContent">
                 <img src={this.state.content} />
             </div>
         );
