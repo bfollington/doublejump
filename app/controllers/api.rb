@@ -4,6 +4,14 @@ Doublejump::App.controllers :api, :cache => true do
   set :allow_disabled_csrf, true
   set :protect_from_csrf, false
 
+  get :clean_unused_content do
+    to_remove = Content.where(learning_module: nil, "step_ids.0" => { "$exists" => false })
+
+    to_remove.destroy_all
+
+    send_json({remove: to_remove})
+  end
+
   get :concept, :with => :id do
     learning_module = LearningModule.find(params[:id])
 
