@@ -1080,3 +1080,33 @@ $dropdown-width: 128px;
         border-bottom-color: $link-color;
     }
 }
+
+ul .Button {
+    margin-right: 5px;
+}
+
+.Button {
+    border-radius: 1000px;
+    background-color: $link-color;
+    border: 0px;
+    padding: 5px 15px;
+    color: white;
+    display: inline-block;
+    text-align: center;
+
+    transition: 0.3s, transform 0.3s $bounce-easing;
+
+    &:hover {
+        background-color: $link-hover-color;
+
+        transform: scale(1.1, 1.1);
+    }
+}
+
+.Button[disabled] {
+    background: #ddd;
+
+    &:hover {
+        transform: none;
+    }
+}

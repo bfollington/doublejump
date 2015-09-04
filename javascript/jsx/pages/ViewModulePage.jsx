@@ -29,6 +29,7 @@ import { fetchContents } from "actions/Content";
 
 import { GridRow } from "components/Layout.jsx";
 
+import {FinishedModule} from "components/FinishedModule.jsx";
 
 @connect(
     state => (
@@ -69,10 +70,6 @@ export class ViewModulePage extends React.Component {
     }
 
     //TODO, remove old style from here
-
-    onModuleClick(next) {
-        API.transition(this.props.module, next._id.$oid);
-    }
 
     componentDidMount() {
 
@@ -127,23 +124,7 @@ export class ViewModulePage extends React.Component {
 
         if (!this.state.ready) return null;
 
-        var finished = (
-            <div className="fade-in">
-                <MessageFromUs>Great work! Here's what I think you should try next.</MessageFromUs>
-                <GridRow sizes={{xs: 6, sm: 4, md: 3}}>
-                    {
-                        this.getNextModules().map(module => {
-                            return <Module
-                                module={module}
-                                project={this.props.project}
-                                topics={module.topics.map( id => this.props.topics[id])}
-                                onClick={this.onModuleClick.bind(this, module)}
-                            />;
-                        })
-                    }
-                </GridRow>
-            </div>
-        );
+        var finished = <FinishedModule topics={this.props.topics} currentModule={this.getModule()} nextModules={this.getNextModules()} project={this.props.project} />;
 
         if (!this.state.done) {
             finished = (

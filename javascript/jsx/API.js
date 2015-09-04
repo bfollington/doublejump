@@ -17,4 +17,12 @@ API.startProject = function(name, slug, callback) {
     $.post(`/api/project/`, JSON.stringify({title: name, slug: slug}), callback);
 }
 
+API.mostAppropriateTopic = function(module, topic, callback) {
+    $.post(`/api/most_appropriate_topic/`, JSON.stringify({module: module, topic: topic}), callback);
+}
+
+API.moduleDifficulty = function(module, difficulty, callback) {
+    $.post(`/api/module_difficulty/`, JSON.stringify({module: module, difficulty: difficulty}), callback);
+}
+
 module.exports = API;

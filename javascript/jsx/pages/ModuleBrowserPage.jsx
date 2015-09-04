@@ -65,7 +65,6 @@ export class ModuleBrowserPage extends React.Component {
                 <GridRow sizes={{xs: 6, sm: 4, md: 3}}>
                     {
                         this.props.projectData[this.props.project].nextModules.map( module => {
-                            console.log(module);
                             return <Module module={module} project={this.props.project} topics={module.topics.map( id => this.props.topics[id])} />;
                         })
                     }

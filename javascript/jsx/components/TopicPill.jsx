@@ -8,10 +8,8 @@ export class TopicPill extends React.Component {
     }
 
     clicked() {
-        if (this.props.selectable) {
+        if (this.props.selectable && this.props.onSelect) {
             this.setState({selected: this.props.onSelect(this.props.topic)});
-
-
         }
     }
 

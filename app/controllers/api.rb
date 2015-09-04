@@ -4,13 +4,13 @@ Doublejump::App.controllers :api, :cache => true do
   set :allow_disabled_csrf, true
   set :protect_from_csrf, false
 
-  get :clean_unused_content do
-    to_remove = Content.where(learning_module: nil, "step_ids.0" => { "$exists" => false })
+  # get :clean_unused_content do
+  #   to_remove = Content.where(learning_module: nil, "step_ids.0" => { "$exists" => false })
 
-    to_remove.destroy_all
+  #   to_remove.destroy_all
 
-    send_json({remove: to_remove})
-  end
+  #   send_json({remove: to_remove})
+  # end
 
   get :concept, :with => :id do
     learning_module = LearningModule.find(params[:id])
@@ -176,6 +176,11 @@ Doublejump::App.controllers :api, :cache => true do
     learning_module = LearningModule.find(data["module"])
     project = Project.where(slug: data["project"]).first
 
+    if project.learning_modules.include? learning_module
+      content_type :json
+      return {message: "Already completed this module"}.to_json
+    end
+
     project.learning_modules << learning_module
     project.save!
 
@@ -206,6 +211,28 @@ Doublejump::App.controllers :api, :cache => true do
     transition.save
 
     {transition: transition}.to_json
+  end
+
+  post :most_appropriate_topic do
+
+    data = get_body
+
+    relevance = TopicRelevance.new(learning_module: data["module"], topic: data["topic"], account: current_account)
+    relevance.save!
+
+    send_json({relevance: relevance})
+
+  end
+
+  post :module_difficulty do
+
+    data = get_body
+
+    difficulty = ModuleDifficulty.new(learning_module: data["module"], account: current_account, difficulty: data["difficulty"])
+    difficulty.save!
+
+    send_json({difficulty: difficulty})
+
   end
 
   get :next, :with => [:project, :module] do
@@ -403,7 +430,12 @@ def build_graph(project, start_node)
 
     lm = LearningModule.find(key)
 
-    nodes << {name: lm.title, group: 1}
+    if !project.learning_modules.find(lm).nil?
+      nodes << {name: lm.title, group: 2}
+    else
+      nodes << {name: lm.title, group: 1}
+    end
+
     if value > 0
       links << {source: 0, target: nodes.length - 1, value: value}
     end
@@ -427,7 +459,13 @@ def build_full_graph(project)
   learning_modules = LearningModule.all
 
   learning_modules.each do |learning_module|
-    nodes << {name: learning_module.title}
+
+    if !project.learning_modules.include?(learning_module)
+      nodes << {name: learning_module.title, group: 2}
+    else
+      nodes << {name: learning_module.title, group: 1}
+    end
+
     index_lookup[learning_module.id] = nodes.length - 1
   end
 

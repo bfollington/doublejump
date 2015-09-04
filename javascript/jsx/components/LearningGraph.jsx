@@ -140,8 +140,8 @@ export class LearningGraph extends React.Component {
                 .links(graph.links)
                 .start();
 
-            var node = this.createNode(svg, force, graph, d3.scale.category20());
             var link = this.createLink(svg, graph);
+            var node = this.createNode(svg, force, graph, d3.scale.category20());
 
             node
                 .on('click', this.showConnectedNodes.bind(this, graph, node, link)) //Added code
