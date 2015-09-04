@@ -49,6 +49,7 @@ function projectData(
         });
 
     case RECEIVE_NEXT_MODULES:
+
         return clone(state, {
             nextModules: action.next,
             isFetchingNextModules: false
@@ -74,7 +75,7 @@ function project(state = {
     case UPDATE_METADATA:
         return clone(state, {
             items: {
-                [action.id]: projectData(state[action.id], action)
+                [action.id]: projectData(state.items[action.id], action)
             }
         });
 
@@ -82,7 +83,7 @@ function project(state = {
     case RECEIVE_NEXT_MODULES:
         return clone(state, {
             items: {
-                [action.project]: projectData(state[action.project], action)
+                [action.project]: projectData(state.items[action.project], action)
             }
         });
 

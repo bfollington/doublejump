@@ -31,6 +31,12 @@ class Project
       data[metadata.key] = metadata.value
     end
 
+    data["topic_scores"] = {}
+
+    topic_scores.each do |score|
+      data["topic_scores"][score.topic.name] = score.score
+    end
+
     data
   end
 end

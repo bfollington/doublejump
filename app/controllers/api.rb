@@ -292,6 +292,12 @@ def attach_metadata(project)
     project["metadata"][metadata.key] = metadata.value
   end
 
+  project["metadata"]["topic_scores"] = {}
+
+  project.topic_scores.each do |score|
+    project["metadata"]["topic_scores"][score.topic.name] = score.score
+  end
+
   project
 end
 

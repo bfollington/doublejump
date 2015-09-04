@@ -4,6 +4,9 @@ import {AceEditor} from 'components/AceEditor.jsx';
 var marked = require('marked');
 var handlebars = require('handlebars');
 
+import applyHandlebarsHelpers from "HandlebarsHelpers";
+applyHandlebarsHelpers(handlebars);
+
 var React = require("react");
 
 export class MarkdownContent extends React.Component {

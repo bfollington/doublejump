@@ -61,7 +61,6 @@ Backtrace:
 /Users/Ben/.rvm/gems/ruby-2.0.0-p598/gems/sass-3.3.7/lib/sass/plugin.rb:82:in `update_stylesheets'
 /Users/Ben/.rvm/gems/ruby-2.0.0-p598/gems/sass-3.3.7/lib/sass/plugin.rb:54:in `check_for_updates'
 /Users/Ben/.rvm/gems/ruby-2.0.0-p598/gems/sass-3.3.7/lib/sass/plugin/rack.rb:51:in `call'
-/Users/Ben/.rvm/gems/ruby-2.0.0-p598/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
 /Users/Ben/.rvm/gems/ruby-2.0.0-p598/gems/rack-protection-1.5.3/lib/rack/protection/xss_header.rb:18:in `call'
 /Users/Ben/.rvm/gems/ruby-2.0.0-p598/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
 /Users/Ben/.rvm/gems/ruby-2.0.0-p598/gems/rack-protection-1.5.3/lib/rack/protection/base.rb:49:in `call'
