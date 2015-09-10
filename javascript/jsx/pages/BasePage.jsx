@@ -78,9 +78,9 @@ export class BasePage extends React.Component {
                     <Provider store={this.store}>
                         { this.props.children }
                     </Provider>
-                    {/*<DebugPanel top right bottom>
+                    <DebugPanel top right bottom>
                         <DevTools store={window.store} monitor={LogMonitor} />
-                    </DebugPanel>*/}
+                    </DebugPanel>
 
                 </div>
 

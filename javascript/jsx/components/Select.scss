@@ -8,11 +8,7 @@
 .Select {
   position: relative;
   transition: transform 0.3s;
-  z-index: 1000;
 
-  &:hover {
-    transform: scale(1.025);
-  }
 }
 .Select-control {
   position: relative;
@@ -159,6 +155,8 @@
   top: 100%;
   width: 100%;
   -webkit-overflow-scrolling: touch;
+
+  z-index: 10000;
 }
 .Select-menu {
   max-height: 198px;

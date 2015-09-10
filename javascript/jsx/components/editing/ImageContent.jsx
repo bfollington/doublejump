@@ -1,10 +1,11 @@
-import {Events, SaveModuleFormEvent, ContentTypeSubmissionSuccessEvent} from 'Events.jsx';
 import {ContentType} from 'components/editing/ContentType.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
 var marked = require('marked');
+import {apply, afterRender} from "react-es7-mixin";
 
 var React = require("react");
 
+@apply(afterRender)
 export class ImageContent extends React.Component {
 
     constructor(props) {
@@ -12,19 +13,22 @@ export class ImageContent extends React.Component {
 
         this.state = {
             content: this.props.value,
-            id: this.props.id
+            id: this.props.id,
+            editing: false,
+            saving: false
         };
     }
 
-    componentDidMount() {
-        Events.subscribeRoot( SaveModuleFormEvent, this.saveToServer.bind(this) );
-    }
-
-    componentDidUnmount() {
-        Events.unsubscribeRoot( SaveModuleFormEvent, this.saveToServer.bind(this) );
-    }
-
     saveToServer(e) {
+
+        if (this.props.onSave) {
+            this.props.onSave(this);
+        }
+
+        this.setState({
+            saving: true
+        });
+
         var data = {
             image_content: {
                 src: this.state.content,
@@ -34,12 +38,22 @@ export class ImageContent extends React.Component {
         $.post("/content/image/add", data, this.saveCallback.bind(this));
     }
 
+    isSaving() {
+        return this.state.saving;
+    }
+
     saveCallback(data) {
         if (data.success) {
             this.setState({id: data.id});
         }
 
-        Events.emitRoot(ContentTypeSubmissionSuccessEvent, this);
+        this.setState({
+            saving: false
+        });
+
+        if (this.props.onSaveComplete) {
+            this.props.onSaveComplete(this);
+        }
     }
 
     contentChange(content) {
@@ -54,8 +68,11 @@ export class ImageContent extends React.Component {
     }
 
     save(e) {
-        this.setState({content: this.contentBuffer});
-        this.setState({editing: false});
+        this.setStateAnd({
+            content: this.contentBuffer,
+            editing: false
+        })
+        .then( this.saveToServer.bind(this) );
     }
 
     cancel(e) {

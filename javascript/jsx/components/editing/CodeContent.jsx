@@ -15,19 +15,21 @@ export class CodeContent extends React.Component {
             content: this.props.value,
             language: this.props.language,
             id: this.props.id,
-            editing: false
+            editing: false,
+            saving: false
         };
     }
 
-    componentDidMount() {
-        Events.subscribeRoot( SaveModuleFormEvent, this.saveToServer.bind(this) );
-    }
-
-    componentDidUnmount() {
-        Events.unsubscribeRoot( SaveModuleFormEvent, this.saveToServer.bind(this) );
-    }
-
     saveToServer(e) {
+
+        if (this.props.onSave) {
+            this.props.onSave(this);
+        }
+
+        this.setState({
+            saving: true
+        });
+
         var data = {
             code_content: {
                 body: this.state.content,
@@ -38,13 +40,24 @@ export class CodeContent extends React.Component {
         $.post("/content/code/add", data, this.saveCallback.bind(this));
     }
 
+    isSaving() {
+        return this.state.saving;
+    }
+
     saveCallback(data) {
         if (data.success) {
-            this.setStateAnd({id: data.id})
-                .then( () => Events.emitRoot(ContentTypeSubmissionSuccessEvent, this) );
+            this.setState({
+                id: data.id
+            });
         }
 
+        if (this.props.onSaveComplete) {
+            this.props.onSaveComplete(this);
+        }
 
+        this.setState({
+            saving: false
+        });
     }
 
     languageChange(lang) {
@@ -63,8 +76,11 @@ export class CodeContent extends React.Component {
     }
 
     save(e) {
-        this.setState({content: this.contentBuffer});
-        this.setState({editing: false});
+        this.setStateAnd({
+            content: this.contentBuffer,
+            editing: false
+        })
+        .then( this.saveToServer.bind(this) );
     }
 
     cancel(e) {
@@ -82,7 +98,7 @@ export class CodeContent extends React.Component {
         );
 
         var view = (
-            <div data-id={this.state.id}>
+            <div className="CodeContent" data-id={this.state.id}>
                 <AceEditor readOnly language={this.state.language} value={this.state.content} />
             </div>
         );

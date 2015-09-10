@@ -1,10 +1,11 @@
-import {Events, SaveModuleFormEvent, ContentTypeSubmissionSuccessEvent} from 'Events.jsx';
 import {ContentType} from 'components/editing/ContentType.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
 var katex = require('katex');
+import {apply, afterRender} from "react-es7-mixin";
 
 var React = require("react");
 
+@apply(afterRender)
 export class MathContent extends React.Component {
 
     constructor(props) {
@@ -13,17 +14,14 @@ export class MathContent extends React.Component {
         this.state = {
             content: this.props.value,
             editing: this.props.editContent,
-            id: this.props.id
+            id: this.props.id,
+            editing: false,
+            saving: false
         };
     }
 
     componentDidMount() {
-        Events.subscribeRoot( SaveModuleFormEvent, this.saveToServer.bind(this) );
         this.renderMath();
-    }
-
-    componentDidUnmount() {
-        Events.unsubscribeRoot( SaveModuleFormEvent, this.saveToServer.bind(this) );
     }
 
     componentDidUpdate() {
@@ -31,6 +29,15 @@ export class MathContent extends React.Component {
     }
 
     saveToServer(e) {
+
+        if (this.props.onSave) {
+            this.props.onSave(this);
+        }
+
+        this.setState({
+            saving: true
+        });
+
         var data = {
             math_content: {
                 body: this.state.content,
@@ -40,12 +47,22 @@ export class MathContent extends React.Component {
         $.post("/content/math/add", data, this.saveCallback.bind(this));
     }
 
+    isSaving() {
+        return this.state.saving;
+    }
+
     saveCallback(data) {
         if (data.success) {
             this.setState({id: data.id});
         }
 
-        Events.emitRoot(ContentTypeSubmissionSuccessEvent, this);
+        this.setState({
+            saving: false
+        });
+
+        if (this.props.onSaveComplete) {
+            this.props.onSaveComplete(this);
+        }
     }
 
     contentChange(content) {
@@ -74,8 +91,11 @@ export class MathContent extends React.Component {
     }
 
     save(e) {
-        this.setState({content: this.contentBuffer});
-        this.setState({editing: false});
+        this.setStateAnd({
+            content: this.contentBuffer,
+            editing: false
+        })
+        .then( this.saveToServer.bind(this) );
     }
 
     cancel(e) {

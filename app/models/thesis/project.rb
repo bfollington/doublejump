@@ -20,7 +20,8 @@ class Project
       id: _id.to_s,
       title: title,
       slug: slug,
-      metadata: get_metadata_hash
+      metadata: get_metadata_hash,
+      completed_modules: ModelHelpers.flatten_id_array(learning_module_ids)
     }
   end
 

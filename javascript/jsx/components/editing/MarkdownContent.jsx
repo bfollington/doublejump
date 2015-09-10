@@ -1,14 +1,15 @@
-import {Events, SaveModuleFormEvent, ContentTypeSubmissionSuccessEvent} from 'Events.jsx';
 import {ContentType} from 'components/editing/ContentType.jsx';
 import {AceEditor} from 'components/AceEditor.jsx';
 var marked = require('marked');
 var handlebars = require('handlebars');
+import {apply, afterRender} from "react-es7-mixin";
 
 import applyHandlebarsHelpers from "HandlebarsHelpers";
 applyHandlebarsHelpers(handlebars);
 
 var React = require("react");
 
+@apply(afterRender)
 export class MarkdownContent extends React.Component {
 
     constructor(props) {
@@ -16,17 +17,14 @@ export class MarkdownContent extends React.Component {
 
         this.state = {
             content: this.props.value,
-            id: this.props.id
+            id: this.props.id,
+            editing: false,
+            saving: false
         };
     }
 
     componentDidMount() {
-        Events.subscribeRoot( SaveModuleFormEvent, this.saveToServer.bind(this) );
         this.renderMath();
-    }
-
-    componentDidUnmount() {
-        Events.unsubscribeRoot( SaveModuleFormEvent, this.saveToServer.bind(this) );
     }
 
     componentDidUpdate() {
@@ -34,6 +32,15 @@ export class MarkdownContent extends React.Component {
     }
 
     saveToServer(e) {
+
+        if (this.props.onSave) {
+            this.props.onSave(this);
+        }
+
+        this.setState({
+            saving: true
+        });
+
         var data = {
             markdown_content: {
                 body: this.state.content,
@@ -43,12 +50,23 @@ export class MarkdownContent extends React.Component {
         $.post("/content/markdown/add", data, this.saveCallback.bind(this));
     }
 
+    isSaving() {
+        return this.state.saving;
+    }
+
     saveCallback(data) {
         if (data.success) {
             this.setState({id: data.id});
+
         }
 
-        Events.emitRoot(ContentTypeSubmissionSuccessEvent, this);
+        if (this.props.onSaveComplete) {
+            this.props.onSaveComplete(this);
+        }
+
+        this.setState({
+            saving: false
+        });
     }
 
     contentChange(content) {
@@ -77,8 +95,11 @@ export class MarkdownContent extends React.Component {
     }
 
     save(e) {
-        this.setState({content: this.contentBuffer});
-        this.setState({editing: false});
+        this.setStateAnd({
+            content: this.contentBuffer,
+            editing: false
+        })
+        .then( this.saveToServer.bind(this) );
     }
 
     cancel(e) {

@@ -13,7 +13,6 @@ function projectData(
         isFetchingNextModules: false,
         didInvalidate: false,
         data: {},
-        metadata: {},
         nextModules: []
     },
     action) {
@@ -35,12 +34,16 @@ function projectData(
         return clone(state, {
             isFetching: false,
             didInvalidate: false,
-            metadata: action.metadata
+            data: clone(state.data, {
+                metadata: action.metadata
+            })
         });
 
     case UPDATE_METADATA:
         return clone(state, {
-            metadata: action.metadata
+            data: clone(state.data, {
+                metadata: action.metadata
+            })
         });
 
     case REQUEST_NEXT_MODULES:
@@ -74,17 +77,17 @@ function project(state = {
     case RECEIVE_METADATA:
     case UPDATE_METADATA:
         return clone(state, {
-            items: {
+            items: clone(state.items, {
                 [action.id]: projectData(state.items[action.id], action)
-            }
+            })
         });
 
     case REQUEST_NEXT_MODULES:
     case RECEIVE_NEXT_MODULES:
         return clone(state, {
-            items: {
+            items: clone(state.items, {
                 [action.project]: projectData(state.items[action.project], action)
-            }
+            })
         });
 
     case REQUEST_PROJECTS:
@@ -96,13 +99,13 @@ function project(state = {
     case RECEIVE_PROJECTS:
         var projectsDict = {};
         action.data.forEach(project => {
-            projectsDict[project["_id"]["$oid"]] = project;
+            projectsDict[project["slug"]] = project;
         });
 
         return clone(state, {
             areFetching: false,
             didInvalidate: false,
-            items: projectsDict
+            items: clone(state.items, projectsDict)
         });
 
     default:

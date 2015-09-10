@@ -86,7 +86,7 @@ Doublejump::App.controllers :api, :cache => true do
   get :project, :with => :slug do
     project = Project.where(slug: params[:slug]).first
 
-    send_json({ project: attach_metadata(project) })
+    send_json({ project: attach_completed_modules(attach_metadata(project)) })
   end
 
   get :projects do
@@ -94,7 +94,7 @@ Doublejump::App.controllers :api, :cache => true do
     projects = []
 
     current_account.projects.each do |project|
-      projects << attach_metadata(project)
+      projects << attach_completed_modules(attach_metadata(project))
     end
 
     send_json({ projects: projects })
@@ -109,8 +109,17 @@ Doublejump::App.controllers :api, :cache => true do
     current_account.projects << project
     project.save!
 
-    puts current_account.inspect
-    puts project.inspect
+    data["likedTopics"].each do |topic|
+        topic_score = TopicScore.find_or_initialize_by(project: project, topic: topic)
+        topic_score.score = topic_score.score || 0
+        topic_score.score = topic_score.score + 5
+    end
+
+    data["comfortableTopics"].each do |topic|
+      topic_score = TopicScore.find_or_initialize_by(project: project, topic: topic)
+      topic_score.score = topic_score.score || 0
+      topic_score.score = topic_score.score + 5
+    end
 
     current_account.current_project = project
     current_account.save!
@@ -282,6 +291,15 @@ Doublejump::App.controllers :api, :cache => true do
 
 end
 
+def attach_completed_modules(project)
+  project["completed_modules"] = []
+
+  project.learning_module_ids.each do |id|
+    project["completed_modules"] << id.to_s
+  end
+
+  project
+end
 
 # Annotates a project object with its own metadata
 def attach_metadata(project)
@@ -295,8 +313,14 @@ def attach_metadata(project)
   project["metadata"]["topic_scores"] = {}
 
   project.topic_scores.each do |score|
-    project["metadata"]["topic_scores"][score.topic.name] = score.score
+    project["metadata"]["topic_scores"][score.topic.name.squish.downcase.tr(" ","_")] = score.score
   end
+
+  project["metadata"]["learning_modules"] = {}
+  project.learning_modules.each do |learning_module|
+    project["metadata"]["learning_modules"][learning_module.title.squish.downcase.tr(" ","_")] = true
+  end
+
 
   project
 end
@@ -331,17 +355,22 @@ def next_modules(project, learning_module = nil)
     end
 
     sorted = module_lookup.sort_by{|k, v| v}.reverse
+    puts sorted.inspect
     result = []
     count = 0
     sorted.each do |learning_module|
         temp = LearningModule.find(learning_module[0])
         temp["relevance"] = learning_module[1]
 
-        # Do not include the same module again
+        # Do not include a module again
+        if !project.learning_modules.include? temp and has_prereqs? project, temp
 
-        if last_module.nil? or learning_module[0] != last_module.id
-          result << temp
-          count = count + 1
+          # specific edge case for last module completed
+          if last_module.nil? or learning_module[0] != last_module.id
+            result << temp
+            count = count + 1
+          end
+
         end
 
         if count >= 4 then break end
@@ -351,7 +380,21 @@ def next_modules(project, learning_module = nil)
 end
 
 
+def has_prereqs?(project, learning_module)
 
+  yep = true
+
+  learning_module.prereqs.each do |prereq|
+
+    if !project.learning_modules.include? prereq
+      yep = false
+      break
+    end
+  end
+
+  yep
+
+end
 
 
 def calculate_score(learning_module, lookup, bias_module)
@@ -366,14 +409,23 @@ def calculate_score(learning_module, lookup, bias_module)
         score = score + lookup[topic.id]
       end
 
-      # Does this module get a bonus?
-      if !bias_module.nil? and
-        bias_module.topics.where(id: topic.id).exists? and
-        bias_module.id != learning_module.id then
+      relevance = TopicRelevance.where(learning_module: learning_module, topic: topic).count
+      score = score + relevance * 2
 
-          score = score + 2
+      if !bias_module.nil?
+        # "Follow ons" should get a large boost
+        if bias_module.dependents.include? learning_module
+          score = score * 1.1
+        end
 
+        # Does this module get a bonus?
+        if bias_module.topics.where(id: topic.id).exists? and
+           bias_module.id != learning_module.id then
+            score = score + 2
+        end
       end
+
+
   end
 
   score = score + transition_bias

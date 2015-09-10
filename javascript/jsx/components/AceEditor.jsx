@@ -39,6 +39,7 @@ export class AceEditor extends React.Component {
             el.css('display', 'none');
 
             this.editor = ace.edit(editDiv[0]);
+            this.editor.$blockScrolling = Infinity;
 
             this.editor.getSession().setValue(el.text());
             this.editor.getSession().setMode("ace/mode/" + mode);

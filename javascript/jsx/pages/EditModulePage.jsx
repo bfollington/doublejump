@@ -1,5 +1,4 @@
 import { getCSRFFormField, transformMongoId } from 'Util.jsx';
-import {Events, SaveModuleFormEvent, ContentTypeSubmissionSuccessEvent} from 'Events.jsx';
 import {CodeContent} from 'components/editing/CodeContent.jsx';
 import {MathContent} from 'components/editing/MathContent.jsx';
 import {MarkdownContent} from 'components/editing/MarkdownContent.jsx';
@@ -13,7 +12,7 @@ import {Print} from 'mixins/Print';
 import {Store} from 'mixins/Store';
 import {Slug} from 'Slug.js';
 
-import {Row, Column} from "components/Layout.jsx";
+import {GridRow, Row, Column} from "components/Layout.jsx";
 
 var Select = require('react-select');
 var React = require("react");
@@ -24,7 +23,7 @@ import { apply } from "react-es7-mixin";
 import data from "mixins/data";
 import connect from "mixins/connect";
 import mapping from "mixins/mapping";
-import { fetchModule, saveModule } from "actions/Module";
+import { fetchModules, saveModule } from "actions/Module";
 import { getNotification } from "actions/Notification";
 import { fetchContents } from "actions/Content";
 import { fetchTopics } from "actions/Topic";
@@ -36,7 +35,8 @@ import clone from "reducers/Util.js";
         {
             modules: state.module.items,
             contents: state.content.items,
-            topics: Object.keys(state.topic.items).map( topic => ({value: topic, label: state.topic.items[topic].name}) )
+            topics: Object.keys(state.topic.items).map( topic => ({value: topic, label: state.topic.items[topic].name}) ),
+            topicLookup: state.topic.items
         }
     ),
     dispatch => (
@@ -48,7 +48,7 @@ import clone from "reducers/Util.js";
 @data(
 
     props => [
-        props.module ? fetchModule(props.module) : () => {},
+        fetchModules(),
         props.module ? fetchContents(props.module) : () => {},
         fetchTopics()
     ]
@@ -67,16 +67,18 @@ export class EditModulePage extends React.Component {
             url: this.props.url,
             external: this.props.external,
             ready: false,
-            selectedTopics: []
+            selectedTopics: [],
+            selectedModules: [],
+            numberOfSavingModules: 0
         };
 
         Mixin.apply(this, Store, {stores: ["module", "topic"]});
 
         var contentTypeLookup = {
-            "MarkdownContent": ctx => <MarkdownContent onDelete={this.onDelete.bind(this)} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
-            "CodeContent": ctx => <CodeContent onDelete={this.onDelete.bind(this)} module={this.props.module} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
-            "MathContent": ctx => <MathContent onDelete={this.onDelete.bind(this)} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
-            "ImageContent": ctx => <ImageContent onDelete={this.onDelete.bind(this)} module={this.props.module} id={ctx.id} value={ctx.src} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />
+            "MarkdownContent": ctx => <MarkdownContent onSave={this.onModuleSave.bind(this)} onSaveComplete={this.onModuleFinishedSaving.bind(this)} onDelete={this.onDelete.bind(this)} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
+            "CodeContent": ctx => <CodeContent onSave={this.onModuleSave.bind(this)} onSaveComplete={this.onModuleFinishedSaving.bind(this)} onDelete={this.onDelete.bind(this)} module={this.props.module} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
+            "MathContent": ctx => <MathContent onSave={this.onModuleSave.bind(this)} onSaveComplete={this.onModuleFinishedSaving.bind(this)} onDelete={this.onDelete.bind(this)} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
+            "ImageContent": ctx => <ImageContent onSave={this.onModuleSave.bind(this)} onSaveComplete={this.onModuleFinishedSaving.bind(this)} onDelete={this.onDelete.bind(this)} module={this.props.module} id={ctx.id} value={ctx.src} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />
         };
 
 
@@ -86,7 +88,8 @@ export class EditModulePage extends React.Component {
                 if (this.props.module) {
                     this.setState({
                         ready: true,
-                        selectedTopics: this.props.module ? this.$currentModule().topics : [],
+                        selectedTopics: this.props.module ? this.$currentModule().topics.map( topic => ({label: this.props.topicLookup[topic].name, value: topic}) ) : [],
+                        selectedModules: this.props.module ? this.$currentModule().prereqs.map( prereq => ({label: this.props.modules[prereq].data.title, value: prereq}) ) : [],
                         title: this.$currentModule().title,
                         slug: this.$currentModule().slug,
                         url: this.$currentModule().url,
@@ -131,28 +134,25 @@ export class EditModulePage extends React.Component {
         this.setState({selectedTopics: list});
     }
 
-
-
-
-    componentDidMount() {
-
-        console.log("Hello from component");
-
-        Events.subscribeRoot( ContentTypeSubmissionSuccessEvent, this.contentTypeDidSave.bind(this) );
+    onModuleChange(latest, list) {
+        console.log(this);
+        this.setState({selectedModules: list});
     }
 
+    onModuleSave(module) {
+        this.setState({
+            numberOfSavingModules: this.state.numberOfSavingModules + 1
+        });
 
-    componentDidUnmount() {
-        Events.unsubscribeRoot( ContentTypeSubmissionSuccessEvent, this.contentTypeDidSave.bind(this) );
+        console.log("num saving", this.state.numberOfSavingModules);
     }
 
-    contentTypeDidSave() {
-        this.submitCount++;
+    onModuleFinishedSaving(module) {
+        this.setState({
+            numberOfSavingModules: this.state.numberOfSavingModules - 1
+        });
 
-        if (this.submitCount == this.state.contentBlocks.length) {
-            console.log("All saved correctly", this.state.contentBlocks.length);
-            this.allContentTypesDidSave();
-        }
+        console.log("num saving", this.state.numberOfSavingModules);
     }
 
     allContentTypesDidSave() {
@@ -160,10 +160,6 @@ export class EditModulePage extends React.Component {
 
         $(React.findDOMNode(this)).find("[data-id]").each( function() {
             contents.push($(this).attr("data-id"));
-        });
-
-        var topics = this.state.selectedTopics.map(topic => {
-            return topic.value;
         });
 
         var id = "";
@@ -177,7 +173,8 @@ export class EditModulePage extends React.Component {
             slug: this.state.slug,
             url: this.state.url,
             external: this.state.external,
-            topics: topics
+            topics: this.state.selectedTopics.map( topic => topic.value ),
+            prereqs: this.state.selectedModules.map(mod => mod.value)
         });
 
         saveModule(module)
@@ -188,8 +185,6 @@ export class EditModulePage extends React.Component {
     }
 
     moduleSaveRepsonse(data) {
-        console.log("module response", data);
-
         if (data.success) {
             page(`/concepts/edit/${data.learning_module["_id"]["$oid"]}`);
         }
@@ -220,7 +215,7 @@ export class EditModulePage extends React.Component {
             ctx = {}
         }
 
-        return <MarkdownContent onDelete={this.onDelete.bind(this)} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)}/>;
+        return <MarkdownContent onSave={this.onModuleSave.bind(this)} onSaveComplete={this.onModuleFinishedSaving.bind(this)} onDelete={this.onDelete.bind(this)} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)}/>;
     }
 
     newCodeSection(ctx) {
@@ -228,7 +223,7 @@ export class EditModulePage extends React.Component {
             ctx = {}
         }
 
-        return <CodeContent onDelete={this.onDelete.bind(this)} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} />;
+        return <CodeContent onSave={this.onModuleSave.bind(this)} onSaveComplete={this.onModuleFinishedSaving.bind(this)} onDelete={this.onDelete.bind(this)} id={ctx.id} value={ctx.body} language={ctx.language} editable={this.isEditable} />;
     }
 
     newMathSection(ctx) {
@@ -236,7 +231,7 @@ export class EditModulePage extends React.Component {
             ctx = {}
         }
 
-        return <MathContent onDelete={this.onDelete.bind(this)} id={ctx.id} value={ctx.body} editable={this.isEditable} />;
+        return <MathContent onSave={this.onModuleSave.bind(this)} onSaveComplete={this.onModuleFinishedSaving.bind(this)} onDelete={this.onDelete.bind(this)} id={ctx.id} value={ctx.body} editable={this.isEditable} />;
     }
 
     newImageSection(ctx) {
@@ -244,17 +239,25 @@ export class EditModulePage extends React.Component {
             ctx = {}
         }
 
-        return <ImageContent onDelete={this.onDelete.bind(this)} id={ctx.id} value="" editable={this.isEditable} />;
+        return <ImageContent onSave={this.onModuleSave.bind(this)} onSaveComplete={this.onModuleFinishedSaving.bind(this)} onDelete={this.onDelete.bind(this)} id={ctx.id} value="" editable={this.isEditable} />;
+    }
+
+
+    areModulesSaving() {
+        return this.state.numberOfSavingModules != 0;
     }
 
 
 
-
-
-
     save(e) {
-        if (this.state.contentBlocks.length > 0) {
-            Events.emitRoot(SaveModuleFormEvent, this);
+        // if (this.state.contentBlocks.length > 0) {
+        //     Events.emitRoot(SaveModuleFormEvent, this);
+        // } else {
+        //     this.allContentTypesDidSave();
+        // }
+
+        if (this.areModulesSaving()) {
+            setTimeout(this.save.bind(this), 100);
         } else {
             this.allContentTypesDidSave();
         }
@@ -339,20 +342,28 @@ export class EditModulePage extends React.Component {
                                             </p>
                                         </Column>
                                     </Row>
-                                    <div className="row">
-                                        <div className="col-sm-12">
-
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-12">
-                                        <Select
-                                            name="form-field-name"
-                                            options={this.props.topics}
-                                            value={this.state.selectedTopics}
-                                            onChange={this.onTopicChange.bind(this)}
-                                            multi={true}
-                                        />
-                                    </div>
+                                    <GridRow sizes={{xs: 12}}>
+                                        <p>
+                                            <label htmlFor="learning_module_url">Prerequisites</label>
+                                            <Select
+                                                name="form-field-name"
+                                                options={Object.keys(this.props.modules).map( mod => ({value: mod, label: this.props.modules[mod].data.title}) )}
+                                                value={this.state.selectedModules}
+                                                onChange={this.onModuleChange.bind(this)}
+                                                multi={true}
+                                            />
+                                        </p>
+                                        <p>
+                                            <label htmlFor="learning_module_url">Topics</label>
+                                            <Select
+                                                name="form-field-name"
+                                                options={this.props.topics}
+                                                value={this.state.selectedTopics}
+                                                onChange={this.onTopicChange.bind(this)}
+                                                multi={true}
+                                            />
+                                        </p>
+                                    </GridRow>
                                     <div className="content-ids"></div>
                                 </form>
                             </div>
@@ -364,7 +375,6 @@ export class EditModulePage extends React.Component {
                     <Sortable>
                         {
                             this.state.contentBlocks.map(block => {
-                                console.log(block);
                                 return block;
                             })
                         }

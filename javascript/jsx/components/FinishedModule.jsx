@@ -22,7 +22,7 @@ export class FinishedModule extends React.Component {
     }
 
     onModuleClick(next) {
-        API.transition(this.props.module, next._id.$oid);
+        API.transition(this.props.module, next.id);
     }
 
     onDifficulty(challenge) {
@@ -49,18 +49,27 @@ export class FinishedModule extends React.Component {
         return (
             <div className="FinishedModule fade-in">
                 <MessageFromUs>Great work! What did you think about this concept?</MessageFromUs>
-                <label>What topic did you think this was most relevant to?</label>
-                <ul>
-                    {
-                        this.props.currentModule.topics.map( id => <Button disabled={this.state.selectedTopic} onClick={this.onTopicClick.bind(this, id)} text={this.props.topics[id].name} /> )
-                    }
-                </ul>
-                <label>How challenging did you think this was?</label>
-                <ul>
-                    <Button disabled={this.state.hasRatedDifficulty} text="Easy" onClick={this.onDifficulty.bind(this, 0)} />
-                    <Button disabled={this.state.hasRatedDifficulty} text="Average" onClick={this.onDifficulty.bind(this, 1)} />
-                    <Button disabled={this.state.hasRatedDifficulty} text="Difficult" onClick={this.onDifficulty.bind(this, 2)} />
-                </ul>
+
+                <GridRow sizes={{xs: 6}}>
+                    <div>
+                        <label>What topic did you think this was most relevant to?</label>
+                        <ul>
+                            {
+                                this.props.currentModule.topics.map( id => <Button disabled={this.state.selectedTopic} onClick={this.onTopicClick.bind(this, id)} text={this.props.topics[id].name} /> )
+                            }
+                        </ul>
+                    </div>
+                    <div>
+                        <label>How challenging did you think this was?</label>
+                        <ul>
+                            <Button disabled={this.state.hasRatedDifficulty} text="Easy" onClick={this.onDifficulty.bind(this, 0)} />
+                            <Button disabled={this.state.hasRatedDifficulty} text="Average" onClick={this.onDifficulty.bind(this, 1)} />
+                            <Button disabled={this.state.hasRatedDifficulty} text="Difficult" onClick={this.onDifficulty.bind(this, 2)} />
+                        </ul>
+                    </div>
+                </GridRow>
+
+
 
                 <br />
                 <br />

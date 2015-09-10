@@ -29,6 +29,3 @@ export class Events {
     }
 
 }
-
-export var SaveModuleFormEvent = "event_save_module_form";
-export var ContentTypeSubmissionSuccessEvent = "event_content_type_submission_success";

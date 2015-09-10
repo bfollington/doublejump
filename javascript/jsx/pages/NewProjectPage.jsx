@@ -77,6 +77,8 @@ export class NewProjectPage extends React.Component {
         console.log(this.refs.test.val());
 
         API.startProject(this.refs.test.val(), Slug.convertToSlug(this.refs.test.val()),
+            this.state.likedTopics.map(topic => topic._id.$oid),
+            this.state.comfortableTopics.map(topic => topic._id.$oid),
             response => {
                 page(`/concepts/dashboard`);
             }

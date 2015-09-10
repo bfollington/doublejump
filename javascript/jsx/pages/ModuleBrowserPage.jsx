@@ -1,7 +1,7 @@
 import data from "mixins/data";
 import connect from "mixins/connect";
 import { fetchModules } from "actions/Module";
-import { fetchNextModules } from "actions/Project";
+import { fetchNextModules, fetchProjects } from "actions/Project";
 import { fetchTopics } from "actions/Topic";
 
 import { Module } from "components/Module.jsx";
@@ -16,6 +16,7 @@ import Select from "react-select";
     state => (
         {
             allModules: Object.keys(state.module.items).map( id => state.module.items[id].data ),
+            modules: state.module.items,
             projectData: state.project.items,
             topics: state.topic.items
         }
@@ -26,7 +27,8 @@ import Select from "react-select";
     props => [
         fetchModules(),
         fetchNextModules(props.project),
-        fetchTopics()
+        fetchTopics(),
+        fetchProjects()
     ]
 )
 export class ModuleBrowserPage extends React.Component {
@@ -74,6 +76,16 @@ export class ModuleBrowserPage extends React.Component {
                 <h3>Searching for something in particular?</h3>
                 <p>If you'd like to learn about one particular concept, then you can search the entire catalogue below.</p>
                 <Select options={this.props.allModules.map( module => { return {value: module.id, label: module.title}; } )} onChange={this.onChange.bind(this)} />
+
+                <h3>Concepts You've Learned Already</h3>
+                <GridRow sizes={{xs: 6, sm: 4, md: 3}}>
+                    {
+                        this.props.projectData[this.props.project].completed_modules.map( id => {
+                            var module = this.props.modules[id].data;
+                            return <Module module={module} project={this.props.project} topics={module.topics.map( id => this.props.topics[id])} />;
+                        })
+                    }
+                </GridRow>
 
             </div>
         );

@@ -83,7 +83,7 @@ export class ViewModulePage extends React.Component {
 
     // Antipattern yo
     getMetadata() {
-        return this.props.projects[this.props.project].metadata;
+        return this.props.projects[this.props.project].data.metadata;
     }
 
     getNextModules() {
@@ -114,9 +114,10 @@ export class ViewModulePage extends React.Component {
     }
 
     onFinishConcept() {
-        API.finishedModule(this.props.project, this.props.module);
-        this.setState({
-            done: true
+        API.finishedModule(this.props.project, this.props.module, () => {
+            this.setState({
+                done: true
+            });
         });
     }
 

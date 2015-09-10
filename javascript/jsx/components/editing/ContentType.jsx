@@ -41,7 +41,7 @@ ContentType.wrapContentType = function(ctx, content, editHandler, inBox = true) 
 
     return (
         <div className={ (inBox ? "box" : "") + " content-type " + (ctx.props.editable() ? "editable" : "")} >
-        <CommentButton comments={ctx.props.comments} onAddComment={ContentType.addComment.bind(ctx)} />
+        {/*<CommentButton comments={ctx.props.comments} onAddComment={ContentType.addComment.bind(ctx)} />*/}
             {inner}
         </div>
     );

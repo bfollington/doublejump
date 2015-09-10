@@ -23,10 +23,12 @@ export class GridRow extends React.Component {
     render() {
         let i = 0;
 
+        var children = this.props.children.length >= 1 ? this.props.children : [this.props.children];
+
         return (
             <div className="row">
                 {
-                    this.props.children.map( col => {
+                    children.map( col => {
                         return <Column key={i++} sizes={this.props.sizes}>{col}</Column>;
                     })
                 }

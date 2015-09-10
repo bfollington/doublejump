@@ -9,7 +9,7 @@ export class Sortable extends React.Component {
 
         dragula(el, {
             moves: function (el, container, handle) {
-                return $(handle).hasClass("handle");
+                return $(handle).hasClass("handle") || $(handle).parent().hasClass("handle");
             }
         });
     }
