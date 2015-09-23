@@ -2,6 +2,8 @@ import React from "react";
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 import { Provider } from 'react-redux';
 
+import page from "page";
+
 import { HeaderBar } from "components/style/HeaderBar.jsx";
 import { Navigation } from "components/style/Navigation.jsx";
 import { Footer } from "components/style/Footer.jsx";
@@ -50,14 +52,30 @@ export class BasePage extends React.Component {
     componentDidMount() {
         fetchAccount();
 
+        console.log("BasePage mounted");
+
         this.store.subscribe( this.onStoreChange.bind(this) );
     }
 
     onStoreChange() {
-        this.setState({
-            account: this.store.getState().account.currentAccount.data,
-            ready: true
-        });
+
+        if (this.store.getState().account.currentAccount.data.success === false) {
+            // Avoid redirect loop for unauthed users
+            if (window.location.pathname != "/concepts/login") {
+                console.log("Not authed, redirect");
+                page("/concepts/login");
+            } else {
+                this.setState({
+                    account: false,
+                    ready: true
+                });
+            }
+        } else {
+            this.setState({
+                account: this.store.getState().account.currentAccount.data,
+                ready: true
+            });
+        }
     }
 
     render() {
@@ -68,7 +86,7 @@ export class BasePage extends React.Component {
             <div className="container-fluid">
                 <HeaderBar account={this.state.account} />
                 <div className="gradient-container">
-                    <Navigation account={this.state.account} />
+                    { this.state.account ? <Navigation account={this.state.account} /> : null }
                 </div>
 
                 <div className="main-content">
@@ -78,9 +96,9 @@ export class BasePage extends React.Component {
                     <Provider store={this.store}>
                         { this.props.children }
                     </Provider>
-                    <DebugPanel top right bottom>
+                    {/*<DebugPanel top right bottom>
                         <DevTools store={window.store} monitor={LogMonitor} />
-                    </DebugPanel>
+                    </DebugPanel>*/}
 
                 </div>
 

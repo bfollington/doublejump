@@ -1,15 +1,15 @@
-import page from 'page';
-
-import {NewProjectPageController} from './pages/NewProjectPageController.jsx';
-import {ProjectPageController} from './pages/ProjectPageController.jsx';
-import {DashboardPageController} from './pages/DashboardPageController.jsx';
-import {ViewModulePageController} from './pages/ViewModulePageController.jsx';
-import {ModuleBrowserPageController} from './pages/ModuleBrowserPageController.jsx';
-
-import {EditModulePageController} from './pages/EditModulePageController.jsx';
-
 var React = require("react");
 
+import API from "API";
+import page from 'page';
+
+import {DashboardPageController} from './pages/DashboardPageController.jsx';
+import {EditModulePageController} from './pages/EditModulePageController.jsx';
+import {LoginPageController} from './pages/LoginPageController.jsx';
+import {ModuleBrowserPageController} from './pages/ModuleBrowserPageController.jsx';
+import {NewProjectPageController} from './pages/NewProjectPageController.jsx';
+import {ProjectPageController} from './pages/ProjectPageController.jsx';
+import {ViewModulePageController} from './pages/ViewModulePageController.jsx';
 
 const render = (component) => React.render(
     component,
@@ -20,7 +20,17 @@ var baseRoute = "/concepts";
 
 var routes = {};
 
+function logout(ctx, next) {
+    console.log("Logout");
+    API.unauth( res => {
+        page("/concepts/login");
+    });
+    next();
+}
+
 routes['/'] = NewProjectPageController;
+routes['/login'] = LoginPageController;
+routes['/logout'] = logout;
 routes['/dashboard'] = DashboardPageController;
 routes['/project/:project'] = ModuleBrowserPageController;
 routes['/project/:project/:module'] = ViewModulePageController;

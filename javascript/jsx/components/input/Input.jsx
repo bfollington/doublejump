@@ -23,6 +23,8 @@ export class Input extends React.Component {
                             value={this.props.value}
                             defaultValue={this.props.defaultValue}
                             onChange={this.props.onChange}
+                            placeholder={this.props.placeholder}
+                            required={this.props.required}
                         />
                     :
                         <input
@@ -33,6 +35,8 @@ export class Input extends React.Component {
                             value={this.props.value}
                             defaultValue={this.props.defaultValue}
                             onChange={this.props.onChange}
+                            placeholder={this.props.placeholder}
+                            required={this.props.required}
                         />
                 }
 
@@ -49,6 +53,18 @@ Input.defaultProps = {
     type: "text"
 };
 
+Input.propTypes = {
+    label: React.PropTypes.string,
+    name: React.PropTypes.string,
+    value: React.PropTypes.string,
+    type: React.PropTypes.string,
+    defaultValue: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    multiLine: React.PropTypes.bool,
+    required: React.PropTypes.bool,
+    placeholder: React.PropTypes.string
+};
+
 export class Button extends React.Component {
     constructor(props) {
         super(props);
@@ -56,11 +72,21 @@ export class Button extends React.Component {
 
     render() {
         return (
-            <button disabled={this.props.disabled} type={this.props.type} className="Button" onClick={this.props.onClick}>{this.props.text}</button>
+            <button disabled={this.props.disabled} type={this.props.type} className="Button" onClick={this.props.onClick}>
+            {this.props.text}
+            {this.props.children}
+            </button>
         );
     }
 }
 
 Button.defaultProps = {
     type: "button"
+};
+
+Button.propTypes = {
+    disabled: React.PropTypes.bool,
+    type: React.PropTypes.string,
+    text: React.PropTypes.string,
+    onClick: React.PropTypes.func
 };

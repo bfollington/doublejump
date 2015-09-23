@@ -293,7 +293,9 @@ function drainQueue() {
         currentQueue = queue;
         queue = [];
         while (++queueIndex < len) {
-            currentQueue[queueIndex].run();
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
         }
         queueIndex = -1;
         len = queue.length;
@@ -345,100 +347,186 @@ process.binding = function (name) {
     throw new Error('process.binding is not supported');
 };
 
-// TODO(shtylman)
 process.cwd = function () { return '/' };
 process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 process.umask = function() { return 0; };
 
-},{}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/contra.emitter/index.js":[function(require,module,exports){
-module.exports = require('./src/contra.emitter.js');
+},{}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/classes.js":[function(require,module,exports){
+'use strict';
 
-},{"./src/contra.emitter.js":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/contra.emitter/src/contra.emitter.js"}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/contra.emitter/src/contra.emitter.js":[function(require,module,exports){
-(function (process){
-(function (root, undefined) {
-  'use strict';
+var cache = {};
+var start = '(?:^|\\s)';
+var end = '(?:\\s|$)';
 
-  var undef = '' + undefined;
-  function atoa (a, n) { return Array.prototype.slice.call(a, n); }
-  function debounce (fn, args, ctx) { if (!fn) { return; } tick(function run () { fn.apply(ctx || null, args || []); }); }
-
-  // cross-platform ticker
-  var si = typeof setImmediate === 'function', tick;
-  if (si) {
-    tick = function (fn) { setImmediate(fn); };
-  } else if (typeof process !== undef && process.nextTick) {
-    tick = process.nextTick;
+function lookupClass (className) {
+  var cached = cache[className];
+  if (cached) {
+    cached.lastIndex = 0;
   } else {
-    tick = function (fn) { setTimeout(fn, 0); };
+    cache[className] = cached = new RegExp(start + className + end, 'g');
   }
+  return cached;
+}
 
-  function _emitter (thing, options) {
-    var opts = options || {};
-    var evt = {};
-    if (thing === undefined) { thing = {}; }
-    thing.on = function (type, fn) {
-      if (!evt[type]) {
-        evt[type] = [fn];
-      } else {
-        evt[type].push(fn);
-      }
-      return thing;
-    };
-    thing.once = function (type, fn) {
-      fn._once = true; // thing.off(fn) still works!
-      thing.on(type, fn);
-      return thing;
-    };
-    thing.off = function (type, fn) {
-      var c = arguments.length;
-      if (c === 1) {
-        delete evt[type];
-      } else if (c === 0) {
-        evt = {};
-      } else {
-        var et = evt[type];
-        if (!et) { return thing; }
-        et.splice(et.indexOf(fn), 1);
-      }
-      return thing;
-    };
-    thing.emit = function () {
-      var args = atoa(arguments);
-      return thing.emitterSnapshot(args.shift()).apply(this, args);
-    };
-    thing.emitterSnapshot = function (type) {
-      var et = (evt[type] || []).slice(0);
-      return function () {
-        var args = atoa(arguments);
-        var ctx = this || thing;
-        if (type === 'error' && opts.throws !== false && !et.length) { throw args.length === 1 ? args[0] : args; }
-        et.forEach(function emitter (listen) {
-          if (opts.async) { debounce(listen, args, ctx); } else { listen.apply(ctx, args); }
-          if (listen._once) { thing.off(type, listen); }
-        });
-        return thing;
-      };
+function addClass (el, className) {
+  var current = el.className;
+  if (!current.length) {
+    el.className = className;
+  } else if (!lookupClass(className).test(current)) {
+    el.className += ' ' + className;
+  }
+}
+
+function rmClass (el, className) {
+  el.className = el.className.replace(lookupClass(className), ' ').trim();
+}
+
+module.exports = {
+  add: addClass,
+  rm: rmClass
+};
+
+},{}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/contra/debounce.js":[function(require,module,exports){
+'use strict';
+
+var ticky = require('ticky');
+
+module.exports = function debounce (fn, args, ctx) {
+  if (!fn) { return; }
+  ticky(function run () {
+    fn.apply(ctx || null, args || []);
+  });
+};
+
+},{"ticky":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/contra/node_modules/ticky/ticky-browser.js"}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/contra/emitter.js":[function(require,module,exports){
+'use strict';
+
+var atoa = require('atoa');
+var debounce = require('./debounce');
+
+module.exports = function emitter (thing, options) {
+  var opts = options || {};
+  var evt = {};
+  if (thing === undefined) { thing = {}; }
+  thing.on = function (type, fn) {
+    if (!evt[type]) {
+      evt[type] = [fn];
+    } else {
+      evt[type].push(fn);
     }
     return thing;
-  }
+  };
+  thing.once = function (type, fn) {
+    fn._once = true; // thing.off(fn) still works!
+    thing.on(type, fn);
+    return thing;
+  };
+  thing.off = function (type, fn) {
+    var c = arguments.length;
+    if (c === 1) {
+      delete evt[type];
+    } else if (c === 0) {
+      evt = {};
+    } else {
+      var et = evt[type];
+      if (!et) { return thing; }
+      et.splice(et.indexOf(fn), 1);
+    }
+    return thing;
+  };
+  thing.emit = function () {
+    var args = atoa(arguments);
+    return thing.emitterSnapshot(args.shift()).apply(this, args);
+  };
+  thing.emitterSnapshot = function (type) {
+    var et = (evt[type] || []).slice(0);
+    return function () {
+      var args = atoa(arguments);
+      var ctx = this || thing;
+      if (type === 'error' && opts.throws !== false && !et.length) { throw args.length === 1 ? args[0] : args; }
+      et.forEach(function emitter (listen) {
+        if (opts.async) { debounce(listen, args, ctx); } else { listen.apply(ctx, args); }
+        if (listen._once) { thing.off(type, listen); }
+      });
+      return thing;
+    };
+  };
+  return thing;
+};
 
-  // cross-platform export
-  if (typeof module !== undef && module.exports) {
-    module.exports = _emitter;
+},{"./debounce":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/contra/debounce.js","atoa":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/contra/node_modules/atoa/atoa.js"}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/contra/node_modules/atoa/atoa.js":[function(require,module,exports){
+module.exports = function atoa (a, n) { return Array.prototype.slice.call(a, n); }
+
+},{}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/contra/node_modules/ticky/ticky-browser.js":[function(require,module,exports){
+var si = typeof setImmediate === 'function', tick;
+if (si) {
+  tick = function (fn) { setImmediate(fn); };
+} else {
+  tick = function (fn) { setTimeout(fn, 0); };
+}
+
+module.exports = tick;
+},{}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/crossvent/node_modules/custom-event/index.js":[function(require,module,exports){
+(function (global){
+
+var NativeCustomEvent = global.CustomEvent;
+
+function useNative () {
+  try {
+    var p = new NativeCustomEvent('cat', { detail: { foo: 'bar' } });
+    return  'cat' === p.type && 'bar' === p.detail.foo;
+  } catch (e) {
+  }
+  return false;
+}
+
+/**
+ * Cross-browser `CustomEvent` constructor.
+ *
+ * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent.CustomEvent
+ *
+ * @public
+ */
+
+module.exports = useNative() ? NativeCustomEvent :
+
+// IE >= 9
+'function' === typeof document.createEvent ? function CustomEvent (type, params) {
+  var e = document.createEvent('CustomEvent');
+  if (params) {
+    e.initCustomEvent(type, params.bubbles, params.cancelable, params.detail);
   } else {
-    root.contra = root.contra || {};
-    root.contra.emitter = _emitter;
+    e.initCustomEvent(type, false, false, void 0);
   }
-})(this);
+  return e;
+} :
 
-}).call(this,require('_process'))
-},{"_process":"/Users/Ben/Projects/Ruby/doublejump/node_modules/browserify/node_modules/process/browser.js"}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/crossvent/src/crossvent.js":[function(require,module,exports){
+// IE <= 8
+function CustomEvent (type, params) {
+  var e = document.createEventObject();
+  e.type = type;
+  if (params) {
+    e.bubbles = Boolean(params.bubbles);
+    e.cancelable = Boolean(params.cancelable);
+    e.detail = params.detail;
+  } else {
+    e.bubbles = false;
+    e.cancelable = false;
+    e.detail = void 0;
+  }
+  return e;
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/crossvent/src/crossvent.js":[function(require,module,exports){
 (function (global){
 'use strict';
 
-var doc = document;
+var customEvent = require('custom-event');
+var eventmap = require('./eventmap');
+var doc = global.document;
 var addEvent = addEventEasy;
 var removeEvent = removeEventEasy;
 var hardCache = [];
@@ -447,6 +535,12 @@ if (!global.addEventListener) {
   addEvent = addEventHard;
   removeEvent = removeEventHard;
 }
+
+module.exports = {
+  add: addEvent,
+  remove: removeEvent,
+  fabricate: fabricateEvent
+};
 
 function addEventEasy (el, type, fn, capturing) {
   return el.addEventListener(type, fn, capturing);
@@ -461,18 +555,31 @@ function removeEventEasy (el, type, fn, capturing) {
 }
 
 function removeEventHard (el, type, fn) {
-  return el.detachEvent('on' + type, unwrap(el, type, fn));
+  var listener = unwrap(el, type, fn);
+  if (listener) {
+    return el.detachEvent('on' + type, listener);
+  }
 }
 
-function fabricateEvent (el, type) {
-  var e;
-  if (doc.createEvent) {
-    e = doc.createEvent('Event');
-    e.initEvent(type, true, true);
+function fabricateEvent (el, type, model) {
+  var e = eventmap.indexOf(type) === -1 ? makeCustomEvent() : makeClassicEvent();
+  if (el.dispatchEvent) {
     el.dispatchEvent(e);
-  } else if (doc.createEventObject) {
-    e = doc.createEventObject();
+  } else {
     el.fireEvent('on' + type, e);
+  }
+  function makeClassicEvent () {
+    var e;
+    if (doc.createEvent) {
+      e = doc.createEvent('Event');
+      e.initEvent(type, true, true);
+    } else if (doc.createEventObject) {
+      e = doc.createEventObject();
+    }
+    return e;
+  }
+  function makeCustomEvent () {
+    return new customEvent(type, { detail: model });
   }
 }
 
@@ -480,8 +587,9 @@ function wrapperFactory (el, type, fn) {
   return function wrapper (originalEvent) {
     var e = originalEvent || global.event;
     e.target = e.target || e.srcElement;
-    e.preventDefault  = e.preventDefault  || function preventDefault () { e.returnValue = false; };
+    e.preventDefault = e.preventDefault || function preventDefault () { e.returnValue = false; };
     e.stopPropagation = e.stopPropagation || function stopPropagation () { e.cancelBubble = true; };
+    e.which = e.which || e.keyCode;
     fn.call(el, e);
   };
 }
@@ -516,11 +624,22 @@ function find (el, type, fn) {
   }
 }
 
-module.exports = {
-  add: addEvent,
-  remove: removeEvent,
-  fabricate: fabricateEvent
-};
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./eventmap":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/crossvent/src/eventmap.js","custom-event":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/crossvent/node_modules/custom-event/index.js"}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/crossvent/src/eventmap.js":[function(require,module,exports){
+(function (global){
+'use strict';
+
+var eventmap = [];
+var eventname = '';
+var ron = /^on/;
+
+for (eventname in global) {
+  if (ron.test(eventname)) {
+    eventmap.push(eventname.slice(2));
+  }
+}
+
+module.exports = eventmap;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/handlebars/dist/cjs/handlebars.js":[function(require,module,exports){
@@ -6810,7 +6929,7 @@ define(function (require, exports, module) {
 },{"amdefine":"/Users/Ben/Projects/Ruby/doublejump/node_modules/handlebars/node_modules/source-map/node_modules/amdefine/amdefine.js"}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/handlebars/node_modules/source-map/node_modules/amdefine/amdefine.js":[function(require,module,exports){
 (function (process,__filename){
 /** vim: et:ts=4:sw=4:sts=4
- * @license amdefine 0.1.0 Copyright (c) 2011, The Dojo Foundation All Rights Reserved.
+ * @license amdefine 1.0.0 Copyright (c) 2011-2015, The Dojo Foundation All Rights Reserved.
  * Available via the MIT or new BSD license.
  * see: http://github.com/jrburke/amdefine for details
  */
@@ -6931,9 +7050,11 @@ function amdefine(module, requireFn) {
                 });
 
                 //Wait for next tick to call back the require call.
-                process.nextTick(function () {
-                    callback.apply(null, deps);
-                });
+                if (callback) {
+                    process.nextTick(function () {
+                        callback.apply(null, deps);
+                    });
+                }
             }
         }
 
@@ -14643,7 +14764,7 @@ module.exports = {
         this.__doAfterRenderQueue();
     },
 
-    do: function(todo) {
+    "perform": function(todo) {
         var _this = this;
         var p = new Promise(function(resolve, reject) {
             _this.__queueForRender(resolve);
@@ -14655,7 +14776,7 @@ module.exports = {
     },
 
     setStateAnd: function(state) {
-        return this.do(this.setState.bind(this, state));
+        return this["perform"](this.setState.bind(this, state));
     }
 };
 
@@ -15246,16 +15367,17 @@ module.exports = invariant;
 
 var React = require('react');
 
-var Option = React.createClass({
+var Value = React.createClass({
 
 	displayName: 'Value',
 
 	propTypes: {
-		label: React.PropTypes.string.isRequired,
+		disabled: React.PropTypes.bool,
 		onOptionLabelClick: React.PropTypes.func,
 		onRemove: React.PropTypes.func,
+		option: React.PropTypes.object.isRequired,
 		optionLabelClick: React.PropTypes.bool,
-		disabled: React.PropTypes.bool
+		renderer: React.PropTypes.func
 	},
 
 	blockEvent: function blockEvent(event) {
@@ -15269,8 +15391,10 @@ var Option = React.createClass({
 	},
 
 	render: function render() {
-		var label = this.props.label;
-		var deleteIcon = null;
+		var label = this.props.option.label;
+		if (this.props.renderer) {
+			label = this.props.renderer(this.props.option);
+		}
 
 		if (this.props.optionLabelClick) {
 			label = React.createElement(
@@ -15304,7 +15428,7 @@ var Option = React.createClass({
 
 });
 
-module.exports = Option;
+module.exports = Value;
 },{"react":"react"}],"/Users/Ben/Projects/Ruby/doublejump/node_modules/react-select/node_modules/react-input-autosize/lib/AutosizeInput.js":[function(require,module,exports){
 'use strict';
 
@@ -15349,25 +15473,27 @@ var AutosizeInput = React.createClass({
 		if (!this.isMounted() || !window.getComputedStyle) {
 			return;
 		}
-		var inputStyle = window.getComputedStyle(this.refs.input.getDOMNode());
-		var widthNode = this.refs.sizer.getDOMNode();
+		var inputStyle = window.getComputedStyle(React.findDOMNode(this.refs.input));
+		var widthNode = React.findDOMNode(this.refs.sizer);
 		widthNode.style.fontSize = inputStyle.fontSize;
 		widthNode.style.fontFamily = inputStyle.fontFamily;
+		widthNode.style.letterSpacing = inputStyle.letterSpacing;
 		if (this.props.placeholder) {
-			var placeholderNode = this.refs.placeholderSizer.getDOMNode();
+			var placeholderNode = React.findDOMNode(this.refs.placeholderSizer);
 			placeholderNode.style.fontSize = inputStyle.fontSize;
 			placeholderNode.style.fontFamily = inputStyle.fontFamily;
+			placeholderNode.style.letterSpacing = inputStyle.letterSpacing;
 		}
 	},
 	updateInputWidth: function updateInputWidth() {
-		if (!this.isMounted() || typeof this.refs.sizer.getDOMNode().scrollWidth === 'undefined') {
+		if (!this.isMounted() || typeof React.findDOMNode(this.refs.sizer).scrollWidth === 'undefined') {
 			return;
 		}
 		var newInputWidth;
 		if (this.props.placeholder) {
-			newInputWidth = Math.max(this.refs.sizer.getDOMNode().scrollWidth, this.refs.placeholderSizer.getDOMNode().scrollWidth) + 2;
+			newInputWidth = Math.max(React.findDOMNode(this.refs.sizer).scrollWidth, React.findDOMNode(this.refs.placeholderSizer).scrollWidth) + 2;
 		} else {
-			newInputWidth = this.refs.sizer.getDOMNode().scrollWidth + 2;
+			newInputWidth = React.findDOMNode(this.refs.sizer).scrollWidth + 2;
 		}
 		if (newInputWidth < this.props.minWidth) {
 			newInputWidth = this.props.minWidth;
@@ -15382,17 +15508,18 @@ var AutosizeInput = React.createClass({
 		return this.refs.input;
 	},
 	focus: function focus() {
-		this.refs.input.getDOMNode().focus();
+		React.findDOMNode(this.refs.input).focus();
 	},
 	select: function select() {
-		this.refs.input.getDOMNode().select();
+		React.findDOMNode(this.refs.input).select();
 	},
 	render: function render() {
-		var escapedValue = (this.props.value || '').replace(/ /g, '&nbsp;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
+		var escapedValue = (this.props.value || '').replace(/\&/g, '&amp;').replace(/ /g, '&nbsp;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
 		var wrapperStyle = this.props.style || {};
 		wrapperStyle.display = 'inline-block';
-		var inputStyle = this.props.inputStyle || {};
+		var inputStyle = _extends({}, this.props.inputStyle);
 		inputStyle.width = this.state.inputWidth;
+		inputStyle.boxSizing = 'content-box';
 		var placeholder = this.props.placeholder ? React.createElement(
 			'div',
 			{ ref: 'placeholderSizer', style: sizerStyle },
@@ -63446,10 +63573,16 @@ module.exports = window.ace.acequire("ace/ace");
 (function (global){
 'use strict';
 
-var emitter = require('contra.emitter');
+var emitter = require('contra/emitter');
 var crossvent = require('crossvent');
+var classes = require('./classes');
 
 function dragula (initialContainers, options) {
+  var len = arguments.length;
+  if (len === 1 && Array.isArray(initialContainers) === false) {
+    options = initialContainers;
+    initialContainers = [];
+  }
   var body = document.body;
   var documentElement = document.documentElement;
   var _mirror; // mirror image
@@ -63460,20 +63593,26 @@ function dragula (initialContainers, options) {
   var _initialSibling; // reference sibling when grabbed
   var _currentSibling; // reference sibling now
   var _copy; // item used for copying
-  var _containers = []; // containers managed by the drake
+  var _renderTimer; // timer for setTimeout renderMirrorImage
+  var _lastDropTarget = null; // last container item was over
+  var _grabbed; // holds mousedown context until first mousemove
 
   var o = options || {};
   if (o.moves === void 0) { o.moves = always; }
   if (o.accepts === void 0) { o.accepts = always; }
+  if (o.invalid === void 0) { o.invalid = invalidTarget; }
+  if (o.containers === void 0) { o.containers = initialContainers || []; }
+  if (o.isContainer === void 0) { o.isContainer = never; }
   if (o.copy === void 0) { o.copy = false; }
   if (o.revertOnSpill === void 0) { o.revertOnSpill = false; }
   if (o.removeOnSpill === void 0) { o.removeOnSpill = false; }
   if (o.direction === void 0) { o.direction = 'vertical'; }
+  if (o.mirrorContainer === void 0) { o.mirrorContainer = body; }
+  if (o.copySortSource === void 0) { o.copySortSource = false; }
 
-  var api = emitter({
-    addContainer: manipulateContainers('add'),
-    removeContainer: manipulateContainers('remove'),
-    start: start,
+  var drake = emitter({
+    containers: o.containers,
+    start: manualStart,
     end: end,
     cancel: cancel,
     remove: remove,
@@ -63481,127 +63620,169 @@ function dragula (initialContainers, options) {
     dragging: false
   });
 
+  if (o.removeOnSpill === true) {
+    drake.on('over', spillOver).on('out', spillOut);
+  }
+
   events();
-  api.addContainer(initialContainers);
 
-  return api;
+  return drake;
 
-  function manipulateContainers (op) {
-    return function addOrRemove (all) {
-      var changes = Array.isArray(all) ? all : [all];
-      changes.forEach(track);
-      if (op === 'add') {
-        _containers = _containers.concat(changes);
-      } else {
-        _containers = _containers.filter(removals);
-      }
-      function track (container) {
-        touchy(container, op, 'mousedown', grab);
-      }
-      function removals (container) {
-        return changes.indexOf(container) === -1;
-      }
-    };
+  function isContainer (el) {
+    return drake.containers.indexOf(el) !== -1 || o.isContainer(el);
   }
 
   function events (remove) {
     var op = remove ? 'remove' : 'add';
+    touchy(documentElement, op, 'mousedown', grab);
     touchy(documentElement, op, 'mouseup', release);
+  }
+
+  function eventualMovements (remove) {
+    var op = remove ? 'remove' : 'add';
+    touchy(documentElement, op, 'mousemove', startBecauseMouseMoved);
+  }
+
+  function movements (remove) {
+    var op = remove ? 'remove' : 'add';
+    touchy(documentElement, op, 'selectstart', preventGrabbed); // IE8
+    touchy(documentElement, op, 'click', preventGrabbed);
   }
 
   function destroy () {
     events(true);
-    api.removeContainer(_containers);
     release({});
   }
 
-  function grab (e) {
-    var item = e.target;
+  function preventGrabbed (e) {
+    if (_grabbed) {
+      e.preventDefault();
+    }
+  }
 
-    if ((e.which !== 0 && e.which !== 1) || e.metaKey || e.ctrlKey) {
+  function grab (e) {
+    var ignore = (e.which !== 0 && e.which !== 1) || e.metaKey || e.ctrlKey;
+    if (ignore) {
       return; // we only care about honest-to-god left clicks and touch events
     }
-    if (start(item) !== true) {
+    var item = e.target;
+    var context = canStart(item);
+    if (!context) {
       return;
     }
+    _grabbed = context;
+    eventualMovements();
+    if (e.type === 'mousedown') {
+      e.preventDefault(); // fixes https://github.com/bevacqua/dragula/issues/155
+      if (item.tagName === 'INPUT' || item.tagName === 'TEXTAREA') {
+        item.focus(); // fixes https://github.com/bevacqua/dragula/issues/176
+      }
+    }
+  }
+
+  function startBecauseMouseMoved (e) {
+    var grabbed = _grabbed; // call to end() unsets _grabbed
+    eventualMovements(true);
+    movements();
+    end();
+    start(grabbed);
 
     var offset = getOffset(_item);
     _offsetX = getCoord('pageX', e) - offset.left;
     _offsetY = getCoord('pageY', e) - offset.top;
+
+    classes.add(_copy || _item, 'gu-transit');
     renderMirrorImage();
     drag(e);
-    e.preventDefault();
   }
 
-  function start (item) {
-    var handle = item;
-
-    if (api.dragging && _mirror) {
+  function canStart (item) {
+    if (drake.dragging && _mirror) {
       return;
     }
-
-    if (_containers.indexOf(item) !== -1) {
+    if (isContainer(item)) {
       return; // don't drag container itself
     }
-    while (_containers.indexOf(item.parentElement) === -1) {
-      if (invalidTarget(item)) {
+    var handle = item;
+    while (item.parentElement && isContainer(item.parentElement) === false) {
+      if (o.invalid(item, handle)) {
         return;
       }
       item = item.parentElement; // drag target should be a top element
+      if (!item) {
+        return;
+      }
     }
-    if (invalidTarget(item)) {
+    var source = item.parentElement;
+    if (!source) {
+      return;
+    }
+    if (o.invalid(item, handle)) {
       return;
     }
 
-    var container = item.parentElement;
-    var movable = o.moves(item, container, handle);
+    var movable = o.moves(item, source, handle, nextEl(item));
     if (!movable) {
       return;
     }
 
-    end();
-
-    if (o.copy) {
-      _copy = item.cloneNode(true);
-      addClass(_copy, 'gu-transit');
-      api.emit('cloned', _copy, item);
-    } else {
-      addClass(item, 'gu-transit');
-    }
-
-    _source = container;
-    _item = item;
-    _initialSibling = _currentSibling = nextEl(item);
-
-    api.dragging = true;
-    api.emit('drag', _item, _source);
-
-    return true;
+    return {
+      item: item,
+      source: source
+    };
   }
 
-  function invalidTarget (el) {
-    return el.tagName === 'A' || el.tagName === 'BUTTON';
+  function manualStart (item) {
+    var context = canStart(item);
+    if (context) {
+      start(context);
+    }
+  }
+
+  function start (context) {
+    if (isCopy(context.item, context.source)) {
+      _copy = context.item.cloneNode(true);
+      drake.emit('cloned', _copy, context.item, 'copy');
+    }
+
+    _source = context.source;
+    _item = context.item;
+    _initialSibling = _currentSibling = nextEl(context.item);
+
+    drake.dragging = true;
+    drake.emit('drag', _item, _source);
+  }
+
+  function invalidTarget () {
+    return false;
   }
 
   function end () {
-    if (!api.dragging) {
+    if (!drake.dragging) {
       return;
     }
     var item = _copy || _item;
     drop(item, item.parentElement);
   }
 
+  function ungrab () {
+    _grabbed = false;
+    eventualMovements(true);
+    movements(true);
+  }
+
   function release (e) {
-    if (!api.dragging) {
+    ungrab();
+
+    if (!drake.dragging) {
       return;
     }
-
     var item = _copy || _item;
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
-    if (dropTarget && (o.copy === false || dropTarget !== _source)) {
+    if (dropTarget && ((_copy && o.copySortSource) || (!_copy || dropTarget !== _source))) {
       drop(item, dropTarget);
     } else if (o.removeOnSpill) {
       remove();
@@ -63611,16 +63792,20 @@ function dragula (initialContainers, options) {
   }
 
   function drop (item, target) {
+    var parent = item.parentElement;
+    if (_copy && o.copySortSource && target === _source) {
+      parent.removeChild(_item);
+    }
     if (isInitialPlacement(target)) {
-      api.emit('cancel', item, _source);
+      drake.emit('cancel', item, _source);
     } else {
-      api.emit('drop', item, target, _source);
+      drake.emit('drop', item, target, _source, _currentSibling);
     }
     cleanup();
   }
 
   function remove () {
-    if (!api.dragging) {
+    if (!drake.dragging) {
       return;
     }
     var item = _copy || _item;
@@ -63628,39 +63813,46 @@ function dragula (initialContainers, options) {
     if (parent) {
       parent.removeChild(item);
     }
-    api.emit(o.copy ? 'cancel' : 'remove', item, parent);
+    drake.emit(_copy ? 'cancel' : 'remove', item, parent);
     cleanup();
   }
 
   function cancel (revert) {
-    if (!api.dragging) {
+    if (!drake.dragging) {
       return;
     }
     var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
     var item = _copy || _item;
     var parent = item.parentElement;
-    if (parent === _source && o.copy) {
+    if (parent === _source && _copy) {
       parent.removeChild(_copy);
     }
     var initial = isInitialPlacement(parent);
-    if (initial === false && o.copy === false && reverts) {
+    if (initial === false && !_copy && reverts) {
       _source.insertBefore(item, _initialSibling);
     }
     if (initial || reverts) {
-      api.emit('cancel', item, _source);
+      drake.emit('cancel', item, _source);
     } else {
-      api.emit('drop', item, parent, _source);
+      drake.emit('drop', item, parent, _source);
     }
     cleanup();
   }
 
   function cleanup () {
     var item = _copy || _item;
+    ungrab();
     removeMirrorImage();
-    rmClass(item, 'gu-transit');
-    _source = _item = _copy = _initialSibling = _currentSibling = null;
-    api.dragging = false;
-    api.emit('dragend', item);
+    if (item) {
+      classes.rm(item, 'gu-transit');
+    }
+    if (_renderTimer) {
+      clearTimeout(_renderTimer);
+    }
+    drake.dragging = false;
+    drake.emit('out', item, _lastDropTarget, _source);
+    drake.emit('dragend', item);
+    _source = _item = _copy = _initialSibling = _currentSibling = _renderTimer = _lastDropTarget = null;
   }
 
   function isInitialPlacement (target, s) {
@@ -63670,7 +63862,7 @@ function dragula (initialContainers, options) {
     } else if (_mirror) {
       sibling = _currentSibling;
     } else {
-      sibling = nextEl(_item || _copy);
+      sibling = nextEl(_copy || _item);
     }
     return target === _source && sibling === _initialSibling;
   }
@@ -63683,7 +63875,7 @@ function dragula (initialContainers, options) {
     return target;
 
     function accepted () {
-      var droppable = _containers.indexOf(target) !== -1;
+      var droppable = isContainer(target);
       if (droppable === false) {
         return false;
       }
@@ -63702,6 +63894,7 @@ function dragula (initialContainers, options) {
     if (!_mirror) {
       return;
     }
+    e.preventDefault();
 
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);
@@ -63709,24 +63902,57 @@ function dragula (initialContainers, options) {
     var y = clientY - _offsetY;
 
     _mirror.style.left = x + 'px';
-    _mirror.style.top  = y + 'px';
+    _mirror.style.top = y + 'px';
 
+    var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
-    if (dropTarget === _source && o.copy) {
+    var changed = dropTarget !== null && dropTarget !== _lastDropTarget;
+    if (changed || dropTarget === null) {
+      out();
+      _lastDropTarget = dropTarget;
+      over();
+    }
+    if (dropTarget === _source && _copy && !o.copySortSource) {
+      if (item.parentElement) {
+        item.parentElement.removeChild(item);
+      }
       return;
     }
-    var item = _copy || _item;
+    var reference;
     var immediate = getImmediateChild(dropTarget, elementBehindCursor);
-    if (immediate === null) {
+    if (immediate !== null) {
+      reference = getReference(dropTarget, immediate, clientX, clientY);
+    } else if (o.revertOnSpill === true && !_copy) {
+      reference = _initialSibling;
+      dropTarget = _source;
+    } else {
+      if (_copy && item.parentElement) {
+        item.parentElement.removeChild(item);
+      }
       return;
     }
-    var reference = getReference(dropTarget, immediate, clientX, clientY);
-    if (reference === null || reference !== item && reference !== nextEl(item)) {
+    if (
+      reference === null ||
+      reference !== item &&
+      reference !== nextEl(item) &&
+      reference !== _currentSibling
+    ) {
       _currentSibling = reference;
       dropTarget.insertBefore(item, reference);
-      api.emit('shadow', item, dropTarget);
+      drake.emit('shadow', item, dropTarget);
     }
+    function moved (type) { drake.emit(type, item, _lastDropTarget, _source); }
+    function over () { if (changed) { moved('over'); } }
+    function out () { if (_lastDropTarget) { moved('out'); } }
+  }
+
+  function spillOver (el) {
+    classes.rm(el, 'gu-hide');
+  }
+
+  function spillOut (el) {
+    if (drake.dragging) { classes.add(el, 'gu-hide'); }
   }
 
   function renderMirrorImage () {
@@ -63735,19 +63961,19 @@ function dragula (initialContainers, options) {
     }
     var rect = _item.getBoundingClientRect();
     _mirror = _item.cloneNode(true);
-    _mirror.style.width = rect.width + 'px';
-    _mirror.style.height = rect.height + 'px';
-    rmClass(_mirror, 'gu-transit');
-    addClass(_mirror, ' gu-mirror');
-    body.appendChild(_mirror);
+    _mirror.style.width = getRectWidth(rect) + 'px';
+    _mirror.style.height = getRectHeight(rect) + 'px';
+    classes.rm(_mirror, 'gu-transit');
+    classes.add(_mirror, 'gu-mirror');
+    o.mirrorContainer.appendChild(_mirror);
     touchy(documentElement, 'add', 'mousemove', drag);
-    addClass(body, 'gu-unselectable');
-    api.emit('cloned', _mirror, _item);
+    classes.add(o.mirrorContainer, 'gu-unselectable');
+    drake.emit('cloned', _mirror, _item, 'mirror');
   }
 
   function removeMirrorImage () {
     if (_mirror) {
-      rmClass(body, 'gu-unselectable');
+      classes.rm(o.mirrorContainer, 'gu-unselectable');
       touchy(documentElement, 'remove', 'mousemove', drag);
       _mirror.parentElement.removeChild(_mirror);
       _mirror = null;
@@ -63787,14 +64013,18 @@ function dragula (initialContainers, options) {
     function inside () { // faster, but only available if dropped inside a child element
       var rect = target.getBoundingClientRect();
       if (horizontal) {
-        return resolve(x > rect.left + rect.width / 2);
+        return resolve(x > rect.left + getRectWidth(rect) / 2);
       }
-      return resolve(y > rect.top + rect.height / 2);
+      return resolve(y > rect.top + getRectHeight(rect) / 2);
     }
 
     function resolve (after) {
       return after ? nextEl(target) : target;
     }
+  }
+
+  function isCopy (item, container) {
+    return typeof o.copy === 'boolean' ? o.copy : o.copy(item, container);
   }
 }
 
@@ -63837,9 +64067,6 @@ function getScroll (scrollProp, offsetProp) {
 }
 
 function getElementBehindPoint (point, x, y) {
-  if (!x && !y) {
-    return null;
-  }
   var p = point || {};
   var state = p.className;
   var el;
@@ -63849,9 +64076,10 @@ function getElementBehindPoint (point, x, y) {
   return el;
 }
 
-function always () {
-  return true;
-}
+function never () { return false; }
+function always () { return true; }
+function getRectWidth (rect) { return rect.width || (rect.right - rect.left); }
+function getRectHeight (rect) { return rect.height || (rect.bottom - rect.top); }
 
 function nextEl (el) {
   return el.nextElementSibling || manually();
@@ -63864,34 +64092,35 @@ function nextEl (el) {
   }
 }
 
-function addClass (el, className) {
-  if (el.className.indexOf(' ' + className) === -1) {
-    el.className += ' ' + className;
-  }
-}
-
-function rmClass (el, className) {
-  el.className = el.className.replace(new RegExp(' ' + className, 'g'), '');
-}
-
-function getCoord (coord, e) {
-  if (typeof e.targetTouches === 'undefined') {
-    return e[coord];
-  }
+function getEventHost (e) {
   // on touchend event, we have to use `e.changedTouches`
   // see http://stackoverflow.com/questions/7192563/touchend-event-properties
   // see https://github.com/bevacqua/dragula/issues/34
-  return (
-    (e.targetTouches  &&  e.targetTouches.length  && e.targetTouches[0][coord])  ||
-    (e.changedTouches &&  e.changedTouches.length && e.changedTouches[0][coord]) ||
-    0
-  );
+  if (e.targetTouches && e.targetTouches.length) {
+    return e.targetTouches[0];
+  }
+  if (e.changedTouches && e.changedTouches.length) {
+    return e.changedTouches[0];
+  }
+  return e;
+}
+
+function getCoord (coord, e) {
+  var host = getEventHost(e);
+  var missMap = {
+    pageX: 'clientX', // IE8
+    pageY: 'clientY' // IE8
+  };
+  if (coord in missMap && !(coord in host) && missMap[coord] in host) {
+    coord = missMap[coord];
+  }
+  return host[coord];
 }
 
 module.exports = dragula;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"contra.emitter":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/contra.emitter/index.js","crossvent":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/crossvent/src/crossvent.js"}],"dynamics.js":[function(require,module,exports){
+},{"./classes":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/classes.js","contra/emitter":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/contra/emitter.js","crossvent":"/Users/Ben/Projects/Ruby/doublejump/node_modules/dragula/node_modules/crossvent/src/crossvent.js"}],"dynamics.js":[function(require,module,exports){
 // Generated by CoffeeScript 1.7.1
 (function() {
   var Color, DecomposedMatrix, DecomposedMatrix2D, InterpolableArray, InterpolableColor, InterpolableObject, InterpolableWithUnit, Matrix, Matrix2D, Set, Vector, addTimeout, animationTick, animations, animationsTimeouts, applyDefaults, applyFrame, applyProperties, baseSVG, cacheFn, cancelTimeout, clone, createInterpolable, defaultValueForKey, degProperties, dynamics, getCurrentProperties, interpolate, isDocumentVisible, isSVGElement, lastTime, leftDelayForTimeout, makeArrayFn, observeVisibilityChange, parseProperties, prefixFor, propertyWithPrefix, pxProperties, rAF, roundf, runLoopPaused, runLoopRunning, runLoopTick, setRealTimeout, slow, slowRatio, startAnimation, startRunLoop, svgProperties, timeBeforeVisibilityChange, timeoutLastId, timeouts, toDashed, transformProperties, transformValueForProperty, unitForProperty,
@@ -75259,8 +75488,9 @@ block.normal = merge({}, block);
  */
 
 block.gfm = merge({}, block.normal, {
-  fences: /^ *(`{3,}|~{3,}) *(\S+)? *\n([\s\S]+?)\s*\1 *(?:\n+|$)/,
-  paragraph: /^/
+  fences: /^ *(`{3,}|~{3,})[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/,
+  paragraph: /^/,
+  heading: /^ *(#{1,6}) +([^\n]+?) *#* *(?:\n+|$)/
 });
 
 block.gfm.paragraph = replace(block.paragraph)
@@ -75372,7 +75602,7 @@ Lexer.prototype.token = function(src, top, bq) {
       this.tokens.push({
         type: 'code',
         lang: cap[2],
-        text: cap[3]
+        text: cap[3] || ''
       });
       continue;
     }
@@ -75543,7 +75773,8 @@ Lexer.prototype.token = function(src, top, bq) {
         type: this.options.sanitize
           ? 'paragraph'
           : 'html',
-        pre: cap[1] === 'pre' || cap[1] === 'script' || cap[1] === 'style',
+        pre: !this.options.sanitizer
+          && (cap[1] === 'pre' || cap[1] === 'script' || cap[1] === 'style'),
         text: cap[0]
       });
       continue;
@@ -75638,7 +75869,7 @@ var inline = {
   reflink: /^!?\[(inside)\]\s*\[([^\]]*)\]/,
   nolink: /^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/,
   strong: /^__([\s\S]+?)__(?!_)|^\*\*([\s\S]+?)\*\*(?!\*)/,
-  em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
+  em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
   code: /^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/,
   br: /^ {2,}\n(?!\s*$)/,
   del: noop,
@@ -75790,8 +76021,10 @@ InlineLexer.prototype.output = function(src) {
       }
       src = src.substring(cap[0].length);
       out += this.options.sanitize
-        ? escape(cap[0])
-        : cap[0];
+        ? this.options.sanitizer
+          ? this.options.sanitizer(cap[0])
+          : escape(cap[0])
+        : cap[0]
       continue;
     }
 
@@ -75862,7 +76095,7 @@ InlineLexer.prototype.output = function(src) {
     // text
     if (cap = this.rules.text.exec(src)) {
       src = src.substring(cap[0].length);
-      out += escape(this.smartypants(cap[0]));
+      out += this.renderer.text(escape(this.smartypants(cap[0])));
       continue;
     }
 
@@ -75896,7 +76129,9 @@ InlineLexer.prototype.smartypants = function(text) {
   if (!this.options.smartypants) return text;
   return text
     // em-dashes
-    .replace(/--/g, '\u2014')
+    .replace(/---/g, '\u2014')
+    // en-dashes
+    .replace(/--/g, '\u2013')
     // opening singles
     .replace(/(^|[-\u2014/(\[{"\s])'/g, '$1\u2018')
     // closing singles & apostrophes
@@ -75914,6 +76149,7 @@ InlineLexer.prototype.smartypants = function(text) {
  */
 
 InlineLexer.prototype.mangle = function(text) {
+  if (!this.options.mangle) return text;
   var out = ''
     , l = text.length
     , i = 0
@@ -76071,6 +76307,10 @@ Renderer.prototype.image = function(href, title, text) {
   }
   out += this.options.xhtml ? '/>' : '>';
   return out;
+};
+
+Renderer.prototype.text = function(text) {
+  return text;
 };
 
 /**
@@ -76416,6 +76656,8 @@ marked.defaults = {
   breaks: false,
   pedantic: false,
   sanitize: false,
+  sanitizer: null,
+  mangle: true,
   smartLists: false,
   silent: false,
   highlight: null,
@@ -76498,6 +76740,7 @@ module.exports = Object.assign || function (target, source) {
 };
 
 },{}],"page":[function(require,module,exports){
+(function (process){
   /* globals require, module */
 
   'use strict';
@@ -76515,6 +76758,11 @@ module.exports = Object.assign || function (target, source) {
   module.exports = page;
 
   /**
+   * Detect click event
+   */
+  var clickEvent = ('undefined' !== typeof document) && document.ontouchstart ? 'touchstart' : 'click';
+
+  /**
    * To work properly with the URL
    * history.location generated polyfill in https://github.com/devote/HTML5-History-API
    */
@@ -76526,6 +76774,7 @@ module.exports = Object.assign || function (target, source) {
    */
 
   var dispatch = true;
+
 
   /**
    * Decode URL components (query string, pathname, hash).
@@ -76653,7 +76902,9 @@ module.exports = Object.assign || function (target, source) {
     if (false === options.dispatch) dispatch = false;
     if (false === options.decodeURLComponents) decodeURLComponents = false;
     if (false !== options.popstate) window.addEventListener('popstate', onpopstate, false);
-    if (false !== options.click) window.addEventListener('click', onclick, false);
+    if (false !== options.click) {
+      document.addEventListener(clickEvent, onclick, false);
+    }
     if (true === options.hashbang) hashbang = true;
     if (!dispatch) return;
     var url = (hashbang && ~location.hash.indexOf('#!')) ? location.hash.substr(2) + location.search : location.pathname + location.search + location.hash;
@@ -76671,7 +76922,7 @@ module.exports = Object.assign || function (target, source) {
     page.current = '';
     page.len = 0;
     running = false;
-    window.removeEventListener('click', onclick, false);
+    document.removeEventListener(clickEvent, onclick, false);
     window.removeEventListener('popstate', onpopstate, false);
   };
 
@@ -76995,19 +77246,35 @@ module.exports = Object.assign || function (target, source) {
     return true;
   };
 
+
   /**
    * Handle "populate" events.
    */
 
-  function onpopstate(e) {
-    if (e.state) {
-      var path = e.state.path;
-      page.replace(path, e.state);
-    } else {
-      page.show(location.pathname + location.hash, undefined, undefined, false);
+  var onpopstate = (function () {
+    var loaded = false;
+    if ('undefined' === typeof window) {
+      return;
     }
-  }
-
+    if (document.readyState === 'complete') {
+      loaded = true;
+    } else {
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          loaded = true;
+        }, 0);
+      });
+    }
+    return function onpopstate(e) {
+      if (!loaded) return;
+      if (e.state) {
+        var path = e.state.path;
+        page.replace(path, e.state);
+      } else {
+        page.show(location.pathname + location.hash, undefined, undefined, false);
+      }
+    };
+  })();
   /**
    * Handle "click" events.
    */
@@ -77031,7 +77298,7 @@ module.exports = Object.assign || function (target, source) {
     // Ignore if tag has
     // 1. "download" attribute
     // 2. rel="external" attribute
-    if (el.getAttribute('download') || el.getAttribute('rel') === 'external') return;
+    if (el.hasAttribute('download') || el.getAttribute('rel') === 'external') return;
 
     // ensure non-hash for the same path
     var link = el.getAttribute('href');
@@ -77053,13 +77320,19 @@ module.exports = Object.assign || function (target, source) {
     // rebuild path
     var path = el.pathname + el.search + (el.hash || '');
 
+    // strip leading "/[drive letter]:" on NW.js on Windows
+    if (typeof process !== 'undefined' && path.match(/^\/[a-zA-Z]:\//)) {
+      path = path.replace(/^\/[a-zA-Z]:\//, '/');
+    }
+
     // same page
     var orig = path;
 
-    path = path.replace(base, '');
+    if (path.indexOf(base) === 0) {
+      path = path.substr(base.length);
+    }
+
     if (hashbang) path = path.replace('#!', '');
-
-
 
     if (base && orig === path) return;
 
@@ -77088,7 +77361,8 @@ module.exports = Object.assign || function (target, source) {
 
   page.sameOrigin = sameOrigin;
 
-},{"path-to-regexp":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/node_modules/path-to-regexp/index.js"}],"react-es7-mixin":[function(require,module,exports){
+}).call(this,require('_process'))
+},{"_process":"/Users/Ben/Projects/Ruby/doublejump/node_modules/browserify/node_modules/process/browser.js","path-to-regexp":"/Users/Ben/Projects/Ruby/doublejump/node_modules/page/node_modules/path-to-regexp/index.js"}],"react-es7-mixin":[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -77139,67 +77413,63 @@ var Select = React.createClass({
 	displayName: 'Select',
 
 	propTypes: {
-		value: React.PropTypes.any, // initial field value
-		multi: React.PropTypes.bool, // multi-value input
-		disabled: React.PropTypes.bool, // whether the Select is disabled or not
-		options: React.PropTypes.array, // array of options
-		delimiter: React.PropTypes.string, // delimiter to use to join multiple values
+		allowCreate: React.PropTypes.bool, // wether to allow creation of new entries
 		asyncOptions: React.PropTypes.func, // function to call to get options
 		autoload: React.PropTypes.bool, // whether to auto-load the default async options set
-		placeholder: React.PropTypes.string, // field placeholder, displayed when there's no value
-		noResultsText: React.PropTypes.string, // placeholder displayed when there are no matching search results
-		clearable: React.PropTypes.bool, // should it be possible to reset value
-		clearValueText: React.PropTypes.string, // title for the "clear" control
-		clearAllText: React.PropTypes.string, // title for the "clear" control when multi: true
-		searchable: React.PropTypes.bool, // whether to enable searching feature or not
-		searchPromptText: React.PropTypes.string, // label to prompt for search input
-		name: React.PropTypes.string, // field name, for hidden <input /> tag
-		onChange: React.PropTypes.func, // onChange handler: function(newValue) {}
-		onFocus: React.PropTypes.func, // onFocus handler: function(event) {}
-		onBlur: React.PropTypes.func, // onBlur handler: function(event) {}
 		className: React.PropTypes.string, // className for the outer element
+		clearable: React.PropTypes.bool, // should it be possible to reset value
+		clearAllText: React.PropTypes.string, // title for the "clear" control when multi: true
+		clearValueText: React.PropTypes.string, // title for the "clear" control
+		delimiter: React.PropTypes.string, // delimiter to use to join multiple values
+		disabled: React.PropTypes.bool, // whether the Select is disabled or not
 		filterOption: React.PropTypes.func, // method to filter a single option: function(option, filterString)
 		filterOptions: React.PropTypes.func, // method to filter the options array: function([options], filterString, [values])
-		matchPos: React.PropTypes.string, // (any|start) match the start or entire string when filtering
-		matchProp: React.PropTypes.string, // (any|label|value) which option property to filter on
 		ignoreCase: React.PropTypes.bool, // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object, // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
-		allowCreate: React.PropTypes.bool, // wether to allow creation of new entries
-		/*
-  * Allow user to make option label clickable. When this handler is defined we should
-  * wrap label into <a>label</a> tag.
-  *
-  * onOptionLabelClick handler: function (value, event) {}
-  *
-  */
-		onOptionLabelClick: React.PropTypes.func
+		matchPos: React.PropTypes.string, // (any|start) match the start or entire string when filtering
+		matchProp: React.PropTypes.string, // (any|label|value) which option property to filter on
+		multi: React.PropTypes.bool, // multi-value input
+		name: React.PropTypes.string, // field name, for hidden <input /> tag
+		addLabelText: React.PropTypes.string, // placeholder displayed when you want to add a label on a multi-value input
+		noResultsText: React.PropTypes.string, // placeholder displayed when there are no matching search results
+		onBlur: React.PropTypes.func, // onBlur handler: function(event) {}
+		onChange: React.PropTypes.func, // onChange handler: function(newValue) {}
+		onFocus: React.PropTypes.func, // onFocus handler: function(event) {}
+		onOptionLabelClick: React.PropTypes.func, // onCLick handler for value labels: function (value, event) {}
+		optionRenderer: React.PropTypes.func, // optionRenderer: function(option) {}
+		options: React.PropTypes.array, // array of options
+		placeholder: React.PropTypes.string, // field placeholder, displayed when there's no value
+		searchable: React.PropTypes.bool, // whether to enable searching feature or not
+		searchPromptText: React.PropTypes.string, // label to prompt for search input
+		value: React.PropTypes.any, // initial field value
+		valueRenderer: React.PropTypes.func // valueRenderer: function(option) {}
 	},
 
 	getDefaultProps: function getDefaultProps() {
 		return {
-			value: undefined,
-			options: undefined,
-			disabled: false,
-			delimiter: ',',
+			allowCreate: false,
 			asyncOptions: undefined,
 			autoload: true,
-			placeholder: 'Select...',
-			noResultsText: 'No results found',
-			clearable: true,
-			clearValueText: 'Clear value',
-			clearAllText: 'Clear all',
-			searchable: true,
-			searchPromptText: 'Type to search',
-			name: undefined,
-			onChange: undefined,
 			className: undefined,
-			matchPos: 'any',
-			matchProp: 'any',
+			clearable: true,
+			clearAllText: 'Clear all',
+			clearValueText: 'Clear value',
+			delimiter: ',',
+			disabled: false,
 			ignoreCase: true,
 			inputProps: {},
-			allowCreate: false,
-
-			onOptionLabelClick: undefined
+			matchPos: 'any',
+			matchProp: 'any',
+			name: undefined,
+			addLabelText: 'Add {label} ?',
+			noResultsText: 'No results found',
+			onChange: undefined,
+			onOptionLabelClick: undefined,
+			options: undefined,
+			placeholder: 'Select...',
+			searchable: true,
+			searchPromptText: 'Type to search',
+			value: undefined
 		};
 	},
 
@@ -77214,10 +77484,10 @@ var Select = React.createClass({
     * - placeholder
     * - focusedOption
    */
-			options: this.props.options,
 			isFocused: false,
+			isLoading: false,
 			isOpen: false,
-			isLoading: false
+			options: this.props.options
 		};
 	},
 
@@ -77230,8 +77500,8 @@ var Select = React.createClass({
 			if (!self.state.isOpen) {
 				return;
 			}
-			var menuElem = self.refs.selectMenuContainer.getDOMNode();
-			var controlElem = self.refs.control.getDOMNode();
+			var menuElem = React.findDOMNode(self.refs.selectMenuContainer);
+			var controlElem = React.findDOMNode(self.refs.control);
 
 			var eventOccuredOutsideMenu = self.clickedOutsideElement(menuElem, event);
 			var eventOccuredOutsideControl = self.clickedOutsideElement(controlElem, event);
@@ -77260,12 +77530,13 @@ var Select = React.createClass({
 			}
 		};
 
-		this.setState(this.getStateFromValue(this.props.value), function () {
-			//Executes after state change is done. Fixes issue #201
-			if (this.props.asyncOptions && this.props.autoload) {
-				this.autoloadAsyncOptions();
-			}
-		});
+		this.setState(this.getStateFromValue(this.props.value));
+	},
+
+	componentDidMount: function componentDidMount() {
+		if (this.props.asyncOptions && this.props.autoload) {
+			this.autoloadAsyncOptions();
+		}
 	},
 
 	componentWillUnmount: function componentWillUnmount() {
@@ -77284,8 +77555,8 @@ var Select = React.createClass({
 				filteredOptions: this.filterOptions(newProps.options)
 			});
 		}
-		if (newProps.value !== this.state.value) {
-			this.setState(this.getStateFromValue(newProps.value, newProps.options));
+		if (newProps.value !== this.state.value || newProps.placeholder !== this.state.placeholder) {
+			this.setState(this.getStateFromValue(newProps.value, newProps.options, newProps.placeholder));
 		}
 	},
 
@@ -77294,7 +77565,6 @@ var Select = React.createClass({
 
 		if (!this.props.disabled && this._focusAfterUpdate) {
 			clearTimeout(this._blurTimeout);
-
 			this._focusTimeout = setTimeout(function () {
 				self.getInputNode().focus();
 				self._focusAfterUpdate = false;
@@ -77303,8 +77573,8 @@ var Select = React.createClass({
 
 		if (this._focusedOptionReveal) {
 			if (this.refs.focused && this.refs.menu) {
-				var focusedDOM = this.refs.focused.getDOMNode();
-				var menuDOM = this.refs.menu.getDOMNode();
+				var focusedDOM = React.findDOMNode(this.refs.focused);
+				var menuDOM = React.findDOMNode(this.refs.menu);
 				var focusedRect = focusedDOM.getBoundingClientRect();
 				var menuRect = menuDOM.getBoundingClientRect();
 
@@ -77312,7 +77582,6 @@ var Select = React.createClass({
 					menuDOM.scrollTop = focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight;
 				}
 			}
-
 			this._focusedOptionReveal = false;
 		}
 	},
@@ -77330,9 +77599,12 @@ var Select = React.createClass({
 		return true;
 	},
 
-	getStateFromValue: function getStateFromValue(value, options) {
+	getStateFromValue: function getStateFromValue(value, options, placeholder) {
 		if (!options) {
 			options = this.state.options;
+		}
+		if (!placeholder) {
+			placeholder = this.props.placeholder;
 		}
 
 		// reset internal filter string
@@ -77348,7 +77620,7 @@ var Select = React.createClass({
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
-			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
+			placeholder: !this.props.multi && values.length ? values[0].label : placeholder,
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
 		};
 	},
@@ -77356,7 +77628,7 @@ var Select = React.createClass({
 	initValuesArray: function initValuesArray(values, options) {
 		if (!Array.isArray(values)) {
 			if (typeof values === 'string') {
-				values = values.split(this.props.delimiter);
+				values = values === '' ? [] : values.split(this.props.delimiter);
 			} else {
 				values = values ? [values] : [];
 			}
@@ -77426,7 +77698,7 @@ var Select = React.createClass({
 
 	getInputNode: function getInputNode() {
 		var input = this.refs.input;
-		return this.props.searchable ? input : input.getDOMNode();
+		return this.props.searchable ? input : React.findDOMNode(input);
 	},
 
 	fireChangeEvent: function fireChangeEvent(newState) {
@@ -77539,7 +77811,7 @@ var Select = React.createClass({
 				if (this.state.isOpen) {
 					this.resetValue();
 				} else {
-					this.clearValue();
+					this.clearValue(event);
 				}
 				break;
 
@@ -77555,7 +77827,7 @@ var Select = React.createClass({
 
 			case 188:
 				// ,
-				if (this.props.allowCreate) {
+				if (this.props.allowCreate && this.props.multi) {
 					event.preventDefault();
 					event.stopPropagation();
 					this.selectFocusedOption();
@@ -77609,7 +77881,7 @@ var Select = React.createClass({
 
 	autoloadAsyncOptions: function autoloadAsyncOptions() {
 		var self = this;
-		this.loadAsyncOptions('', {}, function () {
+		this.loadAsyncOptions(this.props.value || '', {}, function () {
 			// update with fetched but don't focus
 			self.setValue(self.props.value, false);
 		});
@@ -77771,26 +78043,33 @@ var Select = React.createClass({
 
 	buildMenu: function buildMenu() {
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
+		var renderLabel = this.props.optionRenderer || function (op) {
+			return op.label;
+		};
 
 		if (this.state.filteredOptions.length > 0) {
 			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
 		}
 		// Add the current value to the filtered options in last resort
+		var options = this.state.filteredOptions;
 		if (this.props.allowCreate && this.state.inputValue.trim()) {
 			var inputValue = this.state.inputValue;
-			this.state.filteredOptions.unshift({
+			options = options.slice();
+			options.unshift({
 				value: inputValue,
 				label: inputValue,
 				create: true
 			});
 		}
 
-		var ops = Object.keys(this.state.filteredOptions).map(function (key) {
-			var op = this.state.filteredOptions[key];
+		var ops = Object.keys(options).map(function (key) {
+			var op = options[key];
+			var isSelected = this.state.value === op.value;
 			var isFocused = focusedValue === op.value;
 
 			var optionClass = classes({
 				'Select-option': true,
+				'is-selected': isSelected,
 				'is-focused': isFocused,
 				'is-disabled': op.disabled
 			});
@@ -77800,20 +78079,17 @@ var Select = React.createClass({
 			var mouseEnter = this.focusOption.bind(this, op);
 			var mouseLeave = this.unfocusOption.bind(this, op);
 			var mouseDown = this.selectValue.bind(this, op);
+			var renderedLabel = renderLabel(op);
 
-			if (op.disabled) {
-				return React.createElement(
-					'div',
-					{ ref: ref, key: 'option-' + op.value, className: optionClass },
-					op.label
-				);
-			} else {
-				return React.createElement(
-					'div',
-					{ ref: ref, key: 'option-' + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown, onClick: mouseDown },
-					op.create ? 'Add ' + op.label + ' ?' : op.label
-				);
-			}
+			return op.disabled ? React.createElement(
+				'div',
+				{ ref: ref, key: 'option-' + op.value, className: optionClass },
+				renderedLabel
+			) : React.createElement(
+				'div',
+				{ ref: ref, key: 'option-' + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown, onClick: mouseDown },
+				op.create ? this.props.addLabelText.replace('{label}', op.label) : renderedLabel
+			);
 		}, this);
 
 		return ops.length ? ops : React.createElement(
@@ -77824,10 +78100,8 @@ var Select = React.createClass({
 	},
 
 	handleOptionLabelClick: function handleOptionLabelClick(value, event) {
-		var handler = this.props.onOptionLabelClick;
-
-		if (handler) {
-			handler(value, event);
+		if (this.props.onOptionLabelClick) {
+			this.props.onOptionLabelClick(value, event);
 		}
 	},
 
@@ -77846,19 +78120,14 @@ var Select = React.createClass({
 
 		if (this.props.multi) {
 			this.state.values.forEach(function (val) {
-				var props = {
+				value.push(React.createElement(Value, {
 					key: val.value,
+					option: val,
+					renderer: this.props.valueRenderer,
 					optionLabelClick: !!this.props.onOptionLabelClick,
 					onOptionLabelClick: this.handleOptionLabelClick.bind(this, val),
 					onRemove: this.removeValue.bind(this, val),
-					disabled: this.props.disabled
-				};
-				for (var key in val) {
-					if (val.hasOwnProperty(key)) {
-						props[key] = val[key];
-					}
-				}
-				value.push(React.createElement(Value, props));
+					disabled: this.props.disabled }));
 			}, this);
 		}
 
@@ -77918,6 +78187,12 @@ var Select = React.createClass({
 					' '
 				);
 			}
+		} else if (!this.props.multi || !this.state.values.length) {
+			input = React.createElement(
+				'div',
+				{ className: 'Select-input' },
+				' '
+			);
 		}
 
 		return React.createElement(

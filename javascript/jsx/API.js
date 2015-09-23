@@ -17,6 +17,14 @@ API.startProject = function(name, slug, likedTopics, comfortableTopics, callback
     $.post(`/api/project/`, JSON.stringify({title: name, slug, likedTopics, comfortableTopics}), callback);
 }
 
+API.auth = function(email, password, callback) {
+    $.post(`/api/auth/`, JSON.stringify({email, password}), callback);
+}
+
+API.unauth = function(callback) {
+    $.post(`/api/unauth/`, callback);
+}
+
 API.mostAppropriateTopic = function(module, topic, callback) {
     $.post(`/api/most_appropriate_topic/`, JSON.stringify({module, topic}), callback);
 }

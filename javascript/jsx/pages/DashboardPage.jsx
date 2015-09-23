@@ -44,11 +44,11 @@ export class DashboardPage extends React.Component {
 
         if (!this.state.ready) return null;
 
-        var currentProject = this.props.projects[this.props.currentAccount.current_project.id];
+        var currentProject = this.props.projects[this.props.currentAccount.current_project.slug];
         var otherProjects = [];
 
         for (var project in this.props.projects) {
-            if (project !== this.props.currentAccount.current_project.id) {
+            if (project !== this.props.currentAccount.current_project.slug) {
                 otherProjects.push(project);
             }
         }
