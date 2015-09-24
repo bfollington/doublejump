@@ -25,14 +25,11 @@ export class LoginPage extends React.Component {
     }
 
     onSubmit(e) {
-        console.log("Submitted", this.refs.email.val(), this.refs.password.val());
         this.setState({
             errorText: ""
         });
 
         API.auth(this.refs.email.val(), this.refs.password.val(), res => {
-            console.log(res);
-
             if (res.success) {
                 page("/concepts/dashboard");
             } else {
