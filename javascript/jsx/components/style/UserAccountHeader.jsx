@@ -30,8 +30,6 @@ export class UserAccountHeader extends React.Component {
                             <Icon icon="chevron-down" size="14px" spacingLeft="4px" />
                         </DropdownTrigger>
                         <DropdownItem title="Logout" href="/concepts/logout" />
-                        <DropdownItem title="Logout" href="/destroy" />
-                        <DropdownItem title="Logout" href="/destroy" />
                     </Dropdown>
 
                     <div>

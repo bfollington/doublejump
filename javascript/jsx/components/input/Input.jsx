@@ -72,7 +72,7 @@ export class Button extends React.Component {
 
     render() {
         return (
-            <button disabled={this.props.disabled} type={this.props.type} className="Button" onClick={this.props.onClick}>
+            <button data-tooltip={this.props.tooltip} disabled={this.props.disabled} type={this.props.type} className={this.props.className + " Button"} onClick={this.props.onClick}>
             {this.props.text}
             {this.props.children}
             </button>

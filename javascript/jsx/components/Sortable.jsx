@@ -7,7 +7,7 @@ export class Sortable extends React.Component {
         var el = React.findDOMNode(this);
         var $el = $(el);
 
-        dragula(el, {
+        dragula([el], {
             moves: function (el, container, handle) {
                 return $(handle).hasClass("handle") || $(handle).parent().hasClass("handle");
             }

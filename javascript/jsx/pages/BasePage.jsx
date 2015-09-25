@@ -19,6 +19,8 @@ import topic from 'reducers/Topic';
 import notification from 'reducers/Notification';
 import account from 'reducers/Account';
 
+import {Condition, Case} from "react-case";
+
 const finalCreateStore = compose(
     devTools(),
     persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),

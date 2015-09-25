@@ -78,10 +78,11 @@ export class MarkdownContent extends React.Component {
             var $el = $(React.findDOMNode(this));
 
             var renderTarget = $el.find(".markdown-content")[0];
-            var html = marked(this.state.content);
+            var html = this.state.content;
             var template = handlebars.compile(html);
+            var compiledMd = template(this.props.metadata());
 
-            renderTarget.innerHTML = template(this.props.metadata());
+            renderTarget.innerHTML = marked(compiledMd);
         }
     }
 
@@ -118,7 +119,7 @@ export class MarkdownContent extends React.Component {
 
         var view = (
             <div data-id={this.state.id}>
-                <div className="markdown-content"></div>
+                <div className="MarkdownContent markdown-content"></div>
             </div>
         );
 

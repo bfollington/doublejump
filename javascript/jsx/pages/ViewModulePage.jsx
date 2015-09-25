@@ -1,35 +1,37 @@
 var React = require("react");
 
-import {CodeContent} from 'components/editing/CodeContent.jsx';
-import {MathContent} from 'components/editing/MathContent.jsx';
-import {MarkdownContent} from 'components/editing/MarkdownContent.jsx';
-import {ImageContent} from 'components/editing/ImageContent.jsx';
+import API from "API";
+import { read } from "Util.jsx";
+import { apply } from "react-es7-mixin";
+
+import { fetchContents } from "actions/Content";
+import { fetchModule } from "actions/Module";
+import { fetchProject, updateMetadata, fetchNextModules } from "actions/Project";
+import { fetchTopics } from "actions/Topic";
 
 import {AceEditor} from 'components/AceEditor.jsx';
+import {ExternalContent} from 'components/ExternalContent.jsx';
+import {FinishedModule} from "components/FinishedModule.jsx";
+import {Icon} from "components/Icon.jsx";
+import { GridRow } from "components/Layout.jsx";
+import {LearningGraph} from 'components/LearningGraph.jsx';
+import {MessageFromUs} from 'components/MessageFromUs.jsx';
+import {Module} from 'components/Module.jsx';
+import {TopicPill} from 'components/TopicPill.jsx';
+
+import {CodeContent} from 'components/editing/CodeContent.jsx';
+import {ImageContent} from 'components/editing/ImageContent.jsx';
+import {MarkdownContent} from 'components/editing/MarkdownContent.jsx';
+import {MathContent} from 'components/editing/MathContent.jsx';
 
 import {Button} from 'components/input/Input.jsx';
 
-import {Module} from 'components/Module.jsx';
-import {MessageFromUs} from 'components/MessageFromUs.jsx';
-import {ExternalContent} from 'components/ExternalContent.jsx';
-import {TopicPill} from 'components/TopicPill.jsx';
-
-import {LearningGraph} from 'components/LearningGraph.jsx';
-
-import API from "API";
-import { read } from "Util.jsx";
-
-import { apply } from "react-es7-mixin";
-import data from "mixins/data";
 import connect from "mixins/connect";
-import { fetchProject, updateMetadata, fetchNextModules } from "actions/Project";
-import { fetchModule } from "actions/Module";
-import { fetchTopics } from "actions/Topic";
-import { fetchContents } from "actions/Content";
+import data from "mixins/data";
 
-import { GridRow } from "components/Layout.jsx";
+import {Condition, Case} from "react-case";
 
-import {FinishedModule} from "components/FinishedModule.jsx";
+import {toggle} from "react-operators";
 
 @connect(
     state => (
@@ -62,7 +64,8 @@ export class ViewModulePage extends React.Component {
 
         this.state = {
             ready: false,
-            done: false
+            done: false,
+            showGraph: false
         };
 
         this.loadData(props)
@@ -75,6 +78,12 @@ export class ViewModulePage extends React.Component {
 
     }
 
+
+    onToggleGraph() {
+        this.setState({
+            showGraph: !this.state.showGraph
+        });
+    }
 
 
     isEditable() {
@@ -167,18 +176,31 @@ export class ViewModulePage extends React.Component {
                         <AceEditor onContentChange={this.metadataChange.bind(this)} language='javascript' value={"{}"} />
                     </div>*/}
 
-                    {   !this.getModule().external ?
-                            this.getContents().map(block => {
-                                return contentTypeLookup[block.type](block);
-                            })
-                        :
+                    <Condition>
+                        <Case test={!this.getModule().external}>
+                            {
+                                this.getContents().map(block => {
+                                    return contentTypeLookup[block.type](block);
+                                })
+                            }
+                        </Case>
+                        <Case default>
                             <ExternalContent module={this.getModule()} />
-                    }
+                        </Case>
+                    </Condition>
                 </div>
 
                 {finished}
 
-                <LearningGraph module={this.props.module} project={this.props.project} />
+                <p className="align-right">
+                    <Button tooltip="Want to see something cool?" onClick={toggle.bind(this, "showGraph")}>
+                        <Icon icon="bar-chart-o" size="14px"/>
+                    </Button>
+                </p>
+
+                <Case test={this.state.showGraph}>
+                    <LearningGraph module={this.props.module} project={this.props.project} />
+                </Case>
             </div>
         );
     }
