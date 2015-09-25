@@ -40,10 +40,11 @@ export class CommentButton extends React.Component {
 
         return (
             <div className="comment-button">
-                <button onClick={this.showComments.bind(this)}>
-                    {inner}
-
-                </button>
+                <div className="button-wrap">
+                    <button className="open-button" onClick={this.showComments.bind(this)}>
+                        {inner}
+                    </button>
+                </div>
                 {panel}
             </div>
         );
