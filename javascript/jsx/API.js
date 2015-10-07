@@ -29,6 +29,10 @@ API.unauth = function(callback) {
     $.post(`/api/unauth/`, callback);
 }
 
+API.addComment = function(contentId, commentText, callback) {
+    $.post(`/api/add_comment/${contentId}`, JSON.stringify({text: commentText}), callback);
+}
+
 API.mostAppropriateTopic = function(module, topic, callback) {
     $.post(`/api/most_appropriate_topic/`, JSON.stringify({module, topic}), callback);
 }

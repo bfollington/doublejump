@@ -8,6 +8,13 @@ class Comment
   validates_length_of   :text, :minimum => 1, :message => "That comment's pretty short, write some more maybe?"
 
   belongs_to :account
-  belongs_to :content
+  embedded_in :content
+
+  def to_hash
+    {
+        text: text,
+        account: account
+    }
+  end
 
 end

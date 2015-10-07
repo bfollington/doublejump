@@ -8,7 +8,8 @@ class HideableContent < Content
     {
       id: _id.to_s,
       title: title,
-      type: _type
+      type: _type,
+      comments: comments.map{ |comment| comment.to_hash }
     }
   end
 

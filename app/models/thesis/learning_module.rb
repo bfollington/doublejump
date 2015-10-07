@@ -25,7 +25,6 @@ class LearningModule
   has_and_belongs_to_many :dependents, :class_name => 'LearningModule', :inverse_of => :prereqs
 
 
-
   validates_presence_of :title
   validates_presence_of :slug
   validates_uniqueness_of :title
@@ -88,8 +87,6 @@ class LearningModule
       account_id: data["owner"],
       prereq_ids: data["prereqs"]
     }
-
-    puts update_data.inspect
 
     update_attributes!(update_data)
   end

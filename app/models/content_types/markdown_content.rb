@@ -8,7 +8,8 @@ class MarkdownContent < Content
     {
       id: _id.to_s,
       body: body,
-      type: _type
+      type: _type,
+      comments: comments.map{ |comment| comment.to_hash }
     }
   end
 

@@ -1,14 +1,35 @@
 .comment-panel {
-    h1 {
+    .title {
         font-size: 1em;
+        color: white;
+        text-align: left;
+    }
+
+    .close-link {
+        color: white;
+    }
+
+    .Comment {
+        color: white;
+    }
+
+    input {
+        color: white;
     }
 
     z-index: 10000;
 
     position: absolute;
-    right: 0;
+    right: 8px;
+    top: 8px;
 
-    min-width: 256px;
+    background: $link-color;
+    border-radius: 3px;
+
+
+    transform-origin: top right;
+
+    min-width: 512px;
 
     padding: 0.5em;
 }

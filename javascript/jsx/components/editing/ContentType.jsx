@@ -2,6 +2,8 @@ import {ContentTypeToolbar} from "./ContentTypeToolbar.jsx";
 import {FloatingButton} from "components/FloatingButton.jsx";
 import {CommentButton} from "components/CommentButton.jsx";
 
+import API from "API";
+import { fetchContents } from "actions/Content";
 
 var React = require("react");
 
@@ -17,7 +19,12 @@ export class ContentType extends React.Component {
 }
 
 ContentType.addComment = function(comment) {
-    window.flux.stores.module.actions.addComment({module: this.props.module, id: this.props.id, text: comment});
+
+    console.log(this.props);
+    API.addComment(this.props.id, comment, res => {
+        fetchContents(this.props.module);
+        console.log(res);
+    });
 }
 
 function onDelete() {

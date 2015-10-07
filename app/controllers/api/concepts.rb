@@ -10,6 +10,18 @@ Doublejump::App.controllers "/api", :cache => false do
     send_json learning_module.to_hash
   end
 
+  post :add_comment, :with => :content_id do
+
+    data = get_body
+
+    content = Content.find(params[:content_id])
+    content.comments.create!(text: data["text"], account: current_account)
+    content.save!
+
+    send_json({success: true})
+
+  end
+
   post :concept do
     data = get_body
 

@@ -10,7 +10,7 @@
         border: none;
         background: none;
 
-        color: $medium-grey;
+        color: $link-color;
 
 
         &:focus {
@@ -23,16 +23,37 @@
 }
 //CommentPanel.scss
 .comment-panel {
-    h1 {
+    .title {
         font-size: 1em;
+        color: white;
+        text-align: left;
+    }
+
+    .close-link {
+        color: white;
+    }
+
+    .Comment {
+        color: white;
+    }
+
+    input {
+        color: white;
     }
 
     z-index: 10000;
 
     position: absolute;
-    right: 0;
+    right: 8px;
+    top: 8px;
 
-    min-width: 256px;
+    background: $link-color;
+    border-radius: 3px;
+
+
+    transform-origin: top right;
+
+    min-width: 512px;
 
     padding: 0.5em;
 }
@@ -621,7 +642,7 @@
 }
 //ViewModulePage.scss
 .view-module-page {
-    .title {
+    .title-area {
         text-align: center;
 
         h2 {
@@ -636,6 +657,71 @@
     }
 }
 
+//CodeContext.scss
+.CodeContent {
+    margin-bottom: 1em;
+}
+//ImageContent.scss
+.ImageContent {
+    text-align: center;
+
+    img {
+        max-width: 75%;
+        display: inline-block;
+    }
+}
+//MarkdownContent.scss
+.MarkdownContent {
+    .inserted {
+
+        .reason {
+            vertical-align: middle;
+            display: inline;
+            font-size: 75%;
+            display: inline;
+            position: relative;
+            cursor: help;
+            color: $link-color;
+
+            &:hover div, & div:hover {
+                visibility: visible;
+                opacity: 1;
+                left: 8px;
+            }
+
+            div {
+                visibility: hidden;
+                opacity: 0;
+                position: relative;
+                top: 8px;
+                left: -16px;
+                transition: visibility 0.2s, opacity 0.2s, left 0.2s;
+                display: inline-block;
+
+                background: $link-color;
+                color: white;
+                border-radius: 2px;
+
+                padding: 5px 10px;
+            }
+        }
+
+        position: relative;
+        display: inline-block;
+
+        margin-bottom: 1em;
+        width: 100%;
+
+
+        span {
+            @extend p;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+
+    }
+}
 //Input.scss
 .Input {
     label {
@@ -704,71 +790,6 @@ ul .Button {
 .Input, .button-wrapper {
     .error-message {
         color: red;
-    }
-}
-//CodeContext.scss
-.CodeContent {
-    margin-bottom: 1em;
-}
-//ImageContent.scss
-.ImageContent {
-    text-align: center;
-
-    img {
-        max-width: 75%;
-        display: inline-block;
-    }
-}
-//MarkdownContent.scss
-.MarkdownContent {
-    .inserted {
-
-        .reason {
-            vertical-align: middle;
-            display: inline;
-            font-size: 75%;
-            display: inline;
-            position: relative;
-            cursor: help;
-            color: $link-color;
-
-            &:hover div, & div:hover {
-                visibility: visible;
-                opacity: 1;
-                left: 8px;
-            }
-
-            div {
-                visibility: hidden;
-                opacity: 0;
-                position: relative;
-                top: 8px;
-                left: -16px;
-                transition: visibility 0.2s, opacity 0.2s, left 0.2s;
-                display: inline-block;
-
-                background: $link-color;
-                color: white;
-                border-radius: 2px;
-
-                padding: 5px 10px;
-            }
-        }
-
-        position: relative;
-        display: inline-block;
-
-        margin-bottom: 1em;
-        width: 100%;
-
-
-        span {
-            @extend p;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-
     }
 }
 //Dropdown.scss

@@ -24,8 +24,6 @@ class Account
   validates_uniqueness_of   :username, :case_sensitive => false
   validates_length_of       :username, :within => 1..40
 
-  has_many :comments
-
   has_many :projects, inverse_of: "account"
   belongs_to :current_project, class_name: "Project", inverse_of: nil
 

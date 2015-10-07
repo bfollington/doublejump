@@ -10,7 +10,8 @@ class CodeContent < Content
       id: _id.to_s,
       body: body,
       language: language,
-      type: _type
+      type: _type,
+      comments: comments.map{ |comment| comment.to_hash }
     }
   end
 

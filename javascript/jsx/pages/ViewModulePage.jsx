@@ -148,7 +148,7 @@ export class ViewModulePage extends React.Component {
         return (
             <div className="main-content">
                 <div className="view-module-page">
-                    <div className="title">
+                    <div className="title-area">
                         <h2>
                             {this.getModule().title}
                         </h2>

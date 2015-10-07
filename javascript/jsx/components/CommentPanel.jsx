@@ -13,12 +13,14 @@ export class CommentPanel extends React.Component {
 
         this.addAnimationState("open", {
             opacity: 1,
-            marginTop: 0
+            marginTop: 0,
+            scale: 1
         });
 
         this.addAnimationState("closed", {
             opacity: 0,
-            marginTop: "10px"
+            marginTop: "10px",
+            scale: 0
         });
 
         this.addAnimation("spring", {
@@ -42,23 +44,37 @@ export class CommentPanel extends React.Component {
 
     render() {
         return (
-            <div className="comment-panel box">
-                <button className="float-right" onClick={this.animate.bind(this, "closed", "spring", this.props.onClose)}>Close</button>
-                <h1>Comments</h1>
+            <div className="comment-panel">
+                <button className="float-right close-link" onClick={this.animate.bind(this, "closed", "spring", this.props.onClose)}>Close</button>
+                <h1 className="title">Comments</h1>
                 <ul>
                     {
                         this.props.comments.map( comment => {
-                            return <li>{comment.text}</li>;
+                            return <Comment comment={comment}></Comment>;
                         })
                     }
                 </ul>
                 <div>
-                    <form>
-                        <input ref="comment" className="form-control" type="text" placeholder="Comment..." />
-                        <button onClick={this.addComment.bind(this)}>Go</button>
+                    <form onSubmit={this.addComment.bind(this)}>
+                        <input ref="comment" className="form-control" type="text" placeholder="" />
                     </form>
                 </div>
             </div>
+        );
+    }
+}
+
+class Comment extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <li className="Comment">
+                {this.props.comment.text}
+                {this.props.comment.author}
+            </li>
         );
     }
 }
