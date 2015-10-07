@@ -117,7 +117,6 @@ gulp.task('watch', ['lib-css', 'components', 'sass'], function() {
   lr({ start: true });
   gulp.watch(LR_JS, ["livereload-js"]);
   gulp.watch(LR_CSS, ["livereload-css"]);
-  gulp.watch(['javascript/**/*.js', 'app/views/**/*.js'], ['scripts']);
   gulp.watch(COMPONENT_SCSS_GLOBS, ['components']);
 
 });

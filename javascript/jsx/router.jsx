@@ -6,6 +6,7 @@ import page from 'page';
 import {DashboardPageController} from './pages/DashboardPageController.jsx';
 import {EditModulePageController} from './pages/EditModulePageController.jsx';
 import {LoginPageController} from './pages/LoginPageController.jsx';
+import {RegisterPageController} from './pages/RegisterPageController.jsx';
 import {ModuleBrowserPageController} from './pages/ModuleBrowserPageController.jsx';
 import {NewProjectPageController} from './pages/NewProjectPageController.jsx';
 import {ProjectPageController} from './pages/ProjectPageController.jsx';
@@ -28,8 +29,16 @@ function logout(ctx, next) {
     next();
 }
 
+export function getUnauthedLocations() {
+    return [
+        "/login",
+        "/register"
+    ];
+}
+
 routes['/'] = NewProjectPageController;
 routes['/login'] = LoginPageController;
+routes['/register'] = RegisterPageController;
 routes['/logout'] = logout;
 routes['/dashboard'] = DashboardPageController;
 routes['/project/:project'] = ModuleBrowserPageController;

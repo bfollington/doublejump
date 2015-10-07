@@ -35,7 +35,7 @@ class Account
   def to_hash
     {
       id: _id.to_s,
-      current_project: current_project.to_hash,
+      current_project: if current_project.nil? then nil else current_project.to_hash end,
       avatar: avatar,
       email: email,
       name: name,

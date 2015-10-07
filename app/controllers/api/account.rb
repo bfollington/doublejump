@@ -35,5 +35,23 @@ Doublejump::App.controllers "/api", :cache => false do
 
   end
 
+  post :register do
+
+    data = get_body
+
+    account = Account.create(data)
+    account.role = "users"
+
+    puts account.to_yaml
+
+    if (account.valid?)
+      account.save
+      set_current_account(account)
+      send_json({success: true})
+    else
+      send_json({success: false, errors: account.errors.messages})
+    end
+  end
+
 
 end

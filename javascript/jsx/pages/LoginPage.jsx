@@ -60,6 +60,10 @@ export class LoginPage extends React.Component {
                         <Button type="submit">Login</Button>
                     </p>
 
+                    <p>
+                        No account? <a href="/register">Create one</a>.
+                    </p>
+
                 </form>
             </div>
         );

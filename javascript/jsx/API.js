@@ -17,6 +17,10 @@ API.startProject = function(name, slug, likedTopics, comfortableTopics, callback
     $.post(`/api/project/`, JSON.stringify({title: name, slug, likedTopics, comfortableTopics}), callback);
 }
 
+API.register = function(name, surname, username, email, password, password_confirmation, callback) {
+    $.post(`/api/register/`, JSON.stringify({name, surname, username, email, password, password_confirmation}), callback);
+}
+
 API.auth = function(email, password, callback) {
     $.post(`/api/auth/`, JSON.stringify({email, password}), callback);
 }
