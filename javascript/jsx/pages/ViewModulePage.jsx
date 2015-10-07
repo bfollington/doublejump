@@ -2,7 +2,10 @@ var React = require("react");
 
 import API from "API";
 import { read } from "Util.jsx";
+import page from "page";
+import {Condition, Case} from "react-case";
 import { apply } from "react-es7-mixin";
+import {toggle} from "react-operators";
 
 import { fetchContents } from "actions/Content";
 import { fetchModule } from "actions/Module";
@@ -29,17 +32,14 @@ import {Button} from 'components/input/Input.jsx';
 import connect from "mixins/connect";
 import data from "mixins/data";
 
-import {Condition, Case} from "react-case";
-
-import {toggle} from "react-operators";
-
 @connect(
     state => (
         {
             modules: state.module.items,
             projects: state.project.items,
             contents: state.content.items,
-            topics: state.topic.items
+            topics: state.topic.items,
+            account: state.account.currentAccount.data
         }
     ),
     dispatch => (
@@ -130,19 +130,13 @@ export class ViewModulePage extends React.Component {
         });
     }
 
+    onEditModule() {
+        page(`/edit/${this.props.module}`);
+    }
+
     render() {
 
         if (!this.state.ready) return null;
-
-        var finished = <FinishedModule topics={this.props.topics} currentModule={this.getModule()} nextModules={this.getNextModules()} project={this.props.project} />;
-
-        if (!this.state.done) {
-            finished = (
-                <div className="text-center">
-                    <Button text="I'm Finished!" onClick={this.onFinishConcept.bind(this)}></Button>
-                </div>
-            );
-        }
 
         var contentTypeLookup = {
             "MarkdownContent": ctx => <MarkdownContent comments={ctx.comments} module={this.props.module} id={ctx.id} value={ctx.body} editable={this.isEditable} metadata={this.getMetadata.bind(this)} />,
@@ -155,13 +149,19 @@ export class ViewModulePage extends React.Component {
             <div className="main-content">
                 <div className="view-module-page">
                     <div className="title">
-                        <h2>{this.getModule().title}</h2>
+                        <h2>
+                            {this.getModule().title}
+                        </h2>
+                        <Case test={this.props.account.role === "admin"}>
+                            <Button text="Edit Module" onClick={this.onEditModule.bind(this)} />
+                        </Case>
                         <h3 className="author">Ben Follington</h3>
                         {
                             this.getTopics().map(topic => {
                                 return <TopicPill topic={topic} />;
                             })
                         }
+
                         {
                             () => {
                                 console.log(this.getModule().external, this.getModule().url);
@@ -190,7 +190,16 @@ export class ViewModulePage extends React.Component {
                     </Condition>
                 </div>
 
-                {finished}
+                <Condition>
+                    <Case test={!this.state.done}>
+                        <div className="text-center">
+                            <Button text="I'm Finished!" onClick={this.onFinishConcept.bind(this)}></Button>
+                        </div>
+                    </Case>
+                    <Case default>
+                        <FinishedModule topics={this.props.topics} currentModule={this.getModule()} nextModules={this.getNextModules()} project={this.props.project} />
+                    </Case>
+                </Condition>
 
                 <p className="align-right">
                     <Button tooltip="Want to see something cool?" onClick={toggle.bind(this, "showGraph")}>
