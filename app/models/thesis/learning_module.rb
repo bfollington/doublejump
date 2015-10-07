@@ -8,6 +8,13 @@ class LearningModule
   field :slug, :type => String
   field :url, :type => String
   field :external, :type => Boolean
+  field :key_name, :type => String
+
+  attr_readonly :key_name
+
+  def key_name
+    title.squish.downcase.tr(" ","_")
+  end
 
   belongs_to :account
   has_and_belongs_to_many :projects

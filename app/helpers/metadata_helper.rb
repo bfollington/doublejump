@@ -12,12 +12,12 @@ Doublejump::App.helpers do
       project["metadata"]["topic_scores"] = {}
 
       project.topic_scores.each do |score|
-        project["metadata"]["topic_scores"][score.topic.name.squish.downcase.tr(" ","_")] = score.score
+        project["metadata"]["topic_scores"][score.topic.key_name] = score.score
       end
 
       project["metadata"]["learning_modules"] = {}
       project.learning_modules.each do |learning_module|
-        project["metadata"]["learning_modules"][learning_module.title.squish.downcase.tr(" ","_")] = true
+        project["metadata"]["learning_modules"][learning_module.key_name] = true
       end
 
 
