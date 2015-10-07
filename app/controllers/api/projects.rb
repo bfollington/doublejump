@@ -35,12 +35,14 @@ Doublejump::App.controllers "/api", :cache => false do
         topic_score = TopicScore.find_or_initialize_by(project: project, topic: topic)
         topic_score.score = topic_score.score || 0
         topic_score.score = topic_score.score + 5
+        project.topic_scores << topic_score
     end
 
     data["comfortableTopics"].each do |topic|
       topic_score = TopicScore.find_or_initialize_by(project: project, topic: topic)
       topic_score.score = topic_score.score || 0
-      topic_score.score = topic_score.score + 5
+      topic_score.score = topic_score.score - 2
+      project.topic_scores << topic_score
     end
 
     current_account.current_project = project

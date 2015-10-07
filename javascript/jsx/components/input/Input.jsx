@@ -72,10 +72,13 @@ export class Button extends React.Component {
 
     render() {
         return (
-            <button data-tooltip={this.props.tooltip} disabled={this.props.disabled} type={this.props.type} className={this.props.className + " Button"} onClick={this.props.onClick}>
-            {this.props.text}
-            {this.props.children}
-            </button>
+            <span className="button-wrapper">
+                <button data-tooltip={this.props.tooltip} disabled={this.props.disabled} type={this.props.type} className={this.props.className + " Button"} onClick={this.props.onClick}>
+                {this.props.text}
+                {this.props.children}
+                </button>
+                {this.props.error ? <p className="error-message">{this.props.error}</p> : null}
+            </span>
         );
     }
 }

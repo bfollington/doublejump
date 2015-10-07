@@ -1,16 +1,18 @@
-import data from "mixins/data";
-import connect from "mixins/connect";
+import API from "API";
+import {Slug} from 'Slug.js';
+import page from "page";
+import React from "react";
+
 //import { addProject } from "actions/Project";
 import { fetchTopics } from "actions/Topic";
 
+import {MessageFromUs} from "components/MessageFromUs.jsx";
 import { TopicPill } from "components/TopicPill.jsx";
 
-import React from "react";
-import page from "page";
-
-import API from "API";
 import { Input, Button } from "components/input/Input.jsx";
-import {Slug} from 'Slug.js';
+
+import connect from "mixins/connect";
+import data from "mixins/data";
 
 @connect(
     state => (
@@ -74,15 +76,31 @@ export class NewProjectPage extends React.Component {
     }
 
     onNewProject() {
-        console.log(this.refs.test.val());
 
-        API.startProject(this.refs.test.val(), Slug.convertToSlug(this.refs.test.val()),
+        if (this.refs.projectName.val().length == 0) {
+            this.setState({
+                errorMessage: "Please give your project a name."
+            });
+
+            return;
+        }
+
+        if (this.state.likedTopics.length !== 3 || this.state.comfortableTopics.length !== 3) {
+            this.setState({
+                errorMessage: "Please select 3 topics in each category."
+            });
+
+            return;
+        }
+
+        API.startProject(this.refs.projectName.val(), Slug.convertToSlug(this.refs.projectName.val()),
             this.state.likedTopics.map(topic => topic._id.$oid),
             this.state.comfortableTopics.map(topic => topic._id.$oid),
             response => {
-                page(`/dashboard`);
+                page(`/project/${Slug.convertToSlug(this.refs.projectName.val())}`);
             }
         );
+
     }
 
     render() {
@@ -93,7 +111,12 @@ export class NewProjectPage extends React.Component {
             <div className="box">
                 <h2>Start a New Project</h2>
 
-                <Input ref="test" name="title" label="Project Name">
+                <MessageFromUs>
+                    <p>On doublejump, when you're learning about something we'll track your progress using something called a "Project". A project can refer to something you're working on and all the learning related to that (like "My Website"), or just a path of learning you're going down (like "Web Development").</p>
+                    <p>Within your project we'll suggest things we think are relevant to your learning and attempt to understand your goals.</p>
+                </MessageFromUs>
+
+                <Input ref="projectName" name="title" label="Project Name">
                     Give this project a name, it could be for something you're working on or just a description of what you want to learn.
                 </Input>
 
@@ -122,7 +145,7 @@ export class NewProjectPage extends React.Component {
 
                 <div className="text-center">
                     <br />
-                    <Button text="Start Project" onClick={this.onNewProject.bind(this)} />
+                    <Button text="Start Project" error={this.state.errorMessage} onClick={this.onNewProject.bind(this)} />
                 </div>
             </div>
         );
