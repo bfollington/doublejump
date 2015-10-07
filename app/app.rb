@@ -42,28 +42,6 @@ module Doublejump
       when :production then require 'newrelic_rpm'
     end
 
-    #
-    # USER REGISTRATION
-    #
-
-    get :register do
-      render 'register', :layout => :app
-    end
-
-    post :register do
-      @account = Account.create(params[:account])
-      @account.role = "users"
-
-      puts @account.to_yaml
-
-      if (@account.valid?)
-        @account.save
-        set_current_account(@account)
-        redirect url(:users, :you)
-      else
-        render 'register', :layout => :app
-      end
-    end
 
 
     ##
