@@ -1,6 +1,6 @@
 .MessageFromUs {
 
-    .message-bubble {
+    .message-bubble, .message-bubble p {
         background: $link-color;
         color: white;
         border-radius: 16px;
@@ -9,6 +9,14 @@
         position: relative;
 
         font-weight: lighter;
+    }
+
+    .message-bubble p {
+        padding: 0;
+
+        &:last-child {
+            margin: 0;
+        }
     }
 
     .full-height {

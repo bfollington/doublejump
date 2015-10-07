@@ -69,7 +69,8 @@ export class EditModulePage extends React.Component {
             ready: false,
             selectedTopics: [],
             selectedModules: [],
-            numberOfSavingModules: 0
+            numberOfSavingModules: 0,
+            metadata: {"topic_scores": {},"learning_modules": {}}
         };
 
         Mixin.apply(this, Store, {stores: ["module", "topic"]});
@@ -370,7 +371,7 @@ export class EditModulePage extends React.Component {
                         </div>
                     </div>
                     <div className="box">
-                        <AceEditor onContentChange={this.metadataChange.bind(this)} language='javascript' value={"{}"} />
+                        <AceEditor onContentChange={this.metadataChange.bind(this)} language='javascript' value={JSON.stringify(this.state.metadata)} />
                     </div>
                     <Sortable>
                         {

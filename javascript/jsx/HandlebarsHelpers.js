@@ -34,10 +34,13 @@ export default function(handlebars) {
 
     handlebars.registerHelper('hasNoExperienceWith', function(val, limit, opts) {
 
+        console.log(val, limit, opts);
+
         if (opts && opts.data && opts.data.root && opts.data.root.topic_scores) {
             var lookup = opts.data.root.topic_scores;
 
-            if (lookup[snakeCase(val)] <= limit) {
+
+            if (!lookup[snakeCase(val)] || lookup[snakeCase(val)] <= limit) {
                 return wrapWithMetaInfo(null, val, "Shown because you have limited experience with: ", opts.fn(this));
             }
 
@@ -74,5 +77,5 @@ function snakeCase(str) {
 }
 
 function wrapWithMetaInfo(l, r, operator, result) {
-    return `<div class="inserted"><p>${result}</p><div>${l ? l : ""} ${operator} ${r ? r : ""}</div></div>\n`;
+    return `<div class="inserted"><span>${result}</span><div class="reason">?<div>${l ? l : ""} ${operator} ${r ? r : ""}</div></div></div>\n`;
 }

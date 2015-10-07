@@ -3,6 +3,7 @@ import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 import { Provider } from 'react-redux';
 
 import page from "page";
+import {getUnauthedLocations} from "router.jsx";
 
 import { HeaderBar } from "components/style/HeaderBar.jsx";
 import { Navigation } from "components/style/Navigation.jsx";
@@ -63,7 +64,7 @@ export class BasePage extends React.Component {
 
         if (this.store.getState().account.currentAccount.data.success === false) {
             // Avoid redirect loop for unauthed users
-            if (window.location.pathname != "/login") {
+            if ( getUnauthedLocations().indexOf(window.location.pathname) === -1) {
                 console.log("Not authed, redirect");
                 page("/login");
             } else {

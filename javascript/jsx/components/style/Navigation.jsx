@@ -11,7 +11,7 @@ export class Navigation extends React.Component {
         return (
 
             <nav className="banner-navigation">
-                <GridRow sizes={{xs: 6}}>
+                <GridRow autoSize>
                     {
                         !this.props.account ?
                             <a href="/login">Login</a>
@@ -19,7 +19,7 @@ export class Navigation extends React.Component {
                             <a href="/dashboard">Dashboard</a>
                     }
 
-                    { this.props.account ? <a href={`/project/${this.props.account.current_project.slug}`}>Browse Concepts</a> : null }
+                    { this.props.account && this.props.account.current_project ? <a href={`/project/${this.props.account.current_project.slug}`}>Current Project</a> : null }
                 </GridRow>
             </nav>
 

@@ -7,6 +7,8 @@ import { MessageFromUs } from "components/MessageFromUs.jsx";
 import { Button } from "components/input/Input.jsx";
 import { GridRow, Column, Row } from "components/Layout.jsx";
 
+import {Condition, Case} from "react-case";
+
 import page from "page";
 import React from "react";
 import Select from "react-select";
@@ -44,7 +46,7 @@ export class DashboardPage extends React.Component {
 
         if (!this.state.ready) return null;
 
-        var currentProject = this.props.projects[this.props.currentAccount.current_project.slug];
+        var currentProject = this.props.currentAccount.current_project ? this.props.projects[this.props.currentAccount.current_project.slug] : null;
         var otherProjects = [];
 
         for (var project in this.props.projects) {
@@ -56,26 +58,39 @@ export class DashboardPage extends React.Component {
         return (
             <div className="main-content">
 
-                <div className="float-right">
-                    <Button text="Create New Project" onClick={this.onNewProject.bind(this)} />
-                </div>
+                <Case test={Object.keys(this.props.projects).length > 0}>
+                    <div className="float-right">
+                        <Button text="Create New Project" onClick={this.onNewProject.bind(this)} />
+                    </div>
+                </Case>
 
-                <h2>Current Project</h2>
-                <MessageFromUs>This is what you were last working on, want to pick up from here?</MessageFromUs>
-                <Row sizes={{xs: 4}}>
-                    <Column sizes={{xs: 4}}>
-                        <Project project={currentProject} />
-                    </Column>
-                </Row>
+                <Case test={currentProject}>
+                    <h2>Current Project</h2>
+                    <MessageFromUs>This is what you were last working on, want to pick up from here?</MessageFromUs>
+                    <Row sizes={{xs: 4}}>
+                        <Column sizes={{xs: 4}}>
+                            <Project project={currentProject} />
+                        </Column>
+                    </Row>
+                </Case>
 
-                <h2>Other Projects</h2>
-                <GridRow sizes={{xs: 4}}>
-                    {
-                        otherProjects.map( project => {
-                            return <Project project={this.props.projects[project]} />;
-                        })
-                    }
-                </GridRow>
+                <Condition>
+                    <Case test={otherProjects.length > 0}>
+                        <h2>Other Projects</h2>
+                        <GridRow sizes={{xs: 4}}>
+                            {
+                                otherProjects.map( project => {
+                                    return <Project project={this.props.projects[project]} />;
+                                })
+                            }
+                        </GridRow>
+                    </Case>
+                    <Case test={Object.keys(this.props.projects).length === 0}>
+                        <h2>Dashboard</h2>
+                        <p className="text-center">You don't have any projects yet!</p>
+                        <p className="text-center"> Why not <Button text="create  new one" onClick={this.onNewProject.bind(this)} />?</p>
+                    </Case>
+                </Condition>
 
             </div>
         );
