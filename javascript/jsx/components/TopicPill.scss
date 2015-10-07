@@ -11,7 +11,10 @@
     border-radius: 100px;
     background: $link-color;
     margin-right: 5px;
+    margin-bottom: 5px;
     font-size: 0.5em;
+
+    transition: padding 0.3s, font-size 0.3s $bounce-easing;
 
     &.big {
         font-size: 0.8em;
@@ -25,6 +28,8 @@
     }
 
     &.selected {
-        background: black;
+        background: $link-hover-color;
+        padding: 5px 12px;
+        font-size: 1em;
     }
 }
