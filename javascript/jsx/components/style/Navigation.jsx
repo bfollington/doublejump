@@ -16,10 +16,10 @@ export class Navigation extends React.Component {
                         !this.props.account ?
                             <a href="/login">Login</a>
                         :
-                            <a href="/concepts/dashboard">Dashboard</a>
+                            <a href="/dashboard">Dashboard</a>
                     }
 
-                    { this.props.account ? <a href={`/concepts/project/${this.props.account.current_project.slug}`}>Browse Concepts</a> : null }
+                    { this.props.account ? <a href={`/project/${this.props.account.current_project.slug}`}>Browse Concepts</a> : null }
                 </GridRow>
             </nav>
 

@@ -51,7 +51,7 @@ export class ModuleBrowserPage extends React.Component {
     }
 
     onChange(value) {
-        page(`/concepts/project/${this.props.project}/${value}`);
+        page(`/project/${this.props.project}/${value}`);
     }
 
     render() {

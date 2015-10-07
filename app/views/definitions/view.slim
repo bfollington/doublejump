@@ -1,7 +1,0 @@
-.row
-    .col-xs-12
-        .box
-            h3
-                = @definition.title
-
-            | #{{RDiscount.new(@definition.body, :no_superscript).to_html}}

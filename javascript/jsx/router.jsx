@@ -16,14 +16,14 @@ const render = (component) => React.render(
     window.app.domRoot
 );
 
-var baseRoute = "/concepts";
+var baseRoute = "";
 
 var routes = {};
 
 function logout(ctx, next) {
     console.log("Logout");
     API.unauth( res => {
-        page("/concepts/login");
+        page("/login");
     });
     next();
 }

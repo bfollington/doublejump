@@ -13,10 +13,8 @@ var gulp = require('gulp'),
 var babelify = require('babelify');
 var reactify = require('reactify');
 
-gulp.task('scripts', buildJs);
 gulp.task('sass', buildSass);
 gulp.task('components', buildComponents);
-gulp.task('componentsJs', buildComponentsJs);
 
 var externalDeps = ["classnames", "d3", "jquery", "object-assign", "react-es7-mixin", "react-redux", "redux", "dynamics.js", "dragula", "brace", "underscore", "page", "handlebars", "katex", "marked", "react", "react-select"];
 
@@ -62,28 +60,6 @@ gulp.task('js-app', ['js-deps'], function(callback) {
 
 
 
-
-
-function buildComponentsJs()
-{
-    return gulp.src('app/views/**/*.js')
-    .pipe(wrap('//<%= file.path.replace(/^.*[\\\/]/, "") %>\n<%= contents %>'))
-    .pipe(concat('components.js'))
-    .pipe(gulp.dest('javascript'));
-
-}
-function buildJs()
-{
-    script.bundle({
-        paths: ['./node_modules', './javascript', './app/views'],
-        entries: ['./javascript/app.js'],
-        dest_filename: "bundle.js",
-        dest_folder: "./public/javascripts/",
-
-    });
-
-    lr.changed("/javascripts/app.js");
-}
 
 
 
@@ -132,10 +108,10 @@ gulp.task('lib-css', function() {
 
 
 
-var LR_JS = ["public/javascripts/app.js", "public/javascripts/app_bundle.js"];
+var LR_JS = ["public/javascripts/app_bundle.js"];
 var LR_CSS = "public/stylesheets/application.css";
 
-gulp.task('watch', ['lib-css', 'scripts', 'components', 'sass'], function() {
+gulp.task('watch', ['lib-css', 'components', 'sass'], function() {
 
   // Watch .js files
   lr({ start: true });

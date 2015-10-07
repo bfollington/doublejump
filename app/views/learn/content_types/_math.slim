@@ -1,9 +1,0 @@
-.content-block.box
-
-    | #{{RDiscount.new(math.before, :no_superscript).to_html}}
-
-    | $$
-    | #{math.body}
-    | $$
-
-    | #{{RDiscount.new(math.after, :no_superscript).to_html}}

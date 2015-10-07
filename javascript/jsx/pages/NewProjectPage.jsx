@@ -80,7 +80,7 @@ export class NewProjectPage extends React.Component {
             this.state.likedTopics.map(topic => topic._id.$oid),
             this.state.comfortableTopics.map(topic => topic._id.$oid),
             response => {
-                page(`/concepts/dashboard`);
+                page(`/dashboard`);
             }
         );
     }

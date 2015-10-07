@@ -39,7 +39,7 @@ export class ProjectPage extends React.Component {
     navigate(e)
     {
         console.log("Navigated");
-        page("/concepts/test");
+        page("/test");
     }
 
     edit(e) {
@@ -50,9 +50,9 @@ export class ProjectPage extends React.Component {
         return (
             <div className="box">
                 <h2>Start a New Project</h2>
-                <a href="/concepts/test">Go to test</a>
+                <a href="/test">Go to test</a>
 
-                { this.props.modules.map( module => <li><a href={`/concepts/project/${this.props.project}/${module.data._id.$oid}`}>{module.data.title}</a></li> )}
+                { this.props.modules.map( module => <li><a href={`/project/${this.props.project}/${module.data._id.$oid}`}>{module.data.title}</a></li> )}
 
                 <button className="btn btn-default" onClick={this.edit.bind(this)}>
                     Edit Field

@@ -31,7 +31,7 @@ export class LoginPage extends React.Component {
 
         API.auth(this.refs.email.val(), this.refs.password.val(), res => {
             if (res.success) {
-                page("/concepts/dashboard");
+                page("/dashboard");
             } else {
                 this.setState({
                     errorText: res.error

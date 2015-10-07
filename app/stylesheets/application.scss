@@ -12,9 +12,6 @@
 @import 'components/button';
 @import 'components/progress_bars';
 @import 'components/read_more_gradient';
-@import 'components/epic_editor';
-@import 'components/code_input';
-@import 'components/ace_editor';
 
 // Automatically generated components from the ui folder
 @import 'components';
@@ -92,11 +89,6 @@ small, .font-small { font-size: 0.818em; }
 .extra-small { font-size: 0.6em; }
 .so-small { font-size: 0.2em; }
 
-
-
-.js-template {
-  display: none;
-}
 
 body {
     font-family: $nunito-stack;

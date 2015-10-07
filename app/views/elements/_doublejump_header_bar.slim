@@ -1,8 +1,0 @@
-.header
-    - if current_account
-        = partial "elements/header_bar/user_account_header"
-    - else
-        .header-bar
-            a.doublejump href="/"
-    - if !(defined? no_bar) || ( (defined? no_bar) && !no_bar )
-        .gradient-strip

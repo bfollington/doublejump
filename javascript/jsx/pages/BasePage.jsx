@@ -63,9 +63,9 @@ export class BasePage extends React.Component {
 
         if (this.store.getState().account.currentAccount.data.success === false) {
             // Avoid redirect loop for unauthed users
-            if (window.location.pathname != "/concepts/login") {
+            if (window.location.pathname != "/login") {
                 console.log("Not authed, redirect");
-                page("/concepts/login");
+                page("/login");
             } else {
                 this.setState({
                     account: false,

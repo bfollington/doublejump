@@ -20,34 +20,20 @@ module Doublejump
     set :login_page, "/login" # determines the url login occurs
 
     access_control.roles_for :any do |role|
-      role.protect "/courses/*"
-      role.protect "/lessons/*"
-      role.protect "/steps/*"
-      role.protect "/related-readings/*"
-      role.protect "/definitions/*"
-      role.protect "/users/you/*"
-      role.protect "/notifications/*"
-      role.protect "/payments/*"
-      role.protect "/categories/*"
-      role.protect "/comments/*"
-      role.protect "/downloads/*"
-      role.protect "/sharing/*"
+      # role.protect "/courses/*"
     end
 
     access_control.roles_for :paused do |role|
-      role.allow "/users/you/*"
+      # role.allow "/users/you/*"
     end
 
     access_control.roles_for :users do |role|
-      role.allow "/users/you/*"
+      # role.allow "/users/you/*"
     end
 
     access_control.roles_for :admin do |role|
-      role.allow "/profile"
-      role.allow "/courses/*"
-      role.allow "/lessons/*"
-      role.allow "/steps/*"
-      role.allow "/users/you/*"
+      # role.allow "/profile"
+      # role.allow "/courses/*"
     end
 
     enable :sessions
@@ -55,51 +41,6 @@ module Doublejump
     case Padrino.env
       when :production then require 'newrelic_rpm'
     end
-
-    #
-    # LANDING PAGE
-    #
-
-    get :index do
-      render 'landing_page/landing_page', :layout => :landing
-    end
-
-    get :interative, :map => '/interactive/:partial' do
-        render "interactive/" + params[:partial], :layout => :blank
-    end
-
-    #
-    # USER AUTHENTICATION
-    #
-
-    get :login do
-      if current_account
-        redirect url("/users/you")
-      else
-        render 'login', :layout => :learn
-      end
-    end
-
-    post :login do
-
-      account = Account.authenticate(params[:email], params[:password])
-
-      if account
-        set_current_account(account)
-        redirect url(:users, :you)
-      else
-        session[:flash] = "Invalid email/password combination."
-        redirect url(:login)
-      end
-    end
-
-
-
-    get :blank do
-      render 'register', :layout => :blank
-    end
-
-
 
     #
     # USER REGISTRATION
@@ -124,99 +65,6 @@ module Doublejump
       end
     end
 
-
-
-
-    get :manage do
-      render 'manage', :layout => :app
-    end
-
-
-
-    #
-    # S3 UPLOADS
-    #
-
-    get :upload do
-
-      content_type :json
-      {:html => render('upload', :layout => false), :success => true }.to_json
-    end
-
-    post :upload do
-      puts params.inspect
-
-      if params[:shared_image] == ""
-        content_type :json
-        return {:errors => "No file provided.", :success => false }.to_json
-      end
-
-      tempfile = params[:shared_image][:tempfile]
-      filename = params[:shared_image][:filename]
-      type = params[:shared_image][:type]
-
-      random_string = SecureRandom.hex + File.extname(filename)
-
-      result = upload_public_file(tempfile, random_string, type)
-      @file = result[:filename]
-
-      content_type :json
-      {:file => result[:url], :success => true }.to_json
-    end
-
-    # Called during a sharing step when an image is being uploaded.
-    post :upload_image, :map => "/upload-image" do
-      puts params.inspect
-
-      # Check if image actually provided
-      if params[:shared_image][:shared_image] == ""
-        fail_with_error("No file provided!")
-      end
-
-      tempfile = params[:shared_image][:shared_image][:tempfile]
-      type = params[:shared_image][:shared_image][:type]
-
-      # Check filesize (fallback for JS check)
-      if (File.size(tempfile) / 1048576 > 2)
-        fail_with_error("This file is too large (bigger than 2MB), try compressing or resizing it.")
-      end
-
-      # Check if file is a valid image
-      if !type.start_with?("image/")
-        fail_with_error("Please provide a valid image file.")
-      end
-
-      # Generate a random name
-      random_string = SecureRandom.hex + type.gsub("image/", ".")
-
-      result = upload_public_file(tempfile, random_string, type)
-      @file = result[:filename]
-
-      content_type :json
-      {:file => result[:url], :success => true }.to_json
-    end
-
-
-
-
-
-
-    get :styleguide do
-      render "index", :layout => :styleguide
-    end
-
-
-
-
-
-    #
-    # USER PROFILES
-    #
-
-    get :destroy do
-      set_current_account(nil)
-      redirect url(:login)
-    end
 
     ##
     # Caching support.

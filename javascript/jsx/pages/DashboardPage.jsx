@@ -37,7 +37,7 @@ export class DashboardPage extends React.Component {
     }
 
     onNewProject() {
-        page(`/concepts/`);
+        page(`/`);
     }
 
     render() {

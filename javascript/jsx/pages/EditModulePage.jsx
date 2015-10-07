@@ -180,13 +180,13 @@ export class EditModulePage extends React.Component {
         saveModule(module)
             .then( data => {
                 this.props.sendNotification("Module Saved!");
-                setTimeout( () => page(`/concepts/edit/${data.id}`), 1000 );
+                setTimeout( () => page(`/edit/${data.id}`), 1000 );
             });
     }
 
     moduleSaveRepsonse(data) {
         if (data.success) {
-            page(`/concepts/edit/${data.learning_module["_id"]["$oid"]}`);
+            page(`/edit/${data.learning_module["_id"]["$oid"]}`);
         }
     }
 
@@ -310,7 +310,7 @@ export class EditModulePage extends React.Component {
                         <div className="row">
                             <div className="col-xs-12">
                                 <h2>Edit Concept</h2>
-                                <form action="/concepts/make/" acceptCharset="UTF-8" id="addStepForm" method="post">
+                                <form action="/make/" acceptCharset="UTF-8" id="addStepForm" method="post">
                                     { getCSRFFormField() }
                                     <div className="row">
                                         <div className="col-sm-6">

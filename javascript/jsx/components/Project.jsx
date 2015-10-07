@@ -9,7 +9,7 @@ export class Project extends React.Component {
     }
 
     onClick() {
-        page(`/concepts/project/${this.props.project.slug}`)
+        page(`/project/${this.props.project.slug}`)
     }
 
     render() {

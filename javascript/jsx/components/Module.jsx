@@ -11,7 +11,7 @@ export class Module extends React.Component {
     }
 
     onClick() {
-        page(`/concepts/project/${this.props.project}/${this.props.module["id"]}`);
+        page(`/project/${this.props.project}/${this.props.module["id"]}`);
     }
 
     render() {
@@ -20,7 +20,7 @@ export class Module extends React.Component {
             <div className="module">
                 <div className="box inner" onClick={this.onClick.bind(this)}>
                     <div className="bar"></div>
-                    <h3><a onClick={this.props.onClick} href={`/concepts/project/${this.props.project}/${this.props.module["id"]}`}>{this.props.module.title}</a></h3>
+                    <h3><a onClick={this.props.onClick} href={`/project/${this.props.project}/${this.props.module["id"]}`}>{this.props.module.title}</a></h3>
                 </div>
                 <div className="info-panel">
                     <div className="body">

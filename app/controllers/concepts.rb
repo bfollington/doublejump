@@ -2,7 +2,7 @@ Doublejump::App.controllers :concepts, :cache => true do
 
   layout :thesis
 
-  get :any, :map => '/concepts/*' do
+  get :any, :map => '/*' do
 
     render 'thesis/page'
   end
