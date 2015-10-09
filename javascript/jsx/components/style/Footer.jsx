@@ -10,7 +10,7 @@ export class Footer extends React.Component {
     render() {
         return (
 
-            <footer className="footer">Footer</footer>
+            <footer className="footer">Doublejump records data about how you use the platform, this data is strictly confidential and will not be shared with third-parties.</footer>
 
         );
     }

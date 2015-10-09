@@ -61,6 +61,7 @@ export class ModuleBrowserPage extends React.Component {
         return (
             <div className="main-content">
 
+                <h3>Project: {this.props.projectData[this.props.project].title}</h3>
                 <h2>What would you like to learn next?</h2>
                 <MessageFromUs>These are the concepts that I think you might want to learn next, these recommendations change over time based on what you choose to learn.</MessageFromUs>
 
