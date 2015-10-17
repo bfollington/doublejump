@@ -7,7 +7,7 @@ import connect from "mixins/connect";
 
 @connect(
     (state, props) => ({
-        topic_scores: state.project.items[props.project].metadata.topic_scores
+        topic_scores: state.project.items[props.project].data.metadata.topic_scores
     })
 )
 export class Module extends React.Component {

@@ -28,7 +28,6 @@ Doublejump::App.helpers do
       end
 
       sorted = module_lookup.sort_by{|k, v| v}.reverse
-      puts sorted.inspect
       result = []
       count = 0
       sorted.each do |learning_module|

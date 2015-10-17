@@ -20,18 +20,18 @@ Doublejump::App.helpers do
     nodes = []
     links = []
 
-    nodes << {name: start_node.title, group: 0}
+    nodes << {name: start_node.title, group: "current", oid: start_node.id.to_s}
 
     module_lookup.each do |key, value|
 
-      next if value == start_node
-
       lm = LearningModule.find(key)
 
-      if !project.learning_modules.find(lm).nil?
-        nodes << {name: lm.title, group: 2}
+      next if lm == start_node
+
+      if !project.learning_modules.include?(lm)
+        nodes << {name: lm.title, group: "new", oid: lm.id.to_s}
       else
-        nodes << {name: lm.title, group: 1}
+        nodes << {name: lm.title, group: "done", oid: lm.id.to_s}
       end
 
       if value > 0
@@ -43,7 +43,7 @@ Doublejump::App.helpers do
     {nodes: nodes, links: links}
   end
 
-  def build_full_graph(project)
+  def build_full_graph(project, start_node = nil)
 
     nodes = []
     links = []
@@ -55,28 +55,29 @@ Doublejump::App.helpers do
     end
 
     learning_modules = LearningModule.all
+    starting_module = LearningModule.find(start_node)
 
     learning_modules.each do |learning_module|
 
-      if !project.learning_modules.include?(learning_module)
+      if !start_node.nil? && learning_module == starting_module
+        nodes << {name: learning_module.title, group: 0}
+      elsif !project.learning_modules.include?(learning_module)
         nodes << {name: learning_module.title, group: 2}
       else
         nodes << {name: learning_module.title, group: 1}
       end
 
-      index_lookup[learning_module.id] = nodes.length - 1
+      index_lookup[learning_module.id.to_s] = nodes.length - 1
     end
 
-    learning_modules.each do |source|
-      learning_modules.each do |target|
-        next if source == target
 
-        score = calculate_score target, topic_lookup, source
+    learning_modules.each do |mod|
+        recommendations = next_modules(project.slug, starting_module)
 
-        if score > 0
-          links << {source: index_lookup[source.id], target: index_lookup[target.id], value: score}
+        recommendations.each do |recommendation|
+            link = {source: index_lookup[mod.id.to_s], target: index_lookup[recommendation[:id]], value: recommendation[:relevance]}
+            links << link
         end
-      end
     end
 
     {nodes: nodes, links: links}
@@ -84,5 +85,3 @@ Doublejump::App.helpers do
   end
 
 end
-
-

@@ -1,157 +1,94 @@
-var React = require("react");
+import React from "react";
 var d3 = require("d3");
+import $ from "jquery";
+
+import vis from "vis";
 
 export class LearningGraph extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            currentModule: this.props.module
+        };
+
+        this.options = {
+            height: '500px',
+            nodes: {
+                shape: 'dot'
+            },
+            edges: {
+                smooth: {
+                    enabled: true
+                },
+                scaling: {
+                    label: {
+                        enabled: false
+                    }
+                }
+            },
+            groups: {
+                "done": {
+                    size: 5,
+                    color: "#B0BEC5"
+                },
+                "new": {
+                    size: 20,
+                    color: "#5677fc"
+                },
+                "current": {
+                    size: 20,
+                    color: "#FDD835"
+                }
+            },
+            physics: {
+                stabilization: {
+                    enabled: true,
+                    fit: true
+                },
+            }
+        };
     }
 
     componentDidMount() {
+        const container = React.findDOMNode(this.refs.graph);
+
+        this.nodes = new vis.DataSet( );
+        this.edges = new vis.DataSet( );
+
+        const graph = {
+          nodes: this.nodes,
+          edges: this.edges
+        };
+
+        this.network = new vis.Network(container, graph, this.options);
+        this.network.on("doubleClick", this.onSelect.bind(this));
+
         this.drawGraph();
     }
 
     componentDidUpdate() {
-
+        this.drawGraph();
     }
 
-    defineMarkerStyle(svg) {
-        svg.append("svg:defs").selectAll("marker")
-        .data(["end"])      // Different link/path types can be defined here
-            .enter().append("svg:marker")    // This section adds in the arrows
-            .attr("id", String)
-            .attr("class", "line-end-marker")
-            .attr("viewBox", "0 -5 10 10")
-            .attr("refX", 15)
-            .attr("refY", -1.5)
-            .attr("markerWidth", 3)
-            .attr("markerHeight", 3)
-            .attr("orient", "auto")
-            .append("svg:path")
-            .attr("d", "M0,-5L10,0L0,5");
-    }
-
-    areNodesNeighbours(graph, a, b) {
-
-        if (!this.linkedByIndexCache) {
-            this.linkedByIndex = {};
-
-            for (var i = 0; i < graph.nodes.length; i++) {
-                this.linkedByIndex[i + "," + i] = 1;
-            };
-
-            graph.links.forEach(d => {
-                this.linkedByIndex[d.source.index + "," + d.target.index] = 1;
-            });
-        }
-
-        return this.linkedByIndex[a.index + "," + b.index];
-    }
-
-    showConnectedNodes(graph, node, link) {
-        this.showAll(node, link);
-        //Reduce the opacity of all but the neighbouring nodes
-        var d = d3.select(d3.event.currentTarget).node().__data__;
-
-        node.style("opacity", (o) => {
-            return this.areNodesNeighbours(graph, d, o) | this.areNodesNeighbours(graph, o, d) ? 1 : 0.1;
+    onSelect(e) {
+        console.log(e);
+        this.setState({
+            currentModule: this.nodes.get(e.nodes[0]).oid
         });
-
-        link.style("opacity", (o) => {
-            return d.index==o.source.index | d.index==o.target.index ? 1 : 0.1;
-        });
-    }
-
-    showAll(node, link) {
-        node.style("opacity", 1);
-        link.style("opacity", 1);
-    }
-
-    onTick(node, link) {
-        // Generate Curved Lines
-        link.attr("d", function(d) {
-            var dx = d.target.x - d.source.x,
-                dy = d.target.y - d.source.y,
-                dr = Math.sqrt(dx * dx + dy * dy);
-            return "M" +
-                d.source.x + "," +
-                d.source.y + "A" +
-                dr + "," + dr + " 0 0,1 " +
-                d.target.x + "," +
-                d.target.y;
-        });
-
-        node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-    }
-
-    createNode(svg, force, graph, color) {
-        var node = svg.selectAll(".node")
-            .data(graph.nodes)
-            .enter()
-                .append("g")
-                .attr("class", "node")
-                .call(force.drag);
-
-        node
-            .append("circle")
-            .attr("r", 10)
-            .attr("x", 0)
-            .attr("y", 0)
-            .style("fill", function(d) { return color(d.group); })
-
-        node.append("text")
-            .attr("class", "title")
-            .text(function(d) { return d.name; });
-
-        return node;
-    }
-
-    createLink(svg, graph) {
-        var link = svg.selectAll(".link")
-            .data(graph.links)
-            .enter()
-                .append("svg:path")
-                .attr("class", "link")
-                .style("marker-end",  "url(#end)") // Modified line
-                .style("stroke-width", function(d) { return Math.pow(d.value, 2) / 20; });
-
-        return link;
     }
 
     drawGraph() {
-        var width = 960,
-        height = 500;
+        $.get(`/api/graph/${this.props.project}/${this.state.currentModule}`, (data) => {
+            this.nodes.clear();
+            this.edges.clear();
 
-        var force = d3.layout.force()
-            .charge(-120)
-            .linkDistance(128)
-            .size([width, height]);
-
-        var svg = d3.select(React.findDOMNode(this)).append("svg")
-            .attr("width", width)
-            .attr("height", height);
-
-        this.defineMarkerStyle(svg);
-
-        d3.json(`/api/full_graph/${this.props.project}`, (error, graph) => {
-            if (error) throw error;
-
-            force
-                .nodes(graph.nodes)
-                .links(graph.links)
-                .start();
-
-            var link = this.createLink(svg, graph);
-            var node = this.createNode(svg, force, graph, d3.scale.category20());
-
-            node
-                .on('click', this.showConnectedNodes.bind(this, graph, node, link)) //Added code
-                .on('dblclick', this.showAll.bind(this, node, link)) //Added code
-
-            force.on("tick", this.onTick.bind(this, node, link));
+            this.nodes.update( data.nodes.map((node, i) => ({id: i, label: node.name, group: node.group, oid: node.oid})) );
+            this.edges.update( data.links.map((link, i) => ({from: link.source, to: link.target, value: link.value, label: link.value})) );
         });
     }
 
     render() {
-        return <div className="graph"></div>;
+        return <div ref="graph" className="graph"></div>;
     }
 }

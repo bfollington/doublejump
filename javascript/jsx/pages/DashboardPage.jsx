@@ -42,6 +42,10 @@ export class DashboardPage extends React.Component {
         page(`/`);
     }
 
+    onCreateModule() {
+        page(`/edit`);
+    }
+
     render() {
 
         if (!this.state.ready) return null;
@@ -62,6 +66,11 @@ export class DashboardPage extends React.Component {
                     <div className="float-right">
                         <Button text="Create New Project" onClick={this.onNewProject.bind(this)} />
                     </div>
+                </Case>
+
+
+                <Case test={this.props.currentAccount.role === "admin"}>
+                    <Button text="Create New Module" onClick={this.onCreateModule.bind(this)} />
                 </Case>
 
                 <Case test={currentProject}>

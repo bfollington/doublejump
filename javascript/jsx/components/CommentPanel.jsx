@@ -5,6 +5,10 @@ import {Util} from "Util.jsx";
 import {Mixin} from "Mixin";
 import {Animation} from "mixins/Animation";
 
+import {Icon} from "components/Icon.jsx";
+
+import {Condition, Case} from "react-case";
+
 export class CommentPanel extends React.Component {
     constructor(props) {
         super(props);
@@ -45,15 +49,27 @@ export class CommentPanel extends React.Component {
     render() {
         return (
             <div className="comment-panel">
-                <button className="float-right close-link" onClick={this.animate.bind(this, "closed", "spring", this.props.onClose)}>Close</button>
+                <button className="float-right close-link" onClick={this.animate.bind(this, "closed", "spring", this.props.onClose)}>
+                    <Icon icon="times" />
+                </button>
                 <h1 className="title">Comments</h1>
-                <ul>
-                    {
-                        this.props.comments.map( comment => {
-                            return <Comment comment={comment}></Comment>;
-                        })
-                    }
-                </ul>
+
+                <Condition>
+                    <Case test={this.props.comments.length > 0}>
+                        <ul>
+                            {
+                                this.props.comments.map( comment => {
+                                    return <Comment comment={comment}></Comment>;
+                                })
+                            }
+                        </ul>
+                    </Case>
+                    <Case default>
+                        <p className="empty-text">No comments here yet, be the first!</p>
+                    </Case>
+                </Condition>
+
+
                 <div>
                     <form onSubmit={this.addComment.bind(this)}>
                         <input ref="comment" className="form-control" type="text" placeholder="" />
@@ -72,8 +88,13 @@ class Comment extends React.Component {
     render() {
         return (
             <li className="Comment">
-                {this.props.comment.text}
-                {this.props.comment.author}
+                <div className="user">
+                    <img className="avatar" src={this.props.comment.account.avatar} />
+                    <div>@{this.props.comment.account.username}</div>
+                </div>
+                <div className="comment-content">
+                    {this.props.comment.text}
+                </div>
             </li>
         );
     }

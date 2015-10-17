@@ -4,7 +4,7 @@ Doublejump::App.controllers "/api", :cache => false do
   set :allow_disabled_csrf, true
   set :protect_from_csrf, false
 
-  get :graph, :with => [:module, :project] do
+  get :graph, :with => [:project, :module] do
 
       # Calculate relevance score of all other modules
           # Based on existing topic scores
@@ -14,14 +14,12 @@ Doublejump::App.controllers "/api", :cache => false do
       last_module = LearningModule.find(params[:module])
       project = Project.where(slug: params[:project]).first
 
-      puts params.inspect
-
       content_type :json
       build_graph(project, last_module).to_json
 
   end
 
-  get :full_graph, :with => [:project] do
+  get :full_graph, :with => [:project, :module] do
 
       # Calculate relevance score of all other modules
           # Based on existing topic scores
@@ -29,9 +27,10 @@ Doublejump::App.controllers "/api", :cache => false do
           # Take into account meta feedback, like other user's paths
 
       project = Project.where(slug: params[:project]).first
+      learning_module = LearningModule.find(params[:module])
 
       content_type :json
-      build_full_graph(project).to_json
+      build_full_graph(project, learning_module).to_json
 
   end
 

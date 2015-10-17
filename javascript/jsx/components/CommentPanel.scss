@@ -9,8 +9,52 @@
         color: white;
     }
 
-    .Comment {
+    .empty-text {
         color: white;
+        text-align: center;
+    }
+
+    ul {
+        padding-left: 1em;
+    }
+
+    .Comment {
+
+        list-style-type: none;
+        display: block;
+
+        color: white;
+
+        padding: 0.5em 0;
+
+        position: relative;
+
+        .comment-content, .user {
+            display: inline-block;
+        }
+
+        .user {
+            text-align: center;
+
+            margin-right: 1em;
+            font-size: 0.5em;
+        }
+
+        .comment-content {
+            background-color: white;
+            border-radius: 10000px;
+            padding: 5px 10px;
+            color: $link-color;
+
+            margin-left: 1em;
+
+            position: absolute;
+            top: 0.5em;
+        }
+
+        .avatar {
+            max-width: 32px;
+        }
     }
 
     input {
