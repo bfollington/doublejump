@@ -44,7 +44,8 @@ import data from "mixins/data";
     ),
     dispatch => (
         {
-            onUpdateMetadata: (project, metadata) => dispatch(updateMetadata(project, metadata))
+            onUpdateMetadata: (project, metadata) => dispatch(updateMetadata(project, metadata)),
+            onRefreshRecommendations: (project, module) => dispatch(fetchNextModules(project, module))
         }
     )
 )
@@ -127,6 +128,8 @@ export class ViewModulePage extends React.Component {
             this.setState({
                 done: true
             });
+
+            this.props.onRefreshRecommendations(this.props.project, this.props.module);
         });
     }
 

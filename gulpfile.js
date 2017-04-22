@@ -144,7 +144,7 @@ gulp.task('server', ['up', 'watch', 'js-app'], function() {
 gulp.task('up', function() {
 
     gulp.src('').pipe( shell(['mongod &']) );
-    gulp.src('').pipe( shell(['padrino s']) );
+    gulp.src('').pipe( shell(['padrino s -h 0.0.0.0']) );
 });
 
 gulp.task('down', function() {
@@ -154,4 +154,3 @@ gulp.task('down', function() {
 gulp.task('deploy', function() {
     gulp.src('').pipe( shell(['padrino rake deploy']) );
 });
-

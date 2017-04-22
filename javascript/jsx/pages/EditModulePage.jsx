@@ -371,6 +371,7 @@ export class EditModulePage extends React.Component {
                         </div>
                     </div>
                     <div className="box">
+                        <h3>User Context Simulation (Debug)</h3>
                         <AceEditor onContentChange={this.metadataChange.bind(this)} language='javascript' value={JSON.stringify(this.state.metadata)} />
                     </div>
                     <Sortable>

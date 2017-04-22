@@ -99,7 +99,7 @@ function project(state = {
     case RECEIVE_PROJECTS:
         var projectsDict = {};
         action.data.forEach(project => {
-            projectsDict[project["slug"]] = project;
+            projectsDict[project["slug"]] = projectData(state.items[project["slug"]], {type: RECEIVE_PROJECT, data: project});
         });
 
         return clone(state, {

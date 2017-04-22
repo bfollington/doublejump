@@ -50,7 +50,7 @@ export class DashboardPage extends React.Component {
 
         if (!this.state.ready) return null;
 
-        var currentProject = this.props.currentAccount.current_project ? this.props.projects[this.props.currentAccount.current_project.slug] : null;
+        var currentProject = this.props.currentAccount.current_project ? this.props.projects[this.props.currentAccount.current_project.slug].data : null;
         var otherProjects = [];
 
         for (var project in this.props.projects) {
@@ -89,7 +89,7 @@ export class DashboardPage extends React.Component {
                         <GridRow sizes={{xs: 4}}>
                             {
                                 otherProjects.map( project => {
-                                    return <Project project={this.props.projects[project]} />;
+                                    return <Project project={this.props.projects[project].data} />;
                                 })
                             }
                         </GridRow>
@@ -97,7 +97,7 @@ export class DashboardPage extends React.Component {
                     <Case test={Object.keys(this.props.projects).length === 0}>
                         <h2>Dashboard</h2>
                         <p className="text-center">You don't have any projects yet!</p>
-                        <p className="text-center"> Why not <Button text="create  new one" onClick={this.onNewProject.bind(this)} />?</p>
+                        <p className="text-center"> Why not <Button text="create a new one" onClick={this.onNewProject.bind(this)} />?</p>
                     </Case>
                 </Condition>
 

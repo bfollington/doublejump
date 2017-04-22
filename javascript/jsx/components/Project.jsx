@@ -4,7 +4,6 @@ import page from "page";
 export class Project extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {};
     }
 

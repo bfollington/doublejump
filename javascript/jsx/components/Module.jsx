@@ -6,9 +6,11 @@ import connect from "mixins/connect";
 
 
 @connect(
-    (state, props) => ({
-        topic_scores: state.project.items[props.project].data.metadata.topic_scores
-    })
+    (state, props) => {
+        return {
+            topic_scores: state.project.items[props.project].data.metadata.topic_scores
+        }
+    }
 )
 export class Module extends React.Component {
     constructor(props) {
@@ -51,19 +53,21 @@ export class Module extends React.Component {
                     <div className="bar"></div>
                     <h3><a onClick={this.props.onClick} href={`/project/${this.props.project}/${this.props.module["id"]}`}>{this.props.module.title}</a></h3>
                 </div>
-                <div className="info-panel">
-                    <div className="body">
+                { this.getMostRelevantTopics().length > 0 ?
+                    <div className="info-panel">
+                        <div className="body">
 
-                        Suggested because
+                            Suggested because
+                        </div>
+                        <div className="topics inverted">
+                            {
+                                this.getMostRelevantTopics().map(topic => {
+                                    return <TopicPill topic={topic} />;
+                                })
+                            }
+                        </div>
                     </div>
-                    <div className="topics inverted">
-                        {
-                            this.getMostRelevantTopics().map(topic => {
-                                return <TopicPill topic={topic} />;
-                            })
-                        }
-                    </div>
-                </div>
+                : null}
             </div>
         );
     }

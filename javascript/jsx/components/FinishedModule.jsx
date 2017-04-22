@@ -52,7 +52,7 @@ export class FinishedModule extends React.Component {
 
                 <GridRow sizes={{xs: 6}}>
                     <div>
-                        <label>What topic did you think this was most relevant to?</label>
+                        <label>What topic did you think this lesson was most relevant to?</label>
                         <ul>
                             {
                                 this.props.currentModule.topics.map( id => <Button disabled={this.state.selectedTopic} onClick={this.onTopicClick.bind(this, id)} text={this.props.topics[id].name} /> )
@@ -60,7 +60,7 @@ export class FinishedModule extends React.Component {
                         </ul>
                     </div>
                     <div>
-                        <label>How challenging did you think this was?</label>
+                        <label>How challenging did you think this lesson was?</label>
                         <ul>
                             <Button disabled={this.state.hasRatedDifficulty} text="Easy" onClick={this.onDifficulty.bind(this, 0)} />
                             <Button disabled={this.state.hasRatedDifficulty} text="Average" onClick={this.onDifficulty.bind(this, 1)} />

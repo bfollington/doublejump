@@ -61,7 +61,7 @@ export class ModuleBrowserPage extends React.Component {
         return (
             <div className="main-content">
 
-                <h3>Project: {this.props.projectData[this.props.project].title}</h3>
+                <h3>Project: {this.props.projectData[this.props.project].data.title}</h3>
                 <h2>What would you like to learn next?</h2>
                 <MessageFromUs>These are the concepts that I think you might want to learn next, these recommendations change over time based on what you choose to learn.</MessageFromUs>
 
@@ -81,7 +81,7 @@ export class ModuleBrowserPage extends React.Component {
                 <h3>Concepts You've Learned Already</h3>
                 <GridRow sizes={{xs: 6, sm: 4, md: 3}}>
                     {
-                        this.props.projectData[this.props.project].completed_modules.map( id => {
+                        this.props.projectData[this.props.project].data.completed_modules.map( id => {
                             var module = this.props.modules[id].data;
                             return <Module module={module} project={this.props.project} topics={module.topics.map( id => this.props.topics[id])} />;
                         })

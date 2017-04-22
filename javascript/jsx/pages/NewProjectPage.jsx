@@ -85,9 +85,9 @@ export class NewProjectPage extends React.Component {
             return;
         }
 
-        if (this.state.likedTopics.length !== 3 || this.state.comfortableTopics.length !== 3) {
+        if (this.state.likedTopics.length !== 3 || this.state.comfortableTopics.length > 3) {
             this.setState({
-                errorMessage: "Please select 3 topics in each category."
+                errorMessage: "Please select at least 3 topics you would like to learn more about."
             });
 
             return;
@@ -122,7 +122,7 @@ export class NewProjectPage extends React.Component {
 
                 <p>Before we get started, we need to find out some information about this project.</p>
 
-                <h3>Select 3 Topics You Would Like To Learn</h3>
+                <h3>Select 3 Topics You Would Like To Learn About</h3>
 
                 <p>These are the topics you think this project should teach you or you would like to learn.</p>
 
@@ -133,7 +133,7 @@ export class NewProjectPage extends React.Component {
                 }
 
 
-                <h3>Select 3 Topics You Are Already Comfortable With</h3>
+                <h3>Select Up To 3 Topics You Are Already Comfortable With</h3>
 
                 <p>These are topics have some experience with already.</p>
 
