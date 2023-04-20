@@ -13,8 +13,8 @@ module Doublejump
     require 'mustache'
 
     AWS.config(
-      :access_key_id => 'AKIAIAR5NTF4NPMT7ANQ',
-      :secret_access_key => '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'
+      :access_key_id => 'xxx',
+      :secret_access_key => 'xxx'
     )
 
     set :login_page, "/login" # determines the url login occurs
